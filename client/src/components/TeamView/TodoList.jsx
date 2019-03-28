@@ -1,9 +1,8 @@
 import React from 'react';
 
 const TodoList = props => {
-  console.log(props.todoList);
   return (
-    <div>
+    <div onClick={_ => props.toggleModal(props.todoList.id)}>
       <h1>{props.todoList.description}</h1>
       <div>
         {props.todoList.todos.map(todo => (
