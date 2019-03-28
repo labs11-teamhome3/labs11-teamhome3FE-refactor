@@ -4,6 +4,7 @@ import gql from 'graphql-tag';
 
 ////Components////
 import TodoList from './TodoList';
+import TeamSettingsModal from './TeamSettingsModal';
 
 const TODOS_QUERY = gql`
   query TODOS_QUERY($id: ID) {
@@ -41,6 +42,7 @@ const TodoListContainer = props => {
       {data.todoLists.map(todoList => (
         <TodoList todoList={todoList} key={todoList.id} />
       ))}
+      <TeamSettingsModal teamID={props.match.params.id} history={props.history} />
     </div>
   );
 };
