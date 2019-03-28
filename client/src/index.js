@@ -4,17 +4,15 @@ import './index.css';
 import App from './App';
 import { ApolloProvider as ApolloHooksProvider } from 'react-apollo-hooks';
 import { ApolloProvider } from 'react-apollo';
-import { ApolloClient } from 'apollo-client';
+import ApolloClient from 'apollo-boost';
 import { createHttpLink } from 'apollo-link-http';
 import { InMemoryCache } from 'apollo-cache-inmemory';
 import { BrowserRouter as Router } from 'react-router-dom';
 
-const httpLink = createHttpLink({
-  uri: 'http://localhost:4466',
-});
+const httpLink = createHttpLink({});
 
 const client = new ApolloClient({
-  link: httpLink,
+  uri: 'http://localhost:4000',
   cache: new InMemoryCache(),
 });
 
