@@ -49,7 +49,7 @@ const CreateTodoList = ({ teamId, open, setCreateTodo }) => {
     },
     variables: {
       description: todoListInfo.description,
-      ownedBy: "cjttgie7z00bd0790hfht44st",
+      ownedBy: process.env.REACT_APP_APOLLO_URI ? "cjtrfi98j003q0831s2qeprld" : "cjttgie7z00bd0790hfht44st",
       assignedTo: "cjttgie7z00bd0790hfht44st",
       inTeam: teamId
     },
