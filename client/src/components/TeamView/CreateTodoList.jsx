@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import gql from "graphql-tag";
 import { useMutation } from "../../graphQL/useMutation";
 import TodoModal from "./TodoListModal";
+
 ////Queries////
 import { TODOS_QUERY } from "../../graphQL/Queries";
 import { defaultProps } from "recompose";
