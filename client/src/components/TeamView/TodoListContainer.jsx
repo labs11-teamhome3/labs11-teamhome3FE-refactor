@@ -1,28 +1,41 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useQuery } from 'react-apollo-hooks';
 import gql from 'graphql-tag';
+import Fab from '@material-ui/core/Fab';
+import AddIcon from '@material-ui/icons/Add';
 
 ////Components////
 import TodoList from './TodoList';
 import TeamSettingsModal from './TeamSettingsModal';
+import TodoListModal from './TodoListModal';
 
-const TODOS_QUERY = gql`
-  query TODOS_QUERY($id: ID) {
-    todoLists(teamId: $id) {
-      id
-      description
-      todos {
-        id
-        description
-      }
-    }
-  }
-`;
+////Queries////
+import { TODOS_QUERY } from '../../graphQL/Queries';
 
 const TodoListContainer = props => {
   const { data, error, loading } = useQuery(TODOS_QUERY, {
     variables: { id: props.match.params.id },
   });
+
+  const [modalStatus, setModalStatus] = useState(false);
+  const [editing, setEditing] = useState({
+    isEditing: false,
+    id: '',
+  });
+
+  const toggleAddModal = e => {
+    setModalStatus(!modalStatus);
+    console.log(e.target);
+  };
+
+  const toggleEditModal = id => {
+    setEditing({
+      isEditing: true,
+      id,
+    });
+    setModalStatus(!modalStatus);
+  };
+
   if (loading) {
     return <div>Loading...</div>;
   }
@@ -36,13 +49,30 @@ const TodoListContainer = props => {
   //   return todoList.inTeam.id === Number(props.match.params.id);
   // });
 
-  console.log(data.todoLists);
   return (
     <div>
       {data.todoLists.map(todoList => (
-        <TodoList todoList={todoList} key={todoList.id} />
+        <TodoList
+          todoList={todoList}
+          key={todoList.id}
+          toggleModal={toggleEditModal}
+        />
       ))}
-      <TeamSettingsModal teamID={props.match.params.id} history={props.history} />
+      <Fab onClick={toggleAddModal} color="primary" aria-label="Add">
+        <AddIcon />
+      </Fab>
+      {editing.isEditing ? (
+        <TodoListModal
+          open={modalStatus}
+          toggleModal={toggleAddModal}
+          teamId={props.match.params.id}
+          editing={editing}
+        />
+      ) : null}
+      <TeamSettingsModal
+        teamID={props.match.params.id}
+        history={props.history}
+      />
     </div>
   );
 };
