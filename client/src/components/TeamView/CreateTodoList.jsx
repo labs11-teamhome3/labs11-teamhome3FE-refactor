@@ -53,7 +53,7 @@ const CreateTodoList = ({ teamId, open, setCreateTodo }) => {
       inTeam: teamId
     },
     onCompleted: e => {
-      
+      setCreateTodo(false);
     },
     onError: err => console.log(err)
   });

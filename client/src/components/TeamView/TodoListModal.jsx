@@ -4,6 +4,8 @@ import Paper from '@material-ui/core/Paper';
 import { withStyles } from '@material-ui/core/styles';
 import Close from '@material-ui/icons/Close';
 import Button from '@material-ui/core/Button';
+import { defaultProps } from 'recompose';
+import DeleteIcon from "@material-ui/icons/Delete";
 
 const styles = theme => ({
 	paper: {
@@ -12,7 +14,7 @@ const styles = theme => ({
 	},
 });
 
-const TodoListModal = ({ classes, handleChange, handleSubmit, todoListInfo, open, editing, setModal }) => {
+const TodoListModal = ({ classes, handleChange, handleSubmit, handleDelete, todoListInfo, open, editing, setModal }) => {
 	return (
 		<div>
 			<Modal
@@ -21,12 +23,10 @@ const TodoListModal = ({ classes, handleChange, handleSubmit, todoListInfo, open
 				open={open}
 			>
 				<Paper className={classes.paper}>
-					<Close onClick={_ => {
-						console.log(open);
-						setModal(!open)
-						console.log(open);
+					<Close onClick={e => {
+						e.stopPropagation();
+						setModal(false)
 						}} />
-					<h2>{editing ? 'editing' : ''}</h2>
 					<input
 						type='text'
 						value={todoListInfo.description}
@@ -34,6 +34,10 @@ const TodoListModal = ({ classes, handleChange, handleSubmit, todoListInfo, open
 						name='description'
 					/>
 					<Button onClick={handleSubmit}>Save</Button>
+					{editing ? <Button variant="contained" color="secondary" onClick={handleDelete}>
+        	Delete List
+        	<DeleteIcon />
+      		</Button> : null}
 				</Paper>
 			</Modal>
 		</div>

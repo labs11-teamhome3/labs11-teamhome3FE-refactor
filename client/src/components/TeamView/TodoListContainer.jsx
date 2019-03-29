@@ -40,7 +40,7 @@ const TodoListContainer = props => {
         <TodoList
           todoList={todoList}
           key={todoList.id}
-     
+          teamId={props.match.params.id}
         />
           
       

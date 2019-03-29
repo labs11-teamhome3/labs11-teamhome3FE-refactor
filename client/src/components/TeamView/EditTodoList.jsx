@@ -32,25 +32,38 @@ const TODO_QUERY = gql`
   }
 `;
 
+const DELETE_TODOLIST = gql`
+  mutation DELETE_TODOLIST($id: String!) {
+    deleteTodoList(id: $id) {
+      id
+    }
+  }
+`
 
-
-const TodoListModal = ({id, toggleModa, open, setEditTodo}) => {
+const TodoListModal = ({id, toggleModa, open, setEditTodo, teamId}) => {
   const todoList = useQuery(TODO_QUERY, {
     variables: { id: id },
   });
   const [todoListInfo, setTodoInfo] = useState({
     description: ''
   });
-  // const [editTodoList] = useMutation(EDIT_TODOLIST, {
-    
-  //   variables: {
-  //     id: id
-  //   },
-  //   onCompleted: e => {
-      
-  //   },
-  //   onError: err => console.log(err),
-  // });
+  const [deleteTodoList] = useMutation(DELETE_TODOLIST, {
+    update: (cache, { data }) => {
+      const { todoLists } = cache.readQuery({ query: TODOS_QUERY, variables: {id: teamId} });
+      cache.writeQuery({
+        query: TODOS_QUERY,
+        variables: {id: teamId},
+        data: { todoLists: todoLists.filter(todo => todo.id !== data.deleteTodoList.id) }
+      });
+    },
+    variables: {
+      id: id
+    },
+    onCompleted: e => {
+      setEditTodo(false);
+    },
+    onError: err => console.log(err),
+  });
  
 
   const handleChange = e => {
@@ -63,6 +76,7 @@ const TodoListModal = ({id, toggleModa, open, setEditTodo}) => {
     <TodoModal
       setModal={setEditTodo}
 			handleSubmit={_ => console.log('placeholder')}
+      handleDelete={deleteTodoList}
 			todoListInfo={todoListInfo}
 			handleChange={handleChange}
       editing={true}

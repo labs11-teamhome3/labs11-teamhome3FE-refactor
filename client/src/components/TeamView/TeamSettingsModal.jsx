@@ -35,7 +35,7 @@ const TeamSettingsModal = props => {
   return (
     <div>
       <Button variant="contained" color="secondary" onClick={deleteTeam}>
-        Delete
+        Delete team
         <DeleteIcon />
       </Button>
     </div>
