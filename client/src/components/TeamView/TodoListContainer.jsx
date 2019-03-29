@@ -8,6 +8,7 @@ import AddIcon from '@material-ui/icons/Add';
 import TodoList from './TodoList';
 import TeamSettingsModal from './TeamSettingsModal';
 import TodoListModal from './TodoListModal';
+import CreateTodoList from './CreateTodoList';
 
 ////Queries////
 import { TODOS_QUERY } from '../../graphQL/Queries';
@@ -16,25 +17,9 @@ const TodoListContainer = props => {
   const { data, error, loading } = useQuery(TODOS_QUERY, {
     variables: { id: props.match.params.id },
   });
-
-  const [modalStatus, setModalStatus] = useState(false);
-  const [editing, setEditing] = useState({
-    isEditing: false,
-    id: '',
-  });
-
-  const toggleAddModal = e => {
-    setModalStatus(!modalStatus);
-    console.log(e.target);
-  };
-
-  const toggleEditModal = id => {
-    setEditing({
-      isEditing: true,
-      id,
-    });
-    setModalStatus(!modalStatus);
-  };
+  console.log(data);
+  const [createTodo, setCreateTodo] = useState(false)
+  
 
   if (loading) {
     return <div>Loading...</div>;
@@ -55,20 +40,15 @@ const TodoListContainer = props => {
         <TodoList
           todoList={todoList}
           key={todoList.id}
-          toggleModal={toggleEditModal}
+          teamId={props.match.params.id}
         />
+          
+      
       ))}
-      <Fab onClick={toggleAddModal} color="primary" aria-label="Add">
+      <Fab onClick={() => setCreateTodo(true)} color="primary" aria-label="Add">
         <AddIcon />
       </Fab>
-      {editing.isEditing ? (
-        <TodoListModal
-          open={modalStatus}
-          toggleModal={toggleAddModal}
-          teamId={props.match.params.id}
-          editing={editing}
-        />
-      ) : null}
+      <CreateTodoList open={createTodo} setCreateTodo={setCreateTodo} teamId={props.match.params.id} /> 
       <TeamSettingsModal
         teamID={props.match.params.id}
         history={props.history}
