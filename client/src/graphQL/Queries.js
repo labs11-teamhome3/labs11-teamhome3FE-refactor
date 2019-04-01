@@ -26,3 +26,12 @@ export const TODOS_QUERY = gql`
     }
   }
 `;
+
+export const USERS_QUERY = gql`
+  {
+    users {
+      id
+      name
+    }
+  }
+`

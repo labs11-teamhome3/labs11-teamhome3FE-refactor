@@ -1,10 +1,11 @@
 import React, { useState } from "react";
 import gql from "graphql-tag";
+import {useQuery} from 'react-apollo-hooks';
 import { useMutation } from "../../graphQL/useMutation";
 import TodoModal from "./TodoListModal";
 
 ////Queries////
-import { TODOS_QUERY } from "../../graphQL/Queries";
+import { TODOS_QUERY, USERS_QUERY } from "../../graphQL/Queries";
 import { defaultProps } from "recompose";
 
 const CREATE_TODOLIST = gql`
@@ -31,7 +32,8 @@ const CREATE_TODOLIST = gql`
 `;
 
 const CreateTodoList = ({ teamId, open, setCreateTodo }) => {
-  console.log(teamId)
+  const users = useQuery(USERS_QUERY);
+  console.log(users.loading ? "Loading" : users.data.users[0].id )
   const [todoListInfo, setTodoInfo] = useState({
     description: ""
   });
@@ -49,8 +51,8 @@ const CreateTodoList = ({ teamId, open, setCreateTodo }) => {
     },
     variables: {
       description: todoListInfo.description,
-      ownedBy: process.env.REACT_APP_APOLLO_URI ? "cjtrfi98j003q0831s2qeprld" : "cjttgie7z00bd0790hfht44st",
-      assignedTo: process.env.REACT_APP_APOLLO_URI ? "cjtrfi98j003q0831s2qeprld" : "cjttgie7z00bd0790hfht44st",
+      ownedBy: users.loading ? '' : users.data.users[0].id,
+      assignedTo: users.loading ? '' : users.data.users[0].id,
       inTeam: teamId
     },
     onCompleted: e => {
