@@ -9,7 +9,7 @@ import gql from "graphql-tag";
 import { TEAMS_QUERY } from "../../graphQL/Queries";
 
 const DELETE_TEAM = gql`
-  mutation deleteTeam($id: String!) {
+  mutation deleteTeam($id: ID!) {
     deleteTeam(id: $id) {
       id
     }

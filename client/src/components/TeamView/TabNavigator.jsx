@@ -7,6 +7,7 @@ import Typography from "@material-ui/core/Typography";
 
 ///////Components/////////
 import TodoListContainer from "./TodoListContainer";
+import TeamSettingsModal from "./TeamSettingsModal";
 
 function TabContainer({ children, dir }) {
   return (
@@ -26,6 +27,8 @@ const TabNavigator = props => {
   const handleChangeIndex = index => {
     setTab(index);
   };
+
+  console.log(props);
 
   return (
     <div>
@@ -51,6 +54,10 @@ const TabNavigator = props => {
           <TodoListContainer match={props.match} history={props.history} />
         </TabContainer>
       </SwipeableViews>
+      <TeamSettingsModal
+        teamID={props.match.params.id}
+        history={props.history}
+      />
     </div>
   );
 };
