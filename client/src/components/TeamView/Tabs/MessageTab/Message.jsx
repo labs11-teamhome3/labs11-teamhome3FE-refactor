@@ -12,7 +12,11 @@ const styles = theme => ({
 const Message = props => {
   const { classes } = props;
   return (
-    <Paper elevation={1} className={classes.root}>
+    <Paper
+      elevation={1}
+      className={classes.root}
+      onClick={_ => props.toggleModal(true)}
+    >
       <Typography variant="h5" component="h3">
         {props.message.title} - {props.message.creator.name}
       </Typography>

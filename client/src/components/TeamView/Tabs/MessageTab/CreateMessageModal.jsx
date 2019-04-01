@@ -4,8 +4,8 @@ import Paper from "@material-ui/core/Paper";
 import { withStyles } from "@material-ui/core/styles";
 import Close from "@material-ui/icons/Close";
 import Button from "@material-ui/core/Button";
-import DeleteIcon from "@material-ui/icons/Delete";
-import DropArrow from "@material-ui/icons/ArrowDropDown";
+import { useMutation } from "../../../../graphQL/useMutation";
+import { useQuery } from "react-apollo-hooks";
 
 const styles = theme => ({
   paper: {
@@ -20,6 +20,18 @@ const styles = theme => ({
   }
 });
 
+// const CREATE_MESSAGE = gql`
+//   mutation CREATE_MESSAGE($title: String!, teamId: ID!, userId: ID!, content: String!) {
+//     createMessage (title: $title, teamId: $teamId, userId: $userId, content: $content) {
+//       id
+//       title
+//       creator {
+//         name
+//       }
+//     }
+//   }
+// `;
+
 const MessageModal = props => {
   const [messageInfo, setMessageInfo] = useState({
     title: "",
@@ -33,6 +45,30 @@ const MessageModal = props => {
     });
   };
 
+  // const [createMessage] = useMutation(CREATE_MESSAGE, {
+  //   update: (cache, { data }) => {
+  //     const data = cache.readQuery({
+  //       query: TODOS_QUERY,
+  //       variables: { id: teamId }
+  //     });
+  //   //   cache.writeQuery({
+  //   //     query: TODOS_QUERY,
+  //   //     variables: { id: teamId },
+  //   //     data: { todoLists: [...todoLists, data.createTodoList] }
+  //   //   });
+  //   // },
+  //   // variables: {
+  //   //   description: todoListInfo.description,
+  //   //   ownedBy: users.loading ? "" : users.data.users[0].id,
+  //   //   assignedTo: users.loading ? "" : users.data.users[0].id,
+  //   //   inTeam: teamId
+  //   // },
+  //   // onCompleted: e => {
+  //   //   setCreateTodo(false);
+  //   // },
+  //   onError: err => console.log(err)
+  // });
+
   const { classes } = props;
   return (
     <div>
@@ -42,7 +78,8 @@ const MessageModal = props => {
         open={props.modalStatus}
       >
         <Paper className={classes.paper}>
-          <Close onClick={props.toggleModal} />
+          <h3>Create Message</h3>
+          <Close onClick={_ => props.toggleModal(false)} />
           <br />
           <input
             type="text"
@@ -64,17 +101,6 @@ const MessageModal = props => {
           />
           <br />
           <Button>Save</Button>
-          {/* {props.editing ? (
-            <Button
-              variant="contained"
-              color="secondary"
-              onClick={handleDelete}
-            >
-              Delete List
-              <DeleteIcon />
-              <DropArrow />
-            </Button>
-          ) : null} */}
         </Paper>
       </Modal>
     </div>

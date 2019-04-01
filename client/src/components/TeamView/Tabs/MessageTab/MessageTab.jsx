@@ -1,35 +1,28 @@
 import React, { useState } from "react";
 import { useQuery } from "react-apollo-hooks";
 import gql from "graphql-tag";
-import { useMutation } from "../../../../graphQL/useMutation";
 import Fab from "@material-ui/core/Fab";
 import AddIcon from "@material-ui/icons/Add";
 
 /////Components/////
 import Message from "./Message";
-import MessageModal from "./MessageModal";
+import CreateMessageModal from "./CreateMessageModal";
+import EditMessageModal from "./EditMessageModal";
 
-const MESSAGES_QUERY = gql`
-  query MESSAGES_QUERY($teamId: ID!) {
-    messages(teamId: $teamId) {
-      id
-      title
-      creator {
-        name
-      }
-    }
-  }
-`;
+/////Queries/////
+// import g from '../../../'
 
 const MessageTab = props => {
-  const [modalStatus, setModalStatus] = useState(false);
-  const [editing, setEditing] = useState(false);
+  const [createModalStatus, setCreateModalStatus] = useState(false);
+  const [editModalStatus, setEditModalStatus] = useState(false);
   const messages = useQuery(MESSAGES_QUERY, {
     variables: { teamId: props.teamId }
   });
 
-  const toggleModal = e => {
-    setModalStatus(!modalStatus);
+  const toggleModal = edit => {
+    edit
+      ? setEditModalStatus(!editModalStatus)
+      : setCreateModalStatus(!createModalStatus);
   };
 
   return (
@@ -40,14 +33,25 @@ const MessageTab = props => {
           <h3>Loading</h3>
         ) : (
           messages.data.messages.map(message => (
-            <Message message={message} key={message.id} />
+            <Message
+              message={message}
+              key={message.id}
+              toggleModal={toggleModal}
+            />
           ))
         )}
       </div>
-      <Fab color="primary" aria-label="Add" onClick={toggleModal}>
+      <Fab color="primary" aria-label="Add" onClick={_ => toggleModal(false)}>
         <AddIcon />
       </Fab>
-      <MessageModal modalStatus={modalStatus} toggleModal={toggleModal} />
+      <CreateMessageModal
+        modalStatus={createModalStatus}
+        toggleModal={toggleModal}
+      />
+      <EditMessageModal
+        modalStatus={editModalStatus}
+        toggleModal={toggleModal}
+      />
     </div>
   );
 };
