@@ -4,7 +4,7 @@ import Typography from "@material-ui/core/Typography";
 import { withStyles } from "@material-ui/core/styles";
 
 const styles = theme => ({
-  messageCard: {
+  root: {
     marginBottom: "10px"
   }
 });
@@ -12,7 +12,7 @@ const styles = theme => ({
 const Message = props => {
   const { classes } = props;
   return (
-    <Paper elevation={1} className={classes.messageCard}>
+    <Paper elevation={1} className={classes.root}>
       <Typography variant="h5" component="h3">
         {props.message.title} - {props.message.creator.name}
       </Typography>
