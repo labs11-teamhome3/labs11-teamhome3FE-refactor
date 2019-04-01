@@ -2,8 +2,10 @@ import React from "react";
 import { Link } from "react-router-dom";
 
 const LandingView = props => {
-  const auth = () => {
-    props.auth.login();
+  const auth = async () => {
+    await props.auth.login();
+    console.log('now for the handleAuth');
+    props.auth.handleAuthentication();
   }
 
   return (
