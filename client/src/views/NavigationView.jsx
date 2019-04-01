@@ -1,9 +1,13 @@
 import React from 'react';
+import gql from 'graphql-tag';
 
 ////Components////
+import Authenticate from '../Auth/Authenticate';
 import { Button } from '../../node_modules/@material-ui/core';
 
+
 const NavigationView = props => {
+
   const login = () => {
     props.auth.login();
   }
