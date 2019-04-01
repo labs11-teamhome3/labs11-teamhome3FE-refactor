@@ -8,6 +8,7 @@ import Typography from "@material-ui/core/Typography";
 ///////Components/////////
 import TodoListContainer from "./TodoListContainer";
 import TeamSettingsModal from "./TeamSettingsModal";
+import MessageTab from './Tabs/MessageTab/MessageTab';
 
 function TabContainer({ children, dir }) {
   return (
@@ -47,7 +48,7 @@ const TabNavigator = props => {
         </Tabs>
       </AppBar>
       <SwipeableViews axis="x" index={tab} onChangeIndex={handleChangeIndex}>
-        <TabContainer>Item One</TabContainer>
+        <TabContainer><MessageTab teamId={props.match.params.id} /></TabContainer>
         <TabContainer>Item Two</TabContainer>
         <TabContainer>Item Three</TabContainer>
         <TabContainer>
