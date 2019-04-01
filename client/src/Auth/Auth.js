@@ -47,11 +47,15 @@ export default class Auth {
     this.idToken = null;
     this.expiresAt = 0;
 
-    // Remove isLoggedIn flag from localStorage
+    // Remove isLoggedIn flag and authId from localStorage
     localStorage.removeItem('isLoggedIn');
+    localStorage.removeItem('authId');
 
     // navigate to the home route
-    // history.replace('/home');
+    history.replace('/');
+
+    // refresh window
+    window.location.reload();
   }
 
   getAccessToken() {

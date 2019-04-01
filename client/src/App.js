@@ -29,7 +29,7 @@ class App extends Component {
           path="/dashboard"
           render={(props) => {
             handleAuthentication(props);
-            return <DashboardView {...props} /> 
+            return <DashboardView auth={auth} {...props} /> 
           }}
         />
         <Route
