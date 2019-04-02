@@ -3,7 +3,6 @@ import gql from 'graphql-tag';
 
 ////Components////
 import {useMutation} from "../graphQL/useMutation";
-import { authenticateUser } from '../Auth/Authenticate';
 import { Button } from '../../node_modules/@material-ui/core';
 
 const AUTHENTICATE_USER = gql`
