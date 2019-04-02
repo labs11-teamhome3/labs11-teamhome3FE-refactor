@@ -34,6 +34,7 @@ const UPDATE_MESSAGE = gql`
   ) {
   	id
     title
+    content
     creator {
       id
       name
@@ -50,22 +51,6 @@ const MessageModal = props => {
   });
 
   const [updateMessage] = useMutation(UPDATE_MESSAGE, {
-    // update: (cache, { data }) => {
-    //   console.log(data)
-    //   const {message} = cache.readQuery({
-    //     query: MESSAGE_QUERY,
-    //     variables: { id: props.messageId }
-    //   });
-    //   cache.writeQuery({
-    //     query: MESSAGE_QUERY,
-    //     variables: { id: props.messageId },
-    //     data: { message: {
-    //       ...message,
-    //       title: data.updateMessage.title,
-    //       content: data.updateMessage.content
-    //     }}
-    //   });
-    // },
     variables: {
       id: props.messageId,
       title: messageInfo.title,
