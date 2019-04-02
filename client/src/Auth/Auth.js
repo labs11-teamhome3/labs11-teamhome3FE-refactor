@@ -68,6 +68,7 @@ export default class Auth {
   }
 
   setSession(authResult) {
+    console.log('hey')
     // Set isLoggedIn flag in localStorage
     localStorage.setItem('isLoggedIn', 'true');
     // Set idToken and accessToken in localStorage
