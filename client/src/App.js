@@ -9,6 +9,7 @@ import './App.css';
 import DashboardView from './views/DashboardView';
 import TeamView from './views/TeamView';
 import LandingView from './views/LandingView';
+import NavigationView from './views/NavigationView';
 
 const auth = new Auth();
 
@@ -22,14 +23,15 @@ class App extends Component {
   render() {
     return (
       <div className="App">
+        <NavigationView auth={auth} />
         <Route exact path='/'
-        render={props => <LandingView auth={auth} />} 
+        render={props => <LandingView {...props} />} 
         />
         <Route
           path="/dashboard"
           render={(props) => {
             handleAuthentication(props);
-            return <DashboardView auth={auth} {...props} /> 
+            return <DashboardView {...props} /> 
           }}
         />
         <Route
