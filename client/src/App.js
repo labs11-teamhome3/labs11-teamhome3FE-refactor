@@ -12,6 +12,12 @@ import LandingView from './views/LandingView';
 
 const auth = new Auth();
 
+const handleAuthentication = (nextState, replace) => {
+  if (/access_token|id_token|error/.test(nextState.location.hash)) {
+    auth.handleAuthentication();
+  }
+}
+
 class App extends Component {
   render() {
     return (
@@ -21,7 +27,10 @@ class App extends Component {
         />
         <Route
           path="/dashboard"
-          render={props => <DashboardView {...props} />}
+          render={(props) => {
+            handleAuthentication(props);
+            return <DashboardView auth={auth} {...props} /> 
+          }}
         />
         <Route
           path="/teams/:id/home"
