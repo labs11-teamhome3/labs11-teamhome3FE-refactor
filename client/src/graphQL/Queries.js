@@ -1,8 +1,8 @@
 import gql from 'graphql-tag';
 
 export const TEAMS_QUERY = gql`
-  {
-    teams {
+  query TEAMS_QUERY($userId: ID, ){
+    teamsByUser(userId: $userId){
       id
       teamName
       # members {
@@ -45,7 +45,6 @@ export const MESSAGES_QUERY = gql`
         id
         name
       }
-      content
     }
   }
 `;

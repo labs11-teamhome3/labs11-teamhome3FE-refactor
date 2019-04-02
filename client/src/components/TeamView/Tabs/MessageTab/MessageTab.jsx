@@ -49,7 +49,7 @@ const MessageTab = props => {
         break;
     }
   };
-
+  console.log('################', messages)
   return (
     <div>
       <h1>MessageTab</h1>
