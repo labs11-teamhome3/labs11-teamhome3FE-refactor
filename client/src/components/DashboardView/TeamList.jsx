@@ -21,22 +21,24 @@ const CREATE_TEAM = gql`
 `;
 
 const TeamList = () => {
+  const userId = localStorage.getItem("userId");
+
   const { data, error, loading } = useQuery(TEAMS_QUERY, {
-    variables: { userId: "cjttgie7z00bd0790hfht44st" }
+    variables: { userId }
   });
   const [teamInput, setTeamInput] = useState("");
   const [createTeam] = useMutation(CREATE_TEAM, {
     update: (cache, { data }) => {
       const { teamsByUser } = cache.readQuery({
         query: TEAMS_QUERY,
-        variables: { userId: "cjttgie7z00bd0790hfht44st" }
+        variables: { userId }
       });
       cache.writeQuery({
         query: TEAMS_QUERY,
         data: { teamsByUser: [...teamsByUser, data.createTeam] }
       });
     },
-    variables: { teamName: teamInput, userId: "cjttgie7z00bd0790hfht44st" },
+    variables: { teamName: teamInput, userId },
     onCompleted: e => {
       setTeamInput("");
     },

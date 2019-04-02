@@ -1,8 +1,8 @@
 import gql from 'graphql-tag';
 
 export const TEAMS_QUERY = gql`
-  query TEAMS_QUERY($userId: ID, ){
-    teamsByUser(userId: $userId){
+  {
+    teamsByUser(userId: "cjtzyqko70035087318fqivwg") {
       id
       teamName
       # members {

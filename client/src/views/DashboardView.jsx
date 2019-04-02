@@ -33,10 +33,11 @@ const DashboardView = props => {
   })
 
   useEffect(() => {
+    console.log('useEff')
     // if(localStorage.getItem('idToken')) {
       authenticateUser();
     //}
-  }, [])
+  }, [localStorage.getItem('idToken')])
 
   return (
     <div>
