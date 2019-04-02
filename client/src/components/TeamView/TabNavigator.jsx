@@ -5,9 +5,11 @@ import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import Typography from '@material-ui/core/Typography';
 
-///////Components/////////
-import TodoListContainer from './TodoListContainer';
+import TodoListContainer from "./TodoListContainer";
+import TeamSettingsModal from "./TeamSettingsModal";
+import MessageTab from './Tabs/MessageTab/MessageTab';
 import ActivityTimelineTab from './ActivityTimelineTab';
+
 
 function TabContainer({ children, dir }) {
   return (
@@ -28,6 +30,8 @@ const TabNavigator = props => {
     setTab(index);
   };
 
+  console.log(props);
+
   return (
     <div>
       <AppBar position="static" color="default">
@@ -45,15 +49,22 @@ const TabNavigator = props => {
         </Tabs>
       </AppBar>
       <SwipeableViews axis="x" index={tab} onChangeIndex={handleChangeIndex}>
-        <TabContainer>Item One</TabContainer>
+
+        <TabContainer><MessageTab teamId={props.match.params.id} /></TabContainer>
+
         <TabContainer>
           <ActivityTimelineTab />
         </TabContainer>
+        
         <TabContainer>Item Three</TabContainer>
         <TabContainer>
           <TodoListContainer match={props.match} history={props.history} />
         </TabContainer>
       </SwipeableViews>
+      <TeamSettingsModal
+        teamID={props.match.params.id}
+        history={props.history}
+      />
     </div>
   );
 };

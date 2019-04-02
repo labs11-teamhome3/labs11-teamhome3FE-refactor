@@ -6,7 +6,6 @@ import AddIcon from '@material-ui/icons/Add';
 
 ////Components////
 import TodoList from './TodoList';
-import TeamSettingsModal from './TeamSettingsModal';
 import TodoListModal from './TodoListModal';
 import CreateTodoList from './CreateTodoList';
 
@@ -49,10 +48,6 @@ const TodoListContainer = props => {
         <AddIcon />
       </Fab>
       <CreateTodoList open={createTodo} setCreateTodo={setCreateTodo} teamId={props.match.params.id} /> 
-      <TeamSettingsModal
-        teamID={props.match.params.id}
-        history={props.history}
-      />
     </div>
   );
 };

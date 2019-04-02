@@ -35,3 +35,16 @@ export const USERS_QUERY = gql`
     }
   }
 `
+
+export const MESSAGES_QUERY = gql`
+  query MESSAGES_QUERY($teamId: ID!) {
+    messages(teamId: $teamId) {
+      id
+      title
+      creator {
+        id
+        name
+      }
+    }
+  }
+`;
