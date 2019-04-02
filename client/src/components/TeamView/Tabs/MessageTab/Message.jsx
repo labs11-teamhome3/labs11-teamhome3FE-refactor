@@ -15,7 +15,7 @@ const Message = props => {
     <Paper
       elevation={1}
       className={classes.root}
-      onClick={_ => props.toggleModal('edit', props.message.id)}
+      onClick={_ => props.toggleModal('view', props.message.id)}
     >
       <Typography variant="h5" component="h3">
         {props.message.title} - {props.message.creator.name}

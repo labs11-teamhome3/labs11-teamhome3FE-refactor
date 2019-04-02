@@ -7,6 +7,7 @@ import AddIcon from "@material-ui/icons/Add";
 /////Components/////
 import Message from "./Message";
 import CreateMessageModal from "./CreateMessageModal";
+import ViewMessageModal from "./ViewMessageModal";
 import EditMessageModal from "./EditMessageModal";
 
 /////Queries/////
@@ -18,7 +19,10 @@ const MessageTab = props => {
     status: false,
     messageId: null
   });
-  const [viewModalStatus, setViewModalStatus] = useState(false);
+  const [viewModalStatus, setViewModalStatus] = useState({
+    status: false,
+    messageId: null
+  });
   const messages = useQuery(MESSAGES_QUERY, {
     variables: { teamId: props.teamId }
   });
@@ -26,7 +30,10 @@ const MessageTab = props => {
   const toggleModal = (modal, messageId = null) => {
     switch (modal) {
       case "view":
-        setViewModalStatus(!viewModalStatus);
+        setViewModalStatus({
+          status: !viewModalStatus.status,
+          messageId
+        });
         break;
 
       case "create":
@@ -74,6 +81,13 @@ const MessageTab = props => {
         <EditMessageModal
           modalStatus={editModalStatus.status}
           messageId={editModalStatus.messageId}
+          toggleModal={toggleModal}
+        />
+      ) : null}
+      {viewModalStatus ? (
+        <ViewMessageModal
+          modalStatus={viewModalStatus.status}
+          messageId={viewModalStatus.messageId}
           toggleModal={toggleModal}
         />
       ) : null}
