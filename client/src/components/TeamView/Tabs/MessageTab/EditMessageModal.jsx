@@ -49,24 +49,24 @@ const MessageModal = props => {
   });
 
   const [updateMessage] = useMutation(UPDATE_MESSAGE, {
-    update: (cache, { data }) => {
-      console.log(data)
-      const {messages} = cache.readQuery({
-        query: MESSAGES_QUERY,
-        variables: { teamId: props.teamId }
-      });
-      cache.writeQuery({
-        query: MESSAGES_QUERY,
-        variables: { teamId: props.teamId },
-        data: { messages: messages.map(message => {
-          if(message.id === props.messageId) {
-            return data.updateMessage;
-          } else {
-            return message;
-          }
-        } ) }
-      });
-    },
+    // update: (cache, { data }) => {
+    //   console.log(data)
+    //   const {messages} = cache.readQuery({
+    //     query: MESSAGES_QUERY,
+    //     variables: { teamId: props.teamId }
+    //   });
+    //   cache.writeQuery({
+    //     query: MESSAGES_QUERY,
+    //     variables: { teamId: props.teamId },
+    //     data: { messages: messages.map(message => {
+    //       if(message.id === props.messageId) {
+    //         return data.updateMessage;
+    //       } else {
+    //         return message;
+    //       }
+    //     } ) }
+    //   });
+    // },
     variables: {
       id: props.messageId,
       title: messageInfo.title,

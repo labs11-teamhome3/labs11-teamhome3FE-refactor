@@ -89,6 +89,7 @@ const MessageTab = props => {
           modalStatus={viewModalStatus.status}
           messageId={viewModalStatus.messageId}
           toggleModal={toggleModal}
+          teamId={props.teamId}
         />
       ) : null}
     </div>

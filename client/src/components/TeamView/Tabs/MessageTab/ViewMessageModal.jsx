@@ -29,22 +29,46 @@ const styles = theme => ({
   }
 });
 
-const UPDATE_MESSAGE = gql`
-  mutation UPDATE_MESSAGE($id: ID!, $title: String, $content: String) {
-    updateMessage(id: $id, title: $title, content: $content) {
+const DELETE_MESSAGE = gql`
+  mutation DELETE_MESSAGE($id: ID!) {
+    deleteMessage(id: $id) {
       id
-      title
-      creator {
-        id
-        name
-      }
     }
   }
 `;
 
 const MessageModal = props => {
+  console.log(props.teamId)
   const message = useQuery(MESSAGE_QUERY, {
     variables: { id: props.messageId }
+  });
+
+  const [deleteMessage] = useMutation(DELETE_MESSAGE, {
+    update: (cache, { data }) => {
+      console.log(data)
+      const {messages} = cache.readQuery({
+        query: MESSAGES_QUERY,
+        variables: { teamId: props.teamId }
+      });
+      console.log(messages)
+      cache.writeQuery({
+        query: MESSAGES_QUERY,
+        variables: { teamId: props.teamId },
+        data: { messages: messages.filter(message => {
+          console.log(`${message.id} - ${props.messageId}`)
+          if(message.id !== props.messageId) {
+            return message
+          }
+        })}
+      });
+    },
+    variables: {
+      id: props.messageId,
+    },
+    onCompleted: e => {
+      props.toggleModal('view');
+    },
+    onError: err => console.log(err)
   });
 
   const closeModal = _ => {
@@ -74,7 +98,7 @@ const MessageModal = props => {
           >
             Edit
           </Button>
-          <Button color="primary" className={classes.button}>
+          <Button color="primary" className={classes.button} onClick={deleteMessage}>
             Delete
           </Button>
           <Button color="primary" className={classes.button}>
