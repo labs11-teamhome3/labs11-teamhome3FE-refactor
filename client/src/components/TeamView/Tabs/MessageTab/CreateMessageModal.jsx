@@ -90,7 +90,7 @@ const MessageModal = props => {
       >
         <Paper className={classes.paper}>
           <h3>Create Message</h3>
-          <Close onClick={_ => props.toggleModal(false)} />
+          <Close onClick={_ => props.toggleModal("create")} />
           <br />
           <input
             type="text"
