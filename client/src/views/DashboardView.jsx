@@ -21,7 +21,7 @@ const AUTHENTICATE_USER = gql`
 const DashboardView = props => {
   const [authenticateUser] = useMutation(AUTHENTICATE_USER, {
     variables: {
-      authId: localStorage.getItem('idToken')
+      idToken: localStorage.getItem('idToken')
     },
     onCompleted: e => {
       alert('Welcome User'); 
