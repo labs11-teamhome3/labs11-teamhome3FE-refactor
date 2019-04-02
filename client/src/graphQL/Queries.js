@@ -4,7 +4,7 @@ const userId = localStorage.getItem('userId');
 
 export const TEAMS_QUERY = gql`
   {
-    teamsByUser(userId: userId) {
+    teamsByUser(userId: "${userId}") {
       id
       teamName
       # members {
