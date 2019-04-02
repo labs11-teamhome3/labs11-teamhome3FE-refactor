@@ -48,3 +48,30 @@ export const MESSAGES_QUERY = gql`
     }
   }
 `;
+
+export const MESSAGE_QUERY = gql`
+query MESSAGE_QUERY($id: ID!){
+	message(id: $id) {
+    id
+    title
+    content
+    creator {
+      id
+      name
+    }
+    comments {
+      id
+      content
+      user {
+        id
+        name
+      }
+      image
+      likes {
+        id
+        name
+      }
+    }
+  }
+}
+`
