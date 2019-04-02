@@ -6,6 +6,9 @@ import Close from "@material-ui/icons/Close";
 import Button from "@material-ui/core/Button";
 import { useMutation } from "../../../../graphQL/useMutation";
 import { useQuery } from "react-apollo-hooks";
+import gql from 'graphql-tag';
+
+import {MESSAGES_QUERY, USERS_QUERY} from '../../../../graphQL/Queries';
 
 const styles = theme => ({
   paper: {
@@ -20,22 +23,23 @@ const styles = theme => ({
   }
 });
 
-// const CREATE_MESSAGE = gql`
-//   mutation CREATE_MESSAGE($title: String!, teamId: ID!, userId: ID!, content: String!) {
-//     createMessage (title: $title, teamId: $teamId, userId: $userId, content: $content) {
-//       id
-//       title
-//       creator {
-//         name
-//       }
-//     }
-//   }
-// `;
+const CREATE_MESSAGE = gql`
+  mutation CREATE_MESSAGE($title: String!, $teamId: ID!, $userId: ID!, $content: String!) {
+    createMessage (title: $title, teamId: $teamId, userId: $userId, content: $content) {
+      id
+      title
+      creator {
+        id
+        name
+      }
+    }
+  }
+`;
 
 const MessageModal = props => {
   const [messageInfo, setMessageInfo] = useState({
     title: "",
-    description: ""
+    content: ""
   });
 
   const handleChange = e => {
@@ -45,29 +49,36 @@ const MessageModal = props => {
     });
   };
 
-  // const [createMessage] = useMutation(CREATE_MESSAGE, {
-  //   update: (cache, { data }) => {
-  //     const data = cache.readQuery({
-  //       query: TODOS_QUERY,
-  //       variables: { id: teamId }
-  //     });
-  //   //   cache.writeQuery({
-  //   //     query: TODOS_QUERY,
-  //   //     variables: { id: teamId },
-  //   //     data: { todoLists: [...todoLists, data.createTodoList] }
-  //   //   });
-  //   // },
-  //   // variables: {
-  //   //   description: todoListInfo.description,
-  //   //   ownedBy: users.loading ? "" : users.data.users[0].id,
-  //   //   assignedTo: users.loading ? "" : users.data.users[0].id,
-  //   //   inTeam: teamId
-  //   // },
-  //   // onCompleted: e => {
-  //   //   setCreateTodo(false);
-  //   // },
-  //   onError: err => console.log(err)
-  // });
+  const users = useQuery(USERS_QUERY);
+  const [createMessage] = useMutation(CREATE_MESSAGE, {
+    update: (cache, { data }) => {
+      console.log(data.createMessage)
+      const {messages} = cache.readQuery({
+        query: MESSAGES_QUERY,
+        variables: { teamId: props.teamId }
+      });
+      cache.writeQuery({
+        query: MESSAGES_QUERY,
+        variables: { teamId: props.teamId },
+        data: { messages: [...messages, data.createMessage] }
+      });
+    },
+    variables: {
+      title: messageInfo.title,
+      content: messageInfo.content,
+      userId: users.loading ? "" : users.data.users[0].id,
+      teamId: props.teamId
+    },
+    onCompleted: e => {
+      props.toggleModal(false);
+      setMessageInfo({
+        title: '',
+        content: ''
+      })
+    },
+    onError: err => console.log(err)
+  });
+
 
   const { classes } = props;
   return (
@@ -91,16 +102,16 @@ const MessageModal = props => {
           />
           <br />
           <textarea
-            name="description"
+            name="content"
             onChange={handleChange}
             cols="30"
             rows="10"
-            value={messageInfo.description}
+            value={messageInfo.content}
             placeholder="Message Content"
             className={classes.messageInput}
           />
           <br />
-          <Button>Save</Button>
+          <Button onClick={createMessage}>Save</Button>
         </Paper>
       </Modal>
     </div>

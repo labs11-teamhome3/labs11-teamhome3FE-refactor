@@ -10,7 +10,7 @@ import CreateMessageModal from "./CreateMessageModal";
 import EditMessageModal from "./EditMessageModal";
 
 /////Queries/////
-// import g from '../../../'
+import {MESSAGES_QUERY} from '../../../../graphQL/Queries';
 
 const MessageTab = props => {
   const [createModalStatus, setCreateModalStatus] = useState(false);
@@ -47,6 +47,7 @@ const MessageTab = props => {
       <CreateMessageModal
         modalStatus={createModalStatus}
         toggleModal={toggleModal}
+        teamId={props.teamId}
       />
       <EditMessageModal
         modalStatus={editModalStatus}
