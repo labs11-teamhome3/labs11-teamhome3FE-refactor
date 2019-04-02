@@ -26,6 +26,9 @@ const styles = theme => ({
   messageInput: {
     width: "100%",
     marginBottom: "10px"
+  },
+  commentInput: {
+    width: "100%"
   }
 });
 
@@ -37,36 +40,98 @@ const DELETE_MESSAGE = gql`
   }
 `;
 
+const ADD_COMMENT = gql`
+  mutation ADD_COMMENT(
+    $messageId: ID!
+    $userId: ID!
+    $content: String!
+    $image: String
+  ) {
+    addMessageComment(
+      messageId: $messageId
+      userId: $userId
+      content: $content
+      image: $image
+    ) {
+      id
+      content
+      user {
+        id
+        name
+      }
+      image
+      likes {
+        id
+        name
+      }
+    }
+  }
+`;
+
 const MessageModal = props => {
-  console.log(props.teamId)
+  const [commentInput, setCommentInput] = useState("");
+
+  const users = useQuery(USERS_QUERY);
+
   const message = useQuery(MESSAGE_QUERY, {
     variables: { id: props.messageId }
   });
-
+  console.log(message);
   const [deleteMessage] = useMutation(DELETE_MESSAGE, {
     update: (cache, { data }) => {
-      console.log(data)
-      const {messages} = cache.readQuery({
+      console.log(data);
+      const { messages } = cache.readQuery({
         query: MESSAGES_QUERY,
         variables: { teamId: props.teamId }
       });
-      console.log(messages)
+      console.log(messages);
       cache.writeQuery({
         query: MESSAGES_QUERY,
         variables: { teamId: props.teamId },
-        data: { messages: messages.filter(message => {
-          console.log(`${message.id} - ${props.messageId}`)
-          if(message.id !== props.messageId) {
-            return message
-          }
-        })}
+        data: {
+          messages: messages.filter(message => {
+            console.log(`${message.id} - ${props.messageId}`);
+            if (message.id !== props.messageId) {
+              return message;
+            }
+          })
+        }
       });
     },
     variables: {
-      id: props.messageId,
+      id: props.messageId
     },
     onCompleted: e => {
-      props.toggleModal('view');
+      props.toggleModal("view");
+    },
+    onError: err => console.log(err)
+  });
+
+  const [addMessageComment] = useMutation(ADD_COMMENT, {
+    update: (cache, { data }) => {
+      console.log(data);
+      const { message } = cache.readQuery({
+        query: MESSAGE_QUERY,
+        variables: { id: props.messageId }
+      });
+      cache.writeQuery({
+        query: MESSAGE_QUERY,
+        variables: { id: props.messageId },
+        data: {
+          message: {
+            ...message,
+            comments: [...message.comments, data.addMessageComment]
+          }
+        }
+      });
+    },
+    variables: {
+      messageId: props.messageId,
+      userId: users.loading ? "" : users.data.users[0].id,
+      content: commentInput
+    },
+    onCompleted: e => {
+      setCommentInput("");
     },
     onError: err => console.log(err)
   });
@@ -78,6 +143,11 @@ const MessageModal = props => {
   const editMessage = _ => {
     props.toggleModal("edit", props.messageId);
     closeModal();
+  };
+
+  const addComment = e => {
+    e.preventDefault();
+    addMessageComment();
   };
 
   const { classes } = props;
@@ -98,7 +168,11 @@ const MessageModal = props => {
           >
             Edit
           </Button>
-          <Button color="primary" className={classes.button} onClick={deleteMessage}>
+          <Button
+            color="primary"
+            className={classes.button}
+            onClick={deleteMessage}
+          >
             Delete
           </Button>
           <Button color="primary" className={classes.button}>
@@ -116,6 +190,25 @@ const MessageModal = props => {
               : message.data.message.content}
           </h4>
           <br />
+          {message.data.message !== undefined &&
+          message.data.message.comments.length !== undefined ? (
+            <div>
+              <h3>Comments</h3>
+              {message.data.message.comments.map(comment => (
+                <h4 key={comment.id}>
+                  {comment.content} - {comment.user.name}
+                </h4>
+              ))}
+            </div>
+          ) : null}
+          <form onSubmit={addComment}>
+            <input
+              type="text"
+              value={commentInput}
+              onChange={e => setCommentInput(e.target.value)}
+              className={classes.commentInput}
+            />
+          </form>
         </Paper>
       </Modal>
     </div>

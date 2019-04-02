@@ -43,6 +43,7 @@ const UPDATE_MESSAGE = gql`
 `
 
 const MessageModal = props => {
+  console.log(props.messageId)
   const [messageInfo, setMessageInfo] = useState({
     title: "",
     content: ""
@@ -51,20 +52,18 @@ const MessageModal = props => {
   const [updateMessage] = useMutation(UPDATE_MESSAGE, {
     // update: (cache, { data }) => {
     //   console.log(data)
-    //   const {messages} = cache.readQuery({
-    //     query: MESSAGES_QUERY,
-    //     variables: { teamId: props.teamId }
+    //   const {message} = cache.readQuery({
+    //     query: MESSAGE_QUERY,
+    //     variables: { id: props.messageId }
     //   });
     //   cache.writeQuery({
-    //     query: MESSAGES_QUERY,
-    //     variables: { teamId: props.teamId },
-    //     data: { messages: messages.map(message => {
-    //       if(message.id === props.messageId) {
-    //         return data.updateMessage;
-    //       } else {
-    //         return message;
-    //       }
-    //     } ) }
+    //     query: MESSAGE_QUERY,
+    //     variables: { id: props.messageId },
+    //     data: { message: {
+    //       ...message,
+    //       title: data.updateMessage.title,
+    //       content: data.updateMessage.content
+    //     }}
     //   });
     // },
     variables: {
