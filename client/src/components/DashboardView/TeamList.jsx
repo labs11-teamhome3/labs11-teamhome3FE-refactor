@@ -12,7 +12,7 @@ import TeamCard from "./TeamCard";
 import { TEAMS_QUERY } from "../../graphQL/Queries";
 
 const CREATE_TEAM = gql`
-  mutation createTeam($teamName: String!, $userId: ID!) {
+  mutation createTeam($teamName: String!, $userId: ID) {
     createTeam(teamName: $teamName, userId: $userId) {
       id
       teamName
@@ -22,23 +22,24 @@ const CREATE_TEAM = gql`
 
 const TeamList = () => {
   const userId = localStorage.getItem("userId");
+  console.log(userId)
 
   const { data, error, loading } = useQuery(TEAMS_QUERY, {
-    variables: { userId }
+    variables: { userId: userId }
   });
   const [teamInput, setTeamInput] = useState("");
   const [createTeam] = useMutation(CREATE_TEAM, {
     update: (cache, { data }) => {
       const { teamsByUser } = cache.readQuery({
         query: TEAMS_QUERY,
-        variables: { userId }
+        variables: { userId: userId }
       });
       cache.writeQuery({
         query: TEAMS_QUERY,
         data: { teamsByUser: [...teamsByUser, data.createTeam] }
       });
     },
-    variables: { teamName: teamInput, userId },
+    variables: { teamName: teamInput, userId: userId },
     onCompleted: e => {
       setTeamInput("");
     },
