@@ -7,22 +7,46 @@ import AddIcon from "@material-ui/icons/Add";
 /////Components/////
 import Message from "./Message";
 import CreateMessageModal from "./CreateMessageModal";
+import ViewMessageModal from "./ViewMessageModal";
 import EditMessageModal from "./EditMessageModal";
 
 /////Queries/////
-import {MESSAGES_QUERY} from '../../../../graphQL/Queries';
+import { MESSAGES_QUERY } from "../../../../graphQL/Queries";
 
 const MessageTab = props => {
   const [createModalStatus, setCreateModalStatus] = useState(false);
-  const [editModalStatus, setEditModalStatus] = useState(false);
+  const [editModalStatus, setEditModalStatus] = useState({
+    status: false,
+    messageId: null
+  });
+  const [viewModalStatus, setViewModalStatus] = useState({
+    status: false,
+    messageId: null
+  });
   const messages = useQuery(MESSAGES_QUERY, {
     variables: { teamId: props.teamId }
   });
 
-  const toggleModal = edit => {
-    edit
-      ? setEditModalStatus(!editModalStatus)
-      : setCreateModalStatus(!createModalStatus);
+  const toggleModal = (modal, messageId = null) => {
+    switch (modal) {
+      case "view":
+        setViewModalStatus({
+          status: !viewModalStatus.status,
+          messageId
+        });
+        break;
+
+      case "create":
+        setCreateModalStatus(!createModalStatus);
+        break;
+
+      case "edit":
+        setEditModalStatus({
+          status: !editModalStatus.status,
+          messageId
+        });
+        break;
+    }
   };
 
   return (
@@ -41,7 +65,11 @@ const MessageTab = props => {
           ))
         )}
       </div>
-      <Fab color="primary" aria-label="Add" onClick={_ => toggleModal(false)}>
+      <Fab
+        color="primary"
+        aria-label="Add"
+        onClick={_ => toggleModal("create")}
+      >
         <AddIcon />
       </Fab>
       <CreateMessageModal
@@ -49,10 +77,20 @@ const MessageTab = props => {
         toggleModal={toggleModal}
         teamId={props.teamId}
       />
-      <EditMessageModal
-        modalStatus={editModalStatus}
-        toggleModal={toggleModal}
-      />
+      {editModalStatus ? (
+        <EditMessageModal
+          modalStatus={editModalStatus.status}
+          messageId={editModalStatus.messageId}
+          toggleModal={toggleModal}
+        />
+      ) : null}
+      {viewModalStatus ? (
+        <ViewMessageModal
+          modalStatus={viewModalStatus.status}
+          messageId={viewModalStatus.messageId}
+          toggleModal={toggleModal}
+        />
+      ) : null}
     </div>
   );
 };
