@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, Fragment } from "react";
 import Modal from "@material-ui/core/Modal";
 import Paper from "@material-ui/core/Paper";
 import { withStyles } from "@material-ui/core/styles";
@@ -6,9 +6,13 @@ import Close from "@material-ui/icons/Close";
 import Button from "@material-ui/core/Button";
 import DeleteIcon from "@material-ui/icons/Delete";
 import DropArrow from "@material-ui/icons/ArrowDropDown";
+import List from "@material-ui/core/List";
+import Divider from "@material-ui/core/Divider";
 import { useMutation } from "../../../../graphQL/useMutation";
 import { useQuery } from "react-apollo-hooks";
 import gql from "graphql-tag";
+
+import MessageComment from "./MessageComment";
 
 import {
   MESSAGES_QUERY,
@@ -194,11 +198,20 @@ const MessageModal = props => {
           message.data.message.comments.length !== undefined ? (
             <div>
               <h3>Comments</h3>
-              {message.data.message.comments.map(comment => (
-                <h4 key={comment.id}>
-                  {comment.content} - {comment.user.name}
-                </h4>
-              ))}
+              <List>
+                {message.data.message.comments.map((comment, index) => (
+                  <Fragment key={comment.id}>
+                    <MessageComment
+                      comment={comment}
+                      messageId={props.messageId}
+                    />
+                    {index ===
+                    message.data.message.comments.length - 1 ? null : (
+                      <Divider />
+                    )}
+                  </Fragment>
+                ))}
+              </List>
             </div>
           ) : null}
           <form onSubmit={addComment}>
