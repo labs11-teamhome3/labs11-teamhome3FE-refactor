@@ -8,7 +8,7 @@ export default class Auth {
     clientID: 'yZSx2aTdImOQ8zWCqRZ5hhZJr6c7KXFz',
     redirectUri: 'http://localhost:3000/dashboard',
     responseType: 'token id_token',
-    scope: 'openid profile'
+    scope: 'openid profile email'
   });
 
   accessToken;
