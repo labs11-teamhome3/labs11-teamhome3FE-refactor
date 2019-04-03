@@ -8,7 +8,7 @@ export default class Auth {
     clientID: 'yZSx2aTdImOQ8zWCqRZ5hhZJr6c7KXFz',
     redirectUri: 'http://localhost:3000/dashboard',
     responseType: 'token id_token',
-    scope: 'openid'
+    scope: 'openid profile'
   });
 
   accessToken;
@@ -73,6 +73,7 @@ export default class Auth {
     // Set idToken and accessToken in localStorage
     localStorage.setItem('idToken', authResult.idToken);
     localStorage.setItem('accessToken', authResult.accessToken);
+    console.log('authResult', authResult)
 
     // Set the time that the access token will expire at
     let expiresAt = (authResult.expiresIn * 1440000) + new Date().getTime();

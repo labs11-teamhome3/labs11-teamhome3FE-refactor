@@ -80,7 +80,7 @@ const MessageModal = props => {
       teamId: props.teamId,
     },
     onCompleted: e => {
-      props.toggleModal(false);
+      props.toggleModal('create');
       setMessageInfo({
         title: '',
         content: '',

@@ -20,6 +20,9 @@ const AUTHENTICATE_USER = gql`
 
 const DashboardView = props => {
   const [authenticateUser] = useMutation(AUTHENTICATE_USER, {
+    update: (cache, { data }) => {
+      localStorage.setItem('userId', data.authenticateUser.id)
+    },
     variables: {
       idToken: localStorage.getItem('idToken')
     },
@@ -30,10 +33,11 @@ const DashboardView = props => {
   })
 
   useEffect(() => {
+    console.log('useEff')
     // if(localStorage.getItem('idToken')) {
       authenticateUser();
     //}
-  }, [])
+  }, [localStorage.getItem('idToken')])
 
   return (
     <div>

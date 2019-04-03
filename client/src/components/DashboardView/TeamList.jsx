@@ -12,8 +12,8 @@ import TeamCard from "./TeamCard";
 import { TEAMS_QUERY } from "../../graphQL/Queries";
 
 const CREATE_TEAM = gql`
-  mutation createTeam($teamName: String!) {
-    createTeam(teamName: $teamName) {
+  mutation createTeam($teamName: String!, $userId: ID!) {
+    createTeam(teamName: $teamName, userId: $userId) {
       id
       teamName
     }
@@ -21,17 +21,24 @@ const CREATE_TEAM = gql`
 `;
 
 const TeamList = () => {
-  const { data, error, loading } = useQuery(TEAMS_QUERY);
+  const userId = localStorage.getItem("userId");
+
+  const { data, error, loading } = useQuery(TEAMS_QUERY, {
+    variables: { userId }
+  });
   const [teamInput, setTeamInput] = useState("");
-  const [createTeamName] = useMutation(CREATE_TEAM, {
+  const [createTeam] = useMutation(CREATE_TEAM, {
     update: (cache, { data }) => {
-      const { teams } = cache.readQuery({ query: TEAMS_QUERY });
+      const { teamsByUser } = cache.readQuery({
+        query: TEAMS_QUERY,
+        variables: { userId }
+      });
       cache.writeQuery({
         query: TEAMS_QUERY,
-        data: { teams: [...teams, data.createTeam] }
+        data: { teamsByUser: [...teamsByUser, data.createTeam] }
       });
     },
-    variables: { teamName: teamInput },
+    variables: { teamName: teamInput, userId },
     onCompleted: e => {
       setTeamInput("");
     },
@@ -58,24 +65,24 @@ const TeamList = () => {
     //     }
     // return (
     <>
-      {data.teams.map(team => (
+      {data.teamsByUser.map(team => (
         <TeamCard team={team} key={team.id} />
       ))}
-      <form onSubmit={createTeamName}>
+      <form onSubmit={createTeam}>
         <input
           type="text"
           value={teamInput}
           onChange={e => setTeamInput(e.target.value)}
         />
-        <Fab onClick={createTeamName} color="primary" aria-label="Add">
+        <Fab onClick={createTeam} color="primary" aria-label="Add">
           <AddIcon />
         </Fab>
       </form>
     </>
+    // );
+    //   }}
+    // </Query>
   );
-  //   }}
-  // </Query>
-  // );
 };
 
 export default TeamList;

@@ -41,6 +41,7 @@ const MessageTab = props => {
         break;
 
       case "edit":
+        console.log(messageId);
         setEditModalStatus({
           status: !editModalStatus.status,
           messageId
@@ -48,7 +49,7 @@ const MessageTab = props => {
         break;
     }
   };
-
+  console.log('################', messages)
   return (
     <div>
       <h1>MessageTab</h1>
@@ -89,6 +90,7 @@ const MessageTab = props => {
           modalStatus={viewModalStatus.status}
           messageId={viewModalStatus.messageId}
           toggleModal={toggleModal}
+          teamId={props.teamId}
         />
       ) : null}
     </div>

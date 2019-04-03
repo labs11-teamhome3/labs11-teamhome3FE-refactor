@@ -1,8 +1,10 @@
 import gql from 'graphql-tag';
 
+const userId = localStorage.getItem('userId');
+
 export const TEAMS_QUERY = gql`
   {
-    teams {
+    teamsByUser(userId: "${userId}") {
       id
       teamName
       # members {
