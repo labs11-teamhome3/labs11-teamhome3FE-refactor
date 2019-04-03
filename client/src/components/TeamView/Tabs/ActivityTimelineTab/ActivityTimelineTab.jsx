@@ -1,13 +1,24 @@
 import React, { useState } from 'react';
+import { useQuery } from 'react-apollo-hooks';
 
 ////Components////
-import Events from './Events';
 import ObjectDropdown from './ObjectDropdown';
 import ActionDropdown from './ActionDropdown';
 import UserDropdown from './UserDropdown';
+import ViewEventModal from './ViewEventModal';
+import { EVENTS_QUERY } from '../../../../graphQL/Queries';
+import Event from './Event';
 
 const ActivityTimeline = props => {
-  const [status, setStatus] = useState();
+  const [status, setStatus] = useState(false);
+
+  const events = useQuery(EVENTS_QUERY, {
+    variables: {
+      teamId: props.teamId,
+    },
+  });
+  console.log('activity timeline');
+  console.log(events.data.findEventsByTeam);
 
   const toggleModal = () => {
     setStatus(!status);
@@ -19,6 +30,12 @@ const ActivityTimeline = props => {
       <ObjectDropdown />
       <ActionDropdown />
       <UserDropdown />
+      <ViewEventModal status={status} toggleModal={toggleModal} />
+      <div>
+        {!events.loading &&
+          events.data.findEventsByTeam.map(event => <Event event={event} />)}
+      </div>
+      <button onClick={toggleModal}>Open Modal</button>
     </div>
   );
 };
