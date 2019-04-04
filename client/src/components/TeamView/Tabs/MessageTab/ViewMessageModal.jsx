@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, Fragment } from "react";
 import Modal from "@material-ui/core/Modal";
 import Paper from "@material-ui/core/Paper";
 import { withStyles } from "@material-ui/core/styles";
@@ -6,14 +6,21 @@ import Close from "@material-ui/icons/Close";
 import Button from "@material-ui/core/Button";
 import DeleteIcon from "@material-ui/icons/Delete";
 import DropArrow from "@material-ui/icons/ArrowDropDown";
+import List from "@material-ui/core/List";
+import Divider from "@material-ui/core/Divider";
 import { useMutation } from "../../../../graphQL/useMutation";
 import { useQuery } from "react-apollo-hooks";
 import gql from "graphql-tag";
 
+import MessageComment from "./MessageComment";
+
+import { CREATE_EVENT } from '../../../../graphQL/Mutations';
+
 import {
   MESSAGES_QUERY,
   USERS_QUERY,
-  MESSAGE_QUERY
+  MESSAGE_QUERY,
+  EVENTS_QUERY
 } from "../../../../graphQL/Queries";
 
 const styles = theme => ({
@@ -69,14 +76,13 @@ const ADD_COMMENT = gql`
 `;
 
 const MessageModal = props => {
+  const userId = localStorage.getItem('userId')
   const [commentInput, setCommentInput] = useState("");
-
-  const users = useQuery(USERS_QUERY);
 
   const message = useQuery(MESSAGE_QUERY, {
     variables: { id: props.messageId }
   });
-  console.log(message);
+  // console.log(message);
   const [deleteMessage] = useMutation(DELETE_MESSAGE, {
     update: (cache, { data }) => {
       console.log(data);
@@ -84,13 +90,13 @@ const MessageModal = props => {
         query: MESSAGES_QUERY,
         variables: { teamId: props.teamId }
       });
-      console.log(messages);
+      // console.log(messages);
       cache.writeQuery({
         query: MESSAGES_QUERY,
         variables: { teamId: props.teamId },
         data: {
           messages: messages.filter(message => {
-            console.log(`${message.id} - ${props.messageId}`);
+            // console.log(`${message.id} - ${props.messageId}`);
             if (message.id !== props.messageId) {
               return message;
             }
@@ -102,6 +108,7 @@ const MessageModal = props => {
       id: props.messageId
     },
     onCompleted: e => {
+      props.setMsg('deleted a message');
       props.toggleModal("view");
     },
     onError: err => console.log(err)
@@ -109,7 +116,7 @@ const MessageModal = props => {
 
   const [addMessageComment] = useMutation(ADD_COMMENT, {
     update: (cache, { data }) => {
-      console.log(data);
+      // console.log(data);
       const { message } = cache.readQuery({
         query: MESSAGE_QUERY,
         variables: { id: props.messageId }
@@ -127,10 +134,11 @@ const MessageModal = props => {
     },
     variables: {
       messageId: props.messageId,
-      userId: users.loading ? "" : users.data.users[0].id,
+      userId: userId,
       content: commentInput
     },
     onCompleted: e => {
+      props.setMsg('commented on message');
       setCommentInput("");
     },
     onError: err => console.log(err)
@@ -194,11 +202,21 @@ const MessageModal = props => {
           message.data.message.comments.length !== undefined ? (
             <div>
               <h3>Comments</h3>
-              {message.data.message.comments.map(comment => (
-                <h4 key={comment.id}>
-                  {comment.content} - {comment.user.name}
-                </h4>
-              ))}
+              <List>
+                {message.data.message.comments.map((comment, index) => (
+                  <Fragment key={comment.id}>
+                    <MessageComment
+                      comment={comment}
+                      messageId={props.messageId}
+                      setMsg={props.setMsg}
+                    />
+                    {index ===
+                    message.data.message.comments.length - 1 ? null : (
+                      <Divider />
+                    )}
+                  </Fragment>
+                ))}
+              </List>
             </div>
           ) : null}
           <form onSubmit={addComment}>
