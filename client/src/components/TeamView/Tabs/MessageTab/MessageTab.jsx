@@ -41,7 +41,7 @@ const MessageTab = props => {
         break;
 
       case "edit":
-        console.log(messageId);
+        // console.log(messageId);
         setEditModalStatus({
           status: !editModalStatus.status,
           messageId
@@ -49,7 +49,7 @@ const MessageTab = props => {
         break;
     }
   };
-  console.log('################', messages)
+  // console.log('################', messages)
   return (
     <div>
       <h1>MessageTab</h1>

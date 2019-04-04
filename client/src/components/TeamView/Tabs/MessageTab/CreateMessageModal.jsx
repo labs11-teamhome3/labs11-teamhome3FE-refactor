@@ -52,7 +52,7 @@ const MessageModal = props => {
   const users = useQuery(USERS_QUERY);
   const [createMessage] = useMutation(CREATE_MESSAGE, {
     update: (cache, { data }) => {
-      console.log(data.createMessage)
+      // console.log(data.createMessage)
       const {messages} = cache.readQuery({
         query: MESSAGES_QUERY,
         variables: { teamId: props.teamId }

@@ -80,7 +80,7 @@ const MessageModal = props => {
   const message = useQuery(MESSAGE_QUERY, {
     variables: { id: props.messageId }
   });
-  console.log(message);
+  // console.log(message);
   const [deleteMessage] = useMutation(DELETE_MESSAGE, {
     update: (cache, { data }) => {
       console.log(data);
@@ -88,13 +88,13 @@ const MessageModal = props => {
         query: MESSAGES_QUERY,
         variables: { teamId: props.teamId }
       });
-      console.log(messages);
+      // console.log(messages);
       cache.writeQuery({
         query: MESSAGES_QUERY,
         variables: { teamId: props.teamId },
         data: {
           messages: messages.filter(message => {
-            console.log(`${message.id} - ${props.messageId}`);
+            // console.log(`${message.id} - ${props.messageId}`);
             if (message.id !== props.messageId) {
               return message;
             }
@@ -113,7 +113,7 @@ const MessageModal = props => {
 
   const [addMessageComment] = useMutation(ADD_COMMENT, {
     update: (cache, { data }) => {
-      console.log(data);
+      // console.log(data);
       const { message } = cache.readQuery({
         query: MESSAGE_QUERY,
         variables: { id: props.messageId }
