@@ -53,7 +53,7 @@ const TabNavigator = props => {
         </TabContainer>
 
         <TabContainer>
-          <ActivityTimelineTab />
+          <ActivityTimelineTab teamId={props.match.params.id} />
         </TabContainer>
 
         <TabContainer>Item Three</TabContainer>

@@ -24,7 +24,7 @@ const TeamList = () => {
   const userId = localStorage.getItem("userId");
 
   const { data, error, loading } = useQuery(TEAMS_QUERY, {
-    variables: { userId }
+    variables: { userId: userId }
   });
   const [teamInput, setTeamInput] = useState("");
   const [createTeam] = useMutation(CREATE_TEAM, {

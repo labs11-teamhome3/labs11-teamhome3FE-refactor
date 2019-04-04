@@ -44,7 +44,7 @@ const UPDATE_MESSAGE = gql`
 `
 
 const MessageModal = props => {
-  console.log(props.messageId)
+  // console.log(props.messageId)
   const [messageInfo, setMessageInfo] = useState({
     title: "",
     content: ""
@@ -57,6 +57,7 @@ const MessageModal = props => {
       content: messageInfo.content,
     },
     onCompleted: e => {
+      props.setMsg('updated a message')
       props.toggleModal('edit');
       setMessageInfo({
         title: '',
