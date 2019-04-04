@@ -22,6 +22,7 @@ const CREATE_TEAM = gql`
 
 const TeamList = () => {
   const userId = localStorage.getItem("userId");
+  console.log(userId)
 
   const { data, error, loading } = useQuery(TEAMS_QUERY, {
     variables: { userId: userId }
@@ -31,14 +32,14 @@ const TeamList = () => {
     update: (cache, { data }) => {
       const { teamsByUser } = cache.readQuery({
         query: TEAMS_QUERY,
-        variables: { userId }
+        variables: { userId: userId }
       });
       cache.writeQuery({
         query: TEAMS_QUERY,
         data: { teamsByUser: [...teamsByUser, data.createTeam] }
       });
     },
-    variables: { teamName: teamInput, userId },
+    variables: { teamName: teamInput, userId: userId },
     onCompleted: e => {
       setTeamInput("");
     },
