@@ -36,7 +36,7 @@ export const USERS_QUERY = gql`
       name
     }
   }
-`
+`;
 
 export const MESSAGES_QUERY = gql`
   query MESSAGES_QUERY($teamId: ID!) {
@@ -52,28 +52,43 @@ export const MESSAGES_QUERY = gql`
 `;
 
 export const MESSAGE_QUERY = gql`
-query MESSAGE_QUERY($id: ID!){
-	message(id: $id) {
-    id
-    title
-    content
-    creator {
+  query MESSAGE_QUERY($id: ID!) {
+    message(id: $id) {
       id
-      name
-    }
-    comments {
-      id
+      title
       content
+      creator {
+        id
+        name
+      }
+      comments {
+        id
+        content
+        user {
+          id
+          name
+        }
+        image
+        likes {
+          id
+          name
+        }
+      }
+    }
+  }
+`;
+
+export const EVENTS_QUERY = gql`
+  query EVENTS_QUERY($teamId: ID!) {
+    findEventsByTeam(teamId: $teamId) {
+      id
+      createdAt
       user {
         id
         name
       }
-      image
-      likes {
-        id
-        name
-      }
+      action_string
+      object_string
     }
   }
-}
-`
+`;
