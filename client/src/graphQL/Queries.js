@@ -47,6 +47,9 @@ export const MESSAGES_QUERY = gql`
         id
         name
       }
+      comments {
+        id
+      }
     }
   }
 `;

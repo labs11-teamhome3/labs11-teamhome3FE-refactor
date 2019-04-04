@@ -18,7 +18,7 @@ const Message = props => {
       onClick={_ => props.toggleModal('view', props.message.id)}
     >
       <Typography variant="h5" component="h3">
-        {props.message.title} - {props.message.creator.name}
+        {props.message.title} - {props.message.creator.name}  {props.message.comments ? `${props.message.comments.length} Replies` : '0 Replies'}
       </Typography>
     </Paper>
   );

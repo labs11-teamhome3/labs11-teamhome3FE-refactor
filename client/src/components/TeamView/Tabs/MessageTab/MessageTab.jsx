@@ -21,36 +21,7 @@ import {
 } from "../../../../graphQL/Queries";
 
 const MessageTab = props => {
-  const userId = localStorage.getItem('userId')
-  const [msg, setMsg] = useState(null);
 
-  useEffect( _ => {
-    createEvent();
-  }, [msg])
-
-  const [createEvent] = useMutation(CREATE_EVENT, {
-    update: (cache, { data }) => {
-      // console.log(data.createMessage)
-      const {findEventsByTeam} = cache.readQuery({
-        query: EVENTS_QUERY,
-        variables: { teamId: props.teamId },
-      });
-      cache.writeQuery({
-        query: EVENTS_QUERY,
-        variables: { teamId: props.teamId },
-        data: { findEventsByTeam: [...findEventsByTeam, data.addEvent] },
-      });
-    },
-    variables: {
-      action_string: msg,
-      object_string: '',
-      userId: userId,
-      teamId: props.teamId,
-    },
-    onCompleted: e => {
-    },
-    onError: err => console.log(err),
-  });
 
   const [createModalStatus, setCreateModalStatus] = useState(false);
   const [editModalStatus, setEditModalStatus] = useState({
@@ -115,23 +86,23 @@ const MessageTab = props => {
         modalStatus={createModalStatus}
         toggleModal={toggleModal}
         teamId={props.teamId}
-        setMsg={setMsg}
+        setMsg={props.setMsg}
       />
       {editModalStatus ? (
         <EditMessageModal
           modalStatus={editModalStatus.status}
           messageId={editModalStatus.messageId}
           toggleModal={toggleModal}
-          setMsg={setMsg}
+          setMsg={props.setMsg}
         />
       ) : null}
       {viewModalStatus ? (
         <ViewMessageModal
-          setMsg={setMsg}
           modalStatus={viewModalStatus.status}
           messageId={viewModalStatus.messageId}
           toggleModal={toggleModal}
           teamId={props.teamId}
+          setMsg={props.setMsg}
         />
       ) : null}
     </div>

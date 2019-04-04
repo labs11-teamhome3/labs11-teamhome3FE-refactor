@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import SwipeableViews from 'react-swipeable-views';
 import AppBar from '@material-ui/core/AppBar';
 import Tabs from '@material-ui/core/Tabs';
@@ -10,6 +10,16 @@ import TeamSettingsModal from './TeamSettingsModal';
 import MessageTab from './Tabs/MessageTab/MessageTab';
 import ActivityTimelineTab from './Tabs/ActivityTimelineTab/ActivityTimelineTab';
 
+import { useMutation } from '../../graphQL/useMutation';
+
+import { CREATE_EVENT } from '../../graphQL/Mutations';
+import {
+  MESSAGES_QUERY,
+  USERS_QUERY,
+  MESSAGE_QUERY,
+  EVENTS_QUERY
+} from "../../graphQL/Queries";
+
 function TabContainer({ children, dir }) {
   return (
     <Typography component="div" style={{ padding: 8 * 3 }}>
@@ -19,7 +29,37 @@ function TabContainer({ children, dir }) {
 }
 
 const TabNavigator = props => {
+  const userId = localStorage.getItem('userId')
   const [tab, setTab] = useState(0);
+  const [msg, setMsg] = useState(null);
+
+  useEffect( _ => {
+    createEvent();
+  }, [msg])
+
+  const [createEvent] = useMutation(CREATE_EVENT, {
+    update: (cache, { data }) => {
+      // console.log(data.createMessage)
+      const {findEventsByTeam} = cache.readQuery({
+        query: EVENTS_QUERY,
+        variables: { teamId: props.match.params.id },
+      });
+      cache.writeQuery({
+        query: EVENTS_QUERY,
+        variables: { teamId: props.match.params.id },
+        data: { findEventsByTeam: [...findEventsByTeam, data.addEvent] },
+      });
+    },
+    variables: {
+      action_string: msg,
+      object_string: '',
+      userId: userId,
+      teamId: props.match.params.id,
+    },
+    onCompleted: e => {
+    },
+    onError: err => console.log(err),
+  });
 
   const handleChange = (event, value) => {
     setTab(value);
@@ -49,16 +89,16 @@ const TabNavigator = props => {
       </AppBar>
       <SwipeableViews axis="x" index={tab} onChangeIndex={handleChangeIndex}>
         <TabContainer>
-          <MessageTab teamId={props.match.params.id} />
+          <MessageTab teamId={props.match.params.id} setMsg={setMsg} />
         </TabContainer>
 
         <TabContainer>
-          <ActivityTimelineTab teamId={props.match.params.id} />
+          <ActivityTimelineTab teamId={props.match.params.id} setMsg={setMsg} />
         </TabContainer>
 
         <TabContainer>Item Three</TabContainer>
         <TabContainer>
-          <TodoListContainer match={props.match} history={props.history} />
+          <TodoListContainer match={props.match} history={props.history} setMsg={setMsg} />
         </TabContainer>
       </SwipeableViews>
       <TeamSettingsModal
