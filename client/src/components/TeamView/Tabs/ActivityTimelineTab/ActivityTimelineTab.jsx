@@ -33,7 +33,7 @@ const ActivityTimeline = props => {
       <ViewEventModal status={status} toggleModal={toggleModal} />
       <div>
         {!events.loading &&
-          events.data.findEventsByTeam.map(event => <Event event={event} />)}
+          events.data.findEventsByTeam.map(event => <Event event={event} key={event.id} />)}
       </div>
       <button onClick={toggleModal}>Open Modal</button>
     </div>
