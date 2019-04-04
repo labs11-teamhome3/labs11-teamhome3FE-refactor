@@ -108,7 +108,7 @@ const MessageModal = props => {
       id: props.messageId
     },
     onCompleted: e => {
-      props.setMsg('deleted a message');
+      props.setMsg('deleted a message')
       props.toggleModal("view");
     },
     onError: err => console.log(err)
@@ -138,7 +138,7 @@ const MessageModal = props => {
       content: commentInput
     },
     onCompleted: e => {
-      props.setMsg('commented on message');
+      props.setMsg('commented on a message')
       setCommentInput("");
     },
     onError: err => console.log(err)

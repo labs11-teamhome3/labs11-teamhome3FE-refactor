@@ -26,9 +26,9 @@ const styles = theme => ({
 });
 
 const UPDATE_MESSAGE = gql`
-  mutation UPDATE_MESSAGE($id: ID!, $title: String, $content: String){
+  mutation UPDATE_MESSAGE($messageId: ID!, $title: String, $content: String){
   updateMessage(
-    id: $id
+    messageId: $messageId
     title: $title
     content: $content
   ) {
@@ -52,7 +52,7 @@ const MessageModal = props => {
 
   const [updateMessage] = useMutation(UPDATE_MESSAGE, {
     variables: {
-      id: props.messageId,
+      messageId: props.messageId,
       title: messageInfo.title,
       content: messageInfo.content,
     },
