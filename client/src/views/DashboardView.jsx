@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import gql from 'graphql-tag';
 
 ////Components////
@@ -18,7 +18,21 @@ const AUTHENTICATE_USER = gql`
   }
 `
 
+const FIND_USER = gql`
+  query USER(
+    $id: ID!
+  ) {
+    user(
+      id: $id
+    ) {
+      id
+      name
+    }
+  }
+`;
+
 const DashboardView = props => {
+  const [user, setUser] = useState(null);
   const [authenticateUser] = useMutation(AUTHENTICATE_USER, {
     update: (cache, { data }) => {
       console.log('##########################################################')
@@ -28,6 +42,7 @@ const DashboardView = props => {
       idToken: localStorage.getItem('idToken')
     },
     onCompleted: e => {
+      setUser(e.authenticateUser.id)
       alert('Welcome User'); 
     },
     onError: err => console.log(err)
@@ -36,13 +51,14 @@ const DashboardView = props => {
   useEffect(() => {
     console.log('useEff')
     // if(localStorage.getItem('idToken')) {
+      console.log('here');
       authenticateUser();
-    //}
+    // }
   }, [localStorage.getItem('idToken')])
 
   return (
     <div>
-      {!localStorage.getItem('isLoggedIn')
+      {!user
         ? <h2>Please login to access the dashboard</h2>
         : <>
             <h1>My Teams</h1>

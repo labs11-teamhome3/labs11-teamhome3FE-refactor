@@ -51,6 +51,7 @@ export default class Auth {
     localStorage.removeItem('isLoggedIn');
     localStorage.removeItem('idToken');
     localStorage.removeItem('accessToken');
+    localStorage.removeItem('userId');
 
     // navigate to the home route
     history.replace('/');
