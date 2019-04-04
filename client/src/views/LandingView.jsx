@@ -5,9 +5,7 @@ const LandingView = props => {
 
   return (
     <div>
-      <Link to="/dashboard">
-        <h1>To Dashboard</h1>
-      </Link>
+      <h1>Landing Page for Manaje App</h1>
     </div>
   );
 };

@@ -42,8 +42,13 @@ const DashboardView = props => {
 
   return (
     <div>
-      <h1>DashboardView</h1>
-      <TeamList /> 
+      {!localStorage.getItem('isLoggedIn')
+        ? <h2>Please login to access the dashboard</h2>
+        : <>
+            <h1>My Teams</h1>
+            <TeamList /> 
+          </>
+      }
     </div>
   );
 };

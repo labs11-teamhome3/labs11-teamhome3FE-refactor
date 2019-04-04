@@ -8,17 +8,17 @@ import TodoModal from "./TodoListModal";
 import { TODOS_QUERY, USERS_QUERY } from "../../graphQL/Queries";
 import { defaultProps } from "recompose";
 
+
+const currentUser = localStorage.getItem('userId');
 const CREATE_TODOLIST = gql`
   mutation CREATE_TODOLIST(
     $description: String!
     $ownedBy: String!
-    $assignedTo: String!
     $inTeam: ID
   ) {
     createTodoList(
       description: $description
       ownedBy: $ownedBy
-      assignedTo: $assignedTo
       inTeam: $inTeam
     ) {
       id
@@ -51,8 +51,7 @@ const CreateTodoList = ({ teamId, open, setCreateTodo }) => {
     },
     variables: {
       description: todoListInfo.description,
-      ownedBy: users.loading ? '' : users.data.users[0].id,
-      assignedTo: users.loading ? '' : users.data.users[0].id,
+      ownedBy: currentUser,
       inTeam: teamId
     },
     onCompleted: e => {
