@@ -44,6 +44,7 @@ const MessageComment = props => {
       commentId: props.comment.id
     },
     onCompleted: e => {
+      props.setMsg('deleted a comment')
     },
     onError: err => console.log(err)
   });

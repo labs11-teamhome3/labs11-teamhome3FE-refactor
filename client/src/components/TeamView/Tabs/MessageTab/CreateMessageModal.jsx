@@ -8,7 +8,8 @@ import { useMutation } from '../../../../graphQL/useMutation';
 import { useQuery } from 'react-apollo-hooks';
 import gql from 'graphql-tag';
 
-import { MESSAGES_QUERY, USERS_QUERY } from '../../../../graphQL/Queries';
+import { MESSAGES_QUERY, USERS_QUERY, EVENTS_QUERY } from '../../../../graphQL/Queries';
+import { CREATE_EVENT } from '../../../../graphQL/Mutations';
 
 const styles = theme => ({
   paper: {
@@ -60,6 +61,7 @@ const MessageModal = props => {
   };
 
   const users = useQuery(USERS_QUERY);
+
   const [createMessage] = useMutation(CREATE_MESSAGE, {
     update: (cache, { data }) => {
       // console.log(data.createMessage)
@@ -80,6 +82,7 @@ const MessageModal = props => {
       teamId: props.teamId,
     },
     onCompleted: e => {
+      props.setMsg('created a message')
       props.toggleModal('create');
       setMessageInfo({
         title: '',

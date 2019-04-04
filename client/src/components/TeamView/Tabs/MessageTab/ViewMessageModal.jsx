@@ -14,10 +14,13 @@ import gql from "graphql-tag";
 
 import MessageComment from "./MessageComment";
 
+import { CREATE_EVENT } from '../../../../graphQL/Mutations';
+
 import {
   MESSAGES_QUERY,
   USERS_QUERY,
-  MESSAGE_QUERY
+  MESSAGE_QUERY,
+  EVENTS_QUERY
 } from "../../../../graphQL/Queries";
 
 const styles = theme => ({
@@ -73,9 +76,8 @@ const ADD_COMMENT = gql`
 `;
 
 const MessageModal = props => {
+  const userId = localStorage.getItem('userId')
   const [commentInput, setCommentInput] = useState("");
-
-  const users = useQuery(USERS_QUERY);
 
   const message = useQuery(MESSAGE_QUERY, {
     variables: { id: props.messageId }
@@ -106,6 +108,7 @@ const MessageModal = props => {
       id: props.messageId
     },
     onCompleted: e => {
+      props.setMsg('deleted a message');
       props.toggleModal("view");
     },
     onError: err => console.log(err)
@@ -131,10 +134,11 @@ const MessageModal = props => {
     },
     variables: {
       messageId: props.messageId,
-      userId: users.loading ? "" : users.data.users[0].id,
+      userId: userId,
       content: commentInput
     },
     onCompleted: e => {
+      props.setMsg('commented on message');
       setCommentInput("");
     },
     onError: err => console.log(err)
@@ -204,6 +208,7 @@ const MessageModal = props => {
                     <MessageComment
                       comment={comment}
                       messageId={props.messageId}
+                      setMsg={props.setMsg}
                     />
                     {index ===
                     message.data.message.comments.length - 1 ? null : (
