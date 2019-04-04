@@ -11,6 +11,9 @@ import TeamCard from "./TeamCard";
 ////Queries////
 import { TEAMS_QUERY } from "../../graphQL/Queries";
 
+/////css////
+import './TeamList.css'
+
 const CREATE_TEAM = gql`
   mutation createTeam($teamName: String!, $userId: ID!) {
     createTeam(teamName: $teamName, userId: $userId) {
@@ -28,6 +31,7 @@ const TeamList = () => {
     variables: { userId: userId }
   });
   const [teamInput, setTeamInput] = useState("");
+  const [errorMsg, setErrorMsg] = useState("");
   const [createTeam] = useMutation(CREATE_TEAM, {
     update: (cache, { data }) => {
       const { teamsByUser } = cache.readQuery({
@@ -43,7 +47,10 @@ const TeamList = () => {
     onCompleted: e => {
       setTeamInput("");
     },
-    onError: err => console.log(err)
+    onError: err => {
+      console.log(err.message);
+      setErrorMsg(err.message);
+    }
   });
 
   if (loading) {
@@ -79,6 +86,11 @@ const TeamList = () => {
           <AddIcon />
         </Fab>
       </form>
+      {errorMsg && 
+        <div className="error-flash">
+          <h3>{errorMsg.split(":")[1]}</h3>
+        </div>
+      }
     </>
     // );
     //   }}

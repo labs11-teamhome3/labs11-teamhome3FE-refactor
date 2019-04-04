@@ -25,7 +25,7 @@ const NavigationView = props => {
               <img className="logo-img" src={logo} alt="Manaje" />
             </Link>
           </div>
-          {!localStorage.getItem('isLoggedIn') 
+          {!localStorage.getItem('userId') 
             ? <div className="nav-btns">
                 <Button onClick={login}>Log in</Button>
               </div>

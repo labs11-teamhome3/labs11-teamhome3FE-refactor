@@ -1,0 +1,10 @@
+.error-flash {
+    font-size: 1.5rem;
+    height: 100px;
+    width: 60%;
+    margin: 50px auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: salmon
+}

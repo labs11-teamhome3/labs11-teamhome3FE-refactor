@@ -7,7 +7,7 @@ import TeamList from '../components/DashboardView/TeamList';
 const DashboardView = props => {
   return (
     <div>
-      {!user
+      {!localStorage.getItem('userId')
         ? <h2>Please login to access the dashboard</h2>
         : <>
             <h1>My Teams</h1>
