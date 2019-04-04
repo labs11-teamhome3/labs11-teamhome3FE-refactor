@@ -25,7 +25,8 @@ class App extends Component {
       <div className="App">
         <NavigationView auth={auth} />
         <Route exact path='/'
-        render={props => <LandingView {...props} />} 
+        render={props => <LandingView {...props} />
+        } 
         />
         <Route
           path="/dashboard"

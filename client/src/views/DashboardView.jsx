@@ -35,8 +35,8 @@ const DashboardView = props => {
   const [user, setUser] = useState(null);
   const [authenticateUser] = useMutation(AUTHENTICATE_USER, {
     update: (cache, { data }) => {
-      console.log('##########################################################')
       localStorage.setItem('userId', data.authenticateUser.id)
+      console.log('##########################################################')
     },
     variables: {
       idToken: localStorage.getItem('idToken')
