@@ -43,6 +43,9 @@ const CREATE_MESSAGE = gql`
         id
         name
       }
+      comments {
+        id
+      }
     }
   }
 `;
