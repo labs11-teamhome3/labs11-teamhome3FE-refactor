@@ -12,7 +12,7 @@ import TeamCard from "./TeamCard";
 import { TEAMS_QUERY } from "../../graphQL/Queries";
 
 const CREATE_TEAM = gql`
-  mutation createTeam($teamName: String!, $userId: ID) {
+  mutation createTeam($teamName: String!, $userId: ID!) {
     createTeam(teamName: $teamName, userId: $userId) {
       id
       teamName
