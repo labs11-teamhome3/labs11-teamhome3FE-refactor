@@ -1,0 +1,27 @@
+.logo-img {
+    width: 200px;
+    height: auto;
+    margin-left: 20px;
+}
+
+.header {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+.nav-btns {
+    display: flex;
+    align-items: center;
+    margin-right: 20px;
+}
+
+.nav-btns button {
+    color: white;
+    font-size: 1.2rem;
+}
+
+.nav-btns button:hover {
+    color: yellow;
+}
