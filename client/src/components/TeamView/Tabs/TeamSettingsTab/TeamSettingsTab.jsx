@@ -29,6 +29,7 @@ const TEAM_QUERY = gql`
                 id
                 name
                 role
+                profilePic
             }
         }
     }
