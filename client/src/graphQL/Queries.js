@@ -118,3 +118,19 @@ export const TODO_LIST_QUERY = gql`
     }
   }
 `
+
+export const DOCUMENTS_QUERY = gql`
+query DOCUMENTS_QUERY($teamId: ID!) {
+  findDocumentsByTeam(teamId: $teamId) {
+    id
+    title
+    textContent
+    user {
+        id
+    }
+    team {
+        id
+    }
+  }
+}
+`;
