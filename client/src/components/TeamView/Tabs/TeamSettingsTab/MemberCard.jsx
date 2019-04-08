@@ -64,7 +64,10 @@ const MemberCard = props => {
 
     return (
         <div className="member-card">
-            <h3>{props.member.name}</h3>
+            <div className="member-info">
+                <img className="team-list-pic" src={props.member.profilePic} />
+                <h3>{props.member.name}</h3>
+            </div>
             {props.member.id !== localStorage.getItem('userId') && props.userRole === "ADMIN" &&
                 <Button variant="contained" color="secondary" onClick={removeMember}>Remove Team Member</Button>
             }
