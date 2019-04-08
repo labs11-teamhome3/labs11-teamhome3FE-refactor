@@ -6,9 +6,9 @@ import Tab from '@material-ui/core/Tab';
 import Typography from '@material-ui/core/Typography';
 
 import TodoListContainer from './TodoListContainer';
-import TeamSettingsModal from './TeamSettingsModal';
 import MessageTab from './Tabs/MessageTab/MessageTab';
 import ActivityTimelineTab from './Tabs/ActivityTimelineTab/ActivityTimelineTab';
+import TeamSettingsTab from './Tabs/TeamSettingsTab/TeamSettingsTab';
 
 import { useMutation } from '../../graphQL/useMutation';
 
@@ -85,6 +85,7 @@ const TabNavigator = props => {
           <Tab label="Activity Timeline" />
           <Tab label="Documents" />
           <Tab label="Todos" />
+          <Tab label="Team Settings" />
         </Tabs>
       </AppBar>
       <SwipeableViews axis="x" index={tab} onChangeIndex={handleChangeIndex}>
@@ -100,11 +101,11 @@ const TabNavigator = props => {
         <TabContainer>
           <TodoListContainer match={props.match} history={props.history} setMsg={setMsg} />
         </TabContainer>
+
+        <TabContainer>
+          <TeamSettingsTab teamId={props.match.params.id} match={props.match} history={props.history}/>
+        </TabContainer>
       </SwipeableViews>
-      <TeamSettingsModal
-        teamID={props.match.params.id}
-        history={props.history}
-      />
     </div>
   );
 };

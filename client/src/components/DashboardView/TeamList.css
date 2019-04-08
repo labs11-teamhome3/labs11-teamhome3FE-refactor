@@ -4,7 +4,16 @@
     width: 60%;
     margin: 50px auto;
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
     background: salmon
+}
+
+.error-flash h3 {
+    margin: 0;
+}
+
+.error-flash button {
+    background: #3f51b5;
 }
