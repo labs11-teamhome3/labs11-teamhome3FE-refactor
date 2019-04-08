@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useQuery } from "react-apollo-hooks";
 import gql from "graphql-tag";
 import Fab from "@material-ui/core/Fab";
+import Button from "@material-ui/core/Button"
 import AddIcon from "@material-ui/icons/Add";
 import { useMutation } from "../../graphQL/useMutation";
 
@@ -87,8 +88,15 @@ const TeamList = () => {
         </Fab>
       </form>
       {errorMsg && 
-        <div className="error-flash">
-          <h3>{errorMsg.split(":")[1]}</h3>
+        <div 
+          onClick={() => {
+              setErrorMsg("");
+              setTeamInput("");
+            }} 
+          className="error-flash">
+            <h3>{errorMsg.split(":")[1]}</h3>
+            {/* add onClick to below to open Stripe payment modal */}
+            <Button>Go Premium</Button>
         </div>
       }
     </>
