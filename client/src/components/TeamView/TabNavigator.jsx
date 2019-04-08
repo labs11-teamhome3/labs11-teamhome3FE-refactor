@@ -8,6 +8,7 @@ import Typography from '@material-ui/core/Typography';
 import TodoListContainer from './TodoListContainer';
 import TeamSettingsModal from './TeamSettingsModal';
 import MessageTab from './Tabs/MessageTab/MessageTab';
+import DocumentTab from './Tabs/DocumentTab/DocumentTab'
 import ActivityTimelineTab from './Tabs/ActivityTimelineTab/ActivityTimelineTab';
 
 import { useMutation } from '../../graphQL/useMutation';
@@ -96,7 +97,10 @@ const TabNavigator = props => {
           <ActivityTimelineTab teamId={props.match.params.id} setMsg={setMsg} />
         </TabContainer>
 
-        <TabContainer>Item Three</TabContainer>
+        <TabContainer>
+          <DocumentTab teamId={props.match.params.id} setMsg={setMsg} />
+        </TabContainer>
+
         <TabContainer>
           <TodoListContainer match={props.match} history={props.history} setMsg={setMsg} />
         </TabContainer>
