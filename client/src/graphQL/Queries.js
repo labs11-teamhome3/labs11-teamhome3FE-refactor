@@ -16,8 +16,8 @@ export const TEAMS_QUERY = gql`
 `;
 
 export const TODOS_QUERY = gql`
-  query TODOS_QUERY($id: ID) {
-    todoLists(teamId: $id) {
+  query TODOS_QUERY($teamId: ID) {
+    todoLists(teamId: $teamId) {
       id
       description
       todos {
@@ -95,6 +95,29 @@ export const EVENTS_QUERY = gql`
     }
   }
 `;
+
+export const TODO_LIST_QUERY = gql`
+  query TODO_LIST_QUERY($id: ID!) {
+    todoList(id: $id) {
+      id
+      description
+      ownedBy {
+        id
+        name
+      }
+      assignedTo {
+        id
+        name
+      }
+      todos {
+        id
+        description
+        completed
+      }
+      completed
+    }
+  }
+`
 
 export const DOCUMENTS_QUERY = gql`
 query DOCUMENTS_QUERY($teamId: ID!) {

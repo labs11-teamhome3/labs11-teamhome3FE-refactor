@@ -114,6 +114,10 @@ const MessageModal = props => {
     onError: err => console.log(err)
   });
 
+  if(!message.loading) {
+    console.log(message.data);
+  }
+
   const [addMessageComment] = useMutation(ADD_COMMENT, {
     update: (cache, { data }) => {
       // console.log(data);
