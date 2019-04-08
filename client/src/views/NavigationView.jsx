@@ -1,20 +1,24 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import logo from '../assets/Manaje.png'
+import logo from '../assets/Manaje.png';
 
-import './css/Nav.css'
+import './css/Nav.css';
 
 ////Components////
 import { Button, AppBar, Toolbar } from '../../node_modules/@material-ui/core';
 
 const NavigationView = props => {
-  const login = async() => {
+  const login = async () => {
     await props.auth.login();
-  }
+  };
+
+  const signup = async () => {
+    await props.auth.signup();
+  };
 
   const logout = () => {
     props.auth.logout();
-  }
+  };
 
   return (
     <div>
@@ -25,20 +29,22 @@ const NavigationView = props => {
               <img className="logo-img" src={logo} alt="Manaje" />
             </Link>
           </div>
-          {!localStorage.getItem('userId') 
-            ? <div className="nav-btns">
-                <Button onClick={login}>Log in</Button>
-              </div>
-            : <div className="nav-btns">
-                <Link to="/dashboard">
-                  <Button>Dashboard</Button>
-                </Link>
-                <Link to="/profile">
-                  <Button>Profile</Button>
-                </Link>
-                <Button onClick={logout}>Log out</Button>  
-              </div>
-          }
+          {!localStorage.getItem('userId') ? (
+            <div className="nav-btns">
+              <Button onClick={login}>Log in</Button>
+              <Button onClick={signup}>Sign Up</Button>
+            </div>
+          ) : (
+            <div className="nav-btns">
+              <Link to="/dashboard">
+                <Button>Dashboard</Button>
+              </Link>
+              <Link to="/profile">
+                <Button>Profile</Button>
+              </Link>
+              <Button onClick={logout}>Log out</Button>
+            </div>
+          )}
         </div>
       </AppBar>
     </div>
