@@ -19,7 +19,8 @@ import {
   USERS_QUERY,
   MESSAGE_QUERY,
   EVENTS_QUERY,
-  TODOS_QUERY
+  TODOS_QUERY,
+  TODO_LIST_QUERY
 } from "../../../../graphQL/Queries";
 
 const styles = theme => ({
@@ -35,56 +36,15 @@ const styles = theme => ({
   }
 });
 
-const CREATE_TODOLIST = gql`
-  mutation CREATE_TODOLIST(
-    $description: String!
-    $ownedBy: String!
-    $inTeam: ID
-  ) {
-    createTodoList(
-      description: $description
-      ownedBy: $ownedBy
-      inTeam: $inTeam
-    ) {
-      id
-      description
-      todos {
-        id
-        description
-      }
-    }
-  }
-`;
-
 const CreateTodoListModal = props => {
-  const userId = localStorage.getItem('userId')
+  const userId = localStorage.getItem("userId");
   const { classes } = props;
-  const [todoListTitle, setTodoListTitle] = useState('');
-  const [createTodoList] = useMutation(CREATE_TODOLIST, {
-    update: (cache, { data }) => {
-      const { todoLists } = cache.readQuery({
-        query: TODOS_QUERY,
-        variables: { id: props.teamId }
-      });
-      cache.writeQuery({
-        query: TODOS_QUERY,
-        variables: { id: props.teamId },
-        data: { todoLists: [...todoLists, data.createTodoList] }
-      });
-    },
-    variables: {
-      description: todoListTitle,
-      ownedBy: userId,
-      inTeam: props.teamId
-    },
-    onCompleted: e => {
-    },
-    onError: err => console.log(err)
-  });
+  const [todoListTitle, setTodoListTitle] = useState("");
+  const todoList = useQuery;
 
   const handleChange = e => {
     setTodoListTitle(e.target.value);
-  }
+  };
 
   return (
     <div>
@@ -94,8 +54,8 @@ const CreateTodoListModal = props => {
         open={props.modalStatus}
       >
         <Paper className={classes.paper}>
-          <h3>Name your new Todo List</h3>
-          <Close onClick={_ => props.toggleModal("create")} />
+          <h3>Title</h3>
+          <Close onClick={_ => props.toggleModal("edit")} />
           <br />
           <input
             type="text"
@@ -106,11 +66,16 @@ const CreateTodoListModal = props => {
             className={classes.todoListInput}
           />
           <br />
+          <h3>Todos</h3>
+          <input type="text" />
+          <Button variant="contained" color="primary">
+            Add Todo
+          </Button>
           <Button>Save</Button>
         </Paper>
       </Modal>
     </div>
-  )
-}
+  );
+};
 
 export default withStyles(styles)(CreateTodoListModal);

@@ -95,3 +95,26 @@ export const EVENTS_QUERY = gql`
     }
   }
 `;
+
+export const TODO_LIST_QUERY = gql`
+  query TODO_LIST_QUERY($id: ID!) {
+    todoList(id: $id) {
+      id
+      description
+      ownedBy {
+        id
+        name
+      }
+      assignedTo {
+        id
+        name
+      }
+      todos {
+        id
+        description
+        completed
+      }
+      completed
+    }
+  }
+`

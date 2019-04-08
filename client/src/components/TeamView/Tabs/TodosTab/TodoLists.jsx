@@ -14,7 +14,6 @@ const TodoLists = props => {
 
   return (
     <div>
-      <h1>Testtest</h1>
       {todoLists.loading ? (
         <h3>Loading</h3>
       ) : (

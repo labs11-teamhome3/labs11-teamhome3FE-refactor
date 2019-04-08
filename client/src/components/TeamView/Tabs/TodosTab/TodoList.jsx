@@ -2,6 +2,11 @@ import React from "react";
 import Paper from "@material-ui/core/Paper";
 import Typography from "@material-ui/core/Typography";
 import { withStyles } from "@material-ui/core/styles";
+import ExpansionPanel from "@material-ui/core/ExpansionPanel";
+import ExpansionPanelSummary from "@material-ui/core/ExpansionPanelSummary";
+import ExpansionPanelDetails from "@material-ui/core/ExpansionPanelDetails";
+import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
+import Button from "@material-ui/core/Button";
 
 const styles = theme => ({
   root: {
@@ -12,15 +17,23 @@ const styles = theme => ({
 const TodoList = props => {
   const { classes } = props;
   return (
-    <Paper
-      elevation={1}
-      className={classes.root}
-      onClick={_ => props.toggleModal("view", props.todoList.id)}
-    >
-      <Typography variant="h5" component="h3">
-        {props.todoList.description}
-      </Typography>
-    </Paper>
+    <ExpansionPanel>
+      <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
+        <Typography className={classes.heading}>
+          {props.todoList.description}
+        </Typography>
+      </ExpansionPanelSummary>
+      <ExpansionPanelDetails>
+        <h3>Todos</h3>
+        <Button
+          variant="contained"
+          color="primary"
+          onClick={_ => props.toggleModal("edit")}
+        >
+          Edit
+        </Button>
+      </ExpansionPanelDetails>
+    </ExpansionPanel>
   );
 };
 

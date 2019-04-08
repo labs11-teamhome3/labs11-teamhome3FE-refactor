@@ -9,6 +9,7 @@ import Button from "@material-ui/core/Button";
 /////Components/////
 import CreateTodolistModal from "./CreateTodoListModal";
 import TodoLists from './TodoLists';
+import EditTodoListModal from './EditTodoListModal';
 
 /////Queries/////
 import { CREATE_EVENT } from "../../../../graphQL/Mutations";
@@ -22,12 +23,17 @@ import {
 
 const TodosTab = props => {
   const [createModalStatus, setCreateModalStatus] = useState(false);
+  const [editModalStatus, setEditModalStatus] = useState(false);
 
   const toggleModal = (modal, todoListId = null) => {
     switch (modal) {
       case "create":
         setCreateModalStatus(!createModalStatus);
-        break;
+      break;
+
+      case "edit":
+        setEditModalStatus(!editModalStatus);
+      break;
     }
   };
 
@@ -39,6 +45,7 @@ const TodosTab = props => {
         Add Todo List
       </Button>
       <CreateTodolistModal setMsg={props.setMsg} teamId={props.teamId} modalStatus={createModalStatus} toggleModal={toggleModal} />
+      <EditTodoListModal setMsg={props.setMsg} teamId={props.teamId} modalStatus={editModalStatus} toggleModal={toggleModal} />
     </div>
   );
 };
