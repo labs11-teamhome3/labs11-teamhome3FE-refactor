@@ -154,7 +154,10 @@ const MessageComment = props => {
   return (
         <ListItem>
           <ListItemText primary={<strong>{props.comment.user.name} <DeleteIcon onClick={deleteComment} /></strong>} secondary={
-            <Typography>{props.comment.content} - {props.comment.likes.length} Likes</Typography>
+            <>
+            <Typography>{props.comment.content}</Typography>
+            <Typography>{props.comment.likes.length} Likes</Typography>
+            </>
           } />
           {props.comment.likes.find(like => like.id === userId) ? <Button variant="contained" color="primary" onClick={unlikeComment}>Unlike</Button> : <Button variant="contained" color="primary" onClick={likeComment}>Like</Button>}
         </ListItem>

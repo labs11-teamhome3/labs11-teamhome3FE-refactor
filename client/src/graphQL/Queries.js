@@ -16,8 +16,8 @@ export const TEAMS_QUERY = gql`
 `;
 
 export const TODOS_QUERY = gql`
-  query TODOS_QUERY($id: ID) {
-    todoLists(teamId: $id) {
+  query TODOS_QUERY($teamId: ID) {
+    todoLists(teamId: $teamId) {
       id
       description
       todos {
