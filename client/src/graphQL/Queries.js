@@ -34,6 +34,9 @@ export const USERS_QUERY = gql`
     users {
       id
       name
+      email
+      phone
+      profilePic
     }
   }
 `;
