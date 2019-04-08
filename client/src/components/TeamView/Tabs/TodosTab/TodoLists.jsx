@@ -12,10 +12,6 @@ const TodoLists = props => {
     }
   });
 
-  todoLists.loading
-    ? console.log("todoLists Loading")
-    : console.log(todoLists.data);
-
   return (
     <div>
       <h1>Testtest</h1>

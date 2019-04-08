@@ -63,16 +63,15 @@ const CreateTodoListModal = props => {
   const [todoListTitle, setTodoListTitle] = useState('');
   const [createTodoList] = useMutation(CREATE_TODOLIST, {
     update: (cache, { data }) => {
-      const hi = cache.readQuery({
+      const {todoLists} = cache.readQuery({
         query: TODOS_QUERY,
-        variables: { id: props.teamId }
+        variables: { teamId: props.teamId }
       });
-      console.log(hi);
-      // cache.writeQuery({
-      //   query: TODOS_QUERY,
-      //   variables: { id: props.teamId },
-      //   data: { todoLists: [...todoLists, data.createTodoList] }
-      // });
+      cache.writeQuery({
+        query: TODOS_QUERY,
+        variables: { teamId: props.teamId },
+        data: { todoLists: [...todoLists, data.createTodoList] }
+      });
     },
     variables: {
       description: todoListTitle,

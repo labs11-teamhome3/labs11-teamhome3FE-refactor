@@ -10,7 +10,6 @@ const styles = theme => ({
 });
 
 const TodoList = props => {
-  console.log(props.todoList);
   const { classes } = props;
   return (
     <Paper
