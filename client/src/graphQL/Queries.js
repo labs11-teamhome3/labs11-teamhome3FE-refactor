@@ -111,3 +111,13 @@ query DOCUMENTS_QUERY($teamId: ID!) {
   }
 }
 `;
+
+export const DOCUMENT_QUERY = gql`
+query DOCUMENT_QUERY($id: ID!) {
+  findDocument(id: $id) {
+    id 
+    title 
+    textContent
+  }
+}
+`;

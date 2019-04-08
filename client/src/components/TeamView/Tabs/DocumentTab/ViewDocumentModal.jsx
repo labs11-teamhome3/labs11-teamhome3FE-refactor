@@ -17,8 +17,8 @@ import gql from "graphql-tag";
 import { CREATE_EVENT } from '../../../../graphQL/Mutations';
 
 import {
-  MESSAGES_QUERY,
-  USERS_QUERY,
+  DOCUMENTS_QUERY,
+  DOCUMENT_QUERY,
   MESSAGE_QUERY,
   EVENTS_QUERY
 } from "../../../../graphQL/Queries";
@@ -40,8 +40,8 @@ const styles = theme => ({
 });
 
 const DELETE_DOCUMENT = gql`
-  mutation DELETE_DOCUMENT($id: ID!) {
-    deleteDocument(id: $id) {
+  mutation DELETE_DOCUMENT($documentId: ID!) {
+    deleteDocument(documentId: $documentId) {
       id
     }
   }
@@ -79,33 +79,32 @@ const MessageModal = props => {
   const userId = localStorage.getItem('userId')
   const [commentInput, setCommentInput] = useState("");
 
-  const message = useQuery(MESSAGE_QUERY, {
-    variables: { id: props.messageId }
+  const findDocument = useQuery(DOCUMENT_QUERY, {
+    variables: { id: props.documentId }
   });
-  // console.log(message);
+  
   const [deleteDocument] = useMutation(DELETE_DOCUMENT, {
     update: (cache, { data }) => {
-      console.log(data);
-      const { messages } = cache.readQuery({
-        query: MESSAGES_QUERY,
+      console.log('data', data);
+      const { findDocumentsByTeam } = cache.readQuery({
+        query: DOCUMENTS_QUERY,
         variables: { teamId: props.teamId }
       });
-      // console.log(messages);
       cache.writeQuery({
-        query: MESSAGES_QUERY,
+        query: DOCUMENTS_QUERY,
         variables: { teamId: props.teamId },
         data: {
-          messages: messages.filter(message => {
+          findDocumentsByTeam: findDocumentsByTeam.filter(document => {
             // console.log(`${message.id} - ${props.messageId}`);
-            if (message.id !== props.messageId) {
-              return message;
+            if (document.id !== props.documentId) {
+              return document;
             }
           })
         }
       });
     },
     variables: {
-      id: props.messageId
+      documentId: props.documentId
     },
     onCompleted: e => {
       props.setMsg('deleted a message')
@@ -159,6 +158,7 @@ const MessageModal = props => {
   };
 
   const { classes } = props;
+  //console.log('findDocument', findDocument)
   return (
     <div>
       <Modal
@@ -176,49 +176,46 @@ const MessageModal = props => {
           >
             Edit
           </Button>
-          {/* <Button
+          <Button
             color="primary"
             className={classes.button}
-            onClick={deleteMessage}
+            onClick={deleteDocument}
           >
             Delete
-          </Button> */}
-          <Button color="primary" className={classes.button}>
-            Unsubscribe
           </Button>
           <h2>
-            {message.data.message === undefined
+            {findDocument.data.findDocument === undefined
               ? "Loading"
-              : message.data.message.title}
+              : findDocument.data.findDocument.title}
           </h2>
           <br />
           <h4>
-            {message.data.message === undefined
+            {findDocument.data.findDocument === undefined
               ? "Loading"
-              : message.data.message.content}
+              : findDocument.data.findDocument.textContent}
           </h4>
-          <br />
-          {message.data.message !== undefined &&
-          message.data.message.comments.length !== undefined ? (
+          {/* <br />
+          {findDocumentsByTeam.data !== undefined &&
+          findDocumentsByTeam.data.comments.length !== undefined ? (
             <div>
               <h3>Comments</h3>
               <List>
-                {message.data.message.comments.map((comment, index) => (
+                {findDocumentsByTeam.data.comments.map((comment, index) => (
                   <Fragment key={comment.id}>
-                    {/* <MessageComment
+                    <MessageComment
                       comment={comment}
                       messageId={props.messageId}
                       setMsg={props.setMsg}
-                    /> */}
+                    />
                     {index ===
-                    message.data.message.comments.length - 1 ? null : (
+                    findDocumentsByTeam.data.comments.length - 1 ? null : (
                       <Divider />
                     )}
                   </Fragment>
                 ))}
               </List>
-            </div>
-          ) : null}
+            </div> 
+          ) : null}*/}
           <form onSubmit={addComment}>
             <input
               type="text"

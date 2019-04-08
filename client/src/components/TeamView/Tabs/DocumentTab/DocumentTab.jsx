@@ -33,9 +33,10 @@ const DocumentTab = props => {
     const toggleModal = (modal, documentId = null) => {
       switch (modal) {
         case "view":
+        console.log('nick', documentId)
           setViewModalStatus({
             status: !viewModalStatus.status,
-            documentId
+            documentId: documentId
           });
           break;
   
@@ -90,7 +91,7 @@ const DocumentTab = props => {
             setMsg={props.setMsg}
           />
         ) : null}*/}
-        {viewModalStatus ? (
+        {viewModalStatus.status ? (
           <ViewDocumentModal
             modalStatus={viewModalStatus.status}
             documentId={viewModalStatus.documentId}

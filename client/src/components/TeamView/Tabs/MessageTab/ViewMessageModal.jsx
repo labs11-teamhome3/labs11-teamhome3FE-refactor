@@ -159,6 +159,7 @@ const MessageModal = props => {
   };
 
   const { classes } = props;
+  console.log('messages', message)
   return (
     <div>
       <Modal
