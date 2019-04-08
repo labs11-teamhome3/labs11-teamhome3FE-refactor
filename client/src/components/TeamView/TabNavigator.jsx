@@ -5,7 +5,9 @@ import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import Typography from '@material-ui/core/Typography';
 
+import TodosTab from './Tabs/TodosTab/TodosTab';
 import TodoListContainer from './TodoListContainer';
+
 import MessageTab from './Tabs/MessageTab/MessageTab';
 import DocumentTab from './Tabs/DocumentTab/DocumentTab'
 import ActivityTimelineTab from './Tabs/ActivityTimelineTab/ActivityTimelineTab';
@@ -103,7 +105,7 @@ const TabNavigator = props => {
         </TabContainer>
 
         <TabContainer>
-          <TodoListContainer match={props.match} history={props.history} setMsg={setMsg} />
+          <TodosTab teamId={props.match.params.id} setMsg={setMsg} />
         </TabContainer>
 
         <TabContainer>
