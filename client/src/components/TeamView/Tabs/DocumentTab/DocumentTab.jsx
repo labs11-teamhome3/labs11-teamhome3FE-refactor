@@ -7,23 +7,14 @@ import { useMutation } from "../../../../graphQL/useMutation";
 
 /////Components/////
 import Document from "./Document";
+import CreateDocumentModal from "./CreateDocumentModal";
+//import ViewMessageModal from "./ViewMessageModal";
+//import EditMessageModal from "./EditMessageModal";
 
 /////Queries/////
 import { CREATE_EVENT } from '../../../../graphQL/Mutations';
+import { DOCUMENTS_QUERY } from '../../../../graphQL/Queries';
 
-const DOCUMENTS_QUERY = gql`
-  query DOCUMENTS_QUERY($teamId: ID!) {
-    findDocumentsByTeam(teamId: $teamId) {
-      id
-      title
-      textContent
-      user {
-        id
-        name
-      }
-    }
-  }
-`;
 
 const DocumentTab = props => {
     const [createModalStatus, setCreateModalStatus] = useState(false);
@@ -85,7 +76,30 @@ const DocumentTab = props => {
         >
           <AddIcon />
         </Fab>
-      </div>
+        <CreateDocumentModal
+        modalStatus={createModalStatus}
+        toggleModal={toggleModal}
+        teamId={props.teamId}
+        setMsg={props.setMsg}
+        />
+        {/* {editModalStatus ? (
+          <EditMessageModal
+            modalStatus={editModalStatus.status}
+            messageId={editModalStatus.documentId}
+            toggleModal={toggleModal}
+            setMsg={props.setMsg}
+          />
+        ) : null}
+        {viewModalStatus ? (
+          <ViewMessageModal
+            modalStatus={viewModalStatus.status}
+            messageId={viewModalStatus.documentId}
+            toggleModal={toggleModal}
+            teamId={props.teamId}
+            setMsg={props.setMsg}
+          />
+        ) : null} */}
+        </div>
     );
   };
   
