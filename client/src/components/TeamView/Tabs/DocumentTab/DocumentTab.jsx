@@ -8,7 +8,7 @@ import { useMutation } from "../../../../graphQL/useMutation";
 /////Components/////
 import Document from "./Document";
 import CreateDocumentModal from "./CreateDocumentModal";
-//import ViewMessageModal from "./ViewMessageModal";
+import ViewDocumentModal from "./ViewDocumentModal";
 //import EditMessageModal from "./EditMessageModal";
 
 /////Queries/////
@@ -89,16 +89,16 @@ const DocumentTab = props => {
             toggleModal={toggleModal}
             setMsg={props.setMsg}
           />
-        ) : null}
+        ) : null}*/}
         {viewModalStatus ? (
-          <ViewMessageModal
+          <ViewDocumentModal
             modalStatus={viewModalStatus.status}
-            messageId={viewModalStatus.documentId}
+            documentId={viewModalStatus.documentId}
             toggleModal={toggleModal}
             teamId={props.teamId}
             setMsg={props.setMsg}
           />
-        ) : null} */}
+        ) : null} 
         </div>
     );
   };
