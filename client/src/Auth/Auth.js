@@ -6,7 +6,7 @@ export default class Auth {
   auth0 = new auth0.WebAuth({
     domain: 'manaje.auth0.com',
     clientID: 'yZSx2aTdImOQ8zWCqRZ5hhZJr6c7KXFz',
-    redirectUri: `http://localhost:3000`,
+    redirectUri: `${REACT_APP_REDIRECT_URL}`,
     responseType: 'token id_token',
     scope: 'openid profile email',
   });
