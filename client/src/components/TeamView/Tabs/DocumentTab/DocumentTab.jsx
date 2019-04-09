@@ -6,6 +6,7 @@ import AddIcon from "@material-ui/icons/Add";
 import { useMutation } from "../../../../graphQL/useMutation";
 
 /////Components/////
+import Folder from "./Folder";
 import Document from "./Document";
 import CreateDocumentModal from "./CreateDocumentModal";
 import ViewDocumentModal from "./ViewDocumentModal";
@@ -64,7 +65,11 @@ const DocumentTab = props => {
             <h3>Loading Folders...</h3>
           ) : (
             folders.data.findFoldersByTeam.map(folder => (
-              <div>hi</div>
+              <Folder
+                folder={folder}
+                key={folder.id}
+                toggleModal={toggleModal}
+              />
             ))
           )}
         <h1>Documents</h1>
