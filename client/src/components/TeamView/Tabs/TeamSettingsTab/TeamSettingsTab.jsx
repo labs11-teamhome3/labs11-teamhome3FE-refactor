@@ -68,7 +68,7 @@ const TeamSettingsTab = props => {
   const { data, error, loading } = useQuery(TEAM_QUERY, {
       variables: { id: props.teamId }
   })
-  console.log("team settings data", data);
+//   console.log("team settings data", data);
   const [deleteTeam] = useMutation(DELETE_TEAM, {
     update: (cache, { data }) => {
       const { teams } = cache.readQuery({ query: TEAMS_QUERY });
@@ -103,16 +103,19 @@ const TeamSettingsTab = props => {
         <TeamInfo team={data.team} match={props.match} userRole={userRole} />
       </div>
       {userRole === "ADMIN" &&
-        <Button variant="contained" color="secondary" onClick={() => setAreYouSure(true)}>
-            Delete team
-            <DeleteIcon />
-        </Button>
+        <div className="delete-area">
+            <Button variant="contained" color="secondary" onClick={() => setAreYouSure(true)}>
+                Delete team
+                <DeleteIcon />
+            </Button>
+        </div>
       }
       {areYouSure && 
         <div>
             <h2>Do you really want to delete this team?  All messages, activities, documents, and todo lists which belong to this team will also be deleted!  There is no coming back from this. If you are sure, please type the name of the team below. 
             </h2>
             <input type="text" name="deleteInput" value={deleteInput} onChange={handleChange} />
+            <button onClick={() => setAreYouSure(false)}>Cancel</button>
             {deleteInput === data.team.teamName &&
                 <Button variant="contained" color="secondary" onClick={deleteTeam}>
                     I understand the consequences.  Delete this team.
