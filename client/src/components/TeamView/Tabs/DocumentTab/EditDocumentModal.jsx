@@ -10,7 +10,7 @@ import { useMutation } from "../../../../graphQL/useMutation";
 import { useQuery } from "react-apollo-hooks";
 import gql from 'graphql-tag';
 
-import {MESSAGES_QUERY, USERS_QUERY, MESSAGE_QUERY} from '../../../../graphQL/Queries';
+import {DOCUMENT_QUERY, USERS_QUERY, MESSAGE_QUERY} from '../../../../graphQL/Queries';
 
 const styles = theme => ({
   paper: {
@@ -25,60 +25,61 @@ const styles = theme => ({
   }
 });
 
-const UPDATE_MESSAGE = gql`
-  mutation UPDATE_MESSAGE($messageId: ID!, $title: String, $content: String){
-  updateMessage(
-    messageId: $messageId
+const UPDATE_DOCUMENT = gql`
+  mutation UPDATE_DOCUMENT($documentId: ID!, $doc_url: String, $title: String, $textContent: String){
+  updateDocument(
+    documentId: $documentId
+    doc_url: $doc_url
     title: $title
-    content: $content
+    textContent: $textContent
   ) {
   	id
+    doc_url
     title
-    content
-    creator {
-      id
-      name
-    }
+    textContent
   }
 }
 `
 
 const DocumentModal = props => {
-  // console.log(props.messageId)
   const [messageInfo, setMessageInfo] = useState({
-    title: "",
-    content: ""
+    title: '',
+    textContent: '',
+    doc_url: ''
   });
 
-  const [updateMessage] = useMutation(UPDATE_MESSAGE, {
+  const [updateDocument] = useMutation(UPDATE_DOCUMENT, {
     variables: {
-      messageId: props.messageId,
+      documentId: props.documentId,
       title: messageInfo.title,
-      content: messageInfo.content,
+      textContent: messageInfo.textContent,
+      doc_url: messageInfo.doc_url
     },
     onCompleted: e => {
       props.setMsg('updated a message')
       props.toggleModal('edit');
       setMessageInfo({
         title: '',
-        content: ''
+        textContent: '',
+        doc_url: ''
       })
     },
     onError: err => console.log(err)
   });
 
-  const message = useQuery(MESSAGE_QUERY, {
-    variables: {id: props.messageId}
+  const document = useQuery(DOCUMENT_QUERY, {
+    variables: {id: props.documentId}
   })
 
   useEffect(_ => {
-    if(message.data.message !== undefined) {
+    if(document.data.findDocument !== undefined) {
       setMessageInfo({
-        title: message.data.message.title,
-        content: message.data.message.content
+        title: document.data.findDocument.title,
+        textContent: document.data.findDocument.textContent,
+        doc_url: document.data.findDocument.doc_url
       })
     }
-  }, [message.data])
+  }, [document.data])
 
   const handleChange = e => {
     setMessageInfo({
@@ -90,8 +91,9 @@ const DocumentModal = props => {
   const closeModal = _ => {
     props.toggleModal('edit')
     setMessageInfo({
-      title: '',
-      content: ''
+        title: '',
+        textContent: '',
+        doc_url: ''
     })
   }
 
@@ -130,12 +132,12 @@ const DocumentModal = props => {
             onChange={handleChange}
             cols="30"
             rows="10"
-            value={messageInfo.content}
+            value={messageInfo.textContent}
             placeholder="Message Content"
             className={classes.messageInput}
           />
           <br />
-          <Button onClick={updateMessage}>Save</Button>
+          <Button onClick={updateDocument}>Save</Button>
         </Paper>
       </Modal>
     </div>

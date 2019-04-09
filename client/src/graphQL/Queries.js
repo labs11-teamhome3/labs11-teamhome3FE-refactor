@@ -144,6 +144,7 @@ query DOCUMENT_QUERY($id: ID!) {
     id 
     title 
     textContent
+    doc_url
   }
 }
 `;

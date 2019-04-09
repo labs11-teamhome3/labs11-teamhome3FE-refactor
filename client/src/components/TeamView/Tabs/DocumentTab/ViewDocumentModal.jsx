@@ -148,7 +148,7 @@ const MessageModal = props => {
   };
 
   const editMessage = _ => {
-    props.toggleModal("edit", props.messageId);
+    props.toggleModal("edit", props.documentId);
     closeModal();
   };
 

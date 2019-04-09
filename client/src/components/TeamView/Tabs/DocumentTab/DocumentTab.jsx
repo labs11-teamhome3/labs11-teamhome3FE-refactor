@@ -33,7 +33,6 @@ const DocumentTab = props => {
     const toggleModal = (modal, documentId = null) => {
       switch (modal) {
         case "view":
-        console.log('nick', documentId)
           setViewModalStatus({
             status: !viewModalStatus.status,
             documentId: documentId
@@ -45,10 +44,9 @@ const DocumentTab = props => {
           break;
   
         case "edit":
-          // console.log(documentId);
           setEditModalStatus({
             status: !editModalStatus.status,
-            documentId
+            documentId: documentId
           });
           break;
       }
@@ -86,7 +84,7 @@ const DocumentTab = props => {
         {editModalStatus ? (
           <EditDocumentModal
             modalStatus={editModalStatus.status}
-            messageId={editModalStatus.documentId}
+            documentId={editModalStatus.documentId}
             toggleModal={toggleModal}
             setMsg={props.setMsg}
           />

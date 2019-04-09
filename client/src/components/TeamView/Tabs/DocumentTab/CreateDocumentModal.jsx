@@ -42,6 +42,7 @@ const CREATE_DOCUMENT = gql`
       id
       title
       textContent
+      doc_url
       user {
           id
       }
@@ -135,7 +136,7 @@ const MessageModal = props => {
             onChange={handleChange}
             cols="30"
             rows="10"
-            value={messageInfo.content}
+            value={messageInfo.textContent}
             placeholder="Message Content"
             className={classes.messageInput}
           />
