@@ -13,7 +13,7 @@ import EditDocumentModal from "./EditDocumentModal";
 
 /////Queries/////
 import { CREATE_EVENT } from '../../../../graphQL/Mutations';
-import { DOCUMENTS_QUERY } from '../../../../graphQL/Queries';
+import { DOCUMENTS_QUERY, FOLDERS_QUERY } from '../../../../graphQL/Queries';
 
 
 const DocumentTab = props => {
@@ -26,9 +26,14 @@ const DocumentTab = props => {
       status: false,
       documentId: null
     });
+    
     const documents = useQuery(DOCUMENTS_QUERY, {
       variables: { teamId: props.teamId }
     });
+    
+    const folders = useQuery(FOLDERS_QUERY, {
+      variables: { teamId: props.teamId }
+    })
   
     const toggleModal = (modal, documentId = null) => {
       switch (modal) {
@@ -54,10 +59,18 @@ const DocumentTab = props => {
     // console.log('################', messages)
     return (
       <div>
-        <h1>DocumentTab</h1>
+        <h1>Folders</h1>
+          {folders.loading ? (
+            <h3>Loading Folders...</h3>
+          ) : (
+            folders.data.findFoldersByTeam.map(folder => (
+              <div>hi</div>
+            ))
+          )}
+        <h1>Documents</h1>
         <div>
           {documents.loading ? (
-            <h3>Loading</h3>
+            <h3>Loading Documents...</h3>
           ) : (
             documents.data.findDocumentsByTeam.map(document => (
               <Document
