@@ -59,8 +59,10 @@ const ADD_MEMBER = gql`
 
 
 const TeamSettingsTab = props => {
-    const [deleteInput, setDeleteInput] = useState("")
-    const [searchInput, setSearchInput] = useState("")
+    const [deleteInput, setDeleteInput] = useState("");
+    const [searchInput, setSearchInput] = useState("");
+    const [newMember, setNewMember] = useState("");
+    const [newMemberId, setNewMemberId] = useState("");
 
     const handleDeleteChange = e => {
       setDeleteInput(e.target.value)
@@ -68,6 +70,20 @@ const TeamSettingsTab = props => {
     
     const handleSearchChange = e => {
         setSearchInput(e.target.value)
+    }
+
+    const handleSelectChange = e => {
+        console.log('e', e.target)
+        const members = Array.from(e.target)
+        console.log('members', members);
+        const selectedMember = members.find(member => member.selected)
+        const selectedMemberId = selectedMember.dataset.id;
+        setNewMember(e.target.value)
+        setNewMemberId(selectedMemberId);
+    }
+
+    const handleAddMemberSubmit = e => {
+        e.preventDefault();
     }
 
     const [areYouSure, setAreYouSure] = useState(false)
@@ -109,19 +125,20 @@ const TeamSettingsTab = props => {
   let optionsItems;
   if (allUsersQuery.data.users) {
       optionsItems = allUsersQuery.data.users.map(user => 
-        <option key={user.id}>{user.name}</option>
+        <option className="selected-member" data-id={user.id} key={user.id}>{user.name}</option>
       )
-      console.log('optionsItems', optionsItems)
   }
 
   // mutation for adding user
   const [addUserToTeam] = useMutation(ADD_MEMBER, {
     variables: {
-        userId: '',
+        userId: newMemberId,
         teamId: props.match.params.id
     },
-    onCompleted: () => {
-
+    onCompleted: (e) => {
+        setSearchInput("");
+        setNewMember("");
+        setNewMemberId("");
     },
     onError: err => console.log(err)
 })
@@ -143,16 +160,19 @@ const TeamSettingsTab = props => {
         <TeamInfo team={data.team} match={props.match} userRole={userRole} />
       </div>
       <div className="add-user">
-        <form>
+        <form onSubmit={handleAddMemberSubmit}>
             <h2>Find a new team member!</h2>
             {optionsItems && 
                 <>
                     <input type="text" placeholder="search all users" value={searchInput} onChange={handleSearchChange} />
-                    <select>
+                    <select value={newMember} onChange={handleSelectChange}>
                         {optionsItems.filter(item => 
                             item.props.children.toLowerCase().includes(searchInput.toLowerCase())
                         )}
                     </select>
+                    {newMember &&
+                        <button onClick={addUserToTeam}>{`Add ${newMember} to the Team!`}</button>
+                    }
                 </>
             }
         </form>

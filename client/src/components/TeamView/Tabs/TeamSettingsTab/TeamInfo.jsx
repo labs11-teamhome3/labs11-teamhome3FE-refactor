@@ -41,7 +41,7 @@ const TeamInfo = props => {
 
     return (
         <div className="team-info">
-            <h2>Team: {props.team.teamName.toUpperCase()}</h2>
+            <h2>Team: {props.team.teamName}</h2>
             {props.userRole === "ADMIN" &&
                 <Button variant="contained" color="primary" onClick={() => setInput(true)}>Edit Team Name</Button>
             }
