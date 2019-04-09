@@ -9,6 +9,7 @@ import Modal from "@material-ui/core/Modal";
 import Paper from "@material-ui/core/Paper";
 import Close from "@material-ui/icons/Close";
 import { withStyles } from "@material-ui/core/styles";
+import Chip from "@material-ui/core/Chip";
 
 /////Components/////
 import EditTodo from "./EditTodo";
@@ -122,8 +123,16 @@ const CreateTodoListModal = props => {
         open={props.modalStatus}
       >
         <Paper className={classes.paper}>
-          <h3>Title</h3>
           <Close onClick={_ => props.toggleModal("edit")} />
+          <h4>Owned by</h4>
+          <div>
+            {todoList.data.todoList &&
+              todoList.data.todoList.ownedBy.map(owner => (
+                <Chip label={owner.name} key={owner.id} />
+              ))}
+          </div>
+          <h4 onClick={_ => console.log(props)}>Assigned to</h4>
+          <h3>Title</h3>
           <br />
           <input
             type="text"
