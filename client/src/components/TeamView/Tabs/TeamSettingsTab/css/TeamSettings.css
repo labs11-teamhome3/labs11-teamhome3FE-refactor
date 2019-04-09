@@ -28,9 +28,13 @@
 }
 
 .delete-area {
-   margin-top: 50vh;
+   margin-top: 20vh;
 }
 
 .members {
     margin-top: 5%;
+}
+
+.premium-or-cancel button {
+    margin: 0 10px;
 }

@@ -12,6 +12,9 @@ import TeamInfo from './TeamInfo';
 import { TEAMS_QUERY, USERS_QUERY } from "../../../../graphQL/Queries";
 import { useQuery } from "react-apollo-hooks";
 
+/// css ///
+import './css/TeamSettings.css'
+
 const DELETE_TEAM = gql`
   mutation deleteTeam($id: ID!) {
     deleteTeam(id: $id) {
@@ -53,6 +56,8 @@ const ADD_MEMBER = gql`
             members {
                 id
                 name
+                role
+                profilePic
             }
         }
     }
@@ -64,6 +69,7 @@ const TeamSettingsTab = props => {
     const [searchInput, setSearchInput] = useState("");
     const [newMember, setNewMember] = useState("");
     const [newMemberId, setNewMemberId] = useState("");
+    const [errorMsg, setErrorMsg] = useState("");
 
     const handleDeleteChange = e => {
       setDeleteInput(e.target.value)
@@ -74,9 +80,9 @@ const TeamSettingsTab = props => {
     }
 
     const handleSelectChange = e => {
-        console.log('e', e.target)
+        // console.log('e', e.target)
         const members = Array.from(e.target)
-        console.log('members', members);
+        // console.log('members', members);
         const selectedMember = members.find(member => member.selected)
         const selectedMemberId = selectedMember.dataset.id;
         setNewMember(e.target.value)
@@ -122,7 +128,7 @@ const TeamSettingsTab = props => {
 
   // query all users to populate dropdown for adding member to team
   const allUsersQuery = useQuery(USERS_QUERY)
-  console.log('allUsrsQuery', allUsersQuery);
+//   console.log('allUsrsQuery', allUsersQuery);
   let optionsItems;
   if (allUsersQuery.data.users) {
       optionsItems = allUsersQuery.data.users.map(user => 
@@ -133,19 +139,19 @@ const TeamSettingsTab = props => {
   // mutation for adding user
   const [addUserToTeam] = useMutation(ADD_MEMBER, {
     update: (cache, { data }) => {
-        console.log('data', data);
+        // console.log('data', data);
         const { team } = cache.readQuery({
             query: TEAM_QUERY,
             variables: { id: props.match.params.id }
         });
-        console.log('team', team)
+        // console.log('team', team)
         cache.writeQuery({
             query: TEAM_QUERY,
             variables: { id: props.match.params.id },
             data: {
                 team: {
                     ...team,
-                    members: [...data.addUserToTeam.members]
+                    members: [...team.members]
                 }
             }
         })
@@ -159,7 +165,10 @@ const TeamSettingsTab = props => {
         setNewMember("");
         setNewMemberId("");
     },
-    onError: err => console.log(err)
+    onError: err => {
+        // console.log(err.message);
+        setErrorMsg(err.message)
+    }
 })
 
   if(loading) {
@@ -191,6 +200,16 @@ const TeamSettingsTab = props => {
                     </select>
                     {newMember &&
                         <button onClick={addUserToTeam}>{`Add ${newMember} to the Team!`}</button>
+                    }
+                    {errorMsg &&
+                        <div className="error-flash">
+                            <h3>{errorMsg.split(":")[1]}</h3>
+                            <div className="premium-or-cancel">
+                                {/* Need to add stripe integration to button below */}
+                                <Button>Go Premium</Button>
+                                <Button onClick={() => setErrorMsg("")}>Cancel</Button>
+                            </div>
+                        </div>
                     }
                 </>
             }

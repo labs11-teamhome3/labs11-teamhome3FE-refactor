@@ -49,7 +49,7 @@ const TeamList = () => {
       setTeamInput("");
     },
     onError: err => {
-      console.log(err.message);
+      // console.log(err.message);
       setErrorMsg(err.message);
     }
   });
