@@ -11,6 +11,7 @@ import Close from "@material-ui/icons/Close";
 import { withStyles } from "@material-ui/core/styles";
 
 /////Components/////
+import EditTodo from "./EditTodo";
 
 /////Queries/////
 import { CREATE_EVENT } from "../../../../graphQL/Mutations";
@@ -36,15 +37,82 @@ const styles = theme => ({
   }
 });
 
+const CREATE_TODO = gql`
+  mutation CREATE_TODO(
+    $description: String!
+    $partOf: ID!
+    $completed: Boolean
+  ) {
+    createTodo(
+      description: $description
+      partOf: $partOf
+      completed: $completed
+    ) {
+      id
+      description
+      completed
+    }
+  }
+`;
+
 const CreateTodoListModal = props => {
   const userId = localStorage.getItem("userId");
   const { classes } = props;
-  const [todoListTitle, setTodoListTitle] = useState("");
-  const todoList = useQuery;
+  const todoList = useQuery(TODO_LIST_QUERY, {
+    variables: {
+      id: props.todoListId
+    }
+  });
+  // const [todoListInfo, setTodoListInfo] = useState({
+  //   title: "",
+  //   newTask: "tesetsetet",
+  //   monkey: "monkey monkey"
+  // });
 
-  const handleChange = e => {
-    setTodoListTitle(e.target.value);
-  };
+  const [todoListTitle, setTodoListTitle] = useState("");
+  const [todoListTask, setTodoListTask] = useState("");
+
+  // const handleChange = e => {
+  //   setTodoListInfo({
+  //     ...todoListInfo
+  //   });
+  // };
+
+  useEffect(
+    _ => {
+      if (todoList.data.todoList) {
+        setTodoListTitle(todoList.data.todoList.description);
+      }
+    },
+    [todoList.data.todoList]
+  );
+
+  const [createTodo] = useMutation(CREATE_TODO, {
+    update: (cache, { data }) => {
+      const { todoList } = cache.readQuery({
+        query: TODO_LIST_QUERY,
+        variables: { id: props.todoListId }
+      });
+      cache.writeQuery({
+        query: TODO_LIST_QUERY,
+        variables: { id: props.todoListId },
+        data: {
+          todoList: {
+            ...todoList,
+            todos: [...todoList.todos, data.createTodo]
+          }
+        }
+      });
+    },
+    variables: {
+      description: todoListTask,
+      partOf: props.todoListId
+    },
+    onCompleted: e => {
+      setTodoListTask("");
+    },
+    onError: err => console.log(err)
+  });
 
   return (
     <div>
@@ -60,15 +128,34 @@ const CreateTodoListModal = props => {
           <input
             type="text"
             value={todoListTitle}
-            onChange={handleChange}
             name="title"
             placeholder="Todo List Title"
             className={classes.todoListInput}
+            onChange={e => setTodoListTitle(e.target.value)}
           />
           <br />
           <h3>Todos</h3>
-          <input type="text" />
-          <Button variant="contained" color="primary">
+          <div>
+            {todoList.data.todoList ? (
+              <>
+                {todoList.data.todoList.todos.map(todo => (
+                  <EditTodo
+                    key={todo.id}
+                    todo={todo}
+                    todoListId={props.todoListId}
+                  />
+                ))}
+              </>
+            ) : (
+              <h2>Loading</h2>
+            )}
+          </div>
+          <input
+            type="text"
+            value={todoListTask}
+            onChange={e => setTodoListTask(e.target.value)}
+          />
+          <Button variant="contained" color="primary" onClick={createTodo}>
             Add Todo
           </Button>
           <Button>Save</Button>

@@ -6,11 +6,21 @@ import ExpansionPanel from "@material-ui/core/ExpansionPanel";
 import ExpansionPanelSummary from "@material-ui/core/ExpansionPanelSummary";
 import ExpansionPanelDetails from "@material-ui/core/ExpansionPanelDetails";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
+import EditPencil from "@material-ui/icons/Edit";
 import Button from "@material-ui/core/Button";
+
+import Todo from "./Todo";
 
 const styles = theme => ({
   root: {
     marginBottom: "10px"
+  },
+  expansionPanelSummary: {
+    display: "flex",
+    flexDirection: "column"
+  },
+  completeBtn: {
+    marginTop: {}
   }
 });
 
@@ -23,15 +33,28 @@ const TodoList = props => {
           {props.todoList.description}
         </Typography>
       </ExpansionPanelSummary>
-      <ExpansionPanelDetails>
-        <h3>Todos</h3>
+      <ExpansionPanelDetails className={classes.expansionPanelSummary}>
+        <h3 onClick={_ => console.log(props.todoList)}>Todos</h3>
+        <div>
+          {props.todoList.todos.map(todo => (
+            <Todo todo={todo} />
+          ))}
+        </div>
         <Button
           variant="contained"
           color="primary"
-          onClick={_ => props.toggleModal("edit")}
+          onClick={_ => props.toggleModal("edit", props.todoList.id)}
         >
           Edit
         </Button>
+
+        {props.todoList.todos.every(todo => todo.completed === true) &&
+        props.todoList.completed === false &&
+        props.todoList.todos.length > 0 ? (
+          <Button variant="contained" color="primary">
+            Complete todo list
+          </Button>
+        ) : null}
       </ExpansionPanelDetails>
     </ExpansionPanel>
   );

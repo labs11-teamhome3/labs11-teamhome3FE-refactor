@@ -1,0 +1,24 @@
+.todo {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-content: center;
+  margin-bottom: 20px;
+}
+
+.todo h3 {
+  margin: 0px;
+  font-weight: normal;
+}
+
+.todo input {
+  position: relative;
+  top: 3px;
+  margin-right: 10px;
+}
+
+.todo.edit input {
+  position: relative;
+  top: 9px;
+  margin-right: 10px;
+}
