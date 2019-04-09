@@ -149,7 +149,7 @@ const MessageComment = props => {
     onError: err => console.log(err)
   });
 
-  console.log(props.comment)
+  //console.log(props.comment)
 
   return (
         <ListItem>

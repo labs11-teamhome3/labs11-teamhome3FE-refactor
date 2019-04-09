@@ -157,7 +157,7 @@ const MessageModal = props => {
   };
 
   const { classes } = props;
-  console.log('findDocument', findDocument.data.findDocument)
+  const document = findDocument.data.findDocument;
   return (
     <div>
       <Modal
@@ -183,23 +183,23 @@ const MessageModal = props => {
             Delete
           </Button>
           <h2>
-            {findDocument.data.findDocument === undefined
+            {document === undefined
               ? "Loading"
-              : findDocument.data.findDocument.title}
+              : document.title}
           </h2>
           <br />
           <h4>
-            {findDocument.data.findDocument === undefined
+            {document === undefined
               ? "Loading"
-              : findDocument.data.findDocument.textContent}
+              : document.textContent}
           </h4>
           <br />
-          {findDocument.data.findDocument !== undefined &&
-          findDocument.data.findDocument.comments.length !== undefined ? (
+          {document !== undefined &&
+          document.comments.length !== undefined ? (
             <div>
               <h3>Comments</h3>
               <List>
-                {findDocument.data.findDocument.comments.map((comment, index) => (
+                {document.comments.map((comment, index) => (
                   <Fragment key={comment.id}>
                     <DocumentComment
                       comment={comment}
@@ -207,7 +207,7 @@ const MessageModal = props => {
                       setMsg={props.setMsg}
                     />
                     {index ===
-                    findDocument.data.findDocument.comments.length - 1 ? null : (
+                    document.comments.length - 1 ? null : (
                       <Divider />
                     )}
                   </Fragment>
