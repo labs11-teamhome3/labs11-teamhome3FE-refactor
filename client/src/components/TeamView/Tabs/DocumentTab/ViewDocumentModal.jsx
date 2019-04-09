@@ -12,7 +12,7 @@ import { useMutation } from "../../../../graphQL/useMutation";
 import { useQuery } from "react-apollo-hooks";
 import gql from "graphql-tag";
 
-//import MessageComment from "./MessageComment";
+import DocumentComment from "./DocumentComment";
 
 import { CREATE_EVENT } from '../../../../graphQL/Mutations';
 
@@ -49,29 +49,28 @@ const DELETE_DOCUMENT = gql`
 
 const ADD_COMMENT = gql`
   mutation ADD_COMMENT(
-    $messageId: ID!
+    $documentId: ID!
     $userId: ID!
     $content: String!
-    $image: String
   ) {
-    addMessageComment(
-      messageId: $messageId
+    addDocumentComment(
+      documentId: $documentId
       userId: $userId
       content: $content
-      image: $image
     ) {
       id
-      content
-      user {
-        id
-        name
+        content
+        user {
+          id
+          name
+        }
+        image
+        likes {
+          id
+          name
+        }
       }
-      image
-      likes {
-        id
-        name
-      }
-    }
+    
   }
 `;
 
@@ -113,26 +112,26 @@ const MessageModal = props => {
     onError: err => console.log(err)
   });
 
-  const [addMessageComment] = useMutation(ADD_COMMENT, {
+  const [addDocumentComment] = useMutation(ADD_COMMENT, {
     update: (cache, { data }) => {
-      // console.log(data);
-      const { message } = cache.readQuery({
-        query: MESSAGE_QUERY,
-        variables: { id: props.messageId }
+      
+      const { findDocument } = cache.readQuery({
+        query: DOCUMENT_QUERY,
+        variables: { id: props.documentId }
       });
       cache.writeQuery({
-        query: MESSAGE_QUERY,
-        variables: { id: props.messageId },
+        query: DOCUMENT_QUERY,
+        variables: { id: props.documentId },
         data: {
-          message: {
-            ...message,
-            comments: [...message.comments, data.addMessageComment]
+          findDocument: {
+            ...findDocument,
+            comments: [...findDocument.comments, data.addDocumentComment]
           }
         }
       });
     },
     variables: {
-      messageId: props.messageId,
+      documentId: props.documentId,
       userId: userId,
       content: commentInput
     },
@@ -148,17 +147,20 @@ const MessageModal = props => {
   };
 
   const editMessage = _ => {
-    props.toggleModal("edit", props.messageId);
+    props.toggleModal("edit", props.documentId);
     closeModal();
   };
 
   const addComment = e => {
     e.preventDefault();
-    addMessageComment();
+    if(commentInput) {
+      addDocumentComment();
+    }
   };
 
   const { classes } = props;
-  //console.log('findDocument', findDocument)
+  const document = findDocument.data.findDocument;
+  console.log('document', document)
   return (
     <div>
       <Modal
@@ -184,38 +186,38 @@ const MessageModal = props => {
             Delete
           </Button>
           <h2>
-            {findDocument.data.findDocument === undefined
+            {document === undefined
               ? "Loading"
-              : findDocument.data.findDocument.title}
+              : document.title}
           </h2>
           <br />
           <h4>
-            {findDocument.data.findDocument === undefined
+            {document === undefined
               ? "Loading"
-              : findDocument.data.findDocument.textContent}
+              : document.textContent}
           </h4>
-          {/* <br />
-          {findDocumentsByTeam.data !== undefined &&
-          findDocumentsByTeam.data.comments.length !== undefined ? (
+          <br />
+          {document !== undefined &&
+          document.comments.length !== undefined ? (
             <div>
               <h3>Comments</h3>
               <List>
-                {findDocumentsByTeam.data.comments.map((comment, index) => (
+                {document.comments.map((comment, index) => (
                   <Fragment key={comment.id}>
-                    <MessageComment
+                    <DocumentComment
                       comment={comment}
-                      messageId={props.messageId}
+                      documentId={props.documentId}
                       setMsg={props.setMsg}
                     />
                     {index ===
-                    findDocumentsByTeam.data.comments.length - 1 ? null : (
+                    document.comments.length - 1 ? null : (
                       <Divider />
                     )}
                   </Fragment>
                 ))}
               </List>
             </div> 
-          ) : null}*/}
+          ) : null}
           <form onSubmit={addComment}>
             <input
               type="text"

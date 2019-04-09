@@ -11,7 +11,7 @@ const styles = theme => ({
 
 const Document = props => {
   const { classes } = props;
-  console.log('document props', props);
+  //console.log('document props', props);
   return (
     <Paper
       elevation={1}
