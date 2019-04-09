@@ -16,7 +16,7 @@ const Folder = props => {
     <Paper
       elevation={1}
       className={classes.root}
-      onClick={_ => props.toggleModal('view', props.folder.id)}
+      //onClick={_ => props.toggleModal('view', props.folder.id)}
     >
       <Typography variant="h5" component="h3">
         {props.folder.title}

@@ -19,6 +19,7 @@ import { DOCUMENTS_QUERY, FOLDERS_QUERY } from '../../../../graphQL/Queries';
 
 const DocumentTab = props => {
     const [createModalStatus, setCreateModalStatus] = useState(false);
+    const [createFolderModalStatus, setCreateFolderModalStatus] = useState(false)
     const [editModalStatus, setEditModalStatus] = useState({
       status: false,
       documentId: null
@@ -48,6 +49,10 @@ const DocumentTab = props => {
         case "create":
           setCreateModalStatus(!createModalStatus);
           break;
+
+        case "createFolder":
+          setCreateFolderModalStatus(!createFolderModalStatus);
+          break;
   
         case "edit":
           setEditModalStatus({
@@ -60,18 +65,6 @@ const DocumentTab = props => {
     // console.log('################', messages)
     return (
       <div>
-        <h1>Folders</h1>
-          {folders.loading ? (
-            <h3>Loading Folders...</h3>
-          ) : (
-            folders.data.findFoldersByTeam.map(folder => (
-              <Folder
-                folder={folder}
-                key={folder.id}
-                toggleModal={toggleModal}
-              />
-            ))
-          )}
         <h1>Documents</h1>
         <div>
           {documents.loading ? (
@@ -85,14 +78,38 @@ const DocumentTab = props => {
               />
             ))
           )}
+
+          <Fab
+            color="primary"
+            aria-label="Add"
+            onClick={_ => toggleModal("create")}
+          >
+            <AddIcon />
+          </Fab>
+
+          <h1>Folders</h1>
+          {folders.loading ? (
+            <h3>Loading Folders...</h3>
+          ) : (
+            folders.data.findFoldersByTeam.map(folder => (
+              <Folder
+                folder={folder}
+                key={folder.id}
+                toggleModal={toggleModal}
+              />
+            ))
+          )}
+
+          <Fab
+            color="primary"
+            aria-label="Add"
+            onClick={_ => toggleModal("createFolder")}
+          >
+            <AddIcon />
+          </Fab>
+
         </div>
-        <Fab
-          color="primary"
-          aria-label="Add"
-          onClick={_ => toggleModal("create")}
-        >
-          <AddIcon />
-        </Fab>
+        
         <CreateDocumentModal
         modalStatus={createModalStatus}
         toggleModal={toggleModal}
@@ -116,6 +133,7 @@ const DocumentTab = props => {
             setMsg={props.setMsg}
           />
         ) : null} 
+        
         </div>
     );
   };

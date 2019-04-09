@@ -16,7 +16,7 @@ const Document = props => {
     <Paper
       elevation={1}
       className={classes.root}
-      //onClick={_ => props.toggleModal('view', props.document.id)}
+      onClick={_ => props.toggleModal('view', props.document.id)}
     >
       <Typography variant="h5" component="h3">
         {props.document.title}: {props.document.textContent}
