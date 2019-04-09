@@ -1,39 +1,97 @@
-import React, { Component } from 'react'
+import React, { Component, useState } from 'react'
 import {USERS_QUERY} from '../../graphQL/Queries.js'
 import {useQuery} from 'react-apollo-hooks';
-import gql from 'graphql-tag'
+import styled from 'styled-components';
+// import gql from 'graphql-tag'
 
-const UserInfo = () => {
-    const userId = localStorage.getItem("userId");
-  
-    const { data, error, loading } = useQuery(USERS_QUERY, {
-      variables: { id: userId }
-    });
-  
-    if (loading) {
-      return <div>Loading...</div>;
+const StyledAvatar = styled.img`{
+  border-radius: 50%;
+  height: 20%;
+  width: 15%;
+}`
+
+const StyledForm = styled.form`{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 10px;
+
+    input {
+      border: solid gray 1px;
+      margin-bottom: 20px;
+      width: 50%;
+      height: 50px;
+      border-radius: 15px;
+
+        ::placeholder {
+          padding-left: 10px;
+        }
     }
-  
-    if (error) {
-      return <div>Error! {error.message}</div>;
-    }
-  
-    return (
-      <div>
-          {data.users.map(userData => {
-            if (userData.id == userId)
-            return ( 
-                <p>
-                    {userData.name} <br/>
-                    {userData.email} <br/>
-                    {userData.phone} <br/>
-                    {userData.profilePic} <br/>
-                </p>
-            )
+}`
+
+function Form() {
+
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [phone, setPhone] = useState("");
+  const [avatar, setAvatar] = useState("");
+
+  const userId = localStorage.getItem("userId");
+  const { data, error, loading } = useQuery(USERS_QUERY);
+
+  if (loading) {
+    return <div>Loading...</div>;
+  }
+  if (error) {
+    return <div>Error! {error.message}</div>;
+  }
+
+  let user = data.users.filter(userData => {
+    if (userData.id == userId) return userData
+  }); user = user[0];
+
+  return (
+    <>
+      <StyledAvatar src={user.profilePic} alt="avatar"/>
+      <StyledForm>
+        <input
+          value={name}
+          onChange={e => setName(e.target.value)}
+          placeholder={user.name}
+          // type="text"
+          name="Name"
+          // required
+        />
+        <input
+          value={phone}
+          onChange={e => setPhone(e.target.value)}
+          placeholder={
+            user.phone ? user.phone : "Add a phone number"
           }
-        )}
-      </div>
-    );
-  };
-  
-export default UserInfo;
+          // type="text"
+          name="Phone"
+          // required
+        />
+        <input
+          value={email}
+          onChange={e => setEmail(e.target.value)}
+          placeholder={user.email}
+          type="email"
+          name="email"
+          required
+        />
+        {/* <input
+          value={avatar}
+          onChange={e => setAvatar(e.target.value)}
+          placeholder={user.profilePic}
+          type="password"
+          name="avatar"
+          // required
+        /> */}
+        <button type="submit">Submit</button>
+      </StyledForm>
+    </>
+  );
+}
+
+export default Form;

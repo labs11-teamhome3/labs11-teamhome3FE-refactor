@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
-import UserProfile from '../components/ProfileView/UserProfile.jsx';
+import Form from '../components/ProfileView/UserProfile.jsx';
 
 const ProfileView = props => {
     return (
         <div>
             <h1>User Settings</h1>
-            <UserProfile/>
+            <Form/>
         </div>
     );
 };
