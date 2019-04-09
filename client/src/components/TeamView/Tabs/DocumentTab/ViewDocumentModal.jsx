@@ -12,7 +12,7 @@ import { useMutation } from "../../../../graphQL/useMutation";
 import { useQuery } from "react-apollo-hooks";
 import gql from "graphql-tag";
 
-//import MessageComment from "./MessageComment";
+import DocumentComment from "./DocumentComment";
 
 import { CREATE_EVENT } from '../../../../graphQL/Mutations';
 
@@ -49,24 +49,17 @@ const DELETE_DOCUMENT = gql`
 
 const ADD_COMMENT = gql`
   mutation ADD_COMMENT(
-    $messageId: ID!
+    $documentId: ID!
     $userId: ID!
     $content: String!
-    $image: String
   ) {
-    addMessageComment(
-      messageId: $messageId
+    addDocumentComment(
+      documentId: $documentId
       userId: $userId
       content: $content
-      image: $image
     ) {
       id
       content
-      user {
-        id
-        name
-      }
-      image
       likes {
         id
         name
@@ -113,7 +106,7 @@ const MessageModal = props => {
     onError: err => console.log(err)
   });
 
-  const [addMessageComment] = useMutation(ADD_COMMENT, {
+  const [addDocumentComment] = useMutation(ADD_COMMENT, {
     update: (cache, { data }) => {
       // console.log(data);
       const { message } = cache.readQuery({
@@ -132,7 +125,7 @@ const MessageModal = props => {
       });
     },
     variables: {
-      messageId: props.messageId,
+      documentId: props.documentId,
       userId: userId,
       content: commentInput
     },
@@ -154,7 +147,9 @@ const MessageModal = props => {
 
   const addComment = e => {
     e.preventDefault();
-    addMessageComment();
+    if(commentInput) {
+      addDocumentComment();
+    }
   };
 
   const { classes } = props;
@@ -194,28 +189,28 @@ const MessageModal = props => {
               ? "Loading"
               : findDocument.data.findDocument.textContent}
           </h4>
-          {/* <br />
-          {findDocumentsByTeam.data !== undefined &&
-          findDocumentsByTeam.data.comments.length !== undefined ? (
+          <br />
+          {findDocument.data.comments !== undefined &&
+          findDocument.data.comments.length !== undefined ? (
             <div>
               <h3>Comments</h3>
               <List>
-                {findDocumentsByTeam.data.comments.map((comment, index) => (
+                {findDocument.data.comments.map((comment, index) => (
                   <Fragment key={comment.id}>
-                    <MessageComment
+                    <DocumentComment
                       comment={comment}
                       messageId={props.messageId}
                       setMsg={props.setMsg}
                     />
                     {index ===
-                    findDocumentsByTeam.data.comments.length - 1 ? null : (
+                    findDocument.data.comments.length - 1 ? null : (
                       <Divider />
                     )}
                   </Fragment>
                 ))}
               </List>
             </div> 
-          ) : null}*/}
+          ) : null}
           <form onSubmit={addComment}>
             <input
               type="text"
