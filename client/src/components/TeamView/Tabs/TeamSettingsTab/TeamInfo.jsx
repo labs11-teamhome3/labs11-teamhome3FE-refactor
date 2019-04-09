@@ -20,11 +20,11 @@ const TeamInfo = props => {
     const [showInput, setInput] = useState(false);
     const [newTeamName, setNewTeamName] = useState("");
 
-    const handleChange = e => {
+    const handleNameChange = e => {
         setNewTeamName(e.target.value)
     }
 
-    const handleSubmit = e => {
+    const handleTeamSubmit = e => {
         e.preventDefault();
     }
 
@@ -38,7 +38,6 @@ const TeamInfo = props => {
         },
         onError: err => console.log(err)
     })
-    
 
     return (
         <div className="team-info">
@@ -47,8 +46,8 @@ const TeamInfo = props => {
                 <Button variant="contained" color="primary" onClick={() => setInput(true)}>Edit Team Name</Button>
             }
             {showInput &&
-                <form onSubmit={handleSubmit}>
-                    <input type="text" name="teamName" onChange={handleChange} value={newTeamName} placeholder="New Team Name" />
+                <form onSubmit={handleTeamSubmit}>
+                    <input type="text" name="teamName" onChange={handleNameChange} value={newTeamName} placeholder="New Team Name" />
                     <button onClick={updateTeamName}>Save</button>
                     <button onClick={() => setInput(false)}>Cancel</button>
                 </form>

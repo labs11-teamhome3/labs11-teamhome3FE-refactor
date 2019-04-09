@@ -9,7 +9,7 @@ import gql from "graphql-tag";
 import TeamInfo from './TeamInfo';
 
 ////Queries////
-import { TEAMS_QUERY } from "../../../../graphQL/Queries";
+import { TEAMS_QUERY, USERS_QUERY } from "../../../../graphQL/Queries";
 import { useQuery } from "react-apollo-hooks";
 
 const DELETE_TEAM = gql`
@@ -45,11 +45,29 @@ const CURRENT_USER_QUERY = gql`
     }
 `
 
+const ADD_MEMBER = gql`
+    mutation ADD_MEMBER($userId: ID!, $teamId: ID!) {
+        addUserToTeam(userId: $userId, teamId: $teamId) {
+            id
+            members {
+                id
+                name
+            }
+        }
+    }
+`
+
+
 const TeamSettingsTab = props => {
     const [deleteInput, setDeleteInput] = useState("")
+    const [searchInput, setSearchInput] = useState("")
 
-    const handleChange = e => {
+    const handleDeleteChange = e => {
       setDeleteInput(e.target.value)
+    }
+    
+    const handleSearchChange = e => {
+        setSearchInput(e.target.value)
     }
 
     const [areYouSure, setAreYouSure] = useState(false)
@@ -59,7 +77,6 @@ const TeamSettingsTab = props => {
             id: localStorage.getItem('userId')
         },
     })
-    console.log('user query', userQuery)
     let userRole = '';
     if (userQuery.data.user) {
         userRole = userQuery.data.user.role
@@ -86,6 +103,29 @@ const TeamSettingsTab = props => {
     onError: err => console.log(err)
   });
 
+  // query all users to populate dropdown for adding member to team
+  const allUsersQuery = useQuery(USERS_QUERY)
+  console.log('allUsrsQuery', allUsersQuery);
+  let optionsItems;
+  if (allUsersQuery.data.users) {
+      optionsItems = allUsersQuery.data.users.map(user => 
+        <option key={user.id}>{user.name}</option>
+      )
+      console.log('optionsItems', optionsItems)
+  }
+
+  // mutation for adding user
+  const [addUserToTeam] = useMutation(ADD_MEMBER, {
+    variables: {
+        userId: '',
+        teamId: props.match.params.id
+    },
+    onCompleted: () => {
+
+    },
+    onError: err => console.log(err)
+})
+
   if(loading) {
       return <div>Loading...</div>;
   }
@@ -102,6 +142,21 @@ const TeamSettingsTab = props => {
       <div className="team-settings">
         <TeamInfo team={data.team} match={props.match} userRole={userRole} />
       </div>
+      <div className="add-user">
+        <form>
+            <h2>Find a new team member!</h2>
+            {optionsItems && 
+                <>
+                    <input type="text" placeholder="search all users" value={searchInput} onChange={handleSearchChange} />
+                    <select>
+                        {optionsItems.filter(item => 
+                            item.props.children.toLowerCase().includes(searchInput.toLowerCase())
+                        )}
+                    </select>
+                </>
+            }
+        </form>
+      </div>
       {userRole === "ADMIN" &&
         <div className="delete-area">
             <Button variant="contained" color="secondary" onClick={() => setAreYouSure(true)}>
@@ -114,7 +169,7 @@ const TeamSettingsTab = props => {
         <div>
             <h2>Do you really want to delete this team?  All messages, activities, documents, and todo lists which belong to this team will also be deleted!  There is no coming back from this. If you are sure, please type the name of the team below. 
             </h2>
-            <input type="text" name="deleteInput" value={deleteInput} onChange={handleChange} />
+            <input type="text" name="deleteInput" value={deleteInput} onChange={handleDeleteChange} />
             <button onClick={() => setAreYouSure(false)}>Cancel</button>
             {deleteInput === data.team.teamName &&
                 <Button variant="contained" color="secondary" onClick={deleteTeam}>
