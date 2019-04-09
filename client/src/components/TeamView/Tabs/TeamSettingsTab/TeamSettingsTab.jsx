@@ -49,6 +49,7 @@ const ADD_MEMBER = gql`
     mutation ADD_MEMBER($userId: ID!, $teamId: ID!) {
         addUserToTeam(userId: $userId, teamId: $teamId) {
             id
+            teamName
             members {
                 id
                 name
@@ -131,6 +132,24 @@ const TeamSettingsTab = props => {
 
   // mutation for adding user
   const [addUserToTeam] = useMutation(ADD_MEMBER, {
+    update: (cache, { data }) => {
+        console.log('data', data);
+        const { team } = cache.readQuery({
+            query: TEAM_QUERY,
+            variables: { id: props.match.params.id }
+        });
+        console.log('team', team)
+        cache.writeQuery({
+            query: TEAM_QUERY,
+            variables: { id: props.match.params.id },
+            data: {
+                team: {
+                    ...team,
+                    members: [...data.addUserToTeam.members]
+                }
+            }
+        })
+    },
     variables: {
         userId: newMemberId,
         teamId: props.match.params.id
