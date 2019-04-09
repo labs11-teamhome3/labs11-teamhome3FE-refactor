@@ -35,6 +35,9 @@ export const USERS_QUERY = gql`
     users {
       id
       name
+      email
+      phone
+      profilePic
     }
   }
 `;
@@ -132,6 +135,16 @@ query DOCUMENTS_QUERY($teamId: ID!) {
     team {
         id
     }
+  }
+}
+`;
+
+export const DOCUMENT_QUERY = gql`
+query DOCUMENT_QUERY($id: ID!) {
+  findDocument(id: $id) {
+    id 
+    title 
+    textContent
   }
 }
 `;

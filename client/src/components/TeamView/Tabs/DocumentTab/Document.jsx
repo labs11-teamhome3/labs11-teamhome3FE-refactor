@@ -11,6 +11,7 @@ const styles = theme => ({
 
 const Document = props => {
   const { classes } = props;
+  console.log('document props', props);
   return (
     <Paper
       elevation={1}
@@ -18,7 +19,7 @@ const Document = props => {
       onClick={_ => props.toggleModal('view', props.document.id)}
     >
       <Typography variant="h5" component="h3">
-        {props.document.title} 
+        {props.document.title}: {props.document.textContent}
       </Typography>
     </Paper>
   );

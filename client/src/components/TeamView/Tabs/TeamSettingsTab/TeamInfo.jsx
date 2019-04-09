@@ -15,7 +15,7 @@ const TeamInfo = props => {
             </h2>
             <h2>Team Members</h2>    
                 {props.team.members.map(member => 
-                    <MemberCard key={member.id} member={member} match={props.match}/>
+                    <MemberCard key={member.id} member={member} match={props.match} userRole={props.userRole} />
                 )}
         </div>
     )

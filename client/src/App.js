@@ -18,6 +18,7 @@ import DashboardView from './views/DashboardView';
 import TeamView from './views/TeamView';
 import LandingView from './views/LandingView';
 import NavigationView from './views/NavigationView';
+import ProfileView from './views/ProfileView';
 
 const auth = new Auth();
 
@@ -83,6 +84,10 @@ const App = (props) => {
         <Route
           path="/teams/:id/home"
           render={props => <TeamView {...props} />}
+        />
+        <Route
+          path="/profile/"
+          render={props => <ProfileView {...props} />}
         />
       </div>
     );
