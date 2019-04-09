@@ -60,6 +60,10 @@ const ADD_COMMENT = gql`
     ) {
       id
       content
+      user {
+        id
+        name
+      }
       likes {
         id
         name
@@ -153,7 +157,7 @@ const MessageModal = props => {
   };
 
   const { classes } = props;
-  //console.log('findDocument', findDocument)
+  console.log('findDocument', findDocument.data.findDocument)
   return (
     <div>
       <Modal
@@ -190,20 +194,20 @@ const MessageModal = props => {
               : findDocument.data.findDocument.textContent}
           </h4>
           <br />
-          {findDocument.data.comments !== undefined &&
-          findDocument.data.comments.length !== undefined ? (
+          {findDocument.data.findDocument !== undefined &&
+          findDocument.data.findDocument.comments.length !== undefined ? (
             <div>
               <h3>Comments</h3>
               <List>
-                {findDocument.data.comments.map((comment, index) => (
+                {findDocument.data.findDocument.comments.map((comment, index) => (
                   <Fragment key={comment.id}>
                     <DocumentComment
                       comment={comment}
-                      messageId={props.messageId}
+                      documentId={props.documentId}
                       setMsg={props.setMsg}
                     />
                     {index ===
-                    findDocument.data.comments.length - 1 ? null : (
+                    findDocument.data.findDocument.comments.length - 1 ? null : (
                       <Divider />
                     )}
                   </Fragment>

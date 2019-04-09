@@ -54,7 +54,7 @@ const UNLIKE_COMMENT = gql`
 
 const MessageComment = props => {
   const userId = localStorage.getItem('userId');
-  console.log(props.comment.id);
+  //console.log(props.comment.id);
   const [deleteComment] = useMutation(DELETE_COMMENT, {
     update: (cache, { data }) => {
       const { message } = cache.readQuery({
