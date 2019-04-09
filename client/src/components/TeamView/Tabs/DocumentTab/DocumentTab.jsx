@@ -9,7 +9,7 @@ import { useMutation } from "../../../../graphQL/useMutation";
 import Document from "./Document";
 import CreateDocumentModal from "./CreateDocumentModal";
 import ViewDocumentModal from "./ViewDocumentModal";
-//import EditMessageModal from "./EditMessageModal";
+import EditDocumentModal from "./EditDocumentModal";
 
 /////Queries/////
 import { CREATE_EVENT } from '../../../../graphQL/Mutations';
@@ -83,14 +83,14 @@ const DocumentTab = props => {
         teamId={props.teamId}
         setMsg={props.setMsg}
         />
-        {/* {editModalStatus ? (
-          <EditMessageModal
+        {editModalStatus ? (
+          <EditDocumentModal
             modalStatus={editModalStatus.status}
             messageId={editModalStatus.documentId}
             toggleModal={toggleModal}
             setMsg={props.setMsg}
           />
-        ) : null}*/}
+        ) : null}
         {viewModalStatus.status ? (
           <ViewDocumentModal
             modalStatus={viewModalStatus.status}

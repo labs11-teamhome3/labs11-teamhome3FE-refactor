@@ -109,7 +109,7 @@ const MessageModal = props => {
         open={props.modalStatus}
       >
         <Paper className={classes.paper}>
-          <h3>Create Message</h3>
+          <h3>Create Document</h3>
           <Close onClick={_ => props.toggleModal('create')} />
           <br />
           <input 
