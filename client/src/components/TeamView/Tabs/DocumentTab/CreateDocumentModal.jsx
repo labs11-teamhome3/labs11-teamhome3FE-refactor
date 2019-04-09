@@ -42,6 +42,7 @@ const CREATE_DOCUMENT = gql`
       id
       title
       textContent
+      doc_url
       user {
           id
       }
@@ -109,7 +110,7 @@ const MessageModal = props => {
         open={props.modalStatus}
       >
         <Paper className={classes.paper}>
-          <h3>Create Message</h3>
+          <h3>Create Document</h3>
           <Close onClick={_ => props.toggleModal('create')} />
           <br />
           <input 
@@ -135,7 +136,7 @@ const MessageModal = props => {
             onChange={handleChange}
             cols="30"
             rows="10"
-            value={messageInfo.content}
+            value={messageInfo.textContent}
             placeholder="Message Content"
             className={classes.messageInput}
           />

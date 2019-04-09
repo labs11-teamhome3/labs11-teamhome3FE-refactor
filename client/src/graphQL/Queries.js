@@ -144,6 +144,20 @@ query DOCUMENT_QUERY($id: ID!) {
     id 
     title 
     textContent
+    doc_url
+    comments {
+        id
+        content
+        user {
+          id
+          name
+        }
+        image
+        likes {
+          id
+          name
+        }
+    } 
   }
 }
 `;
