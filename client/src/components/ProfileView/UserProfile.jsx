@@ -2,7 +2,8 @@ import React, { Component, useState } from 'react'
 import {USERS_QUERY} from '../../graphQL/Queries.js'
 import {useQuery} from 'react-apollo-hooks';
 import styled from 'styled-components';
-// import gql from 'graphql-tag'
+import gql from 'graphql-tag'
+import { useMutation } from "../../graphQL/useMutation";
 
 const StyledAvatar = styled.img`{
   border-radius: 50%;
@@ -29,12 +30,23 @@ const StyledForm = styled.form`{
     }
 }`
 
+const EDIT_USER = gql`
+  mutation EditUser($id: ID!, $name: String, $email: String, $phone: String) {
+    updateUserContactInfo(id: $id, name: $name, email: $email, phone: $phone) {
+      name
+      email
+      phone
+    }
+  }
+`;
+
 function Form() {
 
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
   const [avatar, setAvatar] = useState("");
+  const [editUser] = useMutation(EDIT_USER);
 
   const userId = localStorage.getItem("userId");
   const { data, error, loading } = useQuery(USERS_QUERY);
@@ -78,7 +90,7 @@ function Form() {
           placeholder={user.email}
           type="email"
           name="email"
-          required
+          // required
         />
         {/* <input
           value={avatar}
@@ -88,7 +100,9 @@ function Form() {
           name="avatar"
           // required
         /> */}
-        <button type="submit">Submit</button>
+        <button type="submit" onClick={() => {
+          editUser({variables: {id: userId, name: name, phone: phone, email: email}});
+        }}>Submit</button>
       </StyledForm>
     </>
   );
