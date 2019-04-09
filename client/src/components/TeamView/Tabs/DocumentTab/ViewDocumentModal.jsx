@@ -59,16 +59,18 @@ const ADD_COMMENT = gql`
       content: $content
     ) {
       id
-      content
-      user {
-        id
-        name
+        content
+        user {
+          id
+          name
+        }
+        image
+        likes {
+          id
+          name
+        }
       }
-      likes {
-        id
-        name
-      }
-    }
+    
   }
 `;
 
@@ -112,18 +114,18 @@ const MessageModal = props => {
 
   const [addDocumentComment] = useMutation(ADD_COMMENT, {
     update: (cache, { data }) => {
-      // console.log(data);
-      const { message } = cache.readQuery({
-        query: MESSAGE_QUERY,
-        variables: { id: props.messageId }
+      
+      const { findDocument } = cache.readQuery({
+        query: DOCUMENT_QUERY,
+        variables: { id: props.documentId }
       });
       cache.writeQuery({
-        query: MESSAGE_QUERY,
-        variables: { id: props.messageId },
+        query: DOCUMENT_QUERY,
+        variables: { id: props.documentId },
         data: {
-          message: {
-            ...message,
-            comments: [...message.comments, data.addMessageComment]
+          findDocument: {
+            ...findDocument,
+            comments: [...findDocument.comments, data.addDocumentComment]
           }
         }
       });
@@ -158,6 +160,7 @@ const MessageModal = props => {
 
   const { classes } = props;
   const document = findDocument.data.findDocument;
+  console.log('document', document)
   return (
     <div>
       <Modal
