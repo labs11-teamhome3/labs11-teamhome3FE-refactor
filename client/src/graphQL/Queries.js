@@ -20,6 +20,7 @@ export const TODOS_QUERY = gql`
     todoLists(teamId: $teamId) {
       id
       description
+      completed
       todos {
         id
         description

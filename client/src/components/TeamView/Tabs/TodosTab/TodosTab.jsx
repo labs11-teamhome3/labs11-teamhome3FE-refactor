@@ -23,7 +23,10 @@ import {
 
 const TodosTab = props => {
   const [createModalStatus, setCreateModalStatus] = useState(false);
-  const [editModalStatus, setEditModalStatus] = useState(false);
+  const [editModalStatus, setEditModalStatus] = useState({
+    status: false,
+    todoListId: null
+  });
 
   const toggleModal = (modal, todoListId = null) => {
     switch (modal) {
@@ -32,7 +35,10 @@ const TodosTab = props => {
       break;
 
       case "edit":
-        setEditModalStatus(!editModalStatus);
+        setEditModalStatus({
+          status: !editModalStatus.status,
+          todoListId: todoListId
+        });
       break;
     }
   };
@@ -45,7 +51,7 @@ const TodosTab = props => {
         Add Todo List
       </Button>
       <CreateTodolistModal setMsg={props.setMsg} teamId={props.teamId} modalStatus={createModalStatus} toggleModal={toggleModal} />
-      <EditTodoListModal setMsg={props.setMsg} teamId={props.teamId} modalStatus={editModalStatus} toggleModal={toggleModal} />
+      {editModalStatus.status ? <EditTodoListModal setMsg={props.setMsg} teamId={props.teamId} modalStatus={editModalStatus.status} toggleModal={toggleModal} todoListId={editModalStatus.todoListId} /> : null}
     </div>
   );
 };
