@@ -11,12 +11,12 @@ const styles = theme => ({
 
 const Folder = props => {
   const { classes } = props;
-  //console.log('document props', props);
+  //console.log('folder props', props);
   return (
     <Paper
       elevation={1}
       className={classes.root}
-      //onClick={_ => props.toggleModal('view', props.folder.id)}
+      onClick={_ => props.toggleModal('viewFolder', props.folder.id)}
     >
       <Typography variant="h5" component="h3">
         {props.folder.title}

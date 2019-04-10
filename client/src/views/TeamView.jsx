@@ -1,7 +1,6 @@
 import React from 'react';
 
 ////Components////
-import TodoListContainer from '../components/TeamView/TodoListContainer';
 import TabNavigator from '../components/TeamView/TabNavigator';
 
 const TeamView = props => {

@@ -48,6 +48,7 @@ const CREATE_TODOLIST = gql`
     ) {
       id
       description
+      completed
       todos {
         id
         description
@@ -79,6 +80,10 @@ const CreateTodoListModal = props => {
       inTeam: props.teamId
     },
     onCompleted: e => {
+      setTodoListTitle('');
+      props.setMsg('created a todo list');
+      props.toggleModal('edit', e.createTodoList.id);
+      props.toggleModal('create');
     },
     onError: err => console.log(err)
   });

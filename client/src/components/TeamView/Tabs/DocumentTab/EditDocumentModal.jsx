@@ -41,7 +41,7 @@ const UPDATE_DOCUMENT = gql`
 }
 `
 
-const DocumentModal = props => {
+const EditDocumentModal = props => {
   const [messageInfo, setMessageInfo] = useState({
     title: '',
     textContent: '',
@@ -144,4 +144,4 @@ const DocumentModal = props => {
   );
 };
 
-export default withStyles(styles)(DocumentModal);
+export default withStyles(styles)(EditDocumentModal);
