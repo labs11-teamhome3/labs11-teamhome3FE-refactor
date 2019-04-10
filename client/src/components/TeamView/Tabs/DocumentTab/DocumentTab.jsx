@@ -8,18 +8,20 @@ import { useMutation } from "../../../../graphQL/useMutation";
 /////Components/////
 import Folder from "./Folder";
 import Document from "./Document";
-import CreateFolderModal from "./CreateFolderModal";
 import CreateDocumentModal from "./CreateDocumentModal";
 import ViewDocumentModal from "./ViewDocumentModal";
 import EditDocumentModal from "./EditDocumentModal";
+import CreateFolderModal from "./CreateFolderModal";
+import ViewFolderModal from "./ViewFolderModal";
+import EditFolderModal from "./EditFolderModal";
 
 /////Queries/////
 import { CREATE_EVENT } from '../../../../graphQL/Mutations';
 import { DOCUMENTS_QUERY, FOLDERS_QUERY } from '../../../../graphQL/Queries';
 
 const DocumentTab = props => {
+    //Documents
     const [createModalStatus, setCreateModalStatus] = useState(false);
-    const [createFolderModalStatus, setCreateFolderModalStatus] = useState(false)
     const [editModalStatus, setEditModalStatus] = useState({
       status: false,
       documentId: null
@@ -28,7 +30,20 @@ const DocumentTab = props => {
       status: false,
       documentId: null
     });
-    
+
+    //Folders
+    const [createFolderModalStatus, setCreateFolderModalStatus] = useState(false)
+    const [editFolderModalStatus, setEditFolderModalStatus] = useState({
+      status: false,
+      folderId: null
+    });
+    const [viewFolderModalStatus, setViewFolderModalStatus] = useState({
+      status: false,
+      folderId: null
+    });
+
+
+    //Queries
     const documents = useQuery(DOCUMENTS_QUERY, {
       variables: { teamId: props.teamId }
     });
@@ -37,12 +52,15 @@ const DocumentTab = props => {
       variables: { teamId: props.teamId }
     })
   
-    const toggleModal = (modal, documentId = null) => {
+    //Modal handler
+    const toggleModal = (modal, id = null) => {
       switch (modal) {
+        
+        //Documents
         case "view":
           setViewModalStatus({
             status: !viewModalStatus.status,
-            documentId: documentId
+            documentId: id
           });
           break;
   
@@ -50,19 +68,35 @@ const DocumentTab = props => {
           setCreateModalStatus(!createModalStatus);
           break;
 
-        case "createFolder":
-          setCreateFolderModalStatus(!createFolderModalStatus);
-          break;
-  
         case "edit":
           setEditModalStatus({
             status: !editModalStatus.status,
-            documentId: documentId
+            documentId: id
+          });
+          break;
+
+        //Folders
+        case "viewFolder":
+          setViewFolderModalStatus({
+            status: !viewFolderModalStatus.status,
+            folderId: id
+          });
+          console.log('folderId', viewFolderModalStatus.folderId)
+          break;
+
+        case "createFolder":
+          setCreateFolderModalStatus(!createFolderModalStatus);
+          break;
+
+        case "editFolder":
+          setEditFolderModalStatus({
+            status: !editFolderModalStatus.status,
+            folderId: id
           });
           break;
       }
     };
-    // console.log('################', messages)
+    
     return (
       <div>
         <h1>Documents</h1>
@@ -110,20 +144,13 @@ const DocumentTab = props => {
 
         </div>
         
+        {/* ################# Documents ##################*/}
         <CreateDocumentModal
           modalStatus={createModalStatus}
           toggleModal={toggleModal}
           teamId={props.teamId}
           setMsg={props.setMsg}
         />
-
-        <CreateFolderModal
-          modalStatus={createFolderModalStatus}
-          toggleModal={toggleModal}
-          teamId={props.teamId}
-          setMsg={props.setMsg}
-        />
-
         {editModalStatus ? (
           <EditDocumentModal
             modalStatus={editModalStatus.status}
@@ -141,7 +168,33 @@ const DocumentTab = props => {
             setMsg={props.setMsg}
           />
         ) : null} 
-        
+
+
+        {/* ################# Folders ################## */}
+        <CreateFolderModal
+          modalStatus={createFolderModalStatus}
+          toggleModal={toggleModal}
+          teamId={props.teamId}
+          setMsg={props.setMsg}
+        />
+        {editModalStatus ? (
+          <EditFolderModal
+            modalStatus={editFolderModalStatus.status}
+            folderId={editFolderModalStatus.folderId}
+            toggleModal={toggleModal}
+            setMsg={props.setMsg}
+          />
+        ) : null}
+        {viewFolderModalStatus.status ? (
+          <ViewFolderModal
+            modalStatus={viewFolderModalStatus.status}
+            folderId={viewFolderModalStatus.folderId}
+            toggleModal={toggleModal}
+            teamId={props.teamId}
+            setMsg={props.setMsg}
+          />
+        ) : null} 
+
         </div>
     );
   };
