@@ -1,0 +1,15 @@
+.event-createdAt {
+    margin-left: 1%;
+    font-size: 1rem;
+    color: gray;
+}
+
+.at-title {
+    margin: 50px;
+    font-size: 3rem;
+}
+
+.activity-timeline select {
+    font-size: 2rem;
+}
+

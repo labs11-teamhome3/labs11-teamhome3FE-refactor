@@ -129,15 +129,10 @@ const TeamSettingsTab = props => {
   // query all users to populate dropdown for adding member to team
   const allUsersQuery = useQuery(USERS_QUERY)
 //   console.log('allUsrsQuery', allUsersQuery);
-  let optionsItems;
-  if (allUsersQuery.data.users) {
-      optionsItems = allUsersQuery.data.users.map(user => 
-        <option className="selected-member" data-id={user.id} key={user.id}>{user.name}</option>
-      )
-  }
 
-  // mutation for adding user
-  const [addUserToTeam] = useMutation(ADD_MEMBER, {
+
+// mutation for adding user
+const [addUserToTeam] = useMutation(ADD_MEMBER, {
     update: (cache, { data }) => {
         // console.log('data', data);
         const { team } = cache.readQuery({
@@ -161,6 +156,7 @@ const TeamSettingsTab = props => {
         teamId: props.match.params.id
     },
     onCompleted: (e) => {
+        props.setMsg(`added ${newMember} to the team`);
         setSearchInput("");
         setNewMember("");
         setNewMemberId("");
@@ -169,23 +165,31 @@ const TeamSettingsTab = props => {
         // console.log(err.message);
         setErrorMsg(err.message)
     }
-})
+}
+)
+// set up options for the add a member <select> element
+let optionsItems;
+if (allUsersQuery.data.users) {
+    optionsItems = allUsersQuery.data.users.map(user => 
+      <option className="selected-member" data-id={user.id} key={user.id}>{user.name}</option>
+    )
+}
 
-  if(loading) {
-      return <div>Loading...</div>;
-  }
+if(loading) {
+    return <div>Loading...</div>;
+}
 
-  if (error) {
-      return <div>Error! {error.message}</div>
-  }
+if (error) {
+    return <div>Error! {error.message}</div>
+}
 
-  
 
-  return (
+
+return (
     <div>
       <>
       <div className="team-settings">
-        <TeamInfo team={data.team} match={props.match} userRole={userRole} />
+        <TeamInfo team={data.team} match={props.match} userRole={userRole} setMsg={props.setMsg} />
       </div>
       <div className="add-user">
         <form onSubmit={handleAddMemberSubmit}>

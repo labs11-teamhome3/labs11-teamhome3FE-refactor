@@ -59,6 +59,9 @@ const MemberCard = props => {
             userId: props.member.id,
             teamId: props.match.params.id
         },
+        onCompleted: e => {
+            props.setMsg(`removed ${props.member.name} from the team`)
+        },
         onError: err => console.log(err)
     })
 
