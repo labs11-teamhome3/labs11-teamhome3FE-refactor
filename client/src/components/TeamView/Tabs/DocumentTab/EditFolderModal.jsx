@@ -10,7 +10,7 @@ import { useMutation } from "../../../../graphQL/useMutation";
 import { useQuery } from "react-apollo-hooks";
 import gql from 'graphql-tag';
 
-import {DOCUMENT_QUERY, USERS_QUERY, MESSAGE_QUERY} from '../../../../graphQL/Queries';
+import {FOLDER_QUERY, USERS_QUERY, MESSAGE_QUERY} from '../../../../graphQL/Queries';
 
 const styles = theme => ({
   paper: {
@@ -25,76 +25,51 @@ const styles = theme => ({
   }
 });
 
-const UPDATE_DOCUMENT = gql`
-  mutation UPDATE_DOCUMENT($documentId: ID!, $doc_url: String, $title: String, $textContent: String){
-  updateDocument(
-    documentId: $documentId
-    doc_url: $doc_url
+const UPDATE_FOLDER = gql`
+  mutation UPDATE_FOLDER($folderId: ID!, $title: String){
+  updateFolderTitle(
+    folderId: $folderId
     title: $title
-    textContent: $textContent
   ) {
   	id
-    doc_url
     title
-    textContent
   }
 }
 `
 
-const DocumentModal = props => {
-  const [messageInfo, setMessageInfo] = useState({
-    title: '',
-    textContent: '',
-    doc_url: ''
-  });
+const EditFolderModal = props => {
+  const [title, setTitle] = useState('');
 
-  const [updateDocument] = useMutation(UPDATE_DOCUMENT, {
+  const [updateFolderTitle] = useMutation(UPDATE_FOLDER, {
     variables: {
-      documentId: props.documentId,
-      title: messageInfo.title,
-      textContent: messageInfo.textContent,
-      doc_url: messageInfo.doc_url
+      folderId: props.folderId,
+      title: title
     },
     onCompleted: e => {
       props.setMsg('updated a message')
-      props.toggleModal('edit');
-      setMessageInfo({
-        title: '',
-        textContent: '',
-        doc_url: ''
-      })
+      props.toggleModal('editFolder');
+      setTitle('')
     },
     onError: err => console.log(err)
   });
 
-  const document = useQuery(DOCUMENT_QUERY, {
-    variables: {id: props.documentId}
+  const folder = useQuery(FOLDER_QUERY, {
+    variables: {id: props.folderId}
   })
 
   useEffect(_ => {
-    if(document.data.findDocument !== undefined) {
-      setMessageInfo({
-        title: document.data.findDocument.title,
-        textContent: document.data.findDocument.textContent,
-        doc_url: document.data.findDocument.doc_url
-      })
+    if(folder.data.findFolder !== undefined) {
+      setTitle(folder.data.findFolder.title)
     }
-  }, [document.data])
+  }, [folder.data])
 
   const handleChange = e => {
-    setMessageInfo({
-      ...messageInfo,
-      [e.target.name]: e.target.value
-    });
+    setTitle(e.target.value);
   };
 
   const closeModal = _ => {
-    props.toggleModal('edit')
-    setMessageInfo({
-        title: '',
-        textContent: '',
-        doc_url: ''
-    })
+    props.toggleModal('editFolder')
+    setTitle('')
   }
 
   const { classes } = props;
@@ -106,42 +81,23 @@ const DocumentModal = props => {
         open={props.modalStatus}
       >
         <Paper className={classes.paper}>
-          <h3>Edit Document</h3>
+          <h3>Edit Folder Title</h3>
           <Close onClick={closeModal} />
-          <br />
-          <input 
-          type="text"
-          value={messageInfo.doc_url}
-          onChange={handleChange}
-          name="doc_url"
-          placeholder="Document URL"
-          className={classes.messageInfo}
-          />
           <br />
           <input
             type="text"
-            value={messageInfo.title}
+            value={title}
             onChange={handleChange}
             name="title"
-            placeholder="Message Title"
+            placeholder="Folder Title"
             className={classes.messageInput}
           />
           <br />
-          <textarea
-            name="textContent"
-            onChange={handleChange}
-            cols="30"
-            rows="10"
-            value={messageInfo.textContent}
-            placeholder="Message Content"
-            className={classes.messageInput}
-          />
-          <br />
-          <Button onClick={updateDocument}>Save</Button>
+          <Button onClick={updateFolderTitle}>Save</Button>
         </Paper>
       </Modal>
     </div>
   );
 };
 
-export default withStyles(styles)(DocumentModal);
+export default withStyles(styles)(EditFolderModal);
