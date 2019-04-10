@@ -72,7 +72,7 @@ const MemberCard = props => {
                 <h3>{props.member.name}</h3>
             </div>
             {props.member.id !== localStorage.getItem('userId') && props.userRole === "ADMIN" &&
-                <Button variant="contained" color="secondary" onClick={removeMember}>Remove Team Member</Button>
+                <Button variant="contained" color="secondary" onClick={removeMember}>Remove</Button>
             }
         </div>
     )

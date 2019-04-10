@@ -11,6 +11,7 @@ import { Elements, StripeProvider } from "react-stripe-elements";
 import CheckoutForm from "./CheckoutForm";
 
 const Transition = props => {
+  console.log('env', process.env)
   return <Slide direction="up" {...props} />;
 };
 
