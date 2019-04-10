@@ -12,6 +12,9 @@ import { withStyles } from "@material-ui/core/styles";
 import Chip from "@material-ui/core/Chip";
 import Menu from "@material-ui/core/Menu";
 import MenuItem from "@material-ui/core/MenuItem";
+import DeleteIcon from "@material-ui/icons/Delete";
+import Popover from "@material-ui/core/Popover";
+import Typography from "@material-ui/core/Typography";
 
 /////Components/////
 import EditTodo from "./EditTodo";
@@ -37,8 +40,50 @@ const styles = theme => ({
   todoListInput: {
     width: "100%",
     marginBottom: "10px"
+  },
+  deletePopover: {
+    padding: "10px"
+  },
+  popoverButton: {
+    width: "50%",
+    borderRadius: "0px"
   }
 });
+
+const UPDATE_TODO_LIST = gql`
+  mutation UPDATE_TODO_LIST(
+    $id: String!
+    $description: String!
+    $completed: Boolean
+  ) {
+    updateTodoList(id: $id, description: $description, completed: $completed) {
+      id
+      description
+      ownedBy {
+        id
+        name
+      }
+      assignedTo {
+        id
+        name
+      }
+      todos {
+        id
+        description
+        completed
+      }
+      completed
+    }
+  }
+`;
+
+const DELETE_TODO_LIST = gql`
+  mutation DELETE_TODO_LIST($id: String!) {
+    deleteTodoList(id: $id) {
+      id
+    }
+  }
+`;
 
 const CREATE_TODO = gql`
   mutation CREATE_TODO(
@@ -158,6 +203,7 @@ const CreateTodoListModal = props => {
     id: "",
     action: ""
   });
+  const [openPopover, setOpenPopover] = useState(false);
   const { classes } = props;
   const todoList = useQuery(TODO_LIST_QUERY, {
     variables: {
@@ -204,11 +250,58 @@ const CreateTodoListModal = props => {
           break;
         case "removeassignee":
           removeAssignee();
-        break;
+          break;
       }
     },
     [editUserId]
   );
+
+  const [updateTodoList] = useMutation(UPDATE_TODO_LIST, {
+    update: (cache, { data }) => {
+      cache.writeQuery({
+        query: TODO_LIST_QUERY,
+        variables: { id: props.todoListId },
+        data: {
+          todoList: {
+            ...data.updateTodoList
+          }
+        }
+      });
+    },
+    variables: {
+      id: props.todoListId,
+      description: todoListTitle
+    },
+    onCompleted: e => {
+      props.toggleModal("edit");
+    },
+    onError: err => console.log(err)
+  });
+
+  const [deleteTodoList] = useMutation(DELETE_TODO_LIST, {
+    update: (cache, { data }) => {
+      const { todoLists } = cache.readQuery({
+        query: TODOS_QUERY,
+        variables: { teamId: props.teamId }
+      });
+      cache.writeQuery({
+        query: TODOS_QUERY,
+        variables: { teamId: props.teamId },
+        data: {
+          todoLists: todoLists.filter(
+            todoList => todoList.id !== data.deleteTodoList.id
+          )
+        }
+      });
+    },
+    variables: {
+      id: props.todoListId
+    },
+    onCompleted: e => {
+      props.toggleModal("edit");
+    },
+    onError: err => console.log(err)
+  });
 
   const [createTodo] = useMutation(CREATE_TODO, {
     update: (cache, { data }) => {
@@ -358,6 +451,21 @@ const CreateTodoListModal = props => {
     setAnchorEl(null);
   };
 
+  const handlePopover = e => {
+    setAnchorEl(e.currentTarget);
+    setOpenPopover(!openPopover);
+  };
+
+  const popoverClose = _ => {
+    setAnchorEl(null);
+    setOpenPopover(!openPopover);
+  };
+
+  const popoverDeleteTodoList = _ => {
+    popoverClose();
+    deleteTodoList();
+  };
+
   if (!todoList.data.todoList) {
     return <h1>Loading...</h1>;
   }
@@ -423,12 +531,12 @@ const CreateTodoListModal = props => {
           <div>
             {todoList.data.todoList &&
               todoList.data.todoList.assignedTo.map(assignee => (
-                <Chip 
-                label={assignee.name} 
-                key={assignee.id} 
-                onDelete={_ =>
-                  setEditUserId({ id: assignee.id, action: "removeassignee" })
-                }
+                <Chip
+                  label={assignee.name}
+                  key={assignee.id}
+                  onDelete={_ =>
+                    setEditUserId({ id: assignee.id, action: "removeassignee" })
+                  }
                 />
               ))}
           </div>
@@ -458,7 +566,10 @@ const CreateTodoListModal = props => {
                       )
                   )
                   .map(user => (
-                    <MenuItem key={user.id} onClick={_ => handleClose(user.id, "addassignee")}>
+                    <MenuItem
+                      key={user.id}
+                      onClick={_ => handleClose(user.id, "addassignee")}
+                    >
                       {user.name}
                     </MenuItem>
                   ))}
@@ -499,7 +610,47 @@ const CreateTodoListModal = props => {
           <Button variant="contained" color="primary" onClick={createTodo}>
             Add Todo
           </Button>
-          <Button>Save</Button>
+          <br />
+          <Button onClick={updateTodoList}>Save</Button>
+          <br />
+          <Button
+            variant="contained"
+            color="secondary"
+            className={classes.button}
+            onClick={handlePopover}
+          >
+            Delete Todo List
+            <DeleteIcon className={classes.rightIcon} />
+          </Button>
+          <Popover
+            id="simple-popper"
+            open={openPopover}
+            anchorEl={anchorEl}
+            onClose={popoverClose}
+            anchorOrigin={{
+              vertical: "bottom",
+              horizontal: "center"
+            }}
+            transformOrigin={{
+              vertical: "top",
+              horizontal: "center"
+            }}
+          >
+            <Typography className={classes.deletePopover}>
+              Are you sure you want to delete this Todo List
+            </Typography>
+            <Button
+              variant="contained"
+              color="secondary"
+              className={classes.popoverButton}
+              onClick={popoverDeleteTodoList}
+            >
+              Delete
+            </Button>
+            <Button className={classes.popoverButton} onClick={popoverClose}>
+              Cancel
+            </Button>
+          </Popover>
         </Paper>
       </Modal>
     </div>

@@ -14,7 +14,7 @@ const TodoLists = props => {
 
   return (
     <div>
-      {todoLists.loading ? (
+      {!todoLists.data.todoLists ? (
         <h3>Loading</h3>
       ) : (
         todoLists.data.todoLists.map(todoList => (
