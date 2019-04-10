@@ -49,7 +49,7 @@ const ActivityTimeline = props => {
         {!events.loading && filteredEvents &&
           filteredEvents.map(event => <Event event={event} key={event.id} />)}
       </div>
-      <button onClick={toggleModal}>Open Modal</button>
+      {/* <button onClick={toggleModal}>Open Modal</button> */}
     </div>
   );
 };
