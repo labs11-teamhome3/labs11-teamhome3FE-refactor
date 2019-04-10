@@ -129,7 +129,12 @@ const ViewFolderModal = props => {
           folder.documents.length !== undefined ? (
             <div>
               <h3>Documents</h3>
-              <List>
+              <ul>
+                  {folder.documents.map(document => (
+                      <li>{document.title}</li>
+                  ))}
+              </ul>
+              {/* <List>
                 {folder.documents.map((document, index) => (
                   <Fragment key={document.id}>
                     <DocumentComment
@@ -143,7 +148,7 @@ const ViewFolderModal = props => {
                     )}
                   </Fragment>
                 ))}
-              </List>
+              </List> */}
             </div> 
           ) : null}
         </Paper>
