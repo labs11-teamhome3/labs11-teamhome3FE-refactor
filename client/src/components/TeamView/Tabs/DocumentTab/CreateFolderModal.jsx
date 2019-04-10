@@ -53,7 +53,7 @@ const CREATE_DOCUMENT = gql`
   }
 `;
 
-const CreateDocumentModal = props => {
+const MessageModal = props => {
     const userId = localStorage.getItem('userId');
     const [messageInfo, setMessageInfo] = useState({
         title: '',
@@ -148,4 +148,4 @@ const CreateDocumentModal = props => {
   );
 };
 
-export default withStyles(styles)(CreateDocumentModal);
+export default withStyles(styles)(MessageModal);

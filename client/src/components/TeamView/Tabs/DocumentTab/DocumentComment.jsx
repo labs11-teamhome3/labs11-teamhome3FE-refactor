@@ -7,11 +7,11 @@ import Button from '@material-ui/core/Button';
 import { useMutation } from "../../../../graphQL/useMutation";
 import gql from "graphql-tag";
 
-import {MESSAGE_QUERY} from '../../../../graphQL/Queries';
+import {DOCUMENT_QUERY} from '../../../../graphQL/Queries';
 
 const DELETE_COMMENT = gql`
-  mutation DELETE_COMMENT($commentId: ID!){
-    deleteMessageComment(commentId: $commentId) {
+  mutation DELETE_COMMENT($documentCommentId: ID!){
+    deleteDocumentComment(documentCommentId: $documentCommentId) {
       id
     }
   }
@@ -19,7 +19,7 @@ const DELETE_COMMENT = gql`
 
 const LIKE_COMMENT = gql`
   mutation LIKE_COMMENT($commentId: ID!, $userId: ID!){
-    likeMessageComment(commentId: $commentId, userId: $userId) {
+    likeDocumentComment(commentId: $commentId, userId: $userId) {
       id
         content
         user {
@@ -36,7 +36,7 @@ const LIKE_COMMENT = gql`
 `
 const UNLIKE_COMMENT = gql`
   mutation LIKE_COMMENT($commentId: ID!, $userId: ID!){
-    unlikeMessageComment(commentId: $commentId, userId: $userId) {
+    unlikeDocumentComment(commentId: $commentId, userId: $userId) {
       id
         content
         user {
@@ -52,22 +52,22 @@ const UNLIKE_COMMENT = gql`
   }
 `
 
-const MessageComment = props => {
+const DocumentComment = props => {
   const userId = localStorage.getItem('userId');
   //console.log(props.comment.id);
   const [deleteComment] = useMutation(DELETE_COMMENT, {
     update: (cache, { data }) => {
-      const { message } = cache.readQuery({
-        query: MESSAGE_QUERY,
-        variables: { id: props.messageId }
+      const { findDocument } = cache.readQuery({
+        query: DOCUMENT_QUERY,
+        variables: { id: props.documentId }
       });
       cache.writeQuery({
-        query: MESSAGE_QUERY,
-        variables: { id: props.messageId },
+        query: DOCUMENT_QUERY,
+        variables: { id: props.documentId },
         data: {
-          message: {
-            ...message,
-            comments: message.comments.filter(comment => {
+          findDocument: {
+            ...findDocument,
+            comments: findDocument.comments.filter(comment => {
               if (comment.id !== props.comment.id) {
                 return comment;
               }
@@ -77,7 +77,7 @@ const MessageComment = props => {
       });
     },
     variables: {
-      commentId: props.comment.id
+      documentCommentId: props.comment.id
     },
     onCompleted: e => {
       props.setMsg('deleted a comment')
@@ -87,19 +87,19 @@ const MessageComment = props => {
 
   const [likeComment] = useMutation(LIKE_COMMENT, {
     update: (cache, { data }) => {
-      const { message } = cache.readQuery({
-        query: MESSAGE_QUERY,
-        variables: { id: props.messageId }
+      const { findDocument } = cache.readQuery({
+        query: DOCUMENT_QUERY,
+        variables: { id: props.documentId }
       });
       cache.writeQuery({
-        query: MESSAGE_QUERY,
-        variables: { id: props.messageId },
+        query: DOCUMENT_QUERY,
+        variables: { id: props.documentId },
         data: {
-          message: {
-            ...message,
-            comments: message.comments.map(comment => {
-              if(comment.id === data.likeMessageComment.id) {
-                return data.likeMessageComment
+          findDocument: {
+            ...findDocument,
+            comments: findDocument.comments.map(comment => {
+              if(comment.id === data.likeDocumentComment.id) {
+                return data.likeDocumentComment
               } else {
                 return comment
               }
@@ -119,19 +119,19 @@ const MessageComment = props => {
 
   const [unlikeComment] = useMutation(UNLIKE_COMMENT, {
     update: (cache, { data }) => {
-      const { message } = cache.readQuery({
-        query: MESSAGE_QUERY,
-        variables: { id: props.messageId }
+      const { findDocument } = cache.readQuery({
+        query: DOCUMENT_QUERY,
+        variables: { id: props.documentId }
       });
       cache.writeQuery({
-        query: MESSAGE_QUERY,
-        variables: { id: props.messageId },
+        query: DOCUMENT_QUERY,
+        variables: { id: props.documentId },
         data: {
-          message: {
-            ...message,
-            comments: message.comments.map(comment => {
-              if(comment.id !== data.unlikeMessageComment.id) {
-                return data.likeMessageComment
+          findDocument: {
+            ...findDocument,
+            comments: findDocument.comments.map(comment => {
+              if(comment.id !== data.unlikeDocumentComment.id) {
+                return data.likeDocumentComment
               } else {
                 return comment
               }
@@ -149,19 +149,19 @@ const MessageComment = props => {
     onError: err => console.log(err)
   });
 
-  console.log(props.comment)
+  //console.log(props.comment)
 
   return (
-        <ListItem>
-          <ListItemText primary={<strong>{props.comment.user.name} <DeleteIcon onClick={deleteComment} /></strong>} secondary={
-            <>
-            <Typography>{props.comment.content}</Typography>
-            <Typography>{props.comment.likes.length} Likes</Typography>
-            </>
-          } />
-          {props.comment.likes.find(like => like.id === userId) ? <Button variant="contained" color="primary" onClick={unlikeComment}>Unlike</Button> : <Button variant="contained" color="primary" onClick={likeComment}>Like</Button>}
-        </ListItem>
+    <ListItem>
+      <ListItemText primary={<strong>{props.comment.user.name} <DeleteIcon onClick={deleteComment} /></strong>} secondary={
+        <>
+        <Typography>{props.comment.content}</Typography>
+        <Typography>{props.comment.likes.length} Likes</Typography>
+        </>
+      } />
+      {props.comment.likes.find(like => like.id === userId) ? <Button variant="contained" color="primary" onClick={unlikeComment}>Unlike</Button> : <Button variant="contained" color="primary" onClick={likeComment}>Like</Button>}
+    </ListItem>
   )
 }
 
-export default MessageComment
+export default DocumentComment

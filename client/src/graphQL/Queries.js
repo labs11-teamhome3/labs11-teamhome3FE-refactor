@@ -148,6 +148,37 @@ query DOCUMENT_QUERY($id: ID!) {
     id 
     title 
     textContent
+    doc_url
+    comments {
+        id
+        content
+        user {
+          id
+          name
+        }
+        image
+        likes {
+          id
+          name
+        }
+    } 
+  }
+}
+`;
+
+export const FOLDERS_QUERY = gql`
+query FOLDERS_QUERY($teamId: ID!) {
+  findFoldersByTeam(teamId:$teamId) {
+    id
+    title
+    user {
+      id
+      name
+    }
+    documents {
+      id
+      title
+    }
   }
 }
 `;

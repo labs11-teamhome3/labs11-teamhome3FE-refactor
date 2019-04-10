@@ -49,7 +49,7 @@ const TeamList = () => {
       setTeamInput("");
     },
     onError: err => {
-      console.log(err.message);
+      // console.log(err.message);
       setErrorMsg(err.message);
     }
   });
@@ -96,7 +96,10 @@ const TeamList = () => {
           className="error-flash">
             <h3>{errorMsg.split(":")[1]}</h3>
             {/* add onClick to below to open Stripe payment modal */}
-            <Button>Go Premium</Button>
+            <div classname="premium-or-cancel">
+              <Button>Go Premium</Button>
+              <Button onClick={() => setErrorMsg("")}>Cancel</Button>
+            </div>
         </div>
       }
     </>

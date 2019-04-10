@@ -9,20 +9,20 @@ const styles = theme => ({
   }
 });
 
-const Document = props => {
+const Folder = props => {
   const { classes } = props;
   //console.log('document props', props);
   return (
     <Paper
       elevation={1}
       className={classes.root}
-      onClick={_ => props.toggleModal('view', props.document.id)}
+      //onClick={_ => props.toggleModal('view', props.folder.id)}
     >
       <Typography variant="h5" component="h3">
-        {props.document.title}: {props.document.textContent}
+        {props.folder.title}
       </Typography>
     </Paper>
   );
 };
 
-export default withStyles(styles)(Document);
+export default withStyles(styles)(Folder);

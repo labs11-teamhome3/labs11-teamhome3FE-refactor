@@ -6,18 +6,20 @@ import AddIcon from "@material-ui/icons/Add";
 import { useMutation } from "../../../../graphQL/useMutation";
 
 /////Components/////
+import Folder from "./Folder";
 import Document from "./Document";
 import CreateDocumentModal from "./CreateDocumentModal";
 import ViewDocumentModal from "./ViewDocumentModal";
-//import EditMessageModal from "./EditMessageModal";
+import EditDocumentModal from "./EditDocumentModal";
 
 /////Queries/////
 import { CREATE_EVENT } from '../../../../graphQL/Mutations';
-import { DOCUMENTS_QUERY } from '../../../../graphQL/Queries';
+import { DOCUMENTS_QUERY, FOLDERS_QUERY } from '../../../../graphQL/Queries';
 
 
 const DocumentTab = props => {
     const [createModalStatus, setCreateModalStatus] = useState(false);
+    const [createFolderModalStatus, setCreateFolderModalStatus] = useState(false)
     const [editModalStatus, setEditModalStatus] = useState({
       status: false,
       documentId: null
@@ -26,14 +28,18 @@ const DocumentTab = props => {
       status: false,
       documentId: null
     });
+    
     const documents = useQuery(DOCUMENTS_QUERY, {
       variables: { teamId: props.teamId }
     });
+    
+    const folders = useQuery(FOLDERS_QUERY, {
+      variables: { teamId: props.teamId }
+    })
   
     const toggleModal = (modal, documentId = null) => {
       switch (modal) {
         case "view":
-        console.log('nick', documentId)
           setViewModalStatus({
             status: !viewModalStatus.status,
             documentId: documentId
@@ -43,12 +49,15 @@ const DocumentTab = props => {
         case "create":
           setCreateModalStatus(!createModalStatus);
           break;
+
+        case "createFolder":
+          setCreateFolderModalStatus(!createFolderModalStatus);
+          break;
   
         case "edit":
-          // console.log(documentId);
           setEditModalStatus({
             status: !editModalStatus.status,
-            documentId
+            documentId: documentId
           });
           break;
       }
@@ -56,10 +65,10 @@ const DocumentTab = props => {
     // console.log('################', messages)
     return (
       <div>
-        <h1>DocumentTab</h1>
+        <h1>Documents</h1>
         <div>
           {documents.loading ? (
-            <h3>Loading</h3>
+            <h3>Loading Documents...</h3>
           ) : (
             documents.data.findDocumentsByTeam.map(document => (
               <Document
@@ -69,28 +78,52 @@ const DocumentTab = props => {
               />
             ))
           )}
+
+          <Fab
+            color="primary"
+            aria-label="Add"
+            onClick={_ => toggleModal("create")}
+          >
+            <AddIcon />
+          </Fab>
+
+          <h1>Folders</h1>
+          {folders.loading ? (
+            <h3>Loading Folders...</h3>
+          ) : (
+            folders.data.findFoldersByTeam.map(folder => (
+              <Folder
+                folder={folder}
+                key={folder.id}
+                toggleModal={toggleModal}
+              />
+            ))
+          )}
+
+          <Fab
+            color="primary"
+            aria-label="Add"
+            onClick={_ => toggleModal("createFolder")}
+          >
+            <AddIcon />
+          </Fab>
+
         </div>
-        <Fab
-          color="primary"
-          aria-label="Add"
-          onClick={_ => toggleModal("create")}
-        >
-          <AddIcon />
-        </Fab>
+        
         <CreateDocumentModal
         modalStatus={createModalStatus}
         toggleModal={toggleModal}
         teamId={props.teamId}
         setMsg={props.setMsg}
         />
-        {/* {editModalStatus ? (
-          <EditMessageModal
+        {editModalStatus ? (
+          <EditDocumentModal
             modalStatus={editModalStatus.status}
-            messageId={editModalStatus.documentId}
+            documentId={editModalStatus.documentId}
             toggleModal={toggleModal}
             setMsg={props.setMsg}
           />
-        ) : null}*/}
+        ) : null}
         {viewModalStatus.status ? (
           <ViewDocumentModal
             modalStatus={viewModalStatus.status}
@@ -100,6 +133,7 @@ const DocumentTab = props => {
             setMsg={props.setMsg}
           />
         ) : null} 
+        
         </div>
     );
   };
