@@ -10,6 +10,11 @@
     flex-direction: column;
 }
 
+.team-info button {
+    width: 10%;
+    margin: 0 auto;
+}
+
 .team-list-pic {
     width: 100px;
     height: 100px;
@@ -20,4 +25,16 @@
 .member-info {
     display: flex;
     align-items: center;
+}
+
+.delete-area {
+   margin-top: 20vh;
+}
+
+.members {
+    margin-top: 5%;
+}
+
+.premium-or-cancel button {
+    margin: 0 10px;
 }

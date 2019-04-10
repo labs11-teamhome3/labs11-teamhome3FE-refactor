@@ -74,7 +74,7 @@ const ADD_COMMENT = gql`
   }
 `;
 
-const MessageModal = props => {
+const ViewDocumentModal = props => {
   const userId = localStorage.getItem('userId')
   const [commentInput, setCommentInput] = useState("");
 
@@ -160,7 +160,7 @@ const MessageModal = props => {
 
   const { classes } = props;
   const document = findDocument.data.findDocument;
-  console.log('document', document)
+  //console.log('document', document)
   return (
     <div>
       <Modal
@@ -232,4 +232,4 @@ const MessageModal = props => {
   );
 };
 
-export default withStyles(styles)(MessageModal);
+export default withStyles(styles)(ViewDocumentModal);

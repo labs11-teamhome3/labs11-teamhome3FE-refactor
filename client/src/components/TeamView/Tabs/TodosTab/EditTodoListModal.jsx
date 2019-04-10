@@ -9,8 +9,15 @@ import Modal from "@material-ui/core/Modal";
 import Paper from "@material-ui/core/Paper";
 import Close from "@material-ui/icons/Close";
 import { withStyles } from "@material-ui/core/styles";
+import Chip from "@material-ui/core/Chip";
+import Menu from "@material-ui/core/Menu";
+import MenuItem from "@material-ui/core/MenuItem";
+import DeleteIcon from "@material-ui/icons/Delete";
+import Popover from "@material-ui/core/Popover";
+import Typography from "@material-ui/core/Typography";
 
 /////Components/////
+import EditTodo from "./EditTodo";
 
 /////Queries/////
 import { CREATE_EVENT } from "../../../../graphQL/Mutations";
@@ -33,18 +40,436 @@ const styles = theme => ({
   todoListInput: {
     width: "100%",
     marginBottom: "10px"
+  },
+  deletePopover: {
+    padding: "10px"
+  },
+  popoverButton: {
+    width: "50%",
+    borderRadius: "0px"
   }
 });
 
+const UPDATE_TODO_LIST = gql`
+  mutation UPDATE_TODO_LIST(
+    $id: String!
+    $description: String!
+    $completed: Boolean
+  ) {
+    updateTodoList(id: $id, description: $description, completed: $completed) {
+      id
+      description
+      ownedBy {
+        id
+        name
+      }
+      assignedTo {
+        id
+        name
+      }
+      todos {
+        id
+        description
+        completed
+      }
+      completed
+    }
+  }
+`;
+
+const DELETE_TODO_LIST = gql`
+  mutation DELETE_TODO_LIST($id: String!) {
+    deleteTodoList(id: $id) {
+      id
+    }
+  }
+`;
+
+const CREATE_TODO = gql`
+  mutation CREATE_TODO(
+    $description: String!
+    $partOf: ID!
+    $completed: Boolean
+  ) {
+    createTodo(
+      description: $description
+      partOf: $partOf
+      completed: $completed
+    ) {
+      id
+      description
+      completed
+    }
+  }
+`;
+
+const ADD_TO_OWNERS = gql`
+  mutation ADD_TO_OWNERS($userId: ID!, $todoListId: ID!) {
+    addUserToOwners(userId: $userId, todoListId: $todoListId) {
+      id
+      description
+      ownedBy {
+        id
+        name
+      }
+      assignedTo {
+        id
+        name
+      }
+      todos {
+        id
+        description
+        completed
+      }
+      completed
+    }
+  }
+`;
+
+const ADD_TO_ASSIGNEES = gql`
+  mutation ADD_TO_ASSIGNEES($userId: ID!, $todoListId: ID!) {
+    addUserToAssignees(userId: $userId, todoListId: $todoListId) {
+      id
+      description
+      ownedBy {
+        id
+        name
+      }
+      assignedTo {
+        id
+        name
+      }
+      todos {
+        id
+        description
+        completed
+      }
+      completed
+    }
+  }
+`;
+
+const REMOVE_FROM_OWNERS = gql`
+  mutation REMOVE_FROM_OWNERS($userId: ID!, $todoListId: ID!) {
+    removeUserFromOwners(userId: $userId, todoListId: $todoListId) {
+      id
+      description
+      ownedBy {
+        id
+        name
+      }
+      assignedTo {
+        id
+        name
+      }
+      todos {
+        id
+        description
+        completed
+      }
+      completed
+    }
+  }
+`;
+
+const REMOVE_FROM_ASSIGNEES = gql`
+  mutation REMOVE_FROM_ASSIGNEES($userId: ID!, $todoListId: ID!) {
+    removeUserFromAssignees(userId: $userId, todoListId: $todoListId) {
+      id
+      description
+      ownedBy {
+        id
+        name
+      }
+      assignedTo {
+        id
+        name
+      }
+      todos {
+        id
+        description
+        completed
+      }
+      completed
+    }
+  }
+`;
+
 const CreateTodoListModal = props => {
   const userId = localStorage.getItem("userId");
+  const [anchorEl, setAnchorEl] = useState(null);
+  const [menuControl, setMenuControl] = useState("");
+  const [editUserId, setEditUserId] = useState({
+    id: "",
+    action: ""
+  });
+  const [openPopover, setOpenPopover] = useState(false);
   const { classes } = props;
-  const [todoListTitle, setTodoListTitle] = useState("");
-  const todoList = useQuery;
+  const todoList = useQuery(TODO_LIST_QUERY, {
+    variables: {
+      id: props.todoListId
+    }
+  });
+  const users = useQuery(USERS_QUERY);
+  // const [todoListInfo, setTodoListInfo] = useState({
+  //   title: "",
+  //   newTask: "tesetsetet",
+  //   monkey: "monkey monkey"
+  // });
 
-  const handleChange = e => {
-    setTodoListTitle(e.target.value);
+  const [todoListTitle, setTodoListTitle] = useState("");
+  const [todoListTask, setTodoListTask] = useState("");
+
+  // const handleChange = e => {
+  //   setTodoListInfo({
+  //     ...todoListInfo
+  //   });
+  // };
+
+  useEffect(
+    _ => {
+      if (todoList.data.todoList) {
+        setTodoListTitle(todoList.data.todoList.description);
+      }
+    },
+    [todoList.data.todoList]
+  );
+
+  useEffect(
+    _ => {
+      console.log(editUserId);
+      switch (editUserId.action) {
+        case "addowner":
+          addOwner();
+          break;
+        case "removeowner":
+          removeOwner();
+          break;
+        case "addassignee":
+          addAssignee();
+          break;
+        case "removeassignee":
+          removeAssignee();
+          break;
+      }
+    },
+    [editUserId]
+  );
+
+  const [updateTodoList] = useMutation(UPDATE_TODO_LIST, {
+    update: (cache, { data }) => {
+      cache.writeQuery({
+        query: TODO_LIST_QUERY,
+        variables: { id: props.todoListId },
+        data: {
+          todoList: {
+            ...data.updateTodoList
+          }
+        }
+      });
+    },
+    variables: {
+      id: props.todoListId,
+      description: todoListTitle
+    },
+    onCompleted: e => {
+      props.toggleModal("edit");
+    },
+    onError: err => console.log(err)
+  });
+
+  const [deleteTodoList] = useMutation(DELETE_TODO_LIST, {
+    update: (cache, { data }) => {
+      const { todoLists } = cache.readQuery({
+        query: TODOS_QUERY,
+        variables: { teamId: props.teamId }
+      });
+      cache.writeQuery({
+        query: TODOS_QUERY,
+        variables: { teamId: props.teamId },
+        data: {
+          todoLists: todoLists.filter(
+            todoList => todoList.id !== data.deleteTodoList.id
+          )
+        }
+      });
+    },
+    variables: {
+      id: props.todoListId
+    },
+    onCompleted: e => {
+      props.setMsg("deleted a todo list");
+      props.toggleModal("edit");
+    },
+    onError: err => console.log(err)
+  });
+
+  const [createTodo] = useMutation(CREATE_TODO, {
+    update: (cache, { data }) => {
+      const { todoList } = cache.readQuery({
+        query: TODO_LIST_QUERY,
+        variables: { id: props.todoListId }
+      });
+      cache.writeQuery({
+        query: TODO_LIST_QUERY,
+        variables: { id: props.todoListId },
+        data: {
+          todoList: {
+            ...todoList,
+            todos: [...todoList.todos, data.createTodo]
+          }
+        }
+      });
+    },
+    variables: {
+      description: todoListTask,
+      partOf: props.todoListId
+    },
+    onCompleted: e => {
+      setTodoListTask("");
+    },
+    onError: err => console.log(err)
+  });
+
+  const [addOwner] = useMutation(ADD_TO_OWNERS, {
+    update: (cache, { data }) => {
+      const { todoList } = cache.readQuery({
+        query: TODO_LIST_QUERY,
+        variables: { id: props.todoListId }
+      });
+      cache.writeQuery({
+        query: TODO_LIST_QUERY,
+        variables: { id: props.todoListId },
+        data: {
+          todoList: { ...data.addUserToOwners }
+        }
+      });
+    },
+    variables: {
+      userId: editUserId.id,
+      todoListId: props.todoListId
+    },
+    onCompleted: e => {
+      setEditUserId({
+        id: "",
+        action: ""
+      });
+    },
+    onError: err => console.log(err)
+  });
+
+  const [addAssignee] = useMutation(ADD_TO_ASSIGNEES, {
+    update: (cache, { data }) => {
+      const { todoList } = cache.readQuery({
+        query: TODO_LIST_QUERY,
+        variables: { id: props.todoListId }
+      });
+      cache.writeQuery({
+        query: TODO_LIST_QUERY,
+        variables: { id: props.todoListId },
+        data: {
+          todoList: { ...data.addUserToAssignees }
+        }
+      });
+    },
+    variables: {
+      userId: editUserId.id,
+      todoListId: props.todoListId
+    },
+    onCompleted: e => {
+      setEditUserId({
+        id: "",
+        action: ""
+      });
+    },
+    onError: err => console.log(err)
+  });
+
+  const [removeOwner] = useMutation(REMOVE_FROM_OWNERS, {
+    update: (cache, { data }) => {
+      const { todoList } = cache.readQuery({
+        query: TODO_LIST_QUERY,
+        variables: { id: props.todoListId }
+      });
+      cache.writeQuery({
+        query: TODO_LIST_QUERY,
+        variables: { id: props.todoListId },
+        data: {
+          todoList: { ...data.addUserToOwners }
+        }
+      });
+    },
+    variables: {
+      userId: editUserId.id,
+      todoListId: props.todoListId
+    },
+    onCompleted: e => {
+      setEditUserId({
+        id: "",
+        action: ""
+      });
+    },
+    onError: err => console.log(err)
+  });
+
+  const [removeAssignee] = useMutation(REMOVE_FROM_ASSIGNEES, {
+    update: (cache, { data }) => {
+      const { todoList } = cache.readQuery({
+        query: TODO_LIST_QUERY,
+        variables: { id: props.todoListId }
+      });
+      cache.writeQuery({
+        query: TODO_LIST_QUERY,
+        variables: { id: props.todoListId },
+        data: {
+          todoList: { ...data.removeUserFromAssignees }
+        }
+      });
+    },
+    variables: {
+      userId: editUserId.id,
+      todoListId: props.todoListId
+    },
+    onCompleted: e => {
+      setEditUserId({
+        id: "",
+        action: ""
+      });
+    },
+    onError: err => console.log(err)
+  });
+
+  const handleClick = (e, menu) => {
+    setAnchorEl(e.currentTarget);
+    setMenuControl(menu);
   };
+
+  const handleClose = (id, action) => {
+    setEditUserId({
+      id,
+      action
+    });
+    setAnchorEl(null);
+  };
+
+  const handlePopover = e => {
+    setAnchorEl(e.currentTarget);
+    setOpenPopover(!openPopover);
+  };
+
+  const popoverClose = _ => {
+    setAnchorEl(null);
+    setOpenPopover(!openPopover);
+  };
+
+  const popoverDeleteTodoList = _ => {
+    popoverClose();
+    deleteTodoList();
+  };
+
+  if (!todoList.data.todoList) {
+    return <h1>Loading...</h1>;
+  }
 
   return (
     <div>
@@ -54,24 +479,179 @@ const CreateTodoListModal = props => {
         open={props.modalStatus}
       >
         <Paper className={classes.paper}>
-          <h3>Title</h3>
           <Close onClick={_ => props.toggleModal("edit")} />
+          <h4>Owned by</h4>
+          <div>
+            {todoList.data.todoList &&
+              todoList.data.todoList.ownedBy.map(owner => (
+                <Chip
+                  label={owner.name}
+                  key={owner.id}
+                  onDelete={_ =>
+                    setEditUserId({ id: owner.id, action: "removeowner" })
+                  }
+                />
+              ))}
+          </div>
+          <div>
+            <Button
+              aria-owns={anchorEl ? "owner-menu" : undefined}
+              aria-haspopup="true"
+              onClick={e => handleClick(e, "owner")}
+            >
+              Add Owner
+            </Button>
+            <Menu
+              id="owner-menu"
+              anchorEl={anchorEl}
+              open={Boolean(anchorEl) && menuControl === "owner"}
+              onClose={handleClose}
+            >
+              {users.data.users &&
+                users.data.users
+                  .filter(user =>
+                    user.inTeam.find(team => team.id === props.teamId)
+                  )
+                  .filter(
+                    user =>
+                      !todoList.data.todoList.ownedBy.find(
+                        obUser => obUser.id === user.id
+                      )
+                  )
+                  .map(user => (
+                    <MenuItem
+                      key={user.id}
+                      onClick={_ => handleClose(user.id, "addowner")}
+                    >
+                      {user.name}
+                    </MenuItem>
+                  ))}
+            </Menu>
+          </div>
+          <h4 onClick={_ => console.log(props)}>Assigned to</h4>
+          <div>
+            {todoList.data.todoList &&
+              todoList.data.todoList.assignedTo.map(assignee => (
+                <Chip
+                  label={assignee.name}
+                  key={assignee.id}
+                  onDelete={_ =>
+                    setEditUserId({ id: assignee.id, action: "removeassignee" })
+                  }
+                />
+              ))}
+          </div>
+          <div>
+            <Button
+              aria-owns={anchorEl ? "simple-menu" : undefined}
+              aria-haspopup="true"
+              onClick={e => handleClick(e, "assignee")}
+            >
+              Add Assignee
+            </Button>
+            <Menu
+              id="simple-menu"
+              anchorEl={anchorEl}
+              open={Boolean(anchorEl) && menuControl === "assignee"}
+              onClose={handleClose}
+            >
+              {users.data.users &&
+                users.data.users
+                  .filter(user =>
+                    user.inTeam.find(team => team.id === props.teamId)
+                  )
+                  .filter(
+                    user =>
+                      !todoList.data.todoList.assignedTo.find(
+                        obUser => obUser.id === user.id
+                      )
+                  )
+                  .map(user => (
+                    <MenuItem
+                      key={user.id}
+                      onClick={_ => handleClose(user.id, "addassignee")}
+                    >
+                      {user.name}
+                    </MenuItem>
+                  ))}
+            </Menu>
+          </div>
+          <h3>Title</h3>
           <br />
           <input
             type="text"
             value={todoListTitle}
-            onChange={handleChange}
             name="title"
             placeholder="Todo List Title"
             className={classes.todoListInput}
+            onChange={e => setTodoListTitle(e.target.value)}
           />
           <br />
           <h3>Todos</h3>
-          <input type="text" />
-          <Button variant="contained" color="primary">
+          <div>
+            {todoList.data.todoList ? (
+              <>
+                {todoList.data.todoList.todos.map(todo => (
+                  <EditTodo
+                    key={todo.id}
+                    todo={todo}
+                    todoListId={props.todoListId}
+                  />
+                ))}
+              </>
+            ) : (
+              <h2>Loading</h2>
+            )}
+          </div>
+          <input
+            type="text"
+            value={todoListTask}
+            onChange={e => setTodoListTask(e.target.value)}
+          />
+          <Button variant="contained" color="primary" onClick={createTodo}>
             Add Todo
           </Button>
-          <Button>Save</Button>
+          <br />
+          <Button onClick={updateTodoList}>Save</Button>
+          <br />
+          <Button
+            variant="contained"
+            color="secondary"
+            className={classes.button}
+            onClick={handlePopover}
+          >
+            Delete Todo List
+            <DeleteIcon className={classes.rightIcon} />
+          </Button>
+          <Popover
+            id="simple-popper"
+            open={openPopover}
+            anchorEl={anchorEl}
+            onClose={popoverClose}
+            anchorOrigin={{
+              vertical: "bottom",
+              horizontal: "center"
+            }}
+            transformOrigin={{
+              vertical: "top",
+              horizontal: "center"
+            }}
+          >
+            <Typography className={classes.deletePopover}>
+              Are you sure you want to delete this Todo List
+            </Typography>
+            <Button
+              variant="contained"
+              color="secondary"
+              className={classes.popoverButton}
+              onClick={popoverDeleteTodoList}
+            >
+              Delete
+            </Button>
+            <Button className={classes.popoverButton} onClick={popoverClose}>
+              Cancel
+            </Button>
+          </Popover>
         </Paper>
       </Modal>
     </div>

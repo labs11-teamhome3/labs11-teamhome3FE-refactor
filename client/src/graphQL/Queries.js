@@ -20,6 +20,7 @@ export const TODOS_QUERY = gql`
     todoLists(teamId: $teamId) {
       id
       description
+      completed
       todos {
         id
         description
@@ -37,6 +38,9 @@ export const USERS_QUERY = gql`
       email
       phone
       profilePic
+      inTeam {
+        id
+      }
     }
   }
 `;
@@ -158,6 +162,52 @@ query DOCUMENT_QUERY($id: ID!) {
           name
         }
     } 
+  }
+}
+`;
+
+export const FOLDERS_QUERY = gql`
+query FOLDERS_QUERY($teamId: ID!) {
+  findFoldersByTeam(teamId:$teamId) {
+    id
+      title
+      user {
+          id
+          name
+      }
+      documents {
+          id
+          doc_url
+          title
+          textContent
+          tag {
+              id
+              name
+          }
+      }
+  }
+}
+`;
+
+export const FOLDER_QUERY = gql`
+query FOLDER_QUERY($id: ID!) {
+  findFolder(id:$id) {
+    id
+      title
+      user {
+          id
+          name
+      }
+      documents {
+          id
+          doc_url
+          title
+          textContent
+          tag {
+              id
+              name
+          }
+      }
   }
 }
 `;
