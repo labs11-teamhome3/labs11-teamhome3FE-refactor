@@ -56,7 +56,7 @@ const EditDocumentModal = props => {
       doc_url: messageInfo.doc_url
     },
     onCompleted: e => {
-      props.setMsg('updated a message')
+      props.setMsg('updated a document')
       props.toggleModal('edit');
       setMessageInfo({
         title: '',
