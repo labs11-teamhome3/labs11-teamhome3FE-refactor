@@ -81,9 +81,55 @@ const ADD_TO_OWNERS = gql`
   }
 `;
 
+const ADD_TO_ASSIGNEES = gql`
+  mutation ADD_TO_ASSIGNEES($userId: ID!, $todoListId: ID!) {
+    addUserToAssignees(userId: $userId, todoListId: $todoListId) {
+      id
+      description
+      ownedBy {
+        id
+        name
+      }
+      assignedTo {
+        id
+        name
+      }
+      todos {
+        id
+        description
+        completed
+      }
+      completed
+    }
+  }
+`;
+
 const REMOVE_FROM_OWNERS = gql`
   mutation REMOVE_FROM_OWNERS($userId: ID!, $todoListId: ID!) {
     removeUserFromOwners(userId: $userId, todoListId: $todoListId) {
+      id
+      description
+      ownedBy {
+        id
+        name
+      }
+      assignedTo {
+        id
+        name
+      }
+      todos {
+        id
+        description
+        completed
+      }
+      completed
+    }
+  }
+`;
+
+const REMOVE_FROM_ASSIGNEES = gql`
+  mutation REMOVE_FROM_ASSIGNEES($userId: ID!, $todoListId: ID!) {
+    removeUserFromAssignees(userId: $userId, todoListId: $todoListId) {
       id
       description
       ownedBy {
@@ -153,6 +199,12 @@ const CreateTodoListModal = props => {
         case "removeowner":
           removeOwner();
           break;
+        case "addassignee":
+          addAssignee();
+          break;
+        case "removeassignee":
+          removeAssignee();
+        break;
       }
     },
     [editUserId]
@@ -181,7 +233,6 @@ const CreateTodoListModal = props => {
     },
     onCompleted: e => {
       setTodoListTask("");
-      setEditUserId(null);
     },
     onError: err => console.log(err)
   });
@@ -205,7 +256,37 @@ const CreateTodoListModal = props => {
       todoListId: props.todoListId
     },
     onCompleted: e => {
-      setEditUserId(null);
+      setEditUserId({
+        id: "",
+        action: ""
+      });
+    },
+    onError: err => console.log(err)
+  });
+
+  const [addAssignee] = useMutation(ADD_TO_ASSIGNEES, {
+    update: (cache, { data }) => {
+      const { todoList } = cache.readQuery({
+        query: TODO_LIST_QUERY,
+        variables: { id: props.todoListId }
+      });
+      cache.writeQuery({
+        query: TODO_LIST_QUERY,
+        variables: { id: props.todoListId },
+        data: {
+          todoList: { ...data.addUserToAssignees }
+        }
+      });
+    },
+    variables: {
+      userId: editUserId.id,
+      todoListId: props.todoListId
+    },
+    onCompleted: e => {
+      setEditUserId({
+        id: "",
+        action: ""
+      });
     },
     onError: err => console.log(err)
   });
@@ -228,7 +309,39 @@ const CreateTodoListModal = props => {
       userId: editUserId.id,
       todoListId: props.todoListId
     },
-    onCompleted: e => {},
+    onCompleted: e => {
+      setEditUserId({
+        id: "",
+        action: ""
+      });
+    },
+    onError: err => console.log(err)
+  });
+
+  const [removeAssignee] = useMutation(REMOVE_FROM_ASSIGNEES, {
+    update: (cache, { data }) => {
+      const { todoList } = cache.readQuery({
+        query: TODO_LIST_QUERY,
+        variables: { id: props.todoListId }
+      });
+      cache.writeQuery({
+        query: TODO_LIST_QUERY,
+        variables: { id: props.todoListId },
+        data: {
+          todoList: { ...data.removeUserFromAssignees }
+        }
+      });
+    },
+    variables: {
+      userId: editUserId.id,
+      todoListId: props.todoListId
+    },
+    onCompleted: e => {
+      setEditUserId({
+        id: "",
+        action: ""
+      });
+    },
     onError: err => console.log(err)
   });
 
@@ -310,7 +423,13 @@ const CreateTodoListModal = props => {
           <div>
             {todoList.data.todoList &&
               todoList.data.todoList.assignedTo.map(assignee => (
-                <Chip label={assignee.name} key={assignee.id} />
+                <Chip 
+                label={assignee.name} 
+                key={assignee.id} 
+                onDelete={_ =>
+                  setEditUserId({ id: assignee.id, action: "removeassignee" })
+                }
+                />
               ))}
           </div>
           <div>
@@ -339,7 +458,7 @@ const CreateTodoListModal = props => {
                       )
                   )
                   .map(user => (
-                    <MenuItem key={user.id} onClick={handleClose}>
+                    <MenuItem key={user.id} onClick={_ => handleClose(user.id, "addassignee")}>
                       {user.name}
                     </MenuItem>
                   ))}
