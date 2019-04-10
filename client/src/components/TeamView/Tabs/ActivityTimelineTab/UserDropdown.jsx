@@ -3,14 +3,27 @@ import Button from '@material-ui/core/Button';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import Arrow from '@material-ui/icons/ArrowDropDown';
+import gql from 'graphql-tag';
 
 // queries //
 import { USERS_QUERY } from '../../../../graphQL/Queries'
 import { useQuery } from "react-apollo-hooks";
 
+const TEAM_QUERY = gql`
+  query TEAM_QUERY($id: ID!) {
+    team(id: $id) {
+      id
+      members {
+        id
+        name
+      }
+    }
+  }
+`
+
 const UserDropdown = props => {
   const [choice, setChoice] = useState('all');
-  console.log(props);
+  console.log('userdd props', props);
 
   const handleSelect = e => {
     const choices = Array.from(e.target);
@@ -25,12 +38,19 @@ const UserDropdown = props => {
     }
   }
   
-  const { data, error, loading } = useQuery(USERS_QUERY)
+  const { data, error, loading } = useQuery(TEAM_QUERY, {
+    variables: {
+      id: props.teamId
+    }
+  })
+  if (data) {
+    console.log('data', data);
+  }
   
   let members; 
   let membersOptions = [<option className="member-option" key={Math.random()}>all</option>];
-  if (data.users) {
-    members = data.users;
+  if (data.team) {
+    members = data.team.members
     console.log('members', members)
     membersOptions = [...membersOptions, members.map(member => 
         <option className="member-option" key={Math.random()}>{member.name}</option>
@@ -38,6 +58,7 @@ const UserDropdown = props => {
   }
 
   if (error) {
+    console.log(error);
     return (
       <div>Error</div>
     )
