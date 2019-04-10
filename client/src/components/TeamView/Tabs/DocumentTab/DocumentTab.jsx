@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useQuery } from "react-apollo-hooks";
+import { DragDropContext } from "react-dnd";
+import HTML5Backend from "react-dnd-html5-backend";
 import gql from "graphql-tag";
 import Fab from "@material-ui/core/Fab";
 import AddIcon from "@material-ui/icons/Add";
@@ -20,6 +22,12 @@ import { CREATE_EVENT } from '../../../../graphQL/Mutations';
 import { DOCUMENTS_QUERY, FOLDERS_QUERY } from '../../../../graphQL/Queries';
 
 const DocumentTab = props => {
+    const [droppedItem, setDroppedItem] = useState('')
+
+    function onDrop(item){
+      setDroppedItem(item)
+    }
+
     //Documents
     const [createModalStatus, setCreateModalStatus] = useState(false);
     const [editModalStatus, setEditModalStatus] = useState({
@@ -81,7 +89,6 @@ const DocumentTab = props => {
             status: !viewFolderModalStatus.status,
             folderId: id
           });
-          console.log('folderId', viewFolderModalStatus.folderId)
           break;
 
         case "createFolder":
@@ -101,10 +108,11 @@ const DocumentTab = props => {
       <div>
         <h1>Documents</h1>
         <div>
-          {documents.loading ? (
+          {!documents.data.findDocumentsByTeam ? (
             <h3>Loading Documents...</h3>
           ) : (
-            documents.data.findDocumentsByTeam.map(document => (
+            documents.data.findDocumentsByTeam.filter(document => !document.folder)
+            .map(document => (
               <Document
                 document={document}
                 key={document.id}
@@ -127,6 +135,9 @@ const DocumentTab = props => {
           ) : (
             folders.data.findFoldersByTeam.map(folder => (
               <Folder
+                droppedItem={droppedItem}
+                setMsg={props.setMsg}
+                onDrop={onDrop}
                 folder={folder}
                 key={folder.id}
                 toggleModal={toggleModal}
@@ -199,4 +210,4 @@ const DocumentTab = props => {
     );
   };
   
-  export default DocumentTab;
+  export default DragDropContext(HTML5Backend)(DocumentTab);

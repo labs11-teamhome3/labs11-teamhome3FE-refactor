@@ -106,7 +106,7 @@ const ViewDocumentModal = props => {
       documentId: props.documentId
     },
     onCompleted: e => {
-      props.setMsg('deleted a message')
+      props.setMsg('deleted a document')
       props.toggleModal("view");
     },
     onError: err => console.log(err)
@@ -136,7 +136,7 @@ const ViewDocumentModal = props => {
       content: commentInput
     },
     onCompleted: e => {
-      props.setMsg('commented on a message')
+      props.setMsg('commented on a document')
       setCommentInput("");
     },
     onError: err => console.log(err)

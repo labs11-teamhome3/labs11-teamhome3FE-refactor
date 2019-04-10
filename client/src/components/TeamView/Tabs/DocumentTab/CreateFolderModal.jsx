@@ -84,7 +84,7 @@ const CreateFolderModal = props => {
         teamId: props.teamId,
     },
     onCompleted: e => {
-      props.setMsg('created a message');
+      props.setMsg('created a folder');
       props.toggleModal('createFolder');
       setTitle('');
     },

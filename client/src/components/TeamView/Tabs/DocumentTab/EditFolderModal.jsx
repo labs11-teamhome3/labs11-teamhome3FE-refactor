@@ -46,7 +46,7 @@ const EditFolderModal = props => {
       title: title
     },
     onCompleted: e => {
-      props.setMsg('updated a message')
+      props.setMsg('updated a folder')
       props.toggleModal('editFolder');
       setTitle('')
     },
