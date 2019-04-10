@@ -28,6 +28,11 @@ const TeamInfo = props => {
         e.preventDefault();
     }
 
+    const handleCancel = () => {
+        setInput(false);
+        setNewTeamName("");
+    }
+
     const [updateTeamName] = useMutation(UPDATE_TEAMNAME, {
         variables: {
             id: props.team.id,
@@ -35,6 +40,7 @@ const TeamInfo = props => {
         },
         onCompleted: e => {
            setInput(false);
+           props.setMsg(`changed the team name to ${newTeamName}`)
         },
         onError: err => console.log(err)
     })
@@ -49,12 +55,12 @@ const TeamInfo = props => {
                 <form onSubmit={handleTeamSubmit}>
                     <input type="text" name="teamName" onChange={handleNameChange} value={newTeamName} placeholder="New Team Name" />
                     <button onClick={updateTeamName}>Save</button>
-                    <button onClick={() => setInput(false)}>Cancel</button>
+                    <button onClick={handleCancel}>Cancel</button>
                 </form>
             }
             <h2 className="members">MEMBERS</h2>    
                 {props.team.members.map(member => 
-                    <MemberCard key={member.id} member={member} match={props.match} userRole={props.userRole} />
+                    <MemberCard key={member.id} setMsg={props.setMsg} member={member} match={props.match} userRole={props.userRole} />
                 )}
         </div>
     )

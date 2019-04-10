@@ -1,0 +1,32 @@
+.event-createdAt {
+    margin-left: 1%;
+    font-size: 1rem;
+    color: gray;
+}
+
+.at-title {
+    margin: 50px;
+    font-size: 3rem;
+}
+
+.activity-timeline select {
+    font-size: 2rem;
+}
+
+.dropdowns {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    width: 40%;
+    margin: 50px auto;
+}
+
+.event {
+    width: 50%;
+    margin: 20px auto;
+}
+
+.event-info {
+    font-size: 1.2rem;
+}
+

@@ -7,6 +7,9 @@ import moment from 'moment';
 ////Components////
 import ViewEventModal from './ViewEventModal';
 
+/// css ///
+import './css/ActivityTimeline.css'
+
 const styles = theme => ({
   root: {
     marginBottom: '10px',
@@ -16,12 +19,16 @@ const styles = theme => ({
 const Event = props => {
   const { classes } = props;
   return (
-    <Paper elevation={1} className={classes.root}>
-      <Typography variant="h5" component="h3">
-      {props.event.user.name} {props.event.action_string} -{' '}
-        {moment(props.event.createdAt).fromNow()}
-      </Typography>
-    </Paper>
+    // <Paper elevation={1} className={classes.root}>
+      <div className='event'>
+        <span className="event-info">
+          {props.event.user.name} {props.event.action_string}
+        </span>
+          <span className="event-createdAt">
+            {moment(props.event.createdAt).fromNow()}
+          </span>
+      </div>
+    // </Paper>
   );
 };
 
