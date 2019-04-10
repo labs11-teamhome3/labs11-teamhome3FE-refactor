@@ -46,7 +46,7 @@ const TodosTab = props => {
   return (
     <div>
       <h1>Todo Lists</h1>
-      <TodoLists teamId={props.teamId} toggleModal={toggleModal} />
+      <TodoLists teamId={props.teamId} toggleModal={toggleModal} setMsg={props.setMsg} />
       <Button variant="contained" color="primary" onClick={_ => toggleModal('create')}>
         Add Todo List
       </Button>

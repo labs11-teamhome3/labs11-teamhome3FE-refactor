@@ -22,6 +22,7 @@ const TodoLists = props => {
             todoList={todoList}
             key={todoList.id}
             toggleModal={props.toggleModal}
+            setMsg={props.setMsg}
           />
         ))
       )}

@@ -67,7 +67,9 @@ const TodoList = props => {
     variables: {
       todoListId: props.todoList.id
     },
-    onCompleted: e => {},
+    onCompleted: e => {
+      props.setMsg('completed a todo list');
+    },
     onError: err => console.log(err)
   });
 

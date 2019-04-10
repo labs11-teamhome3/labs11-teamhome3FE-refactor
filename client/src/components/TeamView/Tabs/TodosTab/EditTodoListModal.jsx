@@ -298,6 +298,7 @@ const CreateTodoListModal = props => {
       id: props.todoListId
     },
     onCompleted: e => {
+      props.setMsg("deleted a todo list");
       props.toggleModal("edit");
     },
     onError: err => console.log(err)
