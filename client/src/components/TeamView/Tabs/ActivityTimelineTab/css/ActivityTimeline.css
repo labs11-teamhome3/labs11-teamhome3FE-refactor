@@ -21,3 +21,12 @@
     margin: 50px auto;
 }
 
+.event {
+    width: 50%;
+    margin: 20px auto;
+}
+
+.event-info {
+    font-size: 1.2rem;
+}
+

@@ -19,14 +19,16 @@ const styles = theme => ({
 const Event = props => {
   const { classes } = props;
   return (
-    <Paper elevation={1} className={classes.root}>
-      <Typography variant="h5" component="h3">
-      {props.event.user.name} {props.event.action_string}
-        <span className="event-createdAt">
-          {moment(props.event.createdAt).fromNow()}
+    // <Paper elevation={1} className={classes.root}>
+      <div className='event'>
+        <span className="event-info">
+          {props.event.user.name} {props.event.action_string}
         </span>
-      </Typography>
-    </Paper>
+          <span className="event-createdAt">
+            {moment(props.event.createdAt).fromNow()}
+          </span>
+      </div>
+    // </Paper>
   );
 };
 
