@@ -8,6 +8,7 @@ import { useMutation } from "../../../../graphQL/useMutation";
 /////Components/////
 import Folder from "./Folder";
 import Document from "./Document";
+import CreateFolderModal from "./CreateFolderModal";
 import CreateDocumentModal from "./CreateDocumentModal";
 import ViewDocumentModal from "./ViewDocumentModal";
 import EditDocumentModal from "./EditDocumentModal";
@@ -15,7 +16,6 @@ import EditDocumentModal from "./EditDocumentModal";
 /////Queries/////
 import { CREATE_EVENT } from '../../../../graphQL/Mutations';
 import { DOCUMENTS_QUERY, FOLDERS_QUERY } from '../../../../graphQL/Queries';
-
 
 const DocumentTab = props => {
     const [createModalStatus, setCreateModalStatus] = useState(false);
@@ -111,11 +111,19 @@ const DocumentTab = props => {
         </div>
         
         <CreateDocumentModal
-        modalStatus={createModalStatus}
-        toggleModal={toggleModal}
-        teamId={props.teamId}
-        setMsg={props.setMsg}
+          modalStatus={createModalStatus}
+          toggleModal={toggleModal}
+          teamId={props.teamId}
+          setMsg={props.setMsg}
         />
+
+        <CreateFolderModal
+          modalStatus={createFolderModalStatus}
+          toggleModal={toggleModal}
+          teamId={props.teamId}
+          setMsg={props.setMsg}
+        />
+
         {editModalStatus ? (
           <EditDocumentModal
             modalStatus={editModalStatus.status}
