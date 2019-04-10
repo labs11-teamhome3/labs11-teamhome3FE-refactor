@@ -81,6 +81,7 @@ const CreateTodoListModal = props => {
     },
     onCompleted: e => {
       setTodoListTitle('');
+      props.setMsg('created a todo list');
       props.toggleModal('edit', e.createTodoList.id);
       props.toggleModal('create');
     },
