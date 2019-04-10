@@ -131,7 +131,7 @@ const ViewFolderModal = props => {
               <h3>Documents</h3>
               <ul>
                   {folder.documents.map(document => (
-                      <li>{document.title}</li>
+                      <li key={document.id}>{document.title}</li>
                   ))}
               </ul>
               {/* <List>

@@ -40,9 +40,12 @@ const CREATE_DOCUMENT = gql`
       textContent: $textContent
     ) {
       id
+      doc_url
+      folder {
+        id
+      }
       title
       textContent
-      doc_url
       user {
           id
       }
