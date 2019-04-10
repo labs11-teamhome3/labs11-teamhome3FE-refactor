@@ -108,7 +108,7 @@ const TabNavigator = props => {
         </TabContainer>
 
         <TabContainer>
-          <TeamSettingsTab teamId={props.match.params.id} match={props.match} history={props.history}/>
+          <TeamSettingsTab teamId={props.match.params.id} match={props.match} history={props.history} setMsg={setMsg}/>
         </TabContainer>
       </SwipeableViews>
     </div>
