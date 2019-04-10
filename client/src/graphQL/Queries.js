@@ -38,6 +38,9 @@ export const USERS_QUERY = gql`
       email
       phone
       profilePic
+      inTeam {
+        id
+      }
     }
   }
 `;

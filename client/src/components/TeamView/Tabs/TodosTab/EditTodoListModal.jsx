@@ -10,6 +10,8 @@ import Paper from "@material-ui/core/Paper";
 import Close from "@material-ui/icons/Close";
 import { withStyles } from "@material-ui/core/styles";
 import Chip from "@material-ui/core/Chip";
+import Menu from "@material-ui/core/Menu";
+import MenuItem from "@material-ui/core/MenuItem";
 
 /////Components/////
 import EditTodo from "./EditTodo";
@@ -56,14 +58,67 @@ const CREATE_TODO = gql`
   }
 `;
 
+const ADD_TO_OWNERS = gql`
+  mutation ADD_TO_OWNERS($userId: ID!, $todoListId: ID!) {
+    addUserToOwners(userId: $userId, todoListId: $todoListId) {
+      id
+      description
+      ownedBy {
+        id
+        name
+      }
+      assignedTo {
+        id
+        name
+      }
+      todos {
+        id
+        description
+        completed
+      }
+      completed
+    }
+  }
+`;
+
+const REMOVE_FROM_OWNERS = gql`
+  mutation REMOVE_FROM_OWNERS($userId: ID!, $todoListId: ID!) {
+    removeUserFromOwners(userId: $userId, todoListId: $todoListId) {
+      id
+      description
+      ownedBy {
+        id
+        name
+      }
+      assignedTo {
+        id
+        name
+      }
+      todos {
+        id
+        description
+        completed
+      }
+      completed
+    }
+  }
+`;
+
 const CreateTodoListModal = props => {
   const userId = localStorage.getItem("userId");
+  const [anchorEl, setAnchorEl] = useState(null);
+  const [menuControl, setMenuControl] = useState("");
+  const [editUserId, setEditUserId] = useState({
+    id: "",
+    action: ""
+  });
   const { classes } = props;
   const todoList = useQuery(TODO_LIST_QUERY, {
     variables: {
       id: props.todoListId
     }
   });
+  const users = useQuery(USERS_QUERY);
   // const [todoListInfo, setTodoListInfo] = useState({
   //   title: "",
   //   newTask: "tesetsetet",
@@ -86,6 +141,21 @@ const CreateTodoListModal = props => {
       }
     },
     [todoList.data.todoList]
+  );
+
+  useEffect(
+    _ => {
+      console.log(editUserId);
+      switch (editUserId.action) {
+        case "addowner":
+          addOwner();
+          break;
+        case "removeowner":
+          removeOwner();
+          break;
+      }
+    },
+    [editUserId]
   );
 
   const [createTodo] = useMutation(CREATE_TODO, {
@@ -111,9 +181,73 @@ const CreateTodoListModal = props => {
     },
     onCompleted: e => {
       setTodoListTask("");
+      setEditUserId(null);
     },
     onError: err => console.log(err)
   });
+
+  const [addOwner] = useMutation(ADD_TO_OWNERS, {
+    update: (cache, { data }) => {
+      const { todoList } = cache.readQuery({
+        query: TODO_LIST_QUERY,
+        variables: { id: props.todoListId }
+      });
+      cache.writeQuery({
+        query: TODO_LIST_QUERY,
+        variables: { id: props.todoListId },
+        data: {
+          todoList: { ...data.addUserToOwners }
+        }
+      });
+    },
+    variables: {
+      userId: editUserId.id,
+      todoListId: props.todoListId
+    },
+    onCompleted: e => {
+      setEditUserId(null);
+    },
+    onError: err => console.log(err)
+  });
+
+  const [removeOwner] = useMutation(REMOVE_FROM_OWNERS, {
+    update: (cache, { data }) => {
+      const { todoList } = cache.readQuery({
+        query: TODO_LIST_QUERY,
+        variables: { id: props.todoListId }
+      });
+      cache.writeQuery({
+        query: TODO_LIST_QUERY,
+        variables: { id: props.todoListId },
+        data: {
+          todoList: { ...data.addUserToOwners }
+        }
+      });
+    },
+    variables: {
+      userId: editUserId.id,
+      todoListId: props.todoListId
+    },
+    onCompleted: e => {},
+    onError: err => console.log(err)
+  });
+
+  const handleClick = (e, menu) => {
+    setAnchorEl(e.currentTarget);
+    setMenuControl(menu);
+  };
+
+  const handleClose = (id, action) => {
+    setEditUserId({
+      id,
+      action
+    });
+    setAnchorEl(null);
+  };
+
+  if (!todoList.data.todoList) {
+    return <h1>Loading...</h1>;
+  }
 
   return (
     <div>
@@ -128,10 +262,89 @@ const CreateTodoListModal = props => {
           <div>
             {todoList.data.todoList &&
               todoList.data.todoList.ownedBy.map(owner => (
-                <Chip label={owner.name} key={owner.id} />
+                <Chip
+                  label={owner.name}
+                  key={owner.id}
+                  onDelete={_ =>
+                    setEditUserId({ id: owner.id, action: "removeowner" })
+                  }
+                />
               ))}
           </div>
+          <div>
+            <Button
+              aria-owns={anchorEl ? "owner-menu" : undefined}
+              aria-haspopup="true"
+              onClick={e => handleClick(e, "owner")}
+            >
+              Add Owner
+            </Button>
+            <Menu
+              id="owner-menu"
+              anchorEl={anchorEl}
+              open={Boolean(anchorEl) && menuControl === "owner"}
+              onClose={handleClose}
+            >
+              {users.data.users &&
+                users.data.users
+                  .filter(user =>
+                    user.inTeam.find(team => team.id === props.teamId)
+                  )
+                  .filter(
+                    user =>
+                      !todoList.data.todoList.ownedBy.find(
+                        obUser => obUser.id === user.id
+                      )
+                  )
+                  .map(user => (
+                    <MenuItem
+                      key={user.id}
+                      onClick={_ => handleClose(user.id, "addowner")}
+                    >
+                      {user.name}
+                    </MenuItem>
+                  ))}
+            </Menu>
+          </div>
           <h4 onClick={_ => console.log(props)}>Assigned to</h4>
+          <div>
+            {todoList.data.todoList &&
+              todoList.data.todoList.assignedTo.map(assignee => (
+                <Chip label={assignee.name} key={assignee.id} />
+              ))}
+          </div>
+          <div>
+            <Button
+              aria-owns={anchorEl ? "simple-menu" : undefined}
+              aria-haspopup="true"
+              onClick={e => handleClick(e, "assignee")}
+            >
+              Add Assignee
+            </Button>
+            <Menu
+              id="simple-menu"
+              anchorEl={anchorEl}
+              open={Boolean(anchorEl) && menuControl === "assignee"}
+              onClose={handleClose}
+            >
+              {users.data.users &&
+                users.data.users
+                  .filter(user =>
+                    user.inTeam.find(team => team.id === props.teamId)
+                  )
+                  .filter(
+                    user =>
+                      !todoList.data.todoList.assignedTo.find(
+                        obUser => obUser.id === user.id
+                      )
+                  )
+                  .map(user => (
+                    <MenuItem key={user.id} onClick={handleClose}>
+                      {user.name}
+                    </MenuItem>
+                  ))}
+            </Menu>
+          </div>
           <h3>Title</h3>
           <br />
           <input
