@@ -48,7 +48,7 @@ const ObjectDropdown = props => {
 
   return (
     <div>
-      <h3>Filter By Activity</h3>
+      <h2>Filter By Activity</h2>
       <select value={choice} onChange={handleSelect}>
         {activityOptions}
       </select>

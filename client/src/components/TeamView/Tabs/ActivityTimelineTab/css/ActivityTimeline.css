@@ -13,3 +13,11 @@
     font-size: 2rem;
 }
 
+.dropdowns {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    width: 70%;
+    margin: 50px auto;
+}
+
