@@ -170,15 +170,47 @@ export const FOLDERS_QUERY = gql`
 query FOLDERS_QUERY($teamId: ID!) {
   findFoldersByTeam(teamId:$teamId) {
     id
-    title
-    user {
-      id
-      name
-    }
-    documents {
-      id
       title
-    }
+      user {
+          id
+          name
+      }
+      documents {
+          id
+          doc_url
+          title
+          textContent
+          tag {
+              id
+              name
+          }
+      }
   }
 }
+<<<<<<< HEAD
+`;
+
+export const FOLDER_QUERY = gql`
+query FOLDER_QUERY($id: ID!) {
+  findFolder(id:$id) {
+    id
+      title
+      user {
+          id
+          name
+      }
+      documents {
+          id
+          doc_url
+          title
+          textContent
+          tag {
+              id
+              name
+          }
+      }
+  }
+}
+=======
+>>>>>>> 6802b0d64f97ec21d97391525c19537b799decab
 `;
