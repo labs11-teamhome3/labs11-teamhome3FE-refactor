@@ -8,7 +8,7 @@ import { useMutation } from '../../../../graphQL/useMutation';
 import { useQuery } from 'react-apollo-hooks';
 import gql from 'graphql-tag';
 
-import { DOCUMENTS_QUERY, USERS_QUERY, EVENTS_QUERY } from '../../../../graphQL/Queries';
+import { FOLDERS_QUERY } from '../../../../graphQL/Queries';
 import { CREATE_EVENT } from '../../../../graphQL/Mutations';
 
 const styles = theme => ({
@@ -24,79 +24,69 @@ const styles = theme => ({
   },
 });
 
-const CREATE_DOCUMENT = gql`
-  mutation CREATE_DOCUMENT(
-    $doc_url: String!
+const CREATE_FOLDER = gql`
+  mutation CREATE_FOLDER(
     $teamId: ID!
     $userId: ID!
     $title: String!
-    $textContent: String!
   ) {
-    addDocument(
-      doc_url: $doc_url
+    createFolder(
       teamId: $teamId
       userId: $userId
       title: $title
-      textContent: $textContent
     ) {
-      id
-      title
-      textContent
-      doc_url
-      user {
-          id
-      }
-      team {
-          id
-      }
+        id
+        title
+        user {
+            id
+            name
+        }
+        documents {
+            id
+            doc_url
+            title
+            textContent
+            tag {
+                id
+                name
+            }
+        }
     }
   }
 `;
 
-const MessageModal = props => {
+const CreateFolderModal = props => {
     const userId = localStorage.getItem('userId');
-    const [messageInfo, setMessageInfo] = useState({
-        title: '',
-        textContent: '',
-        doc_url: ''
-    });
+    const [title, setTitle] = useState('');
 
   const handleChange = e => {
-    setMessageInfo({
-      ...messageInfo,
-      [e.target.name]: e.target.value,
-    });
+    setTitle(e.target.value);
   };
 
-  const users = useQuery(USERS_QUERY);
+  //const users = useQuery(USERS_QUERY);
 
-  const [createDocument] = useMutation(CREATE_DOCUMENT, {
+  const [createFolder] = useMutation(CREATE_FOLDER, {
     update: (cache, { data }) => {
       // console.log(data.createMessage)
-      const {findDocumentsByTeam} = cache.readQuery({
-        query: DOCUMENTS_QUERY,
+      const { findFoldersByTeam } = cache.readQuery({
+        query: FOLDERS_QUERY,
         variables: { teamId: props.teamId },
       });
       cache.writeQuery({
-        query: DOCUMENTS_QUERY,
+        query: FOLDERS_QUERY,
         variables: { teamId: props.teamId },
-        data: { findDocumentsByTeam: [...findDocumentsByTeam, data.addDocument] },
+        data: { findFoldersByTeam: [...findFoldersByTeam, data.createFolder] },
       });
     },
     variables: {
-        doc_url: messageInfo.doc_url,
-        title: messageInfo.title,
-        textContent: messageInfo.textContent,
+        title: title,
         userId: userId,
         teamId: props.teamId,
     },
     onCompleted: e => {
       props.setMsg('created a message');
-      props.toggleModal('create');
-      setMessageInfo({
-        title: '',
-        content: '',
-      });
+      props.toggleModal('createFolder');
+      setTitle('');
     },
     onError: err => console.log(err),
   });
@@ -110,42 +100,23 @@ const MessageModal = props => {
         open={props.modalStatus}
       >
         <Paper className={classes.paper}>
-          <h3>Create Document</h3>
-          <Close onClick={_ => props.toggleModal('create')} />
-          <br />
-          <input 
-          type="text"
-          value={messageInfo.doc_url}
-          onChange={handleChange}
-          name="doc_url"
-          placeholder="Document URL"
-          className={classes.messageInfo}
-          />
+          <h3>Create Folder</h3>
+          <Close onClick={_ => props.toggleModal('createFolder')} />
           <br />
           <input
             type="text"
-            value={messageInfo.title}
+            value={title}
             onChange={handleChange}
             name="title"
             placeholder="Message Title"
             className={classes.messageInput}
           />
           <br />
-          <textarea
-            name="textContent"
-            onChange={handleChange}
-            cols="30"
-            rows="10"
-            value={messageInfo.textContent}
-            placeholder="Message Content"
-            className={classes.messageInput}
-          />
-          <br />
-          <Button onClick={createDocument}>Save</Button>
+          <Button onClick={createFolder}>Save</Button>
         </Paper>
       </Modal>
     </div>
   );
 };
 
-export default withStyles(styles)(MessageModal);
+export default withStyles(styles)(CreateFolderModal);
