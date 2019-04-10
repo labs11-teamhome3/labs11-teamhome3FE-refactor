@@ -32,9 +32,11 @@ const ObjectDropdown = props => {
   const activities = [
     {name: 'all'},
     {name: 'created a message'},
-    {name: 'created a todo list'},
     {name: 'added to the team'},
     {name: 'removed from the team'},
+    {name: 'created a todo list'},
+    {name: 'deleted a todo list'},
+    {name: 'completed a todo list'}
   ]
 
   const activityOptions = activities.map(activity => 
