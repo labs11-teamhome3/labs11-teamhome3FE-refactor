@@ -40,15 +40,10 @@ const EDIT_USER = gql`
   }
 `;
 
-function Form() {
+const userId = localStorage.getItem("userId");
 
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [phone, setPhone] = useState("");
-  const [avatar, setAvatar] = useState("");
-  const [editUser] = useMutation(EDIT_USER);
+function getUserData() {
 
-  const userId = localStorage.getItem("userId");
   const { data, error, loading } = useQuery(USERS_QUERY);
 
   if (loading) {
@@ -62,35 +57,39 @@ function Form() {
     if (userData.id == userId) return userData
   }); user = user[0];
 
+  return (user)
+}
+
+function Form() {
+
+  let user = getUserData();
+
+  const [name, setName] = useState(user.name);
+  const [email, setEmail] = useState(user.email)
+  const [phone, setPhone] = useState(user.phone);
+  const [avatar, setAvatar] = useState(user.profilePic);
+  const [editUser] = useMutation(EDIT_USER);
+
   return (
     <>
       <StyledAvatar src={user.profilePic} alt="avatar"/>
       <StyledForm>
         <input
-          value={name}
           onChange={e => setName(e.target.value)}
           placeholder={user.name}
-          // type="text"
           name="Name"
-          // required
         />
         <input
-          value={phone}
           onChange={e => setPhone(e.target.value)}
           placeholder={
             user.phone ? user.phone : "Add a phone number"
           }
-          // type="text"
           name="Phone"
-          // required
         />
         <input
-          value={email}
           onChange={e => setEmail(e.target.value)}
           placeholder={user.email}
-          type="email"
           name="email"
-          // required
         />
         {/* <input
           value={avatar}
@@ -100,8 +99,9 @@ function Form() {
           name="avatar"
           // required
         /> */}
-        <button type="submit" onClick={() => {
+        <button type="submit" onClick={(e) => {
           editUser({variables: {id: userId, name: name, phone: phone, email: email}});
+          alert('Info Updated. You will be redirected to team page...')
         }}>Submit</button>
       </StyledForm>
     </>
