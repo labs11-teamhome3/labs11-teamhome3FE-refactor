@@ -42,7 +42,7 @@ const ActivityTimeline = props => {
       <div className="dropdowns">
         <ObjectDropdown allEvents={allEvents} setAllEvents={setAllEvents} setFilteredEvents={setFilteredEvents}/>
         {/* <ActionDropdown /> */}
-        <UserDropdown />
+        <UserDropdown allEvents={allEvents} setAllEvents={setAllEvents} setFilteredEvents={setFilteredEvents}/>
       </div>
       <ViewEventModal status={status} toggleModal={toggleModal} />
       <div>

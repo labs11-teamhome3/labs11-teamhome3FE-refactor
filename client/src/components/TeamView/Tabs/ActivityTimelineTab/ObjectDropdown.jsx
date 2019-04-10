@@ -26,13 +26,8 @@ const ObjectDropdown = props => {
         break;
       default:
         props.setFilteredEvents(props.allEvents.filter(event => event.action_string.includes(selectedChoice)));
-
-
-    }
-    if (selectedChoice === 'all') {
-    } else {
-    }
   }
+}
 
   const activities = [
     {name: 'all'},
