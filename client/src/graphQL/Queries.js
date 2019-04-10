@@ -38,6 +38,9 @@ export const USERS_QUERY = gql`
       email
       phone
       profilePic
+      inTeam {
+        id
+      }
     }
   }
 `;
@@ -184,6 +187,7 @@ query FOLDERS_QUERY($teamId: ID!) {
       }
   }
 }
+<<<<<<< HEAD
 `;
 
 export const FOLDER_QUERY = gql`
@@ -207,4 +211,6 @@ query FOLDER_QUERY($id: ID!) {
       }
   }
 }
+=======
+>>>>>>> 6802b0d64f97ec21d97391525c19537b799decab
 `;
