@@ -125,3 +125,46 @@ mutation CREATE_FOLDER(
   }
 }
 `;
+
+export const DELETE_COMMENT = gql`
+  mutation DELETE_COMMENT($documentCommentId: ID!){
+    deleteDocumentComment(documentCommentId: $documentCommentId) {
+      id
+    }
+  }
+`
+
+export const LIKE_COMMENT = gql`
+  mutation LIKE_COMMENT($commentId: ID!, $userId: ID!){
+    likeDocumentComment(commentId: $commentId, userId: $userId) {
+      id
+        content
+        user {
+          id
+          name
+        }
+        image
+        likes {
+          id
+          name
+        }
+    }
+  }
+`
+export const UNLIKE_COMMENT = gql`
+  mutation LIKE_COMMENT($commentId: ID!, $userId: ID!){
+    unlikeDocumentComment(commentId: $commentId, userId: $userId) {
+      id
+        content
+        user {
+          id
+          name
+        }
+        image
+        likes {
+          id
+          name
+        }
+    }
+  }
+`
