@@ -29,7 +29,9 @@ const ActivityTimeline = props => {
   /// right now it's flip flopping on every
   useEffect( _ => {
     setAllEvents(events.data.findEventsByTeam);
-    setFilteredEvents(events.data.findEventsByTeam);
+    if (events.data.findEventsByTeam) {
+      setFilteredEvents(events.data.findEventsByTeam.reverse());
+    }
   }, [events.data.findEventsByTeam])
 
   const toggleModal = () => {
@@ -38,7 +40,7 @@ const ActivityTimeline = props => {
 
   return (
     <div className="activity-timeline">
-      <h1 className="at-title">Event Timeline</h1>
+      <h1 className="at-title">Activity Timeline</h1>
       <div className="dropdowns">
         <ObjectDropdown allEvents={allEvents} setAllEvents={setAllEvents} setFilteredEvents={setFilteredEvents}/>
         {/* <ActionDropdown /> */}

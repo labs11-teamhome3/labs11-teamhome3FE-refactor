@@ -47,9 +47,11 @@ const TeamInfo = props => {
 
     return (
         <div className="team-info">
-            <h2>Team: {props.team.teamName}</h2>
-            {props.userRole === "ADMIN" &&
-                <Button variant="contained" color="primary" onClick={() => setInput(true)}>Edit Team Name</Button>
+            {!showInput &&
+                <h2 className="team-name">Team: {props.team.teamName}</h2>
+            }
+            {!showInput && props.userRole === "ADMIN" &&
+                <Button variant="contained" color="primary" onClick={() => setInput(true)}>Edit</Button>
             }
             {showInput &&
                 <form onSubmit={handleTeamSubmit}>
