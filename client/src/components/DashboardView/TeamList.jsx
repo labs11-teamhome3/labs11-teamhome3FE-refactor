@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useQuery } from "react-apollo-hooks";
 import gql from "graphql-tag";
 import Fab from "@material-ui/core/Fab";
@@ -31,9 +31,20 @@ const TeamList = props => {
   const [errorMsg, setErrorMsg] = useState("");
   const [showInput, setShowInput] = useState(false);
 
-  const { data, error, loading } = useQuery(TEAMS_QUERY, {
+  // useEffect( () => {
+  //   // console.log('useEffect data', data);
+  //   console.log('UE userId', userId);
+  //   if (data.teamsByUser && data.teamsByUser.length < 1) {
+  //     console.log('here');
+  //     window.location.reload()
+  //   }
+  // }, [data && data.teamsByUser])
+
+  const { data, error, loading, refetch } = useQuery(TEAMS_QUERY, {
     variables: { userId: userId }
   });
+
+  console.log('teamsData', data);
 
 
   const [createTeam] = useMutation(CREATE_TEAM, {
@@ -54,7 +65,7 @@ const TeamList = props => {
     },
     onError: err => {
       // console.log(err.message);
-      setErrorMsg(err.message);
+      setErrorMsg(err);
     }
   });
 

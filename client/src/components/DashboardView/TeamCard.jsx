@@ -13,7 +13,6 @@ const styles = theme => ({
   selected: {
     padding: '5px 0px',
     'margin-bottom': '15px',
-    background: 'red',
   }
 });
 
