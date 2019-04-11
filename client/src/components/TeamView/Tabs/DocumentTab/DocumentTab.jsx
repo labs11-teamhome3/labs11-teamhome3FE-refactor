@@ -135,6 +135,7 @@ const DocumentTab = props => {
           ) : (
             folders.data.findFoldersByTeam.map(folder => (
               <Folder
+                setDroppedItem={setDroppedItem}
                 droppedItem={droppedItem}
                 setMsg={props.setMsg}
                 onDrop={onDrop}
@@ -198,6 +199,7 @@ const DocumentTab = props => {
         ) : null}
         {viewFolderModalStatus.status ? (
           <ViewFolderModal
+            refetch={documents.refetch}
             modalStatus={viewFolderModalStatus.status}
             folderId={viewFolderModalStatus.folderId}
             toggleModal={toggleModal}

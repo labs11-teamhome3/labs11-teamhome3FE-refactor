@@ -18,19 +18,33 @@ mutation CREATE_EVENT($userId: ID, $teamId: ID!, $action_string: String!, $objec
 export const ADD_DOCUMENT_FOLDER = gql`
 mutation ADD_DOCUMENT_FOLDER($folderId: ID!, $documentId: ID!) {
   addDocumentToFolder(folderId: $folderId, documentId: $documentId) {
-    id
+    id 
     doc_url
-    folder {
-      id
-    }
-    title
-    textContent
+    title 
     user {
-        id
+      id
+      name
     }
     team {
-        id
+      id
     }
+    textContent
+    folder {
+        id
+      }
+    comments {
+        id
+        content
+        user {
+          id
+          name
+        }
+        image
+        likes {
+          id
+          name
+        }
+      } 
   }
 }
 `
