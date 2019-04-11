@@ -19,6 +19,7 @@ import TeamView from './views/TeamView';
 import LandingView from './views/LandingView';
 import NavigationView from './views/NavigationView';
 import ProfileView from './views/ProfileView';
+import NewTeam from './views/NewTeam';
 
 const auth = new Auth();
 
@@ -89,14 +90,14 @@ const App = (props) => {
         render={props => <LandingView auth={auth} {...props} />} />
         <Route
           path="/teams/first-team"
-          render={ (props) => <DashboardView {...props} /> }/>
+          render={ (props) => <NewTeam auth={auth} {...props} /> }/>
         <Route
           path="/teams/:id/home"
           render={props => <TeamView auth={auth} {...props} />}
         />
         <Route
           path="/profile/"
-          render={props => <ProfileView {...props} />}
+          render={props => <ProfileView auth={auth} {...props} />}
         />
       </div>
     );

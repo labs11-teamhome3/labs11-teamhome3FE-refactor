@@ -11,7 +11,10 @@ const DashboardView = props => {
         ? <h2>Please login to access the dashboard</h2>
         : <>
             <h1>My Teams</h1>
-            <TeamList history={props.history}/> 
+            <TeamList 
+              history={props.history} 
+              match={props.match}
+            /> 
           </>
       }
     </div>

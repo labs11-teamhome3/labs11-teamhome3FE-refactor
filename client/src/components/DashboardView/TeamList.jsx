@@ -26,13 +26,16 @@ const CREATE_TEAM = gql`
 
 const TeamList = props => {
   const userId = localStorage.getItem("userId");
-  console.log(userId)
+  
+  const [teamInput, setTeamInput] = useState("");
+  const [errorMsg, setErrorMsg] = useState("");
+  const [showInput, setShowInput] = useState(false);
 
   const { data, error, loading } = useQuery(TEAMS_QUERY, {
     variables: { userId: userId }
   });
-  const [teamInput, setTeamInput] = useState("");
-  const [errorMsg, setErrorMsg] = useState("");
+
+
   const [createTeam] = useMutation(CREATE_TEAM, {
     update: (cache, { data }) => {
       const { teamsByUser } = cache.readQuery({
@@ -64,22 +67,10 @@ const TeamList = props => {
   }
 
   return (
-    // <Query query={TEAMS_QUERY}>
-    //   {({ loading, error, data }) => {
-    //     if (loading) {
-    //       return <div>Loading...</div>;
-    //     }
-
-    //     if (error) {
-    //       return <div>Error! {error.message}</div>;
-    //     }
-    // return (
     <>
-      {data.teamsByUser.map(team => (
-        <TeamCard team={team} key={team.id} />
-      ))}
       <form onSubmit={createTeam}>
         <input
+          required
           type="text"
           value={teamInput}
           onChange={e => setTeamInput(e.target.value)}
@@ -88,6 +79,9 @@ const TeamList = props => {
           <AddIcon />
         </Fab>
       </form>
+      {data.teamsByUser.map(team => (
+        <TeamCard match={props.match} team={team} key={team.id} />
+      ))}
       {errorMsg && 
         <div 
           onClick={() => {

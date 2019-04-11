@@ -7,8 +7,14 @@ import Typography from '@material-ui/core/Typography';
 const styles = theme => ({
   root: {
     padding: '5px 0px',
-    'margin-bottom': '15px'
+    'margin-bottom': '15px',
+    background: 'green',
   },
+  selected: {
+    padding: '5px 0px',
+    'margin-bottom': '15px',
+    background: 'red',
+  }
 });
 
 const TeamCard = props => {
@@ -16,7 +22,8 @@ const TeamCard = props => {
   return (
     <Link to={`/teams/${props.team.id}/home`}>
       <div>
-        <Paper className={classes.root}>
+        <Paper className={props.team.id === props.match.params.id ?
+          classes.root : classes.selected}>
         <Typography variant="h5" component="h3">
         {props.team.teamName}
         </Typography>

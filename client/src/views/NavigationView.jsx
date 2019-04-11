@@ -36,7 +36,7 @@ const NavigationView = props => {
             </div>
           ) : (
             <div className="nav-btns">
-              <Link to="/dashboard">
+              <Link to="/teams/first-team">
                 <Button>Dashboard</Button>
               </Link>
               <Link to="/profile">

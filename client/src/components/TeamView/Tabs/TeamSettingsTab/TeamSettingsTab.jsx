@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Button from "@material-ui/core/Button";
 import { withStyles } from "@material-ui/core/styles";
 import DeleteIcon from "@material-ui/icons/Delete";
@@ -46,6 +46,9 @@ const CURRENT_USER_QUERY = gql`
       id
       name
       role
+      inTeam {
+        id
+      }
     }
   }
 `;
@@ -71,6 +74,11 @@ const TeamSettingsTab = props => {
   const [newMember, setNewMember] = useState("");
   const [newMemberId, setNewMemberId] = useState("");
   const [errorMsg, setErrorMsg] = useState("");
+  // const [currentUser, setCurrentUser] = useState(null)
+
+  // useEffect(() => {
+  //   setCurrentUser(userQuery.data.user)
+  // }, [currentUser])
 
   const handleDeleteChange = e => {
     setDeleteInput(e.target.value);
@@ -102,7 +110,10 @@ const TeamSettingsTab = props => {
     }
   });
   let userRole = "";
+  let currentUser;
   if (userQuery.data.user) {
+    console.log('user', userQuery.data.user)
+    currentUser = userQuery.data.user;
     userRole = userQuery.data.user.role;
   }
 
@@ -120,7 +131,12 @@ const TeamSettingsTab = props => {
     },
     variables: { id: props.teamId },
     onCompleted: e => {
-      props.history.push("/dashboard");
+      console.log('currentUser', currentUser)
+      if (currentUser.inTeam.length > 1) {
+        props.history.push(`/teams/${currentUser.inTeam[0].id}/home`)
+      } else {
+        props.history.push(`/teams/first-team`);
+      }
       // reload the window to remove the team.  NEEDS TO BE FIXED
       window.location.reload();
     },

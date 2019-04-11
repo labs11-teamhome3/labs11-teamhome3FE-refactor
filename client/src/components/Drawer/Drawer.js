@@ -25,7 +25,8 @@ import MailIcon from '@material-ui/icons/Mail';
 // components //
 import TabNavigator from '../../components/TeamView/TabNavigator'
 import ActivityTimeline from '../TeamView/Tabs/ActivityTimelineTab/ActivityTimelineTab';
-import NavigationView from '../../views/NavigationView'
+import NavigationView from '../../views/NavigationView';
+import DashboardView from '../../views/DashboardView';
 
 // queries //
 import { CREATE_EVENT } from '../../graphQL/Mutations';
@@ -101,7 +102,7 @@ const PersistentDrawerLeft = props => {
 //     open: false,
 //   };
 
-  const [open, setOpen] = useState(false)
+  const [open, setOpen] = useState(true)
   const [msg, setMsg] = useState(null);
 
   useEffect( _ => {
@@ -167,27 +168,27 @@ const PersistentDrawerLeft = props => {
               <MenuIcon />
             </IconButton>
             <div className="header">
-          <div className="logo">
-            <Link to="/dashboard">
-              <img className="logo-img" src={props.logo} alt="Manaje" />
-            </Link>
-          </div>
-          {!localStorage.getItem('userId') ? (
-            <div className="nav-btns">
-              <Button onClick={props.login}>Log in</Button>
-              <Button onClick={props.signup}>Sign Up</Button>
-            </div>
-          ) : (
-            <div className="nav-btns">
-              <Link to="/dashboard">
-                <Button>Dashboard</Button>
-              </Link>
-              <Link to="/profile">
-                <Button>Profile</Button>
-              </Link>
-              <Button onClick={props.logout}>Log out</Button>
-            </div>
-          )}
+                <div className="logo">
+                    <Link to="/dashboard">
+                    <img className="logo-img" src={props.logo} alt="Manaje" />
+                    </Link>
+                </div>
+                {!localStorage.getItem('userId') ? (
+                    <div className="nav-btns">
+                        <Button onClick={props.login}>Log in</Button>
+                        <Button onClick={props.signup}>Sign Up</Button>
+                    </div>
+                ) : (
+                    <div className="nav-btns">
+                        {/* <Link to="/dashboard">
+                            <Button>Dashboard</Button>
+                        </Link> */}
+                        <Link to="/profile">
+                            <Button>Profile</Button>
+                        </Link>
+                        <Button onClick={props.logout}>Log out</Button>
+                    </div>
+                )}
         </div>
           </Toolbar>
         </AppBar>
@@ -206,14 +207,7 @@ const PersistentDrawerLeft = props => {
             </IconButton>
           </div>
           <Divider />
-          <List>
-            {['Inbox', 'Starred', 'Send email', 'Drafts'].map((text, index) => (
-              <ListItem button key={text}>
-                <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
-                <ListItemText primary={text} />
-              </ListItem>
-            ))}
-          </List>
+          <DashboardView match={props.match}/>
           <Divider />
           <ActivityTimeline setMsg={setMsg} teamId={props.match.params.id} />
         </Drawer>
