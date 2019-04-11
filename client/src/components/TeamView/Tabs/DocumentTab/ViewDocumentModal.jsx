@@ -84,7 +84,6 @@ const ViewDocumentModal = props => {
   
   const [deleteDocument] = useMutation(DELETE_DOCUMENT, {
     update: (cache, { data }) => {
-      console.log('data', data);
       const { findDocumentsByTeam } = cache.readQuery({
         query: DOCUMENTS_QUERY,
         variables: { teamId: props.teamId }

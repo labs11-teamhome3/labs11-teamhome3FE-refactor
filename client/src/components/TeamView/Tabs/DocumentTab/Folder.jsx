@@ -21,7 +21,6 @@ const Folder = props => {
         query: DOCUMENTS_QUERY,
         variables: { teamId: props.teamId },
       });
-      console.log('########', data)
       cache.writeQuery({
         query: DOCUMENTS_QUERY,
         variables: { teamId: props.teamId },

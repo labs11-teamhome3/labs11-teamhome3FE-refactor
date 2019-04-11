@@ -23,13 +23,13 @@ const TEAM_QUERY = gql`
 
 const UserDropdown = props => {
   const [choice, setChoice] = useState('all');
-  console.log('userdd props', props);
+  //console.log('userdd props', props);
 
   const handleSelect = e => {
     const choices = Array.from(e.target);
-    console.log('c', choices);
+    //console.log('c', choices);
     const selectedChoice = choices.find(choice => choice.selected).innerText;
-    console.log('s', selectedChoice);
+    //console.log('s', selectedChoice);
     setChoice(selectedChoice);
     if (selectedChoice === 'all') {
       props.setFilteredEvents(props.allEvents);
@@ -43,15 +43,12 @@ const UserDropdown = props => {
       id: props.teamId
     }
   })
-  if (data) {
-    console.log('data', data);
-  }
   
   let members; 
   let membersOptions = [<option className="member-option" key={Math.random()}>all</option>];
   if (data.team) {
     members = data.team.members
-    console.log('members', members)
+    //console.log('members', members)
     membersOptions = [...membersOptions, members.map(member => 
         <option className="member-option" key={Math.random()}>{member.name}</option>
       )]

@@ -149,8 +149,6 @@ const MessageComment = props => {
     onError: err => console.log(err)
   });
 
-  console.log(props.comment)
-
   return (
         <ListItem>
           <ListItemText primary={<strong>{props.comment.user.name} <DeleteIcon onClick={deleteComment} /></strong>} secondary={

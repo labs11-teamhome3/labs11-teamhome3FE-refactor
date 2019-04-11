@@ -85,7 +85,6 @@ const MessageModal = props => {
   // console.log(message);
   const [deleteMessage] = useMutation(DELETE_MESSAGE, {
     update: (cache, { data }) => {
-      console.log(data);
       const { messages } = cache.readQuery({
         query: MESSAGES_QUERY,
         variables: { teamId: props.teamId }
@@ -113,10 +112,6 @@ const MessageModal = props => {
     },
     onError: err => console.log(err)
   });
-
-  if(!message.loading) {
-    console.log(message.data);
-  }
 
   const [addMessageComment] = useMutation(ADD_COMMENT, {
     update: (cache, { data }) => {
