@@ -26,26 +26,27 @@ const CREATE_TEAM = gql`
 
 const TeamList = props => {
   const userId = localStorage.getItem("userId");
+  console.log('teamList userId', userId);
   
   const [teamInput, setTeamInput] = useState("");
   const [errorMsg, setErrorMsg] = useState("");
   const [showInput, setShowInput] = useState(false);
 
-  // useEffect( () => {
-  //   // console.log('useEffect data', data);
-  //   console.log('UE userId', userId);
-  //   if (data.teamsByUser && data.teamsByUser.length < 1) {
-  //     console.log('here');
-  //     window.location.reload()
-  //   }
-  // }, [data && data.teamsByUser])
-
+  
+  
+  
   const { data, error, loading, refetch } = useQuery(TEAMS_QUERY, {
-    variables: { userId: userId }
+    variables: { userId: userId },
+    fetchPolicy: 'network-only',
   });
-
+  
   console.log('teamsData', data);
-
+  
+  
+  useEffect( () => {
+    // console.log('useEffect data', data);
+    refetch()
+  }, [])
 
   const [createTeam] = useMutation(CREATE_TEAM, {
     update: (cache, { data }) => {
