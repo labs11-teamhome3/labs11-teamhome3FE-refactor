@@ -2,12 +2,20 @@
     display: flex;
     width: 30%;
     justify-content: space-between;
-    margin: 50px auto;
+    align-items: center;
+    margin: 10px auto;
+    border: 1px solid lightgray;
+    box-shadow: inset 0 0 10px #000000;
+    padding: 20px
 }
 
 .team-info {
     display: flex;
     flex-direction: column;
+}
+
+.team-name {
+    font-size: 3rem;
 }
 
 .team-info button {
@@ -25,6 +33,8 @@
 .member-info {
     display: flex;
     align-items: center;
+    justify-content: flex-start;
+    width: 60%;
 }
 
 .delete-area {
