@@ -15,6 +15,52 @@ mutation CREATE_EVENT($userId: ID, $teamId: ID!, $action_string: String!, $objec
 }
 `
 
+export const CREATE_DOCUMENT = gql`
+  mutation CREATE_DOCUMENT(
+    $doc_url: String!
+    $teamId: ID!
+    $userId: ID!
+    $title: String!
+    $textContent: String!
+  ) {
+    addDocument(
+      doc_url: $doc_url
+      teamId: $teamId
+      userId: $userId
+      title: $title
+      textContent: $textContent
+    ) {
+      id 
+      doc_url
+      title 
+      user {
+        id
+        name
+      }
+      team {
+        id
+      }
+      textContent
+      folder {
+          id
+        }
+      comments {
+          id
+          content
+          user {
+            id
+            name
+          }
+          image
+          likes {
+            id
+            name
+          }
+      } 
+    }
+  }
+`;
+
 export const ADD_DOCUMENT_FOLDER = gql`
 mutation ADD_DOCUMENT_FOLDER($folderId: ID!, $documentId: ID!) {
   addDocumentToFolder(folderId: $folderId, documentId: $documentId) {

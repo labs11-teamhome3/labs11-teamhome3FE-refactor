@@ -8,8 +8,8 @@ import { useMutation } from '../../../../graphQL/useMutation';
 import { useQuery } from 'react-apollo-hooks';
 import gql from 'graphql-tag';
 
-import { DOCUMENTS_QUERY, USERS_QUERY, EVENTS_QUERY } from '../../../../graphQL/Queries';
-import { CREATE_EVENT } from '../../../../graphQL/Mutations';
+import { DOCUMENTS_QUERY } from '../../../../graphQL/Queries';
+import { CREATE_DOCUMENT } from '../../../../graphQL/Mutations';
 
 const styles = theme => ({
   paper: {
@@ -23,52 +23,6 @@ const styles = theme => ({
     marginBottom: '10px',
   },
 });
-
-const CREATE_DOCUMENT = gql`
-  mutation CREATE_DOCUMENT(
-    $doc_url: String!
-    $teamId: ID!
-    $userId: ID!
-    $title: String!
-    $textContent: String!
-  ) {
-    addDocument(
-      doc_url: $doc_url
-      teamId: $teamId
-      userId: $userId
-      title: $title
-      textContent: $textContent
-    ) {
-      id 
-      doc_url
-      title 
-      user {
-        id
-        name
-      }
-      team {
-        id
-      }
-      textContent
-      folder {
-          id
-        }
-      comments {
-          id
-          content
-          user {
-            id
-            name
-          }
-          image
-          likes {
-            id
-            name
-          }
-      } 
-    }
-  }
-`;
 
 const CreateDocumentModal = props => {
     const userId = localStorage.getItem('userId');
@@ -85,11 +39,8 @@ const CreateDocumentModal = props => {
     });
   };
 
-  const users = useQuery(USERS_QUERY);
-
   const [createDocument] = useMutation(CREATE_DOCUMENT, {
     update: (cache, { data }) => {
-      // console.log(data.createMessage)
       const {findDocumentsByTeam} = cache.readQuery({
         query: DOCUMENTS_QUERY,
         variables: { teamId: props.teamId },
