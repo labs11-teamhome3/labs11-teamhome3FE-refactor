@@ -6,6 +6,9 @@ import { withStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 
+// components //
+import NavigationView from './NavigationView';
+
 const styles = {
   card: {
     width: '500px',
@@ -26,6 +29,7 @@ const LandingView = props => {
 
   return (
     <div>
+      <NavigationView auth={props.auth}/>
       <h1>
         Connect. <span>Organize. </span> Collaborate.
       </h1>

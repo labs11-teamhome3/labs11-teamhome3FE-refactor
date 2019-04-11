@@ -24,7 +24,7 @@ const CREATE_TEAM = gql`
   }
 `;
 
-const TeamList = () => {
+const TeamList = props => {
   const userId = localStorage.getItem("userId");
   console.log(userId)
 
@@ -45,8 +45,9 @@ const TeamList = () => {
       });
     },
     variables: { teamName: teamInput, userId: userId },
-    onCompleted: e => {
+    onCompleted: (e) => {
       setTeamInput("");
+      props.history.push(`/teams/${e.createTeam.id}/home`)
     },
     onError: err => {
       // console.log(err.message);
@@ -96,7 +97,7 @@ const TeamList = () => {
           className="error-flash">
             <h3>{errorMsg.split(":")[1]}</h3>
             {/* add onClick to below to open Stripe payment modal */}
-            <div classname="premium-or-cancel">
+            <div className="premium-or-cancel">
               <Button>Go Premium</Button>
               <Button onClick={() => setErrorMsg("")}>Cancel</Button>
             </div>

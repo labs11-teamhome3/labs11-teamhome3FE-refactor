@@ -31,6 +31,9 @@ const AUTHENTICATE_USER = gql`
     ) {
       id
       name
+      inTeam {
+        id
+      }
     }
   }
 `
@@ -38,7 +41,7 @@ const AUTHENTICATE_USER = gql`
 const App = (props) => {
     useEffect(() => {
       if(localStorage.getItem('userId')) {
-        props.history.push('/dashboard')
+        // props.history.push('/dashboard')
       } else {
         handleAuthentication()
       }
@@ -47,10 +50,16 @@ const App = (props) => {
 
     const [authenticateUser] = useMutation(AUTHENTICATE_USER, {
         onCompleted: e => {
-          alert('Welcome User'); 
+          // console.log('first team id', e.authenticateUser.inTeam[0].id);
+          // alert('Welcome User'); 
           localStorage.setItem('userId', e.authenticateUser.id)
-          props.history.push('/dashboard')
-          window.location.reload();
+          if (e.authenticateUser.inTeam.length > 0) {
+            props.history.push(`/teams/${e.authenticateUser.inTeam[0].id}/home`)
+          } else {
+            props.history.push(`/teams/first-team`)
+          }
+          // props.history.push('/dashboard')
+          // window.location.reload();
       },
       onError: err => console.log(err)
     });
@@ -75,15 +84,15 @@ const App = (props) => {
 
     return (
       <div className="App">
-        <NavigationView auth={auth} />
+        {/* <NavigationView auth={auth} /> */}
         <Route exact path='/'
-        render={props => <LandingView {...props} />} />
+        render={props => <LandingView auth={auth} {...props} />} />
         <Route
-          path="/dashboard"
+          path="/teams/first-team"
           render={ (props) => <DashboardView {...props} /> }/>
         <Route
           path="/teams/:id/home"
-          render={props => <TeamView {...props} />}
+          render={props => <TeamView auth={auth} {...props} />}
         />
         <Route
           path="/profile/"

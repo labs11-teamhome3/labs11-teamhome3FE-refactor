@@ -11,7 +11,7 @@ const DashboardView = props => {
         ? <h2>Please login to access the dashboard</h2>
         : <>
             <h1>My Teams</h1>
-            <TeamList /> 
+            <TeamList history={props.history}/> 
           </>
       }
     </div>
