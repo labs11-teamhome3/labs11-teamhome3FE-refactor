@@ -5,11 +5,9 @@ import { withStyles } from '@material-ui/core/styles';
 import Close from '@material-ui/icons/Close';
 import Button from '@material-ui/core/Button';
 import { useMutation } from '../../../../graphQL/useMutation';
-import { useQuery } from 'react-apollo-hooks';
-import gql from 'graphql-tag';
 
 import { FOLDERS_QUERY } from '../../../../graphQL/Queries';
-import { CREATE_EVENT } from '../../../../graphQL/Mutations';
+import { CREATE_FOLDER } from '../../../../graphQL/Mutations';
 
 const styles = theme => ({
   paper: {
@@ -24,37 +22,6 @@ const styles = theme => ({
   },
 });
 
-const CREATE_FOLDER = gql`
-  mutation CREATE_FOLDER(
-    $teamId: ID!
-    $userId: ID!
-    $title: String!
-  ) {
-    createFolder(
-      teamId: $teamId
-      userId: $userId
-      title: $title
-    ) {
-        id
-        title
-        user {
-            id
-            name
-        }
-        documents {
-            id
-            doc_url
-            title
-            textContent
-            tag {
-                id
-                name
-            }
-        }
-    }
-  }
-`;
-
 const CreateFolderModal = props => {
     const userId = localStorage.getItem('userId');
     const [title, setTitle] = useState('');
@@ -63,11 +30,8 @@ const CreateFolderModal = props => {
     setTitle(e.target.value);
   };
 
-  //const users = useQuery(USERS_QUERY);
-
   const [createFolder] = useMutation(CREATE_FOLDER, {
     update: (cache, { data }) => {
-      // console.log(data.createMessage)
       const { findFoldersByTeam } = cache.readQuery({
         query: FOLDERS_QUERY,
         variables: { teamId: props.teamId },

@@ -94,3 +94,34 @@ mutation ADD_DOCUMENT_FOLDER($folderId: ID!, $documentId: ID!) {
   }
 }
 `
+
+export const CREATE_FOLDER = gql`
+mutation CREATE_FOLDER(
+  $teamId: ID!
+  $userId: ID!
+  $title: String!
+) {
+  createFolder(
+    teamId: $teamId
+    userId: $userId
+    title: $title
+  ) {
+      id
+      title
+      user {
+          id
+          name
+      }
+      documents {
+          id
+          doc_url
+          title
+          textContent
+          tag {
+              id
+              name
+          }
+      }
+  }
+}
+`;
