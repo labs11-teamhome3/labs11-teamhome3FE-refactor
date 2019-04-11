@@ -169,9 +169,7 @@ const PersistentDrawerLeft = props => {
             </IconButton>
             <div className="header">
                 <div className="logo">
-                    <Link to="/dashboard">
                     <img className="logo-img" src={props.logo} alt="Manaje" />
-                    </Link>
                 </div>
                 {!localStorage.getItem('userId') ? (
                     <div className="nav-btns">
