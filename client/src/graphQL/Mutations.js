@@ -70,12 +70,43 @@ export const UPDATE_DOCUMENT = gql`
     title: $title
     textContent: $textContent
   ) {
-  	id
-    doc_url
-    title
-    textContent
+  	  id 
+      doc_url
+      title 
+      user {
+        id
+        name
+      }
+      team {
+        id
+      }
+      textContent
+      folder {
+          id
+        }
+      comments {
+          id
+          content
+          user {
+            id
+            name
+          }
+          image
+          likes {
+            id
+            name
+          }
+      } 
   }
 }
+`;
+
+export const DELETE_DOCUMENT = gql`
+  mutation DELETE_DOCUMENT($documentId: ID!) {
+    deleteDocument(documentId: $documentId) {
+      id
+    }
+  }
 `;
 
 export const ADD_DOCUMENT_FOLDER = gql`
@@ -150,9 +181,95 @@ export const UPDATE_FOLDER = gql`
     title: $title
   ) {
   	id
-    title
+      title
+      user {
+          id
+          name
+      }
+      documents {
+          id
+          doc_url
+          title
+          textContent
+          tag {
+              id
+              name
+          }
+      }
   }
 }
+`;
+
+export const DELETE_FOLDER = gql`
+  mutation DELETE_FOLDER($folderId: ID!) {
+    deleteFolder(folderId: $folderId) {
+      id
+      title
+      documents {
+        id 
+        doc_url
+        title 
+        user {
+          id
+          name
+        }
+        team {
+          id
+        }
+        textContent
+        folder {
+            id
+          }
+        comments {
+            id
+            content
+            user {
+              id
+              name
+            }
+            image
+            likes {
+              id
+              name
+            }
+          } 
+      }
+    }
+  }
+`;
+
+export const REMOVE_DOC_FOLDER = gql`
+  mutation REMOVE_DOC_FOLDER($folderId: ID! $documentId: ID!) {
+    removeDocumentFromFolder(folderId: $folderId, documentId: $documentId) {
+      id 
+      doc_url
+      title 
+      user {
+        id
+        name
+      }
+      team {
+        id
+      }
+      textContent
+      folder {
+          id
+        }
+      comments {
+          id
+          content
+          user {
+            id
+            name
+          }
+          image
+          likes {
+            id
+            name
+          }
+        }  
+    }
+  }
 `;
 
 export const DELETE_COMMENT = gql`
@@ -161,7 +278,34 @@ export const DELETE_COMMENT = gql`
       id
     }
   }
-`
+`;
+
+export const ADD_COMMENT = gql`
+  mutation ADD_COMMENT(
+    $documentId: ID!
+    $userId: ID!
+    $content: String!
+  ) {
+    addDocumentComment(
+      documentId: $documentId
+      userId: $userId
+      content: $content
+    ) {
+      id
+        content
+        user {
+          id
+          name
+        }
+        image
+        likes {
+          id
+          name
+        }
+      }
+    
+  }
+`;
 
 export const LIKE_COMMENT = gql`
   mutation LIKE_COMMENT($commentId: ID!, $userId: ID!){

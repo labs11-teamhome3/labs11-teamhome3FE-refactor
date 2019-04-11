@@ -3,22 +3,15 @@ import Modal from "@material-ui/core/Modal";
 import Paper from "@material-ui/core/Paper";
 import { withStyles } from "@material-ui/core/styles";
 import Close from "@material-ui/icons/Close";
-import DropArrow from "@material-ui/icons/ArrowDropDown";
-import List from "@material-ui/core/List";
-import Divider from "@material-ui/core/Divider";
 import Button from '@material-ui/core/Button';
 import { useMutation } from "../../../../graphQL/useMutation";
 import { useQuery } from "react-apollo-hooks";
-import gql from "graphql-tag";
 
-import DocumentComment from "./DocumentComment";
-import { CREATE_EVENT } from '../../../../graphQL/Mutations';
+import { DELETE_FOLDER, REMOVE_DOC_FOLDER } from '../../../../graphQL/Mutations';
 
 import {
   FOLDERS_QUERY,
-  FOLDER_QUERY,
-  DOCUMENTS_QUERY,
-  EVENTS_QUERY
+  FOLDER_QUERY
 } from "../../../../graphQL/Queries";
 
 const styles = theme => ({
@@ -36,78 +29,6 @@ const styles = theme => ({
     width: "100%"
   }
 });
-
-const DELETE_FOLDER = gql`
-  mutation DELETE_FOLDER($folderId: ID!) {
-    deleteFolder(folderId: $folderId) {
-      id
-      title
-      documents {
-        id 
-        doc_url
-        title 
-        user {
-          id
-          name
-        }
-        team {
-          id
-        }
-        textContent
-        folder {
-            id
-          }
-        comments {
-            id
-            content
-            user {
-              id
-              name
-            }
-            image
-            likes {
-              id
-              name
-            }
-          } 
-      }
-    }
-  }
-`;
-
-const REMOVE_DOC_FOLDER = gql`
-  mutation REMOVE_DOC_FOLDER($folderId: ID! $documentId: ID!) {
-    removeDocumentFromFolder(folderId: $folderId, documentId: $documentId) {
-      id 
-      doc_url
-      title 
-      user {
-        id
-        name
-      }
-      team {
-        id
-      }
-      textContent
-      folder {
-          id
-        }
-      comments {
-          id
-          content
-          user {
-            id
-            name
-          }
-          image
-          likes {
-            id
-            name
-          }
-        }  
-    }
-  }
-`;
 
 const ViewFolderModal = props => {
   const [documentId, setDocumentId] = useState(null)

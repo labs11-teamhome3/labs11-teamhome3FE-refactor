@@ -1,26 +1,21 @@
-import React, { useState, useEffect, Fragment } from "react";
+import React, { useState, Fragment } from "react";
 import Modal from "@material-ui/core/Modal";
 import Paper from "@material-ui/core/Paper";
 import { withStyles } from "@material-ui/core/styles";
 import Close from "@material-ui/icons/Close";
 import Button from "@material-ui/core/Button";
-import DeleteIcon from "@material-ui/icons/Delete";
-import DropArrow from "@material-ui/icons/ArrowDropDown";
 import List from "@material-ui/core/List";
 import Divider from "@material-ui/core/Divider";
 import { useMutation } from "../../../../graphQL/useMutation";
 import { useQuery } from "react-apollo-hooks";
-import gql from "graphql-tag";
 
 import DocumentComment from "./DocumentComment";
 
-import { CREATE_EVENT } from '../../../../graphQL/Mutations';
+import { DELETE_DOCUMENT, ADD_COMMENT } from '../../../../graphQL/Mutations';
 
 import {
   DOCUMENTS_QUERY,
-  DOCUMENT_QUERY,
-  MESSAGE_QUERY,
-  EVENTS_QUERY
+  DOCUMENT_QUERY
 } from "../../../../graphQL/Queries";
 
 const styles = theme => ({
@@ -38,41 +33,6 @@ const styles = theme => ({
     width: "100%"
   }
 });
-
-const DELETE_DOCUMENT = gql`
-  mutation DELETE_DOCUMENT($documentId: ID!) {
-    deleteDocument(documentId: $documentId) {
-      id
-    }
-  }
-`;
-
-const ADD_COMMENT = gql`
-  mutation ADD_COMMENT(
-    $documentId: ID!
-    $userId: ID!
-    $content: String!
-  ) {
-    addDocumentComment(
-      documentId: $documentId
-      userId: $userId
-      content: $content
-    ) {
-      id
-        content
-        user {
-          id
-          name
-        }
-        image
-        likes {
-          id
-          name
-        }
-      }
-    
-  }
-`;
 
 const ViewDocumentModal = props => {
   const userId = localStorage.getItem('userId')
@@ -93,7 +53,6 @@ const ViewDocumentModal = props => {
         variables: { teamId: props.teamId },
         data: {
           findDocumentsByTeam: findDocumentsByTeam.filter(document => {
-            // console.log(`${message.id} - ${props.messageId}`);
             if (document.id !== props.documentId) {
               return document;
             }
@@ -159,7 +118,6 @@ const ViewDocumentModal = props => {
 
   const { classes } = props;
   const document = findDocument.data.findDocument;
-  //console.log('document', document)
   return (
     <div>
       <Modal
