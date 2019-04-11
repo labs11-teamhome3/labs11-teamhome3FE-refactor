@@ -3,11 +3,10 @@ import Modal from "@material-ui/core/Modal";
 import Paper from "@material-ui/core/Paper";
 import { withStyles } from "@material-ui/core/styles";
 import Close from "@material-ui/icons/Close";
-import Button from "@material-ui/core/Button";
-import DeleteIcon from "@material-ui/icons/Delete";
 import DropArrow from "@material-ui/icons/ArrowDropDown";
 import List from "@material-ui/core/List";
 import Divider from "@material-ui/core/Divider";
+import Button from '@material-ui/core/Button';
 import { useMutation } from "../../../../graphQL/useMutation";
 import { useQuery } from "react-apollo-hooks";
 import gql from "graphql-tag";
@@ -18,6 +17,7 @@ import { CREATE_EVENT } from '../../../../graphQL/Mutations';
 import {
   FOLDERS_QUERY,
   FOLDER_QUERY,
+  DOCUMENTS_QUERY,
   EVENTS_QUERY
 } from "../../../../graphQL/Queries";
 
@@ -41,14 +41,91 @@ const DELETE_FOLDER = gql`
   mutation DELETE_FOLDER($folderId: ID!) {
     deleteFolder(folderId: $folderId) {
       id
+      title
+      documents {
+        id 
+        doc_url
+        title 
+        user {
+          id
+          name
+        }
+        team {
+          id
+        }
+        textContent
+        folder {
+            id
+          }
+        comments {
+            id
+            content
+            user {
+              id
+              name
+            }
+            image
+            likes {
+              id
+              name
+            }
+          } 
+      }
+    }
+  }
+`;
+
+const REMOVE_DOC_FOLDER = gql`
+  mutation REMOVE_DOC_FOLDER($folderId: ID! $documentId: ID!) {
+    removeDocumentFromFolder(folderId: $folderId, documentId: $documentId) {
+      id 
+      doc_url
+      title 
+      user {
+        id
+        name
+      }
+      team {
+        id
+      }
+      textContent
+      folder {
+          id
+        }
+      comments {
+          id
+          content
+          user {
+            id
+            name
+          }
+          image
+          likes {
+            id
+            name
+          }
+        }  
     }
   }
 `;
 
 const ViewFolderModal = props => {
   const userId = localStorage.getItem('userId')
+  const [documentId, setDocumentId] = useState(null)
+  const [documentsInFolder, setDocumentsInFolder] = useState([])
 
-    console.log('proops', props)
+  useEffect(() => {
+    if(findFolder.data.documents.length) {
+      setDocumentsInFolder(findFolder.data.documents)
+    }
+  }, [findFolder.data])
+
+  useEffect(() => {
+    if(documentId) {
+      removeDocumentFromFolder()
+    }
+  }, [documentId])
+
   const findFolder = useQuery(FOLDER_QUERY, {
     variables: { id: props.folderId }
   });
@@ -72,16 +149,81 @@ const ViewFolderModal = props => {
           })
         }
       });
+      const { findDocumentsByTeam } = cache.readQuery({
+        query: DOCUMENTS_QUERY,
+        variables: { teamId: props.teamId }
+      });
+      console.log('data delete', data.deleteFolder)
+      cache.writeQuery({
+        query: DOCUMENTS_QUERY,
+        variables: { teamId: props.teamId },
+        data: {
+          findDocumentsByTeam: findDocumentsByTeam.map(document => {
+            return documentsInFolder.map(documentInFolder => {
+             if( document.id === documentInFolder.id) {
+              return documentInFolder
+             } else {
+               return document
+             }
+            })
+          })
+        }
+      });
     },
     variables: {
       folderId: props.folderId
     },
     onCompleted: e => {
-      props.setMsg('deleted a message')
+      console.log('e', e)
+      props.setMsg('deleted a folder')
       props.toggleModal("viewFolder");
     },
     onError: err => console.log(err)
   });
+
+  const [removeDocumentFromFolder] = useMutation(REMOVE_DOC_FOLDER, {
+    update: (cache, {data}) => {
+      const { findFolder } = cache.readQuery({
+        query: FOLDER_QUERY,
+        variables: { id: props.folderId }
+      });
+      cache.writeQuery({
+        query: FOLDER_QUERY,
+        variables: { id: props.folderId },
+        data: {
+          findFolder: {...findFolder, documents: findFolder.documents.filter(document => document.id !== data.removeDocumentFromFolder.id)}
+        }
+      });
+      // const { findDocumentsByTeam } = cache.readQuery({
+      //   query: DOCUMENTS_QUERY,
+      //   variables: { teamId: props.teamId }
+      // });
+      // cache.writeQuery({
+      //   query: DOCUMENTS_QUERY,
+      //   variables: { teamId: props.teamId },
+      //   data: {
+      //     findDocumentsByTeam: findDocumentsByTeam.map(document => {
+      //       if(document.id === data.removeDocumentFromFolder.id) {
+      //         return data.removeDocumentFromFolder
+      //       } else {
+      //         return document
+      //       }
+      //     })
+      //   }
+      // });
+    },
+    variables: {
+      folderId: props.folderId,
+      documentId: documentId
+    },
+    onCompleted: e => {
+      props.setMsg('removed a document from a folder');
+      setDocumentId(null);
+      //props.toggleModal("viewFolder");
+    },
+    onError: err => console.log(err)
+  })
+
 
   const closeModal = _ => {
     props.toggleModal("viewFolder");
@@ -126,12 +268,17 @@ const ViewFolderModal = props => {
           </h2>
           <br />
           {folder !== undefined &&
-          folder.documents.length !== undefined ? (
+          folder.documents !== undefined &&
+          folder.documents !== null && 
+          folder.documents.length > 0 ? (
             <div>
               <h3>Documents</h3>
               <ul>
                   {folder.documents.map(document => (
-                      <li key={document.id}>{document.title}</li>
+                      <li key={document.id}>
+                        {document.title}
+                        <Button color="secondary" className={classes.button} onClick={() => setDocumentId(document.id)}>Remove</Button>
+                      </li>
                   ))}
               </ul>
               {/* <List>
