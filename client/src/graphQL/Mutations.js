@@ -143,6 +143,18 @@ mutation CREATE_FOLDER(
 }
 `;
 
+export const UPDATE_FOLDER = gql`
+  mutation UPDATE_FOLDER($folderId: ID!, $title: String){
+  updateFolderTitle(
+    folderId: $folderId
+    title: $title
+  ) {
+  	id
+    title
+  }
+}
+`;
+
 export const DELETE_COMMENT = gql`
   mutation DELETE_COMMENT($documentCommentId: ID!){
     deleteDocumentComment(documentCommentId: $documentCommentId) {
