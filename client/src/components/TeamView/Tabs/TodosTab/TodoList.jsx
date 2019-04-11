@@ -15,7 +15,10 @@ import Todo from "./Todo";
 
 const styles = theme => ({
   root: {
-    marginBottom: "10px"
+    marginBottom: "10px",
+    width: '30%',
+    margin: '0 5px',
+    padding: '10px'
   },
   expansionPanelSummary: {
     display: "flex",
@@ -74,14 +77,11 @@ const TodoList = props => {
   });
 
   return (
-    <ExpansionPanel>
-      <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
+    <Paper className={classes.root}>
         <Typography className={classes.heading}>
           {props.todoList.description}
           {props.todoList.completed ? " - Completed" : ""}
         </Typography>
-      </ExpansionPanelSummary>
-      <ExpansionPanelDetails className={classes.expansionPanelSummary}>
         <h3 onClick={_ => console.log(props.todoList)}>Todos</h3>
         <div>
           {props.todoList.todos.map(todo => (
@@ -107,8 +107,7 @@ const TodoList = props => {
             Complete todo list
           </Button>
         ) : null}
-      </ExpansionPanelDetails>
-    </ExpansionPanel>
+        </Paper>
   );
 };
 
