@@ -110,15 +110,7 @@ const REMOVE_DOC_FOLDER = gql`
 `;
 
 const ViewFolderModal = props => {
-  const userId = localStorage.getItem('userId')
   const [documentId, setDocumentId] = useState(null)
-  const [documentsInFolder, setDocumentsInFolder] = useState([])
-
-  useEffect(() => {
-    if(findFolder.data.documents && findFolder.data.documents.length) {
-      setDocumentsInFolder(findFolder.data.documents)
-    }
-  }, [findFolder && findFolder.data])
 
   useEffect(() => {
     if(documentId) {
@@ -132,7 +124,6 @@ const ViewFolderModal = props => {
   
   const [deleteFolder] = useMutation(DELETE_FOLDER, {
     update: (cache, { data }) => {
-      //console.log('data', data);
       const { findFoldersByTeam } = cache.readQuery({
         query: FOLDERS_QUERY,
         variables: { teamId: props.teamId }
@@ -142,40 +133,18 @@ const ViewFolderModal = props => {
         variables: { teamId: props.teamId },
         data: {
           findFoldersByTeam: findFoldersByTeam.filter(folder => {
-            // console.log(`${message.id} - ${props.messageId}`);
             if (folder.id !== props.folderId) {
               return folder;
             }
           })
         }
       });
-      // const { findDocumentsByTeam } = cache.readQuery({
-      //   query: DOCUMENTS_QUERY,
-      //   variables: { teamId: props.teamId }
-      // });
-      // console.log('#######', documentsInFolder)
-      // cache.writeQuery({
-      //   query: DOCUMENTS_QUERY,
-      //   variables: { teamId: props.teamId },
-      //   data: {
-      //     findDocumentsByTeam: findDocumentsByTeam.map(document => {
-      //       return documentsInFolder.map(documentInFolder => {
-      //        if( document.id === documentInFolder.id) {
-      //         return documentInFolder
-      //        } else {
-      //          return document
-      //        }
-      //       })
-      //     })
-      //   }
-      // });
     },
     variables: {
       folderId: props.folderId
     },
     onCompleted: e => {
       props.refetch();
-      console.log('e', e);
       props.setMsg('deleted a folder');
       props.toggleModal("viewFolder");
     },
@@ -195,23 +164,6 @@ const ViewFolderModal = props => {
           findFolder: {...findFolder, documents: findFolder.documents.filter(document => document.id !== data.removeDocumentFromFolder.id)}
         }
       });
-      // const { findDocumentsByTeam } = cache.readQuery({
-      //   query: DOCUMENTS_QUERY,
-      //   variables: { teamId: props.teamId }
-      // });
-      // cache.writeQuery({
-      //   query: DOCUMENTS_QUERY,
-      //   variables: { teamId: props.teamId },
-      //   data: {
-      //     findDocumentsByTeam: findDocumentsByTeam.map(document => {
-      //       if(document.id === data.removeDocumentFromFolder.id) {
-      //         return data.removeDocumentFromFolder
-      //       } else {
-      //         return document
-      //       }
-      //     })
-      //   }
-      // });
     },
     variables: {
       folderId: props.folderId,
@@ -220,7 +172,6 @@ const ViewFolderModal = props => {
     onCompleted: e => {
       props.setMsg('removed a document from a folder');
       setDocumentId(null);
-      //props.toggleModal("viewFolder");
     },
     onError: err => console.log(err)
   })
@@ -237,7 +188,6 @@ const ViewFolderModal = props => {
 
   const { classes } = props;
   const folder = findFolder.data.findFolder;
-  console.log('folder', folder)
   return (
     <div>
       <Modal
@@ -282,21 +232,6 @@ const ViewFolderModal = props => {
                       </li>
                   ))}
               </ul>
-              {/* <List>
-                {folder.documents.map((document, index) => (
-                  <Fragment key={document.id}>
-                    <DocumentComment
-                      comment={document}
-                      documentId={document.id}
-                      setMsg={props.setMsg}
-                    />
-                    {index ===
-                    document.length - 1 ? null : (
-                      <Divider />
-                    )}
-                  </Fragment>
-                ))}
-              </List> */}
             </div> 
           ) : null}
         </Paper>

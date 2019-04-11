@@ -39,19 +39,33 @@ const CREATE_DOCUMENT = gql`
       title: $title
       textContent: $textContent
     ) {
-      id
+      id 
       doc_url
-      folder {
-        id
-      }
-      title
-      textContent
+      title 
       user {
-          id
+        id
+        name
       }
       team {
-          id
+        id
       }
+      textContent
+      folder {
+          id
+        }
+      comments {
+          id
+          content
+          user {
+            id
+            name
+          }
+          image
+          likes {
+            id
+            name
+          }
+      } 
     }
   }
 `;

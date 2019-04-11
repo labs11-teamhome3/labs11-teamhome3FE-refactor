@@ -26,6 +26,7 @@ const DocumentTab = props => {
 
     function onDrop(item){
       setDroppedItem(item)
+      folders.refetch()
     }
 
     //Documents
