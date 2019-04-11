@@ -2,10 +2,8 @@ import React, { useState, useEffect } from "react";
 import { useQuery } from "react-apollo-hooks";
 import { DragDropContext } from "react-dnd";
 import HTML5Backend from "react-dnd-html5-backend";
-import gql from "graphql-tag";
 import Fab from "@material-ui/core/Fab";
 import AddIcon from "@material-ui/icons/Add";
-import { useMutation } from "../../../../graphQL/useMutation";
 
 /////Components/////
 import Folder from "./Folder";
@@ -18,7 +16,6 @@ import ViewFolderModal from "./ViewFolderModal";
 import EditFolderModal from "./EditFolderModal";
 
 /////Queries/////
-import { CREATE_EVENT } from '../../../../graphQL/Mutations';
 import { DOCUMENTS_QUERY, FOLDERS_QUERY } from '../../../../graphQL/Queries';
 
 const DocumentTab = props => {

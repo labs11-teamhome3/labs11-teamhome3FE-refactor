@@ -61,6 +61,23 @@ export const CREATE_DOCUMENT = gql`
   }
 `;
 
+
+export const UPDATE_DOCUMENT = gql`
+  mutation UPDATE_DOCUMENT($documentId: ID!, $doc_url: String, $title: String, $textContent: String){
+  updateDocument(
+    documentId: $documentId
+    doc_url: $doc_url
+    title: $title
+    textContent: $textContent
+  ) {
+  	id
+    doc_url
+    title
+    textContent
+  }
+}
+`;
+
 export const ADD_DOCUMENT_FOLDER = gql`
 mutation ADD_DOCUMENT_FOLDER($folderId: ID!, $documentId: ID!) {
   addDocumentToFolder(folderId: $folderId, documentId: $documentId) {
