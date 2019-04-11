@@ -115,10 +115,10 @@ const ViewFolderModal = props => {
   const [documentsInFolder, setDocumentsInFolder] = useState([])
 
   useEffect(() => {
-    if(findFolder.data.documents.length) {
+    if(findFolder.data.documents && findFolder.data.documents.length) {
       setDocumentsInFolder(findFolder.data.documents)
     }
-  }, [findFolder.data])
+  }, [findFolder && findFolder.data])
 
   useEffect(() => {
     if(documentId) {
@@ -149,33 +149,34 @@ const ViewFolderModal = props => {
           })
         }
       });
-      const { findDocumentsByTeam } = cache.readQuery({
-        query: DOCUMENTS_QUERY,
-        variables: { teamId: props.teamId }
-      });
-      console.log('data delete', data.deleteFolder)
-      cache.writeQuery({
-        query: DOCUMENTS_QUERY,
-        variables: { teamId: props.teamId },
-        data: {
-          findDocumentsByTeam: findDocumentsByTeam.map(document => {
-            return documentsInFolder.map(documentInFolder => {
-             if( document.id === documentInFolder.id) {
-              return documentInFolder
-             } else {
-               return document
-             }
-            })
-          })
-        }
-      });
+      // const { findDocumentsByTeam } = cache.readQuery({
+      //   query: DOCUMENTS_QUERY,
+      //   variables: { teamId: props.teamId }
+      // });
+      // console.log('#######', documentsInFolder)
+      // cache.writeQuery({
+      //   query: DOCUMENTS_QUERY,
+      //   variables: { teamId: props.teamId },
+      //   data: {
+      //     findDocumentsByTeam: findDocumentsByTeam.map(document => {
+      //       return documentsInFolder.map(documentInFolder => {
+      //        if( document.id === documentInFolder.id) {
+      //         return documentInFolder
+      //        } else {
+      //          return document
+      //        }
+      //       })
+      //     })
+      //   }
+      // });
     },
     variables: {
       folderId: props.folderId
     },
     onCompleted: e => {
-      console.log('e', e)
-      props.setMsg('deleted a folder')
+      props.refetch();
+      console.log('e', e);
+      props.setMsg('deleted a folder');
       props.toggleModal("viewFolder");
     },
     onError: err => console.log(err)

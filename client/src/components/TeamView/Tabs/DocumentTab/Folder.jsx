@@ -34,14 +34,16 @@ const Folder = props => {
     },
     onCompleted: e => {
       props.setMsg('added document to folder')
+      props.setDroppedItem('')
     },
     onError: err => console.log(err)
   })
 
   useEffect(() => {
     //call mutation
-    console.log('dropped!')
+    console.log('########################dropped!')
     addDocumentToFolder()
+
   }, [props.droppedItem])
 
   const { classes, isOver, canDrop, connectDropTarget, droppedItem } = props;
