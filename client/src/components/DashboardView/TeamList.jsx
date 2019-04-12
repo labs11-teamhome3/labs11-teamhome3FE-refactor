@@ -96,7 +96,7 @@ const TeamList = props => {
       setTeamInput("");
       // using this refetch to update MyTeams list without reload.  
       // Maybe refactor to do it in the createTeam.update
-      // userQuery.refetch();
+      userQuery.refetch();
       props.history.push(`/teams/${e.createTeam.id}/home`)
     },
     onError: err => {
