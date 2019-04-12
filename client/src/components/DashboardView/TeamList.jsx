@@ -24,6 +24,20 @@ const CREATE_TEAM = gql`
   }
 `;
 
+const CURRENT_USER_QUERY = gql`
+  query CURRENT_USER_QUERY($id: ID!) {
+    user(id: $id) {
+      id
+      name
+      role
+      inTeam {
+        id
+        teamName
+      }
+    }
+  }
+`;
+
 const TeamList = props => {
   const userId = localStorage.getItem("userId");
   console.log('teamList userId', userId);
@@ -33,10 +47,21 @@ const TeamList = props => {
   const [showInput, setShowInput] = useState(false);
 
   
+  const userQuery = useQuery(CURRENT_USER_QUERY, {
+    variables: {
+      id: localStorage.getItem("userId")
+    }
+  })
+  let currentUser;
+  if(userQuery.data.user) {
+    console.log('team list user', userQuery.data.user)
+    currentUser = userQuery.data.user
+  }
+  
   
   
   const { data, error, loading, refetch } = useQuery(TEAMS_QUERY, {
-    variables: { userId: userId },
+    variables: { userId: localStorage.getItem('userId') },
     fetchPolicy: 'network-only',
   });
   
@@ -52,7 +77,7 @@ const TeamList = props => {
     update: (cache, { data }) => {
       const { teamsByUser } = cache.readQuery({
         query: TEAMS_QUERY,
-        variables: { userId: userId }
+        variables: { userId: localStorage.getItem('userId') }
       });
       cache.writeQuery({
         query: TEAMS_QUERY,
@@ -91,7 +116,7 @@ const TeamList = props => {
           <AddIcon />
         </Fab>
       </form>
-      {data.teamsByUser.map(team => (
+      {userQuery.data.user && userQuery.data.user.inTeam.map(team => (
         <TeamCard match={props.match} team={team} key={team.id} />
       ))}
       {errorMsg && 

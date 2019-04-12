@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Route, withRouter } from 'react-router-dom';
 
 import Auth from './Auth/Auth.js'
@@ -34,12 +34,18 @@ const AUTHENTICATE_USER = gql`
       name
       inTeam {
         id
+        teamName
+        members {
+          id
+          name
+        }
       }
     }
   }
 `
 
 const App = (props) => {
+
     useEffect(() => {
       if(localStorage.getItem('userId')) {
         // props.history.push('/dashboard')
@@ -48,6 +54,7 @@ const App = (props) => {
       }
     }
     , [])
+
 
     const [authenticateUser] = useMutation(AUTHENTICATE_USER, {
         onCompleted: e => {
