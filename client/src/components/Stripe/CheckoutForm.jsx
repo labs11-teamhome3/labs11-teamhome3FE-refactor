@@ -24,8 +24,8 @@ const CheckoutForm = props => {
   });
   const submit = async e => {
     let res = await props.stripe.createToken({ name: "Name" });
-    console.log(res.token.id);
-    console.log(props.teamId);
+    //console.log(res.token.id);
+    //console.log(props.teamId);
     setPayToken(res.token.id);
   };
   useEffect(

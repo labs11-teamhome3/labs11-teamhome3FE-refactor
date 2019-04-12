@@ -17,7 +17,6 @@ const styles = theme => ({
 const Folder = props => {
   const [addDocumentToFolder] = useMutation(ADD_DOCUMENT_FOLDER, {
     update: (cache, { data }) => {
-      // console.log(data.createMessage)
       const {findDocumentsByTeam} = cache.readQuery({
         query: DOCUMENTS_QUERY,
         variables: { teamId: props.teamId },
@@ -34,18 +33,16 @@ const Folder = props => {
     },
     onCompleted: e => {
       props.setMsg('added document to folder')
+      props.setDroppedItem('')
     },
     onError: err => console.log(err)
   })
 
   useEffect(() => {
-    //call mutation
-    console.log('dropped!')
     addDocumentToFolder()
   }, [props.droppedItem])
 
   const { classes, isOver, canDrop, connectDropTarget, droppedItem } = props;
-  console.log('folder props', props);
   return connectDropTarget(
     <div>
       <Paper
@@ -63,7 +60,7 @@ const Folder = props => {
 const spec = {
   drop(props, monitor, component) {
     const document = monitor.getItem()
-    props.onDrop(document)
+    props.onDrop(document.id)
   }
 }
 

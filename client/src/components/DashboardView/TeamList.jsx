@@ -24,6 +24,7 @@ const CREATE_TEAM = gql`
   }
 `;
 
+
 const CURRENT_USER_QUERY = gql`
   query CURRENT_USER_QUERY($id: ID!) {
     user(id: $id) {
@@ -37,6 +38,11 @@ const CURRENT_USER_QUERY = gql`
     }
   }
 `;
+
+const TeamList = () => {
+  const userId = localStorage.getItem("userId");
+  //console.log(userId)
+
 
 const TeamList = props => {
   const userId = localStorage.getItem("userId");
@@ -90,8 +96,8 @@ const TeamList = props => {
       props.history.push(`/teams/${e.createTeam.id}/home`)
     },
     onError: err => {
-      // console.log(err.message);
-      setErrorMsg(err);
+      console.log(err.message);
+      setErrorMsg(err.message);
     }
   });
 

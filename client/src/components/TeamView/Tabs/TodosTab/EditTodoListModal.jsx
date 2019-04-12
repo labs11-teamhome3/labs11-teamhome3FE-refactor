@@ -237,7 +237,6 @@ const CreateTodoListModal = props => {
 
   useEffect(
     _ => {
-      console.log(editUserId);
       switch (editUserId.action) {
         case "addowner":
           addOwner();

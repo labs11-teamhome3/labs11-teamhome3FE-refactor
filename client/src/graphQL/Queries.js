@@ -2,6 +2,38 @@ import gql from 'graphql-tag';
 
 const userId = localStorage.getItem('userId');
 
+export const FULL_DOCUMENT = gql`
+  fragment FullDocument on Document {
+    id 
+    doc_url
+    title 
+    user {
+      id
+      name
+    }
+    team {
+      id
+    }
+    textContent
+    folder {
+        id
+      }
+    comments {
+        id
+        content
+        user {
+          id
+          name
+        }
+        image
+        likes {
+          id
+          name
+        }
+      } 
+  }
+`;
+
 export const TEAMS_QUERY = gql`
   {
     teamsByUser(userId: "${userId}") {
@@ -129,30 +161,20 @@ export const TODO_LIST_QUERY = gql`
 export const DOCUMENTS_QUERY = gql`
 query DOCUMENTS_QUERY($teamId: ID!) {
   findDocumentsByTeam(teamId: $teamId) {
-    id
+    id 
     doc_url
-    folder {
-      id
-    }
-    title
-    textContent
+    title 
     user {
-        id
+      id
+      name
     }
     team {
-        id
+      id
     }
-  }
-}
-`;
-
-export const DOCUMENT_QUERY = gql`
-query DOCUMENT_QUERY($id: ID!) {
-  findDocument(id: $id) {
-    id 
-    title 
     textContent
-    doc_url
+    folder {
+        id
+      }
     comments {
         id
         content
@@ -165,7 +187,41 @@ query DOCUMENT_QUERY($id: ID!) {
           id
           name
         }
-    } 
+      } 
+  }
+}
+`;
+
+export const DOCUMENT_QUERY = gql`
+query DOCUMENT_QUERY($id: ID!) {
+  findDocument(id: $id) {
+    id 
+    doc_url
+    title 
+    user {
+      id
+      name
+    }
+    team {
+      id
+    }
+    textContent
+    folder {
+        id
+      }
+    comments {
+        id
+        content
+        user {
+          id
+          name
+        }
+        image
+        likes {
+          id
+          name
+        }
+      } 
   }
 }
 `;
@@ -174,21 +230,40 @@ export const FOLDERS_QUERY = gql`
 query FOLDERS_QUERY($teamId: ID!) {
   findFoldersByTeam(teamId:$teamId) {
     id
-      title
+    title
+    user {
+        id
+        name
+    }
+    documents {
+      id 
+      doc_url
+      title 
       user {
-          id
-          name
+        id
+        name
       }
-      documents {
+      team {
+        id
+      }
+      textContent
+      folder {
           id
-          doc_url
-          title
-          textContent
-          tag {
-              id
-              name
+        }
+      comments {
+          id
+          content
+          user {
+            id
+            name
           }
-      }
+          image
+          likes {
+            id
+            name
+          }
+        } 
+    }
   }
 }
 `;
@@ -197,21 +272,41 @@ export const FOLDER_QUERY = gql`
 query FOLDER_QUERY($id: ID!) {
   findFolder(id:$id) {
     id
-      title
+    title
+    user {
+        id
+        name
+    }
+    documents {
+      id 
+      doc_url
+      title 
       user {
-          id
-          name
+        id
+        name
       }
-      documents {
+      team {
+        id
+      }
+      textContent
+      folder {
           id
-          doc_url
-          title
-          textContent
-          tag {
-              id
-              name
+        }
+      comments {
+          id
+          content
+          user {
+            id
+            name
           }
+          image
+          likes {
+            id
+            name
+          }
+        } 
       }
+    }
   }
-}
 `;
+

@@ -22,8 +22,8 @@ const ActivityTimeline = props => {
       teamId: props.teamId,
     },
   });
-  console.log('activity timeline');
-  console.log(events.data.findEventsByTeam);
+  //console.log('activity timeline');
+  //console.log(events.data.findEventsByTeam);
 
   /// trying to get filteredEvents array to be the reverse of allEvents, to display most recent event first
   /// right now it's flip flopping on every
