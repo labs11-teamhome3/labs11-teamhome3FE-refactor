@@ -38,7 +38,22 @@ const AUTHENTICATE_USER = gql`
   }
 `
 
+const CURRENT_USER_QUERY = gql`
+  query CURRENT_USER_QUERY($id: ID!) {
+    user(id: $id) {
+      id
+      name
+      role
+      inTeam {
+        id
+        teamName
+      }
+    }
+  }
+`;
+
 const App = (props) => {
+
 
     useEffect(() => {
       if(localStorage.getItem('userId')) {

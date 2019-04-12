@@ -20,10 +20,13 @@ const CREATE_TEAM = gql`
     createTeam(teamName: $teamName, userId: $userId) {
       id
       teamName
+      members {
+        id
+        name
+      }
     }
   }
 `;
-
 
 const CURRENT_USER_QUERY = gql`
   query CURRENT_USER_QUERY($id: ID!) {
@@ -39,18 +42,13 @@ const CURRENT_USER_QUERY = gql`
   }
 `;
 
-const TeamList = () => {
-  const userId = localStorage.getItem("userId");
-  //console.log(userId)
-
-
 const TeamList = props => {
   const userId = localStorage.getItem("userId");
   console.log('teamList userId', userId);
   
   const [teamInput, setTeamInput] = useState("");
   const [errorMsg, setErrorMsg] = useState("");
-  const [showInput, setShowInput] = useState(false);
+  // const [showInput, setShowInput] = useState(false);
 
   
   const userQuery = useQuery(CURRENT_USER_QUERY, {
@@ -58,6 +56,8 @@ const TeamList = props => {
       id: localStorage.getItem("userId")
     }
   })
+
+  // set the current user to get relevant team ifno
   let currentUser;
   if(userQuery.data.user) {
     console.log('team list user', userQuery.data.user)
@@ -87,16 +87,20 @@ const TeamList = props => {
       });
       cache.writeQuery({
         query: TEAMS_QUERY,
+        variables: { userId: userId },
         data: { teamsByUser: [...teamsByUser, data.createTeam] }
       });
     },
     variables: { teamName: teamInput, userId: userId },
     onCompleted: (e) => {
       setTeamInput("");
+      // using this refetch to update MyTeams list without reload.  
+      // Maybe refactor to do it in the createTeam.update
+      // userQuery.refetch();
       props.history.push(`/teams/${e.createTeam.id}/home`)
     },
     onError: err => {
-      console.log(err.message);
+      console.log('createTeam error', err);
       setErrorMsg(err.message);
     }
   });
