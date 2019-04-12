@@ -11,6 +11,7 @@ import { useQuery } from "react-apollo-hooks";
 import gql from 'graphql-tag';
 
 import {FOLDER_QUERY, USERS_QUERY, MESSAGE_QUERY} from '../../../../graphQL/Queries';
+import {UPDATE_FOLDER} from '../../../../graphQL/Mutations';
 
 const styles = theme => ({
   paper: {
@@ -24,18 +25,6 @@ const styles = theme => ({
     marginBottom: "10px"
   }
 });
-
-const UPDATE_FOLDER = gql`
-  mutation UPDATE_FOLDER($folderId: ID!, $title: String){
-  updateFolderTitle(
-    folderId: $folderId
-    title: $title
-  ) {
-  	id
-    title
-  }
-}
-`
 
 const EditFolderModal = props => {
   const [title, setTitle] = useState('');

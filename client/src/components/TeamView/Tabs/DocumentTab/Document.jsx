@@ -12,7 +12,6 @@ const styles = theme => ({
 
 const Document = props => {
   const { classes, connectDragSource } = props;
-  //console.log('document props', props);
   return connectDragSource(
     <div>
       <Paper
@@ -35,7 +34,7 @@ function collect(connect, monitor) {
 
 const cardSource = {
   beginDrag(props, monitor, component) {
-    const document = { id: props.document.id };
+    const document = { id: props.document };
     return document;
   }
 }

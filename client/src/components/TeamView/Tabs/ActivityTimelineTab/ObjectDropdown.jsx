@@ -6,13 +6,13 @@ import Arrow from '@material-ui/icons/ArrowDropDown';
 
 const ObjectDropdown = props => {
   const [choice, setChoice] = useState('all');
-  console.log(props);
+  //console.log(props);
 
   const handleSelect = e => {
     const choices = Array.from(e.target);
-    console.log('c', choices);
+    //console.log('c', choices);
     const selectedChoice = choices.find(choice => choice.selected).innerText;
-    console.log('s', selectedChoice);
+    //console.log('s', selectedChoice);
     setChoice(selectedChoice);
     switch(selectedChoice) {
       case 'all':

@@ -57,12 +57,11 @@ const CREATE_MESSAGE = gql`
 `;
 
 const MessageModal = props => {
+  const userId = localStorage.getItem('userId');
   const [messageInfo, setMessageInfo] = useState({
     title: "",
     content: ""
   });
-
-  // const [anchorEl, setAnchorEl] = useState(null);
 
   const handleChange = e => {
     setMessageInfo({
@@ -75,7 +74,6 @@ const MessageModal = props => {
 
   const [createMessage] = useMutation(CREATE_MESSAGE, {
     update: (cache, { data }) => {
-      // console.log(data.createMessage)
       const { messages } = cache.readQuery({
         query: MESSAGES_QUERY,
         variables: { teamId: props.teamId }
@@ -89,7 +87,7 @@ const MessageModal = props => {
     variables: {
       title: messageInfo.title,
       content: messageInfo.content,
-      userId: users.loading ? "" : users.data.users[0].id,
+      userId: userId,
       teamId: props.teamId
     },
     onCompleted: e => {
@@ -102,14 +100,6 @@ const MessageModal = props => {
     },
     onError: err => console.log(err)
   });
-
-  // const handleClick = e => {
-  //   setAnchorEl(e.currentTarget);
-  // };
-
-  // const handleClose = () => {
-  //   setAnchorEl(null);
-  // };
 
   const { classes } = props;
   return (

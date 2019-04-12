@@ -6,14 +6,8 @@ import Auth from './Auth/Auth.js'
 
 import gql from 'graphql-tag';
 
-////Components////
-import setSession from './Auth/setSession';
-import history from './history';
 import {useMutation} from "./graphQL/useMutation";
-
 import './App.css';
-
-////Components////
 import DashboardView from './views/DashboardView';
 import TeamView from './views/TeamView';
 import LandingView from './views/LandingView';
@@ -56,22 +50,16 @@ const App = (props) => {
     });
 
     function handleAuthentication() { 
-      console.log('auth')
         auth.auth0.parseHash((err, authResult) => {
-          console.log('ar', authResult)
           if (authResult && authResult.accessToken && authResult.idToken) {
-            //setSession(authResult)
             authenticateUser({
               variables: { idToken: authResult.idToken }
             })
-            //setSession(authResult);
           } else if (err) {
             console.log(err);
           }
         });
-      
     }
-   
 
     return (
       <div className="App">

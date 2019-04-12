@@ -26,7 +26,7 @@ const CREATE_TEAM = gql`
 
 const TeamList = () => {
   const userId = localStorage.getItem("userId");
-  console.log(userId)
+  //console.log(userId)
 
   const { data, error, loading } = useQuery(TEAMS_QUERY, {
     variables: { userId: userId }
@@ -49,7 +49,7 @@ const TeamList = () => {
       setTeamInput("");
     },
     onError: err => {
-      // console.log(err.message);
+      console.log(err.message);
       setErrorMsg(err.message);
     }
   });
