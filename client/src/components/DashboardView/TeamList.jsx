@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useQuery } from "react-apollo-hooks";
 import gql from "graphql-tag";
 import Fab from "@material-ui/core/Fab";
@@ -24,20 +24,66 @@ const CREATE_TEAM = gql`
   }
 `;
 
+
+const CURRENT_USER_QUERY = gql`
+  query CURRENT_USER_QUERY($id: ID!) {
+    user(id: $id) {
+      id
+      name
+      role
+      inTeam {
+        id
+        teamName
+      }
+    }
+  }
+`;
+
 const TeamList = () => {
   const userId = localStorage.getItem("userId");
   //console.log(userId)
 
-  const { data, error, loading } = useQuery(TEAMS_QUERY, {
-    variables: { userId: userId }
-  });
+
+const TeamList = props => {
+  const userId = localStorage.getItem("userId");
+  console.log('teamList userId', userId);
+  
   const [teamInput, setTeamInput] = useState("");
   const [errorMsg, setErrorMsg] = useState("");
+  const [showInput, setShowInput] = useState(false);
+
+  
+  const userQuery = useQuery(CURRENT_USER_QUERY, {
+    variables: {
+      id: localStorage.getItem("userId")
+    }
+  })
+  let currentUser;
+  if(userQuery.data.user) {
+    console.log('team list user', userQuery.data.user)
+    currentUser = userQuery.data.user
+  }
+  
+  
+  
+  const { data, error, loading, refetch } = useQuery(TEAMS_QUERY, {
+    variables: { userId: localStorage.getItem('userId') },
+    fetchPolicy: 'network-only',
+  });
+  
+  console.log('teamsData', data);
+  
+  
+  useEffect( () => {
+    // console.log('useEffect data', data);
+    refetch()
+  }, [])
+
   const [createTeam] = useMutation(CREATE_TEAM, {
     update: (cache, { data }) => {
       const { teamsByUser } = cache.readQuery({
         query: TEAMS_QUERY,
-        variables: { userId: userId }
+        variables: { userId: localStorage.getItem('userId') }
       });
       cache.writeQuery({
         query: TEAMS_QUERY,
@@ -45,8 +91,9 @@ const TeamList = () => {
       });
     },
     variables: { teamName: teamInput, userId: userId },
-    onCompleted: e => {
+    onCompleted: (e) => {
       setTeamInput("");
+      props.history.push(`/teams/${e.createTeam.id}/home`)
     },
     onError: err => {
       console.log(err.message);
@@ -63,22 +110,10 @@ const TeamList = () => {
   }
 
   return (
-    // <Query query={TEAMS_QUERY}>
-    //   {({ loading, error, data }) => {
-    //     if (loading) {
-    //       return <div>Loading...</div>;
-    //     }
-
-    //     if (error) {
-    //       return <div>Error! {error.message}</div>;
-    //     }
-    // return (
     <>
-      {data.teamsByUser.map(team => (
-        <TeamCard team={team} key={team.id} />
-      ))}
       <form onSubmit={createTeam}>
         <input
+          required
           type="text"
           value={teamInput}
           onChange={e => setTeamInput(e.target.value)}
@@ -87,6 +122,9 @@ const TeamList = () => {
           <AddIcon />
         </Fab>
       </form>
+      {userQuery.data.user && userQuery.data.user.inTeam.map(team => (
+        <TeamCard match={props.match} team={team} key={team.id} />
+      ))}
       {errorMsg && 
         <div 
           onClick={() => {
@@ -96,7 +134,7 @@ const TeamList = () => {
           className="error-flash">
             <h3>{errorMsg.split(":")[1]}</h3>
             {/* add onClick to below to open Stripe payment modal */}
-            <div classname="premium-or-cancel">
+            <div className="premium-or-cancel">
               <Button>Go Premium</Button>
               <Button onClick={() => setErrorMsg("")}>Cancel</Button>
             </div>

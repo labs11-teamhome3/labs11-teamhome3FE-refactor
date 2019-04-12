@@ -1,9 +1,11 @@
-import React, { Component, useState } from 'react'
+import React, { Component, useState } from 'react';
+import { Link } from 'react-router-dom'
 import {USERS_QUERY} from '../../graphQL/Queries.js'
 import {useQuery} from 'react-apollo-hooks';
 import styled from 'styled-components';
 import gql from 'graphql-tag'
 import { useMutation } from "../../graphQL/useMutation";
+import { TEAMS_QUERY } from "../../graphQL/Queries";
 
 const StyledAvatar = styled.img`{
   border-radius: 50%;
@@ -70,6 +72,15 @@ function Form() {
   const [avatar, setAvatar] = useState(user.profilePic);
   const [editUser] = useMutation(EDIT_USER);
 
+  const teamsQuery = useQuery(TEAMS_QUERY, {
+    variables: {
+      userId: userId
+    }
+  })
+  if (teamsQuery.data) {
+    console.log(teamsQuery.data);
+  }
+
   return (
     <>
       <StyledAvatar src={user.profilePic} alt="avatar"/>
@@ -102,7 +113,16 @@ function Form() {
         <button type="submit" onClick={(e) => {
           editUser({variables: {id: userId, name: name, phone: phone, email: email}});
           alert('Info Updated. You will be redirected to team page...')
-        }}>Submit</button>
+        }}>Update</button>
+        <h2 className="my-teams">My Teams</h2>
+        {teamsQuery.data.teamsByUser && teamsQuery.data.teamsByUser.length > 0 &&
+          teamsQuery.data.teamsByUser.map(team => 
+              <Link to={`/teams/${team.id}/home`}>{team.teamName}</Link>
+            )
+        }
+        {teamsQuery.data.teamsByUser && teamsQuery.data.teamsByUser.length < 1 &&
+          <Link to='teams/first-team'>Create a team</Link>
+        }
       </StyledForm>
     </>
   );

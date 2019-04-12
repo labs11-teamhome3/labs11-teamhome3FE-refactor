@@ -39,10 +39,10 @@ export const TEAMS_QUERY = gql`
     teamsByUser(userId: "${userId}") {
       id
       teamName
-      # members {
-      #   id
-      #   name
-      # }
+      members {
+        id
+        name
+      }
     }
   }
 `;

@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Route, withRouter } from 'react-router-dom';
 
 import Auth from './Auth/Auth.js'
@@ -13,6 +13,7 @@ import TeamView from './views/TeamView';
 import LandingView from './views/LandingView';
 import NavigationView from './views/NavigationView';
 import ProfileView from './views/ProfileView';
+import NewTeam from './views/NewTeam';
 
 const auth = new Auth();
 
@@ -25,26 +26,42 @@ const AUTHENTICATE_USER = gql`
     ) {
       id
       name
+      inTeam {
+        id
+        teamName
+        members {
+          id
+          name
+        }
+      }
     }
   }
 `
 
 const App = (props) => {
+
     useEffect(() => {
       if(localStorage.getItem('userId')) {
-        props.history.push('/dashboard')
+        // props.history.push('/dashboard')
       } else {
         handleAuthentication()
       }
     }
     , [])
 
+
     const [authenticateUser] = useMutation(AUTHENTICATE_USER, {
         onCompleted: e => {
-          alert('Welcome User'); 
+          // console.log('first team id', e.authenticateUser.inTeam[0].id);
+          // alert('Welcome User'); 
           localStorage.setItem('userId', e.authenticateUser.id)
-          props.history.push('/dashboard')
-          window.location.reload();
+          if (e.authenticateUser.inTeam.length > 0) {
+            props.history.push(`/teams/${e.authenticateUser.inTeam[0].id}/home`)
+          } else {
+            props.history.push(`/teams/first-team`)
+          }
+          // props.history.push('/dashboard')
+          // window.location.reload();
       },
       onError: err => console.log(err)
     });
@@ -63,19 +80,19 @@ const App = (props) => {
 
     return (
       <div className="App">
-        <NavigationView auth={auth} />
+        {/* <NavigationView auth={auth} /> */}
         <Route exact path='/'
-        render={props => <LandingView {...props} />} />
+        render={props => <LandingView auth={auth} {...props} />} />
         <Route
-          path="/dashboard"
-          render={ (props) => <DashboardView {...props} /> }/>
+          path="/teams/first-team"
+          render={ (props) => <NewTeam auth={auth} {...props} /> }/>
         <Route
           path="/teams/:id/home"
-          render={props => <TeamView {...props} />}
+          render={props => <TeamView auth={auth} {...props} />}
         />
         <Route
           path="/profile/"
-          render={props => <ProfileView {...props} />}
+          render={props => <ProfileView auth={auth} {...props} />}
         />
       </div>
     );
