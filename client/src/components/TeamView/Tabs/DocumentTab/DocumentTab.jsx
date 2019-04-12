@@ -4,6 +4,11 @@ import { DragDropContext } from "react-dnd";
 import HTML5Backend from "react-dnd-html5-backend";
 import Fab from "@material-ui/core/Fab";
 import AddIcon from "@material-ui/icons/Add";
+import Table from "@material-ui/core/Table";
+import TableBody from '@material-ui/core/TableBody';
+import TableCell from '@material-ui/core/TableCell';
+import TableHead from '@material-ui/core/TableHead';
+import TableRow from '@material-ui/core/TableRow';
 
 /////Components/////
 import Folder from "./Folder";
@@ -109,14 +114,26 @@ const DocumentTab = props => {
           {!documents.data.findDocumentsByTeam ? (
             <h3>Loading Documents...</h3>
           ) : (
-            documents.data.findDocumentsByTeam.filter(document => !document.folder)
-            .map(document => (
-              <Document
-                document={document}
-                key={document.id}
-                toggleModal={toggleModal}
-              />
-            ))
+            <Table>
+              <TableHead>
+                <TableRow>
+                  <TableCell>Title</TableCell>
+                  <TableCell align="right">Text Content</TableCell>
+                  <TableCell align="right">Created By</TableCell>
+                  <TableCell align="right">URL</TableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {documents.data.findDocumentsByTeam.filter(document => !document.folder)
+                .map(document => (
+                  <Document
+                    document={document}
+                    key={document.id}
+                    toggleModal={toggleModal}
+                  />
+                ))}
+              </TableBody>
+            </Table>
           )}
 
           <Fab
@@ -131,17 +148,28 @@ const DocumentTab = props => {
           {folders.loading ? (
             <h3>Loading Folders...</h3>
           ) : (
-            folders.data.findFoldersByTeam.map(folder => (
-              <Folder
-                setDroppedItem={setDroppedItem}
-                droppedItem={droppedItem}
-                setMsg={props.setMsg}
-                onDrop={onDrop}
-                folder={folder}
-                key={folder.id}
-                toggleModal={toggleModal}
-              />
-            ))
+              <Table>
+              <TableHead>
+                <TableRow>
+                  <TableCell>Title</TableCell>
+                  <TableCell align="right"># of Documents</TableCell>
+                  <TableCell align="right">Created By</TableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {folders.data.findFoldersByTeam.map(folder => (
+                  <Folder
+                    setDroppedItem={setDroppedItem}
+                    droppedItem={droppedItem}
+                    setMsg={props.setMsg}
+                    onDrop={onDrop}
+                    folder={folder}
+                    key={folder.id}
+                    toggleModal={toggleModal}
+                  />
+                ))}
+              </TableBody>
+            </Table>
           )}
 
           <Fab
