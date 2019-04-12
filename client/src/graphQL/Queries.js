@@ -72,6 +72,7 @@ export const USERS_QUERY = gql`
       profilePic
       inTeam {
         id
+        teamName
       }
     }
   }

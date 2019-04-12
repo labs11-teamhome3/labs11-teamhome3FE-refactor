@@ -205,7 +205,7 @@ const PersistentDrawerLeft = props => {
             </IconButton>
           </div>
           <Divider />
-          <DashboardView match={props.match}/>
+          <DashboardView history={props.history} match={props.match}/>
           <Divider />
           <ActivityTimeline setMsg={setMsg} teamId={props.match.params.id} />
         </Drawer>

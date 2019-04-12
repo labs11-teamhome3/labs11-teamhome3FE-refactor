@@ -4,9 +4,12 @@ import gql from 'graphql-tag';
 ////Components////
 import TeamList from '../components/DashboardView/TeamList';
 
+// css //
+import './css/Dashboard.css'
+
 const DashboardView = props => {
   return (
-    <div>
+    <div className="teams-list">
       {!localStorage.getItem('userId')
         ? <h2>Please login to access the dashboard</h2>
         : <>
