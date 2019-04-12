@@ -39,11 +39,6 @@ const CURRENT_USER_QUERY = gql`
   }
 `;
 
-const TeamList = () => {
-  const userId = localStorage.getItem("userId");
-  //console.log(userId)
-
-
 const TeamList = props => {
   const userId = localStorage.getItem("userId");
   console.log('teamList userId', userId);
