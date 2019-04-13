@@ -164,6 +164,7 @@ query DOCUMENTS_QUERY($teamId: ID!) {
     id 
     doc_url
     title 
+    createdAt
     user {
       id
       name
@@ -198,6 +199,7 @@ query DOCUMENT_QUERY($id: ID!) {
     id 
     doc_url
     title 
+    createdAt
     user {
       id
       name
@@ -231,6 +233,7 @@ query FOLDERS_QUERY($teamId: ID!) {
   findFoldersByTeam(teamId:$teamId) {
     id
     title
+    createdAt
     user {
         id
         name
@@ -273,6 +276,7 @@ query FOLDER_QUERY($id: ID!) {
   findFolder(id:$id) {
     id
     title
+    createdAt
     user {
         id
         name
