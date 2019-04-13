@@ -1,8 +1,8 @@
 import React, {useEffect} from "react";
+import ReactDOM from "react-dom";
 import { DropTarget } from "react-dnd";
-import Paper from "@material-ui/core/Paper";
-import Typography from "@material-ui/core/Typography";
-import { withStyles } from "@material-ui/core/styles";
+import TableCell from '@material-ui/core/TableCell';
+import TableRow from '@material-ui/core/TableRow';
 
 import { useMutation } from "../../../../graphQL/useMutation";
 import {ADD_DOCUMENT_FOLDER} from '../../../../graphQL/Mutations';
@@ -43,17 +43,17 @@ const Folder = props => {
   }, [props.droppedItem])
 
   const { classes, isOver, canDrop, connectDropTarget, droppedItem } = props;
-  return connectDropTarget(
-    <div>
-      <Paper
-      elevation={1}
+  return (
+    <TableRow 
+      ref={instance => connectDropTarget(ReactDOM.findDOMNode(instance))} 
       onClick={_ => props.toggleModal('viewFolder', props.folder.id)}
-      >
-        <Typography variant="h5" component="h3">
-          {props.folder.title}
-        </Typography>
-      </Paper>
-    </div>
+    >
+      <TableCell component="th" scope="row">
+        {props.folder.title}
+      </TableCell>
+      <TableCell align="right">{props.folder.documents.length}</TableCell>
+      <TableCell align="right">{props.folder.user.name}</TableCell>
+    </TableRow>
   );
 };
 

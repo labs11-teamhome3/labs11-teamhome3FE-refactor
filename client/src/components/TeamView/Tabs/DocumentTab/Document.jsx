@@ -1,28 +1,34 @@
 import React from "react";
+import ReactDOM from "react-dom";
 import { DragSource } from "react-dnd";
-import Paper from "@material-ui/core/Paper";
-import Typography from "@material-ui/core/Typography";
-import { withStyles } from "@material-ui/core/styles";
+import TableCell from '@material-ui/core/TableCell';
+import TableRow from '@material-ui/core/TableRow';
 
 const styles = theme => ({
   root: {
-    marginBottom: "10px"
-  }
+    width: '100%',
+    marginTop: theme.spacing.unit * 3,
+    overflowX: 'auto',
+  },
+  table: {
+    minWidth: 700,
+  },
 });
 
 const Document = props => {
   const { classes, connectDragSource } = props;
-  return connectDragSource(
-    <div>
-      <Paper
-        elevation={1}
-        onClick={_ => props.toggleModal('view', props.document.id)}
-      >
-        <Typography variant="h5" component="h3">
-          {props.document.title}: {props.document.textContent}
-        </Typography>
-      </Paper>
-    </div>
+  return (
+    <TableRow 
+      ref={instance => connectDragSource(ReactDOM.findDOMNode(instance))} 
+      onClick={() => props.toggleModal('view', props.document.id)}
+    >
+      <TableCell component="th" scope="row">
+        {props.document.title}
+      </TableCell>
+      <TableCell align="right">{props.document.textContent}</TableCell>
+      <TableCell align="right">{props.document.user.name}</TableCell>
+      <TableCell align="right">{props.document.doc_url}</TableCell>
+    </TableRow>
   );
 };
 
@@ -38,6 +44,5 @@ const cardSource = {
     return document;
   }
 }
-
 
 export default DragSource("SOURCE", cardSource, collect)(Document);
