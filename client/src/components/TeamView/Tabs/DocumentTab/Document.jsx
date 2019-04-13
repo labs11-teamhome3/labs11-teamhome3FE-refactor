@@ -27,7 +27,7 @@ const Document = props => {
       <TableCell><File/>{props.document.title}</TableCell>
       <TableCell>{moment(props.document.createdAt).calendar()}</TableCell>
       <TableCell>{props.document.user.name}</TableCell>
-      <TableCell><a href={props.document.doc_url} target='_blank'>{props.document.doc_url}</a></TableCell>
+      <TableCell><a style={{textDecoration:"none", color:"inherit"}} href={props.document.doc_url} target='_blank'>{props.document.doc_url}</a></TableCell>
       <TableCell onClick={() => props.toggleModal('view', props.document.id)}><MoreHoriz/></TableCell>
     </TableRow>
   );
