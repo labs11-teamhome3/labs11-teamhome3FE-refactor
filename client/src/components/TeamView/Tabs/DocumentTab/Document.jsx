@@ -3,7 +3,7 @@ import ReactDOM from "react-dom";
 import { DragSource } from "react-dnd";
 import TableCell from '@material-ui/core/TableCell';
 import TableRow from '@material-ui/core/TableRow';
-import File from '@material-ui/icons/InsertDriveFile';
+import File from '@material-ui/icons/InsertDriveFileOutlined';
 import MoreHoriz from '@material-ui/icons/MoreHoriz';
 
 const styles = theme => ({
