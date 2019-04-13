@@ -3,8 +3,9 @@ import ReactDOM from "react-dom";
 import { DragSource } from "react-dnd";
 import TableCell from '@material-ui/core/TableCell';
 import TableRow from '@material-ui/core/TableRow';
-import File from '@material-ui/icons/InsertDriveFile';
+import File from '@material-ui/icons/InsertDriveFileOutlined';
 import MoreHoriz from '@material-ui/icons/MoreHoriz';
+import moment from 'moment';
 
 const styles = theme => ({
   root: {
@@ -24,9 +25,9 @@ const Document = props => {
       ref={instance => connectDragSource(ReactDOM.findDOMNode(instance))} 
     >
       <TableCell><File/>{props.document.title}</TableCell>
-      <TableCell>{props.document.createdAt}</TableCell>
+      <TableCell>{moment(props.document.createdAt).calendar()}</TableCell>
       <TableCell>{props.document.user.name}</TableCell>
-      <TableCell>{props.document.doc_url}</TableCell>
+      <TableCell><a style={{textDecoration:"none", color:"inherit"}} href={props.document.doc_url} target='_blank'>{props.document.doc_url}</a></TableCell>
       <TableCell onClick={() => props.toggleModal('view', props.document.id)}><MoreHoriz/></TableCell>
     </TableRow>
   );

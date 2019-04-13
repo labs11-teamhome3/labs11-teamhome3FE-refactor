@@ -10,6 +10,7 @@ import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Button from '@material-ui/core/Button';
+import ArrowUp from '@material-ui/icons/ArrowDropUp';
 
 /////Components/////
 import Folder from "./Folder";
@@ -35,11 +36,31 @@ const styles = theme => ({
 });
 
 const DocumentTab = props => {
-    const [droppedItem, setDroppedItem] = useState('')
+    const [droppedItem, setDroppedItem] = useState('');
 
     function onDrop(item){
       setDroppedItem(item)
       folders.refetch()
+    }
+
+    function newSort() {
+      //new to old sort
+      console.log('newSort')
+      function compare(a, b) {
+        const createdAtA = a.createdAt.toUpperCase();
+        const createdAtB = b.createdAt.toUpperCase();
+        
+        let comparison = 0;
+        if (createdAtA > createdAtB) {
+          comparison = 1;
+        } else if (createdAtA < createdAtB) {
+          comparison = -1;
+        }
+        return comparison * -1;
+      }
+      //how can I get this to rerender after the sort?
+      folders.data.findFoldersByTeam.sort(compare);
+      documents.data.findDocumentsByTeam.sort(compare);
     }
 
     //Documents
@@ -73,6 +94,10 @@ const DocumentTab = props => {
     const folders = useQuery(FOLDERS_QUERY, {
       variables: { teamId: props.teamId }
     })
+
+    useEffect(() => {
+      
+    }, [folders.data.findFoldersByTeam])
   
     //Modal handler
     const toggleModal = (modal, id = null) => {
@@ -130,7 +155,7 @@ const DocumentTab = props => {
             <TableHead>
               <TableRow>
                 <TableCell>Name</TableCell>
-                <TableCell>Created</TableCell>
+                <TableCell>Created<ArrowUp onClick={newSort} /></TableCell>
                 <TableCell>Created By</TableCell>
                 <TableCell># of Docs or Link</TableCell>
                 <TableCell>More</TableCell>

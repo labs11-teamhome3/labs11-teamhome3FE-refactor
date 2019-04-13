@@ -4,6 +4,8 @@ import Paper from '@material-ui/core/Paper';
 import { withStyles } from '@material-ui/core/styles';
 import Close from '@material-ui/icons/Close';
 import Button from '@material-ui/core/Button';
+import FolderIcon from "@material-ui/icons/Folder";
+import TextField from '@material-ui/core/TextField';
 import { useMutation } from '../../../../graphQL/useMutation';
 
 import { FOLDERS_QUERY } from '../../../../graphQL/Queries';
@@ -11,15 +13,24 @@ import { CREATE_FOLDER } from '../../../../graphQL/Mutations';
 
 const styles = theme => ({
   paper: {
-    'max-width': '800px',
+    position: 'relative',
+    top: '24%',
+    'max-width': '600px',
     margin: '0 auto',
     'text-align': 'left',
-    padding: '20px',
+    padding: '30px',
   },
-  messageInput: {
-    width: '100%',
-    marginBottom: '10px',
+  textField: {
+    width: '30%'
   },
+  createFolder: {
+    display: 'flex',
+    justifyContent: 'space-between',
+    fontSize: '25px'
+  },
+  button: {
+    margin: '10px 0 0 10px'
+  }
 });
 
 const CreateFolderModal = props => {
@@ -64,19 +75,23 @@ const CreateFolderModal = props => {
         open={props.modalStatus}
       >
         <Paper className={classes.paper}>
-          <h3>Create Folder</h3>
-          <Close onClick={_ => props.toggleModal('createFolder')} />
+          <div className={classes.createFolder}>
+            <div>
+              <FolderIcon />
+              <div>Create new folder</div>
+            </div>
+            <Close onClick={_ => props.toggleModal('createFolder')} />
+          </div>
           <br />
-          <input
-            type="text"
+          <TextField
+            required
+            label="Name this folder"
+            className={classes.textField}
             value={title}
             onChange={handleChange}
             name="title"
-            placeholder="Message Title"
-            className={classes.messageInput}
           />
-          <br />
-          <Button onClick={createFolder}>Save</Button>
+          <Button variant="contained" disabled={!title} className={classes.button} onClick={createFolder}>Create</Button>
         </Paper>
       </Modal>
     </div>
