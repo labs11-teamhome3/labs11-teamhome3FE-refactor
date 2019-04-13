@@ -3,6 +3,8 @@ import ReactDOM from "react-dom";
 import { DropTarget } from "react-dnd";
 import TableCell from '@material-ui/core/TableCell';
 import TableRow from '@material-ui/core/TableRow';
+import FolderIcon from "@material-ui/icons/Folder";
+import MoreHoriz from '@material-ui/icons/MoreHoriz';
 
 import { useMutation } from "../../../../graphQL/useMutation";
 import {ADD_DOCUMENT_FOLDER} from '../../../../graphQL/Mutations';
@@ -46,13 +48,12 @@ const Folder = props => {
   return (
     <TableRow 
       ref={instance => connectDropTarget(ReactDOM.findDOMNode(instance))} 
-      onClick={_ => props.toggleModal('viewFolder', props.folder.id)}
     >
-      <TableCell component="th" scope="row">
-        {props.folder.title}
-      </TableCell>
-      <TableCell align="right">{props.folder.documents.length}</TableCell>
-      <TableCell align="right">{props.folder.user.name}</TableCell>
+      <TableCell><FolderIcon/> {props.folder.title}</TableCell>
+      <TableCell>{props.folder.createdAt}</TableCell>
+      <TableCell>{props.folder.user.name}</TableCell>
+      <TableCell>{props.folder.documents.length}</TableCell>
+      <TableCell onClick={_ => props.toggleModal('viewFolder', props.folder.id)}><MoreHoriz/></TableCell>
     </TableRow>
   );
 };

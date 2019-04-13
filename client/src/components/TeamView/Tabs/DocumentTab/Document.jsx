@@ -3,6 +3,8 @@ import ReactDOM from "react-dom";
 import { DragSource } from "react-dnd";
 import TableCell from '@material-ui/core/TableCell';
 import TableRow from '@material-ui/core/TableRow';
+import File from '@material-ui/icons/InsertDriveFile';
+import MoreHoriz from '@material-ui/icons/MoreHoriz';
 
 const styles = theme => ({
   root: {
@@ -20,14 +22,12 @@ const Document = props => {
   return (
     <TableRow 
       ref={instance => connectDragSource(ReactDOM.findDOMNode(instance))} 
-      onClick={() => props.toggleModal('view', props.document.id)}
     >
-      <TableCell component="th" scope="row">
-        {props.document.title}
-      </TableCell>
-      <TableCell align="right">{props.document.textContent}</TableCell>
-      <TableCell align="right">{props.document.user.name}</TableCell>
-      <TableCell align="right">{props.document.doc_url}</TableCell>
+      <TableCell><File/>{props.document.title}</TableCell>
+      <TableCell>{props.document.createdAt}</TableCell>
+      <TableCell>{props.document.user.name}</TableCell>
+      <TableCell>{props.document.doc_url}</TableCell>
+      <TableCell onClick={() => props.toggleModal('view', props.document.id)}><MoreHoriz/></TableCell>
     </TableRow>
   );
 };

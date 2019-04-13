@@ -33,6 +33,7 @@ export const CREATE_DOCUMENT = gql`
       id 
       doc_url
       title 
+      createdAt
       user {
         id
         name
@@ -73,6 +74,7 @@ export const UPDATE_DOCUMENT = gql`
   	  id 
       doc_url
       title 
+      createdAt
       user {
         id
         name
@@ -115,6 +117,7 @@ mutation ADD_DOCUMENT_FOLDER($folderId: ID!, $documentId: ID!) {
     id 
     doc_url
     title 
+    createdAt
     user {
       id
       name
@@ -156,6 +159,7 @@ mutation CREATE_FOLDER(
   ) {
       id
       title
+      createdAt
       user {
           id
           name
@@ -181,21 +185,22 @@ export const UPDATE_FOLDER = gql`
     title: $title
   ) {
   	id
-      title
-      user {
-          id
-          name
-      }
-      documents {
-          id
-          doc_url
-          title
-          textContent
-          tag {
-              id
-              name
-          }
-      }
+    title
+    createdAt
+    user {
+        id
+        name
+    }
+    documents {
+        id
+        doc_url
+        title
+        textContent
+        tag {
+            id
+            name
+        }
+    }
   }
 }
 `;
@@ -205,6 +210,7 @@ export const DELETE_FOLDER = gql`
     deleteFolder(folderId: $folderId) {
       id
       title
+      createdAt
       documents {
         id 
         doc_url
@@ -244,6 +250,7 @@ export const REMOVE_DOC_FOLDER = gql`
       id 
       doc_url
       title 
+      createdAt
       user {
         id
         name
