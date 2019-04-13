@@ -5,6 +5,7 @@ import TableCell from '@material-ui/core/TableCell';
 import TableRow from '@material-ui/core/TableRow';
 import FolderIcon from "@material-ui/icons/Folder";
 import MoreHoriz from '@material-ui/icons/MoreHoriz';
+import moment from 'moment';
 
 import { useMutation } from "../../../../graphQL/useMutation";
 import {ADD_DOCUMENT_FOLDER} from '../../../../graphQL/Mutations';
@@ -50,7 +51,7 @@ const Folder = props => {
       ref={instance => connectDropTarget(ReactDOM.findDOMNode(instance))} 
     >
       <TableCell><FolderIcon/> {props.folder.title}</TableCell>
-      <TableCell>{props.folder.createdAt}</TableCell>
+      <TableCell>{moment(props.folder.createdAt).calendar()}</TableCell>
       <TableCell>{props.folder.user.name}</TableCell>
       <TableCell>{props.folder.documents.length}</TableCell>
       <TableCell onClick={_ => props.toggleModal('viewFolder', props.folder.id)}><MoreHoriz/></TableCell>
