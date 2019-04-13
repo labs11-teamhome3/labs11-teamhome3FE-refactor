@@ -13,8 +13,9 @@ import { CREATE_FOLDER } from '../../../../graphQL/Mutations';
 
 const styles = theme => ({
   paper: {
-    'max-width': '800px',
-    top: '100px',
+    position: 'relative',
+    top: '24%',
+    'max-width': '600px',
     margin: '0 auto',
     'text-align': 'left',
     padding: '30px',
