@@ -90,7 +90,7 @@ const CreateFolderModal = props => {
             onChange={handleChange}
             name="title"
           />
-          <Button variant="contained" className={classes.button} onClick={createFolder}>Save</Button>
+          <Button variant="contained" disabled={!title} className={classes.button} onClick={createFolder}>Create</Button>
         </Paper>
       </Modal>
     </div>
