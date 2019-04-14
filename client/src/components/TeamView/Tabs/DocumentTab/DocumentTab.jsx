@@ -27,8 +27,9 @@ import { withStyles } from '@material-ui/core/styles';
 import { DOCUMENTS_QUERY, FOLDERS_QUERY } from '../../../../graphQL/Queries';
 
 const styles = theme => ({
-  button: {
-    
+  table: {
+    minWidth: '400px',
+    width: '100%'
   },
   input: {
     display: 'none',
@@ -151,7 +152,7 @@ const DocumentTab = props => {
             <Button variant="contained" color='primary' style={{marginRight: '17px'}} onClick={() => toggleModal('create')}>Create File</Button>
             <Button variant="contained" color='primary' onClick={() => toggleModal('createFolder')}>Create Folder</Button>
           </div>
-          <Table>
+          <Table className={classes.table}>
             <TableHead>
               <TableRow>
                 <TableCell>Name</TableCell>
