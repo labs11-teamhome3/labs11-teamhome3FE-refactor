@@ -129,6 +129,7 @@ export const EVENTS_QUERY = gql`
       user {
         id
         name
+        profilePic
       }
       action_string
       object_string
