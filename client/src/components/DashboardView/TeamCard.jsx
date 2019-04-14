@@ -8,7 +8,7 @@ const styles = theme => ({
   root: {
     padding: '5px 0px',
     'margin-bottom': '15px',
-    background: 'green',
+    background: '#00b894',
   },
   selected: {
     padding: '5px 0px',
