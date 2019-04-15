@@ -24,6 +24,7 @@ import { withStyles } from '@material-ui/core/styles';
 
 /////Queries/////
 import { DOCUMENTS_QUERY, FOLDERS_QUERY } from '../../../../graphQL/Queries';
+import { useMutation } from "../../../../graphQL/useMutation";
 
 const styles = theme => ({
   table: {
@@ -37,6 +38,7 @@ const styles = theme => ({
 
 const DocumentTab = props => {
     const [droppedItem, setDroppedItem] = useState('');
+    const [sortStatus, setSortStatus] = useState(false);
 
     function onDrop(item){
       setDroppedItem(item)
@@ -45,7 +47,7 @@ const DocumentTab = props => {
 
     function newSort() {
       //new to old sort
-      console.log('newSort')
+      //console.log('newSort')
       function compare(a, b) {
         const createdAtA = a.createdAt.toUpperCase();
         const createdAtB = b.createdAt.toUpperCase();
@@ -58,9 +60,13 @@ const DocumentTab = props => {
         }
         return comparison * -1;
       }
+
+      //console.log(folders.data.findFoldersByTeam[0].title)
       //how can I get this to rerender after the sort?
       folders.data.findFoldersByTeam.sort(compare);
       documents.data.findDocumentsByTeam.sort(compare);
+
+      setSortStatus(!sortStatus);
     }
 
     //Documents
@@ -90,10 +96,6 @@ const DocumentTab = props => {
     const folders = useQuery(FOLDERS_QUERY, {
       variables: { teamId: props.teamId }
     })
-
-    useEffect(() => {
-      
-    }, [folders.data.findFoldersByTeam])
   
     //Modal handler
     const toggleModal = (modal, id = null) => {
