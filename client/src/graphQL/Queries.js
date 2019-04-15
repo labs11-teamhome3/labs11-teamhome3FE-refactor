@@ -106,13 +106,25 @@ export const MESSAGES_QUERY = gql`
   query MESSAGES_QUERY($teamId: ID!) {
     messages(teamId: $teamId) {
       id
-      title
+      createdAt
+      content
       creator {
+        id
+        name
+        profilePic
+      }
+      images 
+      tag {
         id
         name
       }
       comments {
         id
+        likes {
+          id
+        }
+        content
+        createdAt
       }
     }
   }
@@ -122,24 +134,25 @@ export const MESSAGE_QUERY = gql`
   query MESSAGE_QUERY($id: ID!) {
     message(id: $id) {
       id
-      title
+      createdAt
       content
       creator {
+        id
+        name
+        profilePic
+      }
+      images 
+      tag {
         id
         name
       }
       comments {
         id
-        content
-        user {
-          id
-          name
-        }
-        image
         likes {
           id
-          name
         }
+        content
+        createdAt
       }
     }
   }

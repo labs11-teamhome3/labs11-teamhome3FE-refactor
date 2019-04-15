@@ -363,13 +363,25 @@ export const CREATE_MESSAGE = gql`
       content: $content
     ) {
       id
-      title
+      createdAt
+      content
       creator {
+        id
+        name
+        profilePic
+      }
+      images 
+      tag {
         id
         name
       }
       comments {
         id
+        likes {
+          id
+        }
+        content
+        createdAt
       }
     }
   }

@@ -122,7 +122,8 @@ const MessageTab = props => {
     }
   };
   
-  const { classes } = props; 
+  const { classes } = props;
+  console.log('### messages', messages) 
   return (
     <div style={{textAlign: 'left'}}>
       <div>
@@ -155,13 +156,7 @@ const MessageTab = props => {
           ))
         )}
       </div>
-      <Fab
-        color="primary"
-        aria-label="Add"
-        onClick={_ => toggleModal("create")}
-      >
-        <AddIcon />
-      </Fab>
+
       <CreateMessageModal
         modalStatus={createModalStatus}
         toggleModal={toggleModal}
