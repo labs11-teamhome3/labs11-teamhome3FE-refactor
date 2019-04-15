@@ -4,6 +4,8 @@ import gql from "graphql-tag";
 import Fab from "@material-ui/core/Fab";
 import Button from "@material-ui/core/Button"
 import AddIcon from "@material-ui/icons/Add";
+import Divider from '@material-ui/core/Divider';
+import CancelIcon from "@material-ui/icons/Cancel"
 import { useMutation } from "../../graphQL/useMutation";
 
 ////Components////
@@ -20,10 +22,13 @@ const CREATE_TEAM = gql`
     createTeam(teamName: $teamName, userId: $userId) {
       id
       teamName
+      members {
+        id
+        name
+      }
     }
   }
 `;
-
 
 const CURRENT_USER_QUERY = gql`
   query CURRENT_USER_QUERY($id: ID!) {
@@ -53,6 +58,8 @@ const TeamList = props => {
       id: localStorage.getItem("userId")
     }
   })
+
+  // set the current user to get relevant team ifno
   let currentUser;
   if(userQuery.data.user) {
     console.log('team list user', userQuery.data.user)
@@ -82,19 +89,30 @@ const TeamList = props => {
       });
       cache.writeQuery({
         query: TEAMS_QUERY,
+        variables: { userId: userId },
         data: { teamsByUser: [...teamsByUser, data.createTeam] }
       });
     },
     variables: { teamName: teamInput, userId: userId },
     onCompleted: (e) => {
       setTeamInput("");
+      // using this refetch to update MyTeams list without reload.  
+      // Maybe refactor to do it in the createTeam.update
+      userQuery.refetch();
+      setShowInput(false);
       props.history.push(`/teams/${e.createTeam.id}/home`)
+      
     },
     onError: err => {
-      console.log(err.message);
+      console.log('createTeam error', err);
       setErrorMsg(err.message);
     }
   });
+
+  const cancelAddTeam = () => {
+    setShowInput(false);
+    setTeamInput("");
+  }
 
   if (loading) {
     return <div>Loading...</div>;
@@ -106,17 +124,35 @@ const TeamList = props => {
 
   return (
     <>
-      <form onSubmit={createTeam}>
-        <input
-          required
-          type="text"
-          value={teamInput}
-          onChange={e => setTeamInput(e.target.value)}
-        />
-        <Fab onClick={createTeam} color="primary" aria-label="Add">
-          <AddIcon />
-        </Fab>
-      </form>
+      <div className="newTeam">
+        {!showInput &&
+          <div className="show-add-input">
+            <Fab onClick={() => setShowInput(true)} color="primary" aria-label="Add">
+              <AddIcon />
+            </Fab>
+          </div>
+        }
+        {showInput &&
+          <form>
+            <input
+              required
+              type="text"
+              placeholder="New Team Name..."
+              value={teamInput}
+              onChange={e => setTeamInput(e.target.value)}
+            />
+            {teamInput && 
+              <Fab onClick={createTeam} color="primary" aria-label="Add">
+                <AddIcon />
+              </Fab>
+            }
+            <Fab onClick={cancelAddTeam} color="secondary" aria-label="Cancel">
+              <CancelIcon />
+            </Fab>
+          </form>
+        }
+      </div>
+      <Divider />
       {userQuery.data.user && userQuery.data.user.inTeam.map(team => (
         <TeamCard match={props.match} team={team} key={team.id} />
       ))}

@@ -85,7 +85,7 @@ const TodoList = props => {
         <h3 onClick={_ => console.log(props.todoList)}>Todos</h3>
         <div>
           {props.todoList.todos.map(todo => (
-            <Todo todo={todo} />
+            <Todo key={todo.id} todo={todo} />
           ))}
         </div>
         <Button

@@ -53,6 +53,8 @@ const Todo = props => {
         type="checkbox"
         checked={props.todo.completed}
         onClick={toggleComplete}
+        // onChange gets rid of a console warning
+        onChange={() => {}}
       />
       <h3>{props.todo.description}</h3>
       <Divider />

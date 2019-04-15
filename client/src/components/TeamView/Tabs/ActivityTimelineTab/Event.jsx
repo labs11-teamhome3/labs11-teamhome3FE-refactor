@@ -20,13 +20,16 @@ const Event = props => {
   const { classes } = props;
   return (
     // <Paper elevation={1} className={classes.root}>
-      <div className='event'>
-        <span className="event-info">
-          {props.event.user.name} {props.event.action_string}
-        </span>
+      <div className={`event ${props.event.action_string.split(' ')[0]}`}>
+        <img className="user-pic" src={props.event.user.profilePic} alt="pic" />
+        <div className="event-info">
+          <span className="event-activity">
+            {props.event.user.name} {props.event.action_string}
+          </span>
           <span className="event-createdAt">
             {moment(props.event.createdAt).fromNow()}
           </span>
+        </div>
       </div>
     // </Paper>
   );

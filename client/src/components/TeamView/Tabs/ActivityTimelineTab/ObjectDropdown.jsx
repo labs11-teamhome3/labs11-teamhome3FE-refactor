@@ -36,7 +36,8 @@ const ObjectDropdown = props => {
     {name: 'removed from the team'},
     {name: 'created a todo list'},
     {name: 'deleted a todo list'},
-    {name: 'completed a todo list'}
+    {name: 'completed a todo list'},
+    {name: 'changed the team name'}
   ]
 
   const activityOptions = activities.map(activity => 
