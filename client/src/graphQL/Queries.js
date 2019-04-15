@@ -34,6 +34,14 @@ export const FULL_DOCUMENT = gql`
   }
 `;
 
+export const TEAM_QUERY = gql`
+  query TEAM_QUERY($id: ID!) {
+    team(id: $id) {
+      teamName
+    }
+  }
+`;
+
 export const TEAMS_QUERY = gql`
   {
     teamsByUser(userId: "${userId}") {
@@ -60,6 +68,22 @@ export const TODOS_QUERY = gql`
       }
     }
   }
+`;
+
+export const USER_QUERY = gql`
+  query USER_QUERY($id: ID) {
+    user(id: $id) {
+      id
+      name
+      email
+      phone
+      profilePic
+      inTeam {
+        id
+        teamName
+      }
+    }
+  }  
 `;
 
 export const USERS_QUERY = gql`
