@@ -7,6 +7,7 @@ import File from '@material-ui/icons/InsertDriveFileOutlined';
 import Tooltip from '@material-ui/core/Tooltip';
 import Zoom from '@material-ui/core/Zoom';
 import moment from 'moment';
+import MoreMenu from './MoreMenu';
 
 // const styles = theme => ({
 //   root: {

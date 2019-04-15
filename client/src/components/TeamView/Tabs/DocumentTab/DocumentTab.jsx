@@ -135,7 +135,7 @@ const DocumentTab = props => {
       }
     };
     
-    // const {classes} = props; 
+    const {classes} = props; 
     return (
       <div>
         <div>
