@@ -4,6 +4,8 @@ import Paper from "@material-ui/core/Paper";
 import { withStyles } from "@material-ui/core/styles";
 import Close from "@material-ui/icons/Close";
 import Button from "@material-ui/core/Button";
+import TextField from '@material-ui/core/TextField';
+import File from '@material-ui/icons/InsertDriveFileOutlined';
 import { useMutation } from "../../../../graphQL/useMutation";
 import { useQuery } from "react-apollo-hooks";
 import gql from 'graphql-tag';
@@ -13,14 +15,26 @@ import {UPDATE_DOCUMENT} from '../../../../graphQL/Mutations';
 
 const styles = theme => ({
   paper: {
-    "max-width": "800px",
-    margin: "0 auto",
-    "text-align": "left",
-    padding: "20px"
+    position: 'relative',
+    top: '24%',
+    'max-width': '600px',
+    margin: '0 auto',
+    'text-align': 'left',
+    padding: '30px',
   },
-  messageInput: {
-    width: "100%",
-    marginBottom: "10px"
+  textField: {
+    width: '70%'
+  },
+  editDocument: {
+    display: 'flex',
+    justifyContent: 'space-between',
+    fontSize: '25px'
+  },
+  button: {
+    margin: '10px 0 0'
+  },
+  commentInput: {
+    width: "100%"
   }
 });
 
@@ -89,38 +103,52 @@ const EditDocumentModal = props => {
         open={props.modalStatus}
       >
         <Paper className={classes.paper}>
-          <h3>Edit Document</h3>
-          <Close onClick={closeModal} />
+          <div className={classes.editDocument}>
+            <div>
+              <File />
+              <div>Edit Document</div>
+            </div>
+            <Close onClick={closeModal} />
+          </div>
           <br />
-          <input 
-          type="text"
-          value={messageInfo.doc_url}
-          onChange={handleChange}
-          name="doc_url"
-          placeholder="Document URL"
-          className={classes.messageInfo}
+          <TextField 
+            value={messageInfo.doc_url}
+            onChange={handleChange}
+            name="doc_url"
+            placeholder="Document URL"
+            className={classes.textField}
           />
           <br />
-          <input
-            type="text"
+          <TextField
             value={messageInfo.title}
             onChange={handleChange}
             name="title"
             placeholder="Message Title"
-            className={classes.messageInput}
+            className={classes.textField}
           />
           <br />
-          <textarea
+          <TextField
             name="textContent"
             onChange={handleChange}
-            cols="30"
-            rows="10"
+            multiline
+            rowsMax="5"
+            margin="normal"
             value={messageInfo.textContent}
-            placeholder="Message Content"
-            className={classes.messageInput}
+            placeholder="Write about this file"
+            className={classes.textField}
           />
           <br />
-          <Button onClick={updateDocument}>Save</Button>
+          <Button 
+            variant="contained" 
+            disabled={
+              props.ModalStatus &&
+              messageInfo.title &&
+              messageInfo.title === document.data.findDocument.title &&
+              messageInfo.doc_url === document.data.findDocument.doc_url &&
+              messageInfo.textContent === document.data.findDocument.textContent
+            }
+            className={classes.button} 
+            onClick={updateDocument}>Save</Button>
         </Paper>
       </Modal>
     </div>
