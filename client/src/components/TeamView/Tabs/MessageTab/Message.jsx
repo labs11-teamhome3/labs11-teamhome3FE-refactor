@@ -1,33 +1,45 @@
 import React from "react";
-import Paper from "@material-ui/core/Paper";
-import Typography from "@material-ui/core/Typography";
+import moment from "moment";
 import { withStyles } from "@material-ui/core/styles";
-import Card from '@material-ui/core/Card';
-import CardContent from '@material-ui/core/CardContent';
-import CardMedia from '@material-ui/core/CardMedia';
 import AccountCircle from "@material-ui/icons/AccountCircle";
 import Manaje from '../../../../assets/Manaje.png'
 
 const styles = theme => ({
   root: {
-    marginBottom: "10px"
+    display: 'flex',
+    marginTop: "15px",
   },
   userPic: {
     height: '50px',
     width: '50px',
     borderRadius: '50px',
     margin: '4px 12px 0 0'
+  },
+  name: {
+    fontWeight: 'bold',
+    marginRight: '10px'
+  },
+  time: {
+
   }
 });
 
 const Message = props => {
   const { classes } = props;
+  const user = props.message.creator;
   return (
-    <div>
-      {props.message.creator.profilePic ? 
-        <img className={classes.userPic} src={props.message.creator.profilePic} alt="profile picture"/> 
+    <div className={classes.root}>
+      {user.profilePic ? 
+        <img className={classes.userPic} src={user.profilePic} alt="profile picture"/> 
         : 
         <AccountCircle className={classes.userPic}/>} 
+        <div className={classes.root}>
+          <div>
+            <div className={classes.name}>{user.name}</div>
+            <div className={classes.time}>{moment(props.message.createdAt).startOf('minute').fromNow()}</div>
+          <h5>{props.message.content}</h5>    
+          </div>
+        </div>
     </div>
   );
 };
