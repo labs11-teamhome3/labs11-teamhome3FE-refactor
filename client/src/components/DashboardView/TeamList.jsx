@@ -10,6 +10,7 @@ import { useMutation } from "../../graphQL/useMutation";
 
 ////Components////
 import TeamCard from "./TeamCard";
+import StripePaymentPopup from '../Stripe/StripePaymentPopup';
 
 ////Queries////
 import { TEAMS_QUERY } from "../../graphQL/Queries";
@@ -39,6 +40,7 @@ const CURRENT_USER_QUERY = gql`
       inTeam {
         id
         teamName
+        premium
       }
     }
   }
@@ -46,7 +48,7 @@ const CURRENT_USER_QUERY = gql`
 
 const TeamList = props => {
   const userId = localStorage.getItem("userId");
-  console.log('teamList userId', userId);
+  // console.log('teamList userId', userId);
   
   const [teamInput, setTeamInput] = useState("");
   const [errorMsg, setErrorMsg] = useState("");
@@ -59,12 +61,13 @@ const TeamList = props => {
     }
   })
 
-  // set the current user to get relevant team ifno
-  let currentUser;
-  if(userQuery.data.user) {
-    console.log('team list user', userQuery.data.user)
-    currentUser = userQuery.data.user
-  }
+  // set the current user to get relevant team info
+
+  // let currentUser;
+  // if(userQuery.data.user) {
+  //   console.log('team list user', userQuery.data.user)
+  //   currentUser = userQuery.data.user
+  // }
   
   
   
@@ -73,7 +76,7 @@ const TeamList = props => {
     fetchPolicy: 'network-only',
   });
   
-  console.log('teamsData', data);
+  // console.log('teamsData', data);
   
   
   useEffect( () => {
@@ -114,6 +117,16 @@ const TeamList = props => {
     setTeamInput("");
   }
 
+  const cancelPremium = () => {
+    setErrorMsg("");
+    setTeamInput("");
+  }
+
+  const addTeam = e => {
+    e.preventDefault();
+    createTeam();
+  }
+
   if (loading) {
     return <div>Loading...</div>;
   }
@@ -127,13 +140,13 @@ const TeamList = props => {
       <div className="newTeam">
         {!showInput &&
           <div className="show-add-input">
-            <Fab onClick={() => setShowInput(true)} color="primary" aria-label="Add">
+            <Fab onClick={() => setShowInput(true)} color="primary" size="small" aria-label="Add">
               <AddIcon />
             </Fab>
           </div>
         }
         {showInput &&
-          <form>
+          <form onSubmit={addTeam}>
             <input
               required
               type="text"
@@ -141,36 +154,30 @@ const TeamList = props => {
               value={teamInput}
               onChange={e => setTeamInput(e.target.value)}
             />
-            {teamInput && 
-              <Fab onClick={createTeam} color="primary" aria-label="Add">
-                <AddIcon />
-              </Fab>
-            }
-            <Fab onClick={cancelAddTeam} color="secondary" aria-label="Cancel">
-              <CancelIcon />
+            <Fab type="submit" color="primary" size="small" aria-label="Add">
+              <AddIcon />
+            </Fab>
+            <Fab onClick={cancelAddTeam} color="secondary" size="small" aria-label="Cancel">
+              <CancelIcon onClick={cancelAddTeam}/>
             </Fab>
           </form>
         }
       </div>
+      {errorMsg && 
+        <div 
+          className="error-flash">
+            <h3>{errorMsg.split(":")[1]}</h3>
+            {/* add onClick to below to open Stripe payment modal */}
+            <div className="premium">
+              <StripePaymentPopup teamId={props.match.params.id} />
+              <Button onClick={cancelPremium}>Cancel</Button>
+            </div>
+        </div>
+      }
       <Divider />
       {userQuery.data.user && userQuery.data.user.inTeam.map(team => (
         <TeamCard match={props.match} team={team} key={team.id} />
       ))}
-      {errorMsg && 
-        <div 
-          onClick={() => {
-              setErrorMsg("");
-              setTeamInput("");
-            }} 
-          className="error-flash">
-            <h3>{errorMsg.split(":")[1]}</h3>
-            {/* add onClick to below to open Stripe payment modal */}
-            <div className="premium-or-cancel">
-              <Button>Go Premium</Button>
-              <Button onClick={() => setErrorMsg("")}>Cancel</Button>
-            </div>
-        </div>
-      }
     </>
     // );
     //   }}

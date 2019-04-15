@@ -7,8 +7,6 @@ import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import File from '@material-ui/icons/InsertDriveFileOutlined';
 import { useMutation } from '../../../../graphQL/useMutation';
-import { useQuery } from 'react-apollo-hooks';
-import gql from 'graphql-tag';
 
 import { DOCUMENTS_QUERY } from '../../../../graphQL/Queries';
 import { CREATE_DOCUMENT } from '../../../../graphQL/Mutations';

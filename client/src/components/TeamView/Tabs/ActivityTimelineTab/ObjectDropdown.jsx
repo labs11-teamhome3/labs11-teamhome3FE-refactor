@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
-import Button from '@material-ui/core/Button';
-import Menu from '@material-ui/core/Menu';
-import MenuItem from '@material-ui/core/MenuItem';
-import Arrow from '@material-ui/icons/ArrowDropDown';
+// import Button from '@material-ui/core/Button';
+// import Menu from '@material-ui/core/Menu';
+// import MenuItem from '@material-ui/core/MenuItem';
+// import Arrow from '@material-ui/icons/ArrowDropDown';
 
 const ObjectDropdown = props => {
   const [choice, setChoice] = useState('all');
@@ -45,9 +45,9 @@ const ObjectDropdown = props => {
     )
 
   return (
-    <div>
-      <h2>Filter By Activity</h2>
-      <select value={choice} onChange={handleSelect}>
+    <div className="label-select">
+      <label htmlFor="activity-filter">Filter By Activity</label>
+      <select id="activity-filter" value={choice} onChange={handleSelect}>
         {activityOptions}
       </select>
     </div>

@@ -8,18 +8,19 @@ import Tooltip from '@material-ui/core/Tooltip';
 import Zoom from '@material-ui/core/Zoom';
 import moment from 'moment';
 
-import MoreMenu from './MoreMenu';
-
-const styles = theme => ({
-  root: {
-    width: '100%',
-    marginTop: theme.spacing.unit * 3,
-    overflowX: 'auto',
-  },
-});
+// const styles = theme => ({
+//   root: {
+//     width: '100%',
+//     marginTop: theme.spacing.unit * 3,
+//     overflowX: 'auto',
+//   },
+//   table: {
+//     minWidth: 700,
+//   },
+// });
 
 const Document = props => {
-  const { classes, connectDragSource } = props;
+  const { connectDragSource } = props;
   return (
     <TableRow 
       ref={instance => connectDragSource(ReactDOM.findDOMNode(instance))} 

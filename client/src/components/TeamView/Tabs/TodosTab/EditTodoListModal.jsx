@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { useQuery } from "react-apollo-hooks";
 import gql from "graphql-tag";
-import Fab from "@material-ui/core/Fab";
-import AddIcon from "@material-ui/icons/Add";
+// import Fab from "@material-ui/core/Fab";
+// import AddIcon from "@material-ui/icons/Add";
 import { useMutation } from "../../../../graphQL/useMutation";
 import Button from "@material-ui/core/Button";
 import Modal from "@material-ui/core/Modal";
@@ -20,12 +20,12 @@ import Typography from "@material-ui/core/Typography";
 import EditTodo from "./EditTodo";
 
 /////Queries/////
-import { CREATE_EVENT } from "../../../../graphQL/Mutations";
+// import { CREATE_EVENT } from "../../../../graphQL/Mutations";
 import {
-  MESSAGES_QUERY,
+  // MESSAGES_QUERY,
   USERS_QUERY,
-  MESSAGE_QUERY,
-  EVENTS_QUERY,
+  // MESSAGE_QUERY,
+  // EVENTS_QUERY,
   TODOS_QUERY,
   TODO_LIST_QUERY
 } from "../../../../graphQL/Queries";
@@ -196,7 +196,7 @@ const REMOVE_FROM_ASSIGNEES = gql`
 `;
 
 const CreateTodoListModal = props => {
-  const userId = localStorage.getItem("userId");
+  // const userId = localStorage.getItem("userId");
   const [anchorEl, setAnchorEl] = useState(null);
   const [menuControl, setMenuControl] = useState("");
   const [editUserId, setEditUserId] = useState({
@@ -249,6 +249,8 @@ const CreateTodoListModal = props => {
           break;
         case "removeassignee":
           removeAssignee();
+          break;
+        default:
           break;
       }
     },

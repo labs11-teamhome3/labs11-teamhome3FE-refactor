@@ -3,7 +3,7 @@ import Divider from "@material-ui/core/Divider";
 import { useMutation } from "../../../../graphQL/useMutation";
 import gql from "graphql-tag";
 
-import { TODO_LIST_QUERY } from "../../../../graphQL/Queries";
+// import { TODO_LIST_QUERY } from "../../../../graphQL/Queries";
 
 import "./TodosTab.css";
 

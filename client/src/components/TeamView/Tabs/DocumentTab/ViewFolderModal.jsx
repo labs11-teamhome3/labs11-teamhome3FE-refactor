@@ -1,4 +1,4 @@
-import React, { useState, useEffect, Fragment } from "react";
+import React, { useState, useEffect } from "react";
 import Modal from "@material-ui/core/Modal";
 import Paper from "@material-ui/core/Paper";
 import { withStyles } from "@material-ui/core/styles";
@@ -46,6 +46,36 @@ const ViewFolderModal = props => {
   const findFolder = useQuery(FOLDER_QUERY, {
     variables: { id: props.folderId }
   });
+<<<<<<< HEAD
+=======
+  
+  const [deleteFolder] = useMutation(DELETE_FOLDER, {
+    update: (cache, { data }) => {
+      const { findFoldersByTeam } = cache.readQuery({
+        query: FOLDERS_QUERY,
+        variables: { teamId: props.teamId }
+      });
+      cache.writeQuery({
+        query: FOLDERS_QUERY,
+        variables: { teamId: props.teamId },
+        data: {
+          findFoldersByTeam: findFoldersByTeam.filter(
+            folder => folder.id !== props.folderId
+          )
+        }
+      });
+    },
+    variables: {
+      folderId: props.folderId
+    },
+    onCompleted: e => {
+      props.refetch();
+      props.setMsg('deleted a folder');
+      props.toggleModal("viewFolder");
+    },
+    onError: err => console.log(err)
+  });
+>>>>>>> 0b971d92d79d97ac7c6cd98e95a8c0946d5b0df2
 
   const [removeDocumentFromFolder] = useMutation(REMOVE_DOC_FOLDER, {
     update: (cache, {data}) => {

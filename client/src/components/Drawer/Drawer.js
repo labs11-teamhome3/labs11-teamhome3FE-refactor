@@ -9,33 +9,21 @@ import CssBaseline from '@material-ui/core/CssBaseline';
 import AppBar from '@material-ui/core/AppBar';
 import Button from '@material-ui/core/Button';
 import Toolbar from '@material-ui/core/Toolbar';
-import List from '@material-ui/core/List';
-import Typography from '@material-ui/core/Typography';
 import Divider from '@material-ui/core/Divider';
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
-import ListItemText from '@material-ui/core/ListItemText';
-import InboxIcon from '@material-ui/icons/MoveToInbox';
-import MailIcon from '@material-ui/icons/Mail';
+
 
 // components //
 import TabNavigator from '../../components/TeamView/TabNavigator'
 import ActivityTimeline from '../TeamView/Tabs/ActivityTimelineTab/ActivityTimelineTab';
-import NavigationView from '../../views/NavigationView';
 import DashboardView from '../../views/DashboardView';
 
 // queries //
 import { CREATE_EVENT } from '../../graphQL/Mutations';
-import {
-  MESSAGES_QUERY,
-  USERS_QUERY,
-  MESSAGE_QUERY,
-  EVENTS_QUERY
-} from "../../graphQL/Queries";
+import { EVENTS_QUERY } from "../../graphQL/Queries";
 
 const drawerWidth = 400;
 
@@ -207,21 +195,25 @@ const PersistentDrawerLeft = props => {
           <Divider />
           <DashboardView history={props.history} match={props.match}/>
           <Divider />
-          <ActivityTimeline setMsg={setMsg} teamId={props.match.params.id} />
+          {userId &&
+            <ActivityTimeline setMsg={setMsg} teamId={props.match.params.id} />
+          }
         </Drawer>
-        <main
-          className={classNames(classes.content, {
-            [classes.contentShift]: open,
-          })}
-        >
-          <div className={classes.drawerHeader} />
-          <TabNavigator 
-            match = {props.match} 
-            history = {props.history}
-            setMsg = {setMsg}  
-            >
-          </TabNavigator>
-        </main>
+        {userId &&
+          <main
+            className={classNames(classes.content, {
+              [classes.contentShift]: open,
+            })}
+          >
+            <div className={classes.drawerHeader} />
+            <TabNavigator 
+              match = {props.match} 
+              history = {props.history}
+              setMsg = {setMsg}  
+              >
+            </TabNavigator>
+          </main>
+        }
       </div>
     );
 //   }

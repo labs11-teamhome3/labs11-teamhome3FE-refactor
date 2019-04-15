@@ -18,11 +18,6 @@
     font-size: 3rem;
 }
 
-.team-info button {
-    width: 10%;
-    margin: 0 auto;
-}
-
 .team-list-pic {
     width: 100px;
     height: 100px;
@@ -47,4 +42,48 @@
 
 .premium-or-cancel button {
     margin: 0 10px;
+}
+
+.name-info {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    position: absolute;
+    top: 20px;
+    width: 20%;
+}
+
+.name-info svg {
+    cursor: pointer;
+}
+
+.name-info h2 {
+    margin-right: 20px;
+}
+
+.change-name {
+    position: absolute;
+}
+
+.change-name input {
+    margin-top: 15px;
+    font-size: 1.5rem;
+    border-radius: 30px;
+    padding: 5px 20px;
+}
+
+.change-name button {
+    margin: 10px 5px;
+    width: 40%;
+    font-size: 1.3rem;
+    border-radius: 50px;
+    cursor: pointer;
+}
+
+.save-team:hover {
+    background: #55efc4;
+}
+
+.cancel-save-team:hover {
+    background: #fab1a0;   
 }

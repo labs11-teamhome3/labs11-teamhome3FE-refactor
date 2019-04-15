@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import Button from "@material-ui/core/Button";
 import gql from "graphql-tag";
-import { useQuery } from "react-apollo-hooks";
+// import { useQuery } from "react-apollo-hooks";
 import { useMutation } from "../../../../graphQL/useMutation";
 
 //// css ///
@@ -46,11 +46,9 @@ const MemberCard = props => {
               data: {
                 team: {
                   ...team,
-                  members: team.members.filter(member => {
-                    if (member.id !== props.member.id) {
-                      return member;
-                    }
-                  })
+                  members: team.members.filter(
+                    member => member.id !== props.member.id
+                  )
                 }
               }
             });
@@ -68,7 +66,7 @@ const MemberCard = props => {
     return (
         <div className="member-card">
             <div className="member-info">
-                <img className="team-list-pic" src={props.member.profilePic} />
+                <img className="team-list-pic" src={props.member.profilePic} alt="profile" />
                 <h3>{props.member.name}</h3>
             </div>
             {props.member.id !== localStorage.getItem('userId') && props.userRole === "ADMIN" &&

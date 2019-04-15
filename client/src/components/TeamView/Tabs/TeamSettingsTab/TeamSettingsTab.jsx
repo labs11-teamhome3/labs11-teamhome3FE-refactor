@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import Button from "@material-ui/core/Button";
-import { withStyles } from "@material-ui/core/styles";
+// import { withStyles } from "@material-ui/core/styles";
 import DeleteIcon from "@material-ui/icons/Delete";
 import { useMutation } from "../../../../graphQL/useMutation";
 import gql from "graphql-tag";
@@ -209,14 +209,6 @@ if (error) {
   return (
     <div>
       <>
-        <div className="team-settings">
-          <TeamInfo
-            team={data.team}
-            match={props.match}
-            userRole={userRole}
-            setMsg={props.setMsg}
-          />
-        </div>
         <div className="add-user">
           <form onSubmit={handleAddMemberSubmit}>
             <h2>Find a new team member!</h2>
@@ -259,6 +251,14 @@ if (error) {
             <StripePaymentPopup teamId={props.teamId} />
           </div>
         )}
+        <div className="team-settings">
+          <TeamInfo
+            team={data.team}
+            match={props.match}
+            userRole={userRole}
+            setMsg={props.setMsg}
+          />
+        </div>
         {userRole === "ADMIN" && (
           <div className="delete-area">
             <Button

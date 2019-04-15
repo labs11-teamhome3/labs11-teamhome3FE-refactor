@@ -1,5 +1,5 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
+import React, { useEffect } from 'react';
+// import { Link } from 'react-router-dom';
 
 import Button from '@material-ui/core/Button';
 import { withStyles } from '@material-ui/core/styles';
@@ -21,6 +21,11 @@ const styles = {
 };
 
 const LandingView = props => {
+  useEffect( () => {
+   if (localStorage.getItem('userId')) {
+     props.history.push()
+   }
+  })
   // const signup = () => {
   //   props.auth.signup();
   // };

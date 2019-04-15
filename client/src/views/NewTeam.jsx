@@ -1,9 +1,9 @@
 import React, {useState } from 'react'
-import TeamList from '../components/DashboardView/TeamList'
+// import TeamList from '../components/DashboardView/TeamList'
 import gql from "graphql-tag";
 import { useMutation } from '../graphQL/useMutation';
 import Fab from "@material-ui/core/Fab";
-import Button from "@material-ui/core/Button"
+// import Button from "@material-ui/core/Button"
 import AddIcon from "@material-ui/icons/Add";
 
 // components //
