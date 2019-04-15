@@ -1,8 +1,10 @@
 import React, { useState } from "react";
 import { useQuery } from "react-apollo-hooks";
+import { withStyles } from '@material-ui/core/styles';
 import Fab from "@material-ui/core/Fab";
 import AddIcon from "@material-ui/icons/Add";
 import TextField from "@material-ui/core/TextField";
+import AccountCircle from "@material-ui/icons/AccountCircle";
 
 /////Components/////
 import Message from "./Message";
@@ -10,8 +12,33 @@ import CreateMessageModal from "./CreateMessageModal";
 import ViewMessageModal from "./ViewMessageModal";
 import EditMessageModal from "./EditMessageModal";
 
-/////Queries/////
+/////GraphQL/////
+import { useMutation } from "../../../../graphQL/useMutation";
 import { MESSAGES_QUERY, USER_QUERY, TEAM_QUERY } from "../../../../graphQL/Queries";
+import { CREATE_MESSAGE } from "../../../../graphQL/Mutations";
+
+const styles = theme => ({
+  paper: {
+    position: 'relative',
+    top: '24%',
+    'max-width': '600px',
+    margin: '0 auto',
+    'text-align': 'left',
+    padding: '30px',
+  },
+  textField: {
+    width: '70%'
+  },
+  button: {
+    margin: '0'
+  },
+  userPic: {
+    height: '50px',
+    width: '50px',
+    borderRadius: '50px',
+    margin: '4px 12px 0 0'
+  }
+});
 
 const MessageTab = props => {
   const userId = localStorage.getItem('userId')
@@ -25,7 +52,11 @@ const MessageTab = props => {
       id: props.teamId
     }
   })
+  const messages = useQuery(MESSAGES_QUERY, {
+    variables: { teamId: props.teamId }
+  });
 
+  const [messageContent, setMessageContent] = useState('');
   const [createModalStatus, setCreateModalStatus] = useState(false);
   const [editModalStatus, setEditModalStatus] = useState({
     status: false,
@@ -35,8 +66,34 @@ const MessageTab = props => {
     status: false,
     messageId: null
   });
-  const messages = useQuery(MESSAGES_QUERY, {
-    variables: { teamId: props.teamId }
+  
+  const handleChange = e => {
+    setMessageContent(e.target.value)
+  };
+
+  const [createMessage] = useMutation(CREATE_MESSAGE, {
+    update: (cache, { data }) => {
+      const { messages } = cache.readQuery({
+        query: MESSAGES_QUERY,
+        variables: { teamId: props.teamId }
+      });
+      cache.writeQuery({
+        query: MESSAGES_QUERY,
+        variables: { teamId: props.teamId },
+        data: { messages: [...messages, data.createMessage] }
+      });
+    },
+    variables: {
+      title: messageContent,
+      content: messageContent,
+      userId: userId,
+      teamId: props.teamId
+    },
+    onCompleted: e => {
+      props.setMsg("created a message");
+      setMessageContent('')
+    },
+    onError: err => console.log(err)
   });
 
   const toggleModal = (modal, messageId = null) => {
@@ -64,17 +121,25 @@ const MessageTab = props => {
         break;
     }
   };
-  console.log('################ team', team.data)
+  
+  const { classes } = props; 
   return (
-    <div>
+    <div style={{textAlign: 'left'}}>
       <div>
+        {user.data && user.data.user ? <img className={classes.userPic} src={user.data.user.profilePic} alt="profile picture"/> : <AccountCircle />}
         <TextField
           required
-          label={`Message ${team.data && team.data.team ? team.data.team.teamName : 'your team'}`}
-          // value={messageInfo.title}
-          // onChange={handleChange}
-          // name="title"
-          // className={classes.textField}
+          label={`Message ${team.data && team.data.team ? `${team.data.team.teamName}...` : 'your team...'}`}
+          value={messageContent}
+          onChange={handleChange}
+          name="create message"
+          className={classes.textField}
+          onKeyPress = { e => {
+            if(e.key === 'Enter') {
+              createMessage()
+            }
+          }
+        }
         />
       </div>
       <div>
@@ -124,4 +189,4 @@ const MessageTab = props => {
   );
 };
 
-export default MessageTab;
+export default withStyles(styles)(MessageTab);

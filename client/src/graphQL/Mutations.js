@@ -347,4 +347,30 @@ export const UNLIKE_COMMENT = gql`
         }
     }
   }
-`
+`;
+
+export const CREATE_MESSAGE = gql`
+  mutation CREATE_MESSAGE(
+    $title: String!
+    $teamId: ID!
+    $userId: ID!
+    $content: String!
+  ) {
+    createMessage(
+      title: $title
+      teamId: $teamId
+      userId: $userId
+      content: $content
+    ) {
+      id
+      title
+      creator {
+        id
+        name
+      }
+      comments {
+        id
+      }
+    }
+  }
+`;
