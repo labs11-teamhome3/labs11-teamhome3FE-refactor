@@ -149,8 +149,8 @@ const DocumentTab = props => {
       <div>
         <div>
           <div style={{display:'flex', justifyContent:'start'}}>
-            <Button variant="contained" color='primary' style={{marginRight: '17px'}} onClick={() => toggleModal('create')}>Create File</Button>
-            <Button variant="contained" color='primary' onClick={() => toggleModal('createFolder')}>Create Folder</Button>
+            <Button variant="outlined" color='primary' style={{marginRight: '17px'}} onClick={() => toggleModal('createFolder')}>Create Folder</Button>
+            <Button variant="contained" color='primary'  onClick={() => toggleModal('create')}>Create File</Button>
           </div>
           <Table className={classes.table}>
             <TableHead>
