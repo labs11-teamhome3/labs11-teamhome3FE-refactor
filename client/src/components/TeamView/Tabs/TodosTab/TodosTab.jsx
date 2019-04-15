@@ -1,9 +1,9 @@
-import React, { useState, useEffect } from "react";
-import { useQuery } from "react-apollo-hooks";
-import gql from "graphql-tag";
-import Fab from "@material-ui/core/Fab";
-import AddIcon from "@material-ui/icons/Add";
-import { useMutation } from "../../../../graphQL/useMutation";
+import React, { useState } from "react";
+// import { useQuery } from "react-apollo-hooks";
+// import gql from "graphql-tag";
+// import Fab from "@material-ui/core/Fab";
+// import AddIcon from "@material-ui/icons/Add";
+// import { useMutation } from "../../../../graphQL/useMutation";
 import Button from "@material-ui/core/Button";
 
 /////Components/////
@@ -12,13 +12,13 @@ import TodoLists from './TodoLists';
 import EditTodoListModal from './EditTodoListModal';
 
 /////Queries/////
-import { CREATE_EVENT } from "../../../../graphQL/Mutations";
+// import { CREATE_EVENT } from "../../../../graphQL/Mutations";
 import {
-  MESSAGES_QUERY,
-  USERS_QUERY,
-  MESSAGE_QUERY,
-  EVENTS_QUERY,
-  TODOS_QUERY
+  // MESSAGES_QUERY,
+  // USERS_QUERY,
+  // MESSAGE_QUERY,
+  // EVENTS_QUERY,
+  // TODOS_QUERY
 } from "../../../../graphQL/Queries";
 
 const TodosTab = props => {
@@ -40,6 +40,9 @@ const TodosTab = props => {
           todoListId: todoListId
         });
       break;
+
+      default:
+        break;
     }
   };
 

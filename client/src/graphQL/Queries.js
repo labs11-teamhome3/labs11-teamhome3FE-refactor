@@ -39,10 +39,10 @@ export const TEAMS_QUERY = gql`
     teamsByUser(userId: "${userId}") {
       id
       teamName
-      # members {
-      #   id
-      #   name
-      # }
+      members {
+        id
+        name
+      }
     }
   }
 `;
@@ -72,6 +72,7 @@ export const USERS_QUERY = gql`
       profilePic
       inTeam {
         id
+        teamName
       }
     }
   }
@@ -128,6 +129,7 @@ export const EVENTS_QUERY = gql`
       user {
         id
         name
+        profilePic
       }
       action_string
       object_string
@@ -164,6 +166,7 @@ query DOCUMENTS_QUERY($teamId: ID!) {
     id 
     doc_url
     title 
+    createdAt
     user {
       id
       name
@@ -198,6 +201,7 @@ query DOCUMENT_QUERY($id: ID!) {
     id 
     doc_url
     title 
+    createdAt
     user {
       id
       name
@@ -231,6 +235,7 @@ query FOLDERS_QUERY($teamId: ID!) {
   findFoldersByTeam(teamId:$teamId) {
     id
     title
+    createdAt
     user {
         id
         name
@@ -273,6 +278,7 @@ query FOLDER_QUERY($id: ID!) {
   findFolder(id:$id) {
     id
     title
+    createdAt
     user {
         id
         name

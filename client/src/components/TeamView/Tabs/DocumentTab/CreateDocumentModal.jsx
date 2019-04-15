@@ -4,57 +4,34 @@ import Paper from '@material-ui/core/Paper';
 import { withStyles } from '@material-ui/core/styles';
 import Close from '@material-ui/icons/Close';
 import Button from '@material-ui/core/Button';
+import TextField from '@material-ui/core/TextField';
+import File from '@material-ui/icons/InsertDriveFileOutlined';
 import { useMutation } from '../../../../graphQL/useMutation';
-import { useQuery } from 'react-apollo-hooks';
-import gql from 'graphql-tag';
 
-import { DOCUMENTS_QUERY, USERS_QUERY, EVENTS_QUERY } from '../../../../graphQL/Queries';
-import { CREATE_EVENT } from '../../../../graphQL/Mutations';
+import { DOCUMENTS_QUERY } from '../../../../graphQL/Queries';
+import { CREATE_DOCUMENT } from '../../../../graphQL/Mutations';
 
 const styles = theme => ({
   paper: {
-    'max-width': '800px',
+    position: 'relative',
+    top: '24%',
+    'max-width': '600px',
     margin: '0 auto',
     'text-align': 'left',
-    padding: '20px',
+    padding: '30px',
   },
-  messageInput: {
-    width: '100%',
-    marginBottom: '10px',
+  textField: {
+    width: '70%'
   },
-});
-
-const CREATE_DOCUMENT = gql`
-  mutation CREATE_DOCUMENT(
-    $doc_url: String!
-    $teamId: ID!
-    $userId: ID!
-    $title: String!
-    $textContent: String!
-  ) {
-    addDocument(
-      doc_url: $doc_url
-      teamId: $teamId
-      userId: $userId
-      title: $title
-      textContent: $textContent
-    ) {
-      id
-      doc_url
-      folder {
-        id
-      }
-      title
-      textContent
-      user {
-          id
-      }
-      team {
-          id
-      }
-    }
+  createDocument: {
+    display: 'flex',
+    justifyContent: 'space-between',
+    fontSize: '25px'
+  },
+  button: {
+    margin: '10px 0 0'
   }
-`;
+});
 
 const CreateDocumentModal = props => {
     const userId = localStorage.getItem('userId');
@@ -71,11 +48,8 @@ const CreateDocumentModal = props => {
     });
   };
 
-  const users = useQuery(USERS_QUERY);
-
   const [createDocument] = useMutation(CREATE_DOCUMENT, {
     update: (cache, { data }) => {
-      // console.log(data.createMessage)
       const {findDocumentsByTeam} = cache.readQuery({
         query: DOCUMENTS_QUERY,
         variables: { teamId: props.teamId },
@@ -113,38 +87,44 @@ const CreateDocumentModal = props => {
         open={props.modalStatus}
       >
         <Paper className={classes.paper}>
-          <h3>Create Document</h3>
-          <Close onClick={_ => props.toggleModal('create')} />
+          <div className={classes.createDocument}>
+            <div>
+              <File />
+              <div>Create new file</div>
+            </div>
+            <Close onClick={_ => props.toggleModal('create')} />
+          </div>
           <br />
-          <input 
-          type="text"
-          value={messageInfo.doc_url}
-          onChange={handleChange}
-          name="doc_url"
-          placeholder="Document URL"
-          className={classes.messageInfo}
-          />
-          <br />
-          <input
-            type="text"
+          <TextField
+            required
+            label="Name this file"
             value={messageInfo.title}
             onChange={handleChange}
             name="title"
-            placeholder="Message Title"
-            className={classes.messageInput}
+            className={classes.textField}
           />
           <br />
-          <textarea
-            name="textContent"
+          <TextField
+            required
+            label="Enter the url of this file" 
+            value={messageInfo.doc_url}
             onChange={handleChange}
-            cols="30"
-            rows="10"
-            value={messageInfo.textContent}
-            placeholder="Message Content"
-            className={classes.messageInput}
+            name="doc_url"
+            className={classes.textField}
           />
           <br />
-          <Button onClick={createDocument}>Save</Button>
+          <TextField
+            label="Write about this file"
+            multiline
+            rowsMax="5"
+            name="textContent"
+            value={messageInfo.textContent}
+            onChange={handleChange}
+            className={classes.textField}
+            margin="normal"
+          />
+          <br />
+          <Button variant="contained" disabled={!messageInfo.title && !messageInfo.doc_url} className={classes.button} onClick={createDocument}>Create</Button>
         </Paper>
       </Modal>
     </div>

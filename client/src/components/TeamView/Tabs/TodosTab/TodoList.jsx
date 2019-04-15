@@ -1,12 +1,12 @@
 import React from "react";
-import Paper from "@material-ui/core/Paper";
+// import Paper from "@material-ui/core/Paper";
 import Typography from "@material-ui/core/Typography";
 import { withStyles } from "@material-ui/core/styles";
 import ExpansionPanel from "@material-ui/core/ExpansionPanel";
 import ExpansionPanelSummary from "@material-ui/core/ExpansionPanelSummary";
 import ExpansionPanelDetails from "@material-ui/core/ExpansionPanelDetails";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
-import EditPencil from "@material-ui/icons/Edit";
+// import EditPencil from "@material-ui/icons/Edit";
 import Button from "@material-ui/core/Button";
 import gql from "graphql-tag";
 import { useMutation } from "../../../../graphQL/useMutation";
@@ -85,7 +85,7 @@ const TodoList = props => {
         <h3 onClick={_ => console.log(props.todoList)}>Todos</h3>
         <div>
           {props.todoList.todos.map(todo => (
-            <Todo todo={todo} />
+            <Todo key={todo.id} todo={todo} />
           ))}
         </div>
         <Button

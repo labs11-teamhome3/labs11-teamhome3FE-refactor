@@ -18,3 +18,37 @@
     background: #3f51b5;
     margin: 0 10px;
 }
+
+.add-team-help {
+    display: none;
+}
+
+.show-add-input:hover .add-team-help {
+    display: block;
+}
+
+.teams-list h1 {
+    margin-bottom: 10px;
+}
+
+.newTeam form {
+    margin-bottom: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+}
+
+.newTeam {
+    margin-bottom: 20px;
+}
+
+.newTeam input {
+    margin-right: 5px;
+    font-size: 1.5rem;
+    border-radius: 30px;
+    padding: 5px 20px;
+}
+
+.team-link {
+    text-decoration: none;
+}

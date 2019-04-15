@@ -1,8 +1,11 @@
 import React, {useEffect} from "react";
+import ReactDOM from "react-dom";
 import { DropTarget } from "react-dnd";
-import Paper from "@material-ui/core/Paper";
-import Typography from "@material-ui/core/Typography";
-import { withStyles } from "@material-ui/core/styles";
+import TableCell from '@material-ui/core/TableCell';
+import TableRow from '@material-ui/core/TableRow';
+import FolderIcon from "@material-ui/icons/Folder";
+import MoreHoriz from '@material-ui/icons/MoreHoriz';
+import moment from 'moment';
 
 import { useMutation } from "../../../../graphQL/useMutation";
 import {ADD_DOCUMENT_FOLDER} from '../../../../graphQL/Mutations';
@@ -17,7 +20,6 @@ const styles = theme => ({
 const Folder = props => {
   const [addDocumentToFolder] = useMutation(ADD_DOCUMENT_FOLDER, {
     update: (cache, { data }) => {
-      // console.log(data.createMessage)
       const {findDocumentsByTeam} = cache.readQuery({
         query: DOCUMENTS_QUERY,
         variables: { teamId: props.teamId },
@@ -40,32 +42,27 @@ const Folder = props => {
   })
 
   useEffect(() => {
-    //call mutation
-    console.log('########################dropped!')
     addDocumentToFolder()
-
   }, [props.droppedItem])
 
   const { classes, isOver, canDrop, connectDropTarget, droppedItem } = props;
-  console.log('folder props', props);
-  return connectDropTarget(
-    <div>
-      <Paper
-      elevation={1}
-      onClick={_ => props.toggleModal('viewFolder', props.folder.id)}
-      >
-        <Typography variant="h5" component="h3">
-          {props.folder.title}
-        </Typography>
-      </Paper>
-    </div>
+  return (
+    <TableRow 
+      ref={instance => connectDropTarget(ReactDOM.findDOMNode(instance))} 
+    >
+      <TableCell><FolderIcon/> {props.folder.title}</TableCell>
+      <TableCell>{moment(props.folder.createdAt).calendar()}</TableCell>
+      <TableCell>{props.folder.user.name}</TableCell>
+      <TableCell>{props.folder.documents.length}</TableCell>
+      <TableCell onClick={_ => props.toggleModal('viewFolder', props.folder.id)}><MoreHoriz/></TableCell>
+    </TableRow>
   );
 };
 
 const spec = {
   drop(props, monitor, component) {
     const document = monitor.getItem()
-    props.onDrop(document)
+    props.onDrop(document.id)
   }
 }
 

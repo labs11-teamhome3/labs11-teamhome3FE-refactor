@@ -67,11 +67,9 @@ const MessageComment = props => {
         data: {
           message: {
             ...message,
-            comments: message.comments.filter(comment => {
-              if (comment.id !== props.comment.id) {
-                return comment;
-              }
-            })
+            comments: message.comments.filter(
+              comment => comment.id !== props.comment.id
+            )
           }
         }
       });
@@ -148,8 +146,6 @@ const MessageComment = props => {
     },
     onError: err => console.log(err)
   });
-
-  console.log(props.comment)
 
   return (
         <ListItem>

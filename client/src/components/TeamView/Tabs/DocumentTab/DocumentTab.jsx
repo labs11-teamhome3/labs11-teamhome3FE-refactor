@@ -2,10 +2,15 @@ import React, { useState, useEffect } from "react";
 import { useQuery } from "react-apollo-hooks";
 import { DragDropContext } from "react-dnd";
 import HTML5Backend from "react-dnd-html5-backend";
-import gql from "graphql-tag";
-import Fab from "@material-ui/core/Fab";
-import AddIcon from "@material-ui/icons/Add";
-import { useMutation } from "../../../../graphQL/useMutation";
+// import Fab from "@material-ui/core/Fab";
+// import AddIcon from "@material-ui/icons/Add";
+import Table from "@material-ui/core/Table";
+import TableBody from '@material-ui/core/TableBody';
+import TableCell from '@material-ui/core/TableCell';
+import TableHead from '@material-ui/core/TableHead';
+import TableRow from '@material-ui/core/TableRow';
+import Button from '@material-ui/core/Button';
+import ArrowUp from '@material-ui/icons/ArrowDropUp';
 
 /////Components/////
 import Folder from "./Folder";
@@ -16,16 +21,46 @@ import EditDocumentModal from "./EditDocumentModal";
 import CreateFolderModal from "./CreateFolderModal";
 import ViewFolderModal from "./ViewFolderModal";
 import EditFolderModal from "./EditFolderModal";
+import { withStyles } from '@material-ui/core/styles';
 
 /////Queries/////
-import { CREATE_EVENT } from '../../../../graphQL/Mutations';
 import { DOCUMENTS_QUERY, FOLDERS_QUERY } from '../../../../graphQL/Queries';
 
+const styles = theme => ({
+  button: {
+    
+  },
+  input: {
+    display: 'none',
+  },
+});
+
 const DocumentTab = props => {
-    const [droppedItem, setDroppedItem] = useState('')
+    const [droppedItem, setDroppedItem] = useState('');
 
     function onDrop(item){
       setDroppedItem(item)
+      folders.refetch()
+    }
+
+    function newSort() {
+      //new to old sort
+      console.log('newSort')
+      function compare(a, b) {
+        const createdAtA = a.createdAt.toUpperCase();
+        const createdAtB = b.createdAt.toUpperCase();
+        
+        let comparison = 0;
+        if (createdAtA > createdAtB) {
+          comparison = 1;
+        } else if (createdAtA < createdAtB) {
+          comparison = -1;
+        }
+        return comparison * -1;
+      }
+      //how can I get this to rerender after the sort?
+      folders.data.findFoldersByTeam.sort(compare);
+      documents.data.findDocumentsByTeam.sort(compare);
     }
 
     //Documents
@@ -59,6 +94,10 @@ const DocumentTab = props => {
     const folders = useQuery(FOLDERS_QUERY, {
       variables: { teamId: props.teamId }
     })
+
+    useEffect(() => {
+      
+    }, [folders.data.findFoldersByTeam])
   
     //Modal handler
     const toggleModal = (modal, id = null) => {
@@ -101,115 +140,115 @@ const DocumentTab = props => {
             folderId: id
           });
           break;
+
+        default:
+          break;
       }
     };
     
+    // const {classes} = props; 
     return (
       <div>
-        <h1>Documents</h1>
         <div>
-          {!documents.data.findDocumentsByTeam ? (
-            <h3>Loading Documents...</h3>
-          ) : (
-            documents.data.findDocumentsByTeam.filter(document => !document.folder)
-            .map(document => (
-              <Document
+          <div style={{display:'flex', justifyContent:'start'}}>
+            <Button variant="contained" color='primary' style={{marginRight: '17px'}} onClick={() => toggleModal('create')}>Create File</Button>
+            <Button variant="contained" color='primary' onClick={() => toggleModal('createFolder')}>Create Folder</Button>
+          </div>
+          <Table>
+            <TableHead>
+              <TableRow>
+                <TableCell>Name</TableCell>
+                <TableCell>Created<ArrowUp onClick={newSort} /></TableCell>
+                <TableCell>Created By</TableCell>
+                <TableCell># of Docs or Link</TableCell>
+                <TableCell>More</TableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+            {folders.loading ? (
+              <h3>Loading Folders...</h3>
+            ) : (
+              folders.data.findFoldersByTeam.map(folder => (
+                <Folder
+                  setDroppedItem={setDroppedItem}
+                  droppedItem={droppedItem}
+                  setMsg={props.setMsg}
+                  onDrop={onDrop}
+                  folder={folder}
+                  key={folder.id}
+                  toggleModal={toggleModal}
+                />
+              ))
+            )}
+            {!documents.data.findDocumentsByTeam ? (
+              <h3>Loading Documents...</h3>
+            ) : (
+              documents.data.findDocumentsByTeam.filter(document => !document.folder)
+              .map(document => (
+                <Document
                 document={document}
                 key={document.id}
                 toggleModal={toggleModal}
-              />
-            ))
-          )}
-
-          <Fab
-            color="primary"
-            aria-label="Add"
-            onClick={_ => toggleModal("create")}
-          >
-            <AddIcon />
-          </Fab>
-
-          <h1>Folders</h1>
-          {folders.loading ? (
-            <h3>Loading Folders...</h3>
-          ) : (
-            folders.data.findFoldersByTeam.map(folder => (
-              <Folder
-                setDroppedItem={setDroppedItem}
-                droppedItem={droppedItem}
-                setMsg={props.setMsg}
-                onDrop={onDrop}
-                folder={folder}
-                key={folder.id}
-                toggleModal={toggleModal}
-              />
-            ))
-          )}
-
-          <Fab
-            color="primary"
-            aria-label="Add"
-            onClick={_ => toggleModal("createFolder")}
-          >
-            <AddIcon />
-          </Fab>
-
+                />
+              ))   
+            )}
+            </TableBody>
+          </Table>        
         </div>
-        
-        {/* ################# Documents ##################*/}
-        <CreateDocumentModal
-          modalStatus={createModalStatus}
-          toggleModal={toggleModal}
-          teamId={props.teamId}
-          setMsg={props.setMsg}
-        />
-        {editModalStatus ? (
-          <EditDocumentModal
-            modalStatus={editModalStatus.status}
-            documentId={editModalStatus.documentId}
-            toggleModal={toggleModal}
-            setMsg={props.setMsg}
-          />
-        ) : null}
-        {viewModalStatus.status ? (
-          <ViewDocumentModal
-            modalStatus={viewModalStatus.status}
-            documentId={viewModalStatus.documentId}
+          
+          {/* ################# Documents ##################*/}
+          <CreateDocumentModal
+            modalStatus={createModalStatus}
             toggleModal={toggleModal}
             teamId={props.teamId}
             setMsg={props.setMsg}
           />
-        ) : null} 
+          {editModalStatus ? (
+            <EditDocumentModal
+              modalStatus={editModalStatus.status}
+              documentId={editModalStatus.documentId}
+              toggleModal={toggleModal}
+              setMsg={props.setMsg}
+            />
+          ) : null}
+          {viewModalStatus.status ? (
+            <ViewDocumentModal
+              modalStatus={viewModalStatus.status}
+              documentId={viewModalStatus.documentId}
+              toggleModal={toggleModal}
+              teamId={props.teamId}
+              setMsg={props.setMsg}
+            />
+          ) : null} 
 
 
-        {/* ################# Folders ################## */}
-        <CreateFolderModal
-          modalStatus={createFolderModalStatus}
-          toggleModal={toggleModal}
-          teamId={props.teamId}
-          setMsg={props.setMsg}
-        />
-        {editModalStatus ? (
-          <EditFolderModal
-            modalStatus={editFolderModalStatus.status}
-            folderId={editFolderModalStatus.folderId}
-            toggleModal={toggleModal}
-            setMsg={props.setMsg}
-          />
-        ) : null}
-        {viewFolderModalStatus.status ? (
-          <ViewFolderModal
-            refetch={documents.refetch}
-            modalStatus={viewFolderModalStatus.status}
-            folderId={viewFolderModalStatus.folderId}
+          {/* ################# Folders ################## */}
+          <CreateFolderModal
+            modalStatus={createFolderModalStatus}
             toggleModal={toggleModal}
             teamId={props.teamId}
             setMsg={props.setMsg}
           />
-        ) : null} 
-
+          {editModalStatus ? (
+            <EditFolderModal
+              modalStatus={editFolderModalStatus.status}
+              folderId={editFolderModalStatus.folderId}
+              toggleModal={toggleModal}
+              setMsg={props.setMsg}
+            />
+          ) : null}
+          {viewFolderModalStatus.status ? (
+            <ViewFolderModal
+              refetch={documents.refetch}
+              modalStatus={viewFolderModalStatus.status}
+              folderId={viewFolderModalStatus.folderId}
+              toggleModal={toggleModal}
+              teamId={props.teamId}
+              setMsg={props.setMsg}
+            />
+          ) : null} 
         </div>
     );
   };
   
-  export default DragDropContext(HTML5Backend)(DocumentTab);
+  export default DragDropContext(HTML5Backend)(withStyles(styles)(DocumentTab));

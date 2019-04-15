@@ -1,29 +1,35 @@
 import React from "react";
+import ReactDOM from "react-dom";
 import { DragSource } from "react-dnd";
-import Paper from "@material-ui/core/Paper";
-import Typography from "@material-ui/core/Typography";
-import { withStyles } from "@material-ui/core/styles";
+import TableCell from '@material-ui/core/TableCell';
+import TableRow from '@material-ui/core/TableRow';
+import File from '@material-ui/icons/InsertDriveFileOutlined';
+import MoreHoriz from '@material-ui/icons/MoreHoriz';
+import moment from 'moment';
 
-const styles = theme => ({
-  root: {
-    marginBottom: "10px"
-  }
-});
+// const styles = theme => ({
+//   root: {
+//     width: '100%',
+//     marginTop: theme.spacing.unit * 3,
+//     overflowX: 'auto',
+//   },
+//   table: {
+//     minWidth: 700,
+//   },
+// });
 
 const Document = props => {
-  const { classes, connectDragSource } = props;
-  //console.log('document props', props);
-  return connectDragSource(
-    <div>
-      <Paper
-        elevation={1}
-        onClick={_ => props.toggleModal('view', props.document.id)}
-      >
-        <Typography variant="h5" component="h3">
-          {props.document.title}: {props.document.textContent}
-        </Typography>
-      </Paper>
-    </div>
+  const { connectDragSource } = props;
+  return (
+    <TableRow 
+      ref={instance => connectDragSource(ReactDOM.findDOMNode(instance))} 
+    >
+      <TableCell><File/>{props.document.title}</TableCell>
+      <TableCell>{moment(props.document.createdAt).calendar()}</TableCell>
+      <TableCell>{props.document.user.name}</TableCell>
+      <TableCell><a style={{textDecoration:"none", color:"inherit"}} href={props.document.doc_url} target='_blank' rel="noopener noreferrer">{props.document.doc_url}</a></TableCell>
+      <TableCell onClick={() => props.toggleModal('view', props.document.id)}><MoreHoriz/></TableCell>
+    </TableRow>
   );
 };
 
@@ -35,10 +41,9 @@ function collect(connect, monitor) {
 
 const cardSource = {
   beginDrag(props, monitor, component) {
-    const document = { id: props.document.id };
+    const document = { id: props.document };
     return document;
   }
 }
-
 
 export default DragSource("SOURCE", cardSource, collect)(Document);

@@ -5,9 +5,11 @@ import logo from '../assets/Manaje.png';
 import './css/Nav.css';
 
 ////Components////
-import { Button, AppBar, Toolbar } from '../../node_modules/@material-ui/core';
+import { Button, AppBar } from '../../node_modules/@material-ui/core';
 
 const NavigationView = props => {
+
+
   const login = async () => {
     await props.auth.login();
   };
@@ -25,9 +27,7 @@ const NavigationView = props => {
       <AppBar className="header" position="static">
         <div className="header">
           <div className="logo">
-            <Link to="/dashboard">
               <img className="logo-img" src={logo} alt="Manaje" />
-            </Link>
           </div>
           {!localStorage.getItem('userId') ? (
             <div className="nav-btns">
@@ -36,9 +36,9 @@ const NavigationView = props => {
             </div>
           ) : (
             <div className="nav-btns">
-              <Link to="/dashboard">
+              {/* <Link to="/teams/first-team">
                 <Button>Dashboard</Button>
-              </Link>
+              </Link> */}
               <Link to="/profile">
                 <Button>Profile</Button>
               </Link>

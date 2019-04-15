@@ -1,18 +1,18 @@
 import React, { useState } from 'react';
-import Button from '@material-ui/core/Button';
-import Menu from '@material-ui/core/Menu';
-import MenuItem from '@material-ui/core/MenuItem';
-import Arrow from '@material-ui/icons/ArrowDropDown';
+// import Button from '@material-ui/core/Button';
+// import Menu from '@material-ui/core/Menu';
+// import MenuItem from '@material-ui/core/MenuItem';
+// import Arrow from '@material-ui/icons/ArrowDropDown';
 
 const ObjectDropdown = props => {
   const [choice, setChoice] = useState('all');
-  console.log(props);
+  //console.log(props);
 
   const handleSelect = e => {
     const choices = Array.from(e.target);
-    console.log('c', choices);
+    //console.log('c', choices);
     const selectedChoice = choices.find(choice => choice.selected).innerText;
-    console.log('s', selectedChoice);
+    //console.log('s', selectedChoice);
     setChoice(selectedChoice);
     switch(selectedChoice) {
       case 'all':
@@ -36,7 +36,8 @@ const ObjectDropdown = props => {
     {name: 'removed from the team'},
     {name: 'created a todo list'},
     {name: 'deleted a todo list'},
-    {name: 'completed a todo list'}
+    {name: 'completed a todo list'},
+    {name: 'changed the team name'}
   ]
 
   const activityOptions = activities.map(activity => 

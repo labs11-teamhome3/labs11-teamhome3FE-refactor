@@ -3,7 +3,7 @@ import { useQuery } from 'react-apollo-hooks';
 
 ////Components////
 import ObjectDropdown from './ObjectDropdown';
-import ActionDropdown from './ActionDropdown';
+// import ActionDropdown from './ActionDropdown';
 import UserDropdown from './UserDropdown';
 import ViewEventModal from './ViewEventModal';
 import { EVENTS_QUERY } from '../../../../graphQL/Queries';
@@ -22,8 +22,8 @@ const ActivityTimeline = props => {
       teamId: props.teamId,
     },
   });
-  console.log('activity timeline');
-  console.log(events.data.findEventsByTeam);
+  //console.log('activity timeline');
+  //console.log(events.data.findEventsByTeam);
 
   /// trying to get filteredEvents array to be the reverse of allEvents, to display most recent event first
   /// right now it's flip flopping on every
@@ -47,7 +47,7 @@ const ActivityTimeline = props => {
         <UserDropdown allEvents={allEvents} teamId={props.teamId} setAllEvents={setAllEvents} setFilteredEvents={setFilteredEvents}/>
       </div>
       <ViewEventModal status={status} toggleModal={toggleModal} />
-      <div>
+      <div className="at-events">
         {!events.loading && filteredEvents &&
           filteredEvents.map(event => <Event event={event} key={event.id} />)}
       </div>

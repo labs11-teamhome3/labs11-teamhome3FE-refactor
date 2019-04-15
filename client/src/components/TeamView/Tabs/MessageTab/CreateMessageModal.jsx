@@ -4,18 +4,18 @@ import Paper from "@material-ui/core/Paper";
 import { withStyles } from "@material-ui/core/styles";
 import Close from "@material-ui/icons/Close";
 import Button from "@material-ui/core/Button";
-import Menu from "@material-ui/core/Menu";
-import MenuItem from "@material-ui/core/MenuItem";
+// import Menu from "@material-ui/core/Menu";
+// import MenuItem from "@material-ui/core/MenuItem";
 import { useMutation } from "../../../../graphQL/useMutation";
-import { useQuery } from "react-apollo-hooks";
+// import { useQuery } from "react-apollo-hooks";
 import gql from "graphql-tag";
 
 import {
   MESSAGES_QUERY,
-  USERS_QUERY,
-  EVENTS_QUERY
+  // USERS_QUERY,
+  // EVENTS_QUERY
 } from "../../../../graphQL/Queries";
-import { CREATE_EVENT } from "../../../../graphQL/Mutations";
+// import { CREATE_EVENT } from "../../../../graphQL/Mutations";
 
 const styles = theme => ({
   paper: {
@@ -57,12 +57,11 @@ const CREATE_MESSAGE = gql`
 `;
 
 const MessageModal = props => {
+  const userId = localStorage.getItem('userId');
   const [messageInfo, setMessageInfo] = useState({
     title: "",
     content: ""
   });
-
-  // const [anchorEl, setAnchorEl] = useState(null);
 
   const handleChange = e => {
     setMessageInfo({
@@ -71,11 +70,10 @@ const MessageModal = props => {
     });
   };
 
-  const users = useQuery(USERS_QUERY);
+  // const users = useQuery(USERS_QUERY);
 
   const [createMessage] = useMutation(CREATE_MESSAGE, {
     update: (cache, { data }) => {
-      // console.log(data.createMessage)
       const { messages } = cache.readQuery({
         query: MESSAGES_QUERY,
         variables: { teamId: props.teamId }
@@ -89,7 +87,7 @@ const MessageModal = props => {
     variables: {
       title: messageInfo.title,
       content: messageInfo.content,
-      userId: users.loading ? "" : users.data.users[0].id,
+      userId: userId,
       teamId: props.teamId
     },
     onCompleted: e => {
@@ -102,14 +100,6 @@ const MessageModal = props => {
     },
     onError: err => console.log(err)
   });
-
-  // const handleClick = e => {
-  //   setAnchorEl(e.currentTarget);
-  // };
-
-  // const handleClose = () => {
-  //   setAnchorEl(null);
-  // };
 
   const { classes } = props;
   return (

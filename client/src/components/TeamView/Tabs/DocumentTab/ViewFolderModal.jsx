@@ -1,24 +1,17 @@
-import React, { useState, useEffect, Fragment } from "react";
+import React, { useState, useEffect } from "react";
 import Modal from "@material-ui/core/Modal";
 import Paper from "@material-ui/core/Paper";
 import { withStyles } from "@material-ui/core/styles";
 import Close from "@material-ui/icons/Close";
-import DropArrow from "@material-ui/icons/ArrowDropDown";
-import List from "@material-ui/core/List";
-import Divider from "@material-ui/core/Divider";
 import Button from '@material-ui/core/Button';
 import { useMutation } from "../../../../graphQL/useMutation";
 import { useQuery } from "react-apollo-hooks";
-import gql from "graphql-tag";
 
-import DocumentComment from "./DocumentComment";
-import { CREATE_EVENT } from '../../../../graphQL/Mutations';
+import { DELETE_FOLDER, REMOVE_DOC_FOLDER } from '../../../../graphQL/Mutations';
 
 import {
   FOLDERS_QUERY,
-  FOLDER_QUERY,
-  DOCUMENTS_QUERY,
-  EVENTS_QUERY
+  FOLDER_QUERY
 } from "../../../../graphQL/Queries";
 
 const styles = theme => ({
@@ -37,88 +30,8 @@ const styles = theme => ({
   }
 });
 
-const DELETE_FOLDER = gql`
-  mutation DELETE_FOLDER($folderId: ID!) {
-    deleteFolder(folderId: $folderId) {
-      id
-      title
-      documents {
-        id 
-        doc_url
-        title 
-        user {
-          id
-          name
-        }
-        team {
-          id
-        }
-        textContent
-        folder {
-            id
-          }
-        comments {
-            id
-            content
-            user {
-              id
-              name
-            }
-            image
-            likes {
-              id
-              name
-            }
-          } 
-      }
-    }
-  }
-`;
-
-const REMOVE_DOC_FOLDER = gql`
-  mutation REMOVE_DOC_FOLDER($folderId: ID! $documentId: ID!) {
-    removeDocumentFromFolder(folderId: $folderId, documentId: $documentId) {
-      id 
-      doc_url
-      title 
-      user {
-        id
-        name
-      }
-      team {
-        id
-      }
-      textContent
-      folder {
-          id
-        }
-      comments {
-          id
-          content
-          user {
-            id
-            name
-          }
-          image
-          likes {
-            id
-            name
-          }
-        }  
-    }
-  }
-`;
-
 const ViewFolderModal = props => {
-  const userId = localStorage.getItem('userId')
   const [documentId, setDocumentId] = useState(null)
-  const [documentsInFolder, setDocumentsInFolder] = useState([])
-
-  useEffect(() => {
-    if(findFolder.data.documents && findFolder.data.documents.length) {
-      setDocumentsInFolder(findFolder.data.documents)
-    }
-  }, [findFolder && findFolder.data])
 
   useEffect(() => {
     if(documentId) {
@@ -132,7 +45,6 @@ const ViewFolderModal = props => {
   
   const [deleteFolder] = useMutation(DELETE_FOLDER, {
     update: (cache, { data }) => {
-      //console.log('data', data);
       const { findFoldersByTeam } = cache.readQuery({
         query: FOLDERS_QUERY,
         variables: { teamId: props.teamId }
@@ -141,41 +53,17 @@ const ViewFolderModal = props => {
         query: FOLDERS_QUERY,
         variables: { teamId: props.teamId },
         data: {
-          findFoldersByTeam: findFoldersByTeam.filter(folder => {
-            // console.log(`${message.id} - ${props.messageId}`);
-            if (folder.id !== props.folderId) {
-              return folder;
-            }
-          })
+          findFoldersByTeam: findFoldersByTeam.filter(
+            folder => folder.id !== props.folderId
+          )
         }
       });
-      // const { findDocumentsByTeam } = cache.readQuery({
-      //   query: DOCUMENTS_QUERY,
-      //   variables: { teamId: props.teamId }
-      // });
-      // console.log('#######', documentsInFolder)
-      // cache.writeQuery({
-      //   query: DOCUMENTS_QUERY,
-      //   variables: { teamId: props.teamId },
-      //   data: {
-      //     findDocumentsByTeam: findDocumentsByTeam.map(document => {
-      //       return documentsInFolder.map(documentInFolder => {
-      //        if( document.id === documentInFolder.id) {
-      //         return documentInFolder
-      //        } else {
-      //          return document
-      //        }
-      //       })
-      //     })
-      //   }
-      // });
     },
     variables: {
       folderId: props.folderId
     },
     onCompleted: e => {
       props.refetch();
-      console.log('e', e);
       props.setMsg('deleted a folder');
       props.toggleModal("viewFolder");
     },
@@ -195,23 +83,6 @@ const ViewFolderModal = props => {
           findFolder: {...findFolder, documents: findFolder.documents.filter(document => document.id !== data.removeDocumentFromFolder.id)}
         }
       });
-      // const { findDocumentsByTeam } = cache.readQuery({
-      //   query: DOCUMENTS_QUERY,
-      //   variables: { teamId: props.teamId }
-      // });
-      // cache.writeQuery({
-      //   query: DOCUMENTS_QUERY,
-      //   variables: { teamId: props.teamId },
-      //   data: {
-      //     findDocumentsByTeam: findDocumentsByTeam.map(document => {
-      //       if(document.id === data.removeDocumentFromFolder.id) {
-      //         return data.removeDocumentFromFolder
-      //       } else {
-      //         return document
-      //       }
-      //     })
-      //   }
-      // });
     },
     variables: {
       folderId: props.folderId,
@@ -220,7 +91,6 @@ const ViewFolderModal = props => {
     onCompleted: e => {
       props.setMsg('removed a document from a folder');
       setDocumentId(null);
-      //props.toggleModal("viewFolder");
     },
     onError: err => console.log(err)
   })
@@ -237,7 +107,6 @@ const ViewFolderModal = props => {
 
   const { classes } = props;
   const folder = findFolder.data.findFolder;
-  console.log('folder', folder)
   return (
     <div>
       <Modal
@@ -282,21 +151,6 @@ const ViewFolderModal = props => {
                       </li>
                   ))}
               </ul>
-              {/* <List>
-                {folder.documents.map((document, index) => (
-                  <Fragment key={document.id}>
-                    <DocumentComment
-                      comment={document}
-                      documentId={document.id}
-                      setMsg={props.setMsg}
-                    />
-                    {index ===
-                    document.length - 1 ? null : (
-                      <Divider />
-                    )}
-                  </Fragment>
-                ))}
-              </List> */}
             </div> 
           ) : null}
         </Paper>
