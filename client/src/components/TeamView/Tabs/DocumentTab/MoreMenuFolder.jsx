@@ -73,7 +73,8 @@ const MoreMenuFolder = props => {
         });
 
   const editFolder = _ => {
-    props.toggleModal("editFolder", props.folder.id);
+    setOpen(false);
+    props.setTitleEditStatus(!props.titleEditStatus);
   };
 
     const { classes } = props;
@@ -85,7 +86,7 @@ const MoreMenuFolder = props => {
             {open ? (
               <Paper className={classes.paper}>
                 <Button className={classes.button} onClick={() => props.toggleModal('viewFolder', props.folder.id)}>View</Button>
-                <Button className={classes.button} onClick={editFolder}>Edit</Button>
+                <Button className={classes.button} onClick={editFolder}>Rename</Button>
                 <Button className={classes.button} onClick={deleteFolder}>Delete</Button>
               </Paper>
             ) : null}
