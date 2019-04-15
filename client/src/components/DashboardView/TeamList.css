@@ -27,6 +27,11 @@
     display: block;
 }
 
+.teams-list {
+    height: 40vh;
+    overflow-y: scroll;
+}
+
 .teams-list h1 {
     margin-bottom: 10px;
 }
@@ -59,9 +64,16 @@
 
 .team-status {
     display: flex;
-    justify-content: flex-start;
+    justify-content: space-between;
     align-items: center;
-    margin-left: 43%;
+    width: 80%;
+    margin: 0 auto;
+    font-weight: bold;
+}
+
+.team-status h3 {
+    width: 50%;
+    overflow-x: auto;
 }
 
 .team-premium {
@@ -74,15 +86,17 @@
 }
 
 .team-premium-basic {
-    margin-left: 38%;
     background: #fdcb6e;
 }
 
 .team-premium-premium {
-    margin-left: 32%;
     background: #6c5ce7;
 }
 
 .premium {
     display: flex;
+}
+
+.team-card {
+    margin-bottom: 0;
 }

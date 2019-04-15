@@ -163,10 +163,6 @@ const TeamList = props => {
           </form>
         }
       </div>
-      <Divider />
-      {userQuery.data.user && userQuery.data.user.inTeam.map(team => (
-        <TeamCard match={props.match} team={team} key={team.id} />
-      ))}
       {errorMsg && 
         <div 
           className="error-flash">
@@ -178,6 +174,10 @@ const TeamList = props => {
             </div>
         </div>
       }
+      <Divider />
+      {userQuery.data.user && userQuery.data.user.inTeam.map(team => (
+        <TeamCard match={props.match} team={team} key={team.id} />
+      ))}
     </>
     // );
     //   }}

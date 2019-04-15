@@ -1,3 +1,8 @@
+.activity-timeline {
+    height: 60vh;
+    overflow-y: scroll;
+}
+
 .event-createdAt {
     margin-left: 1%;
     font-size: 1rem;
@@ -96,7 +101,7 @@
 }
 
 .changed {
-    color: #dfe6e9; 
+    color: #2d3436; 
 }
 
 .filter-by-user {

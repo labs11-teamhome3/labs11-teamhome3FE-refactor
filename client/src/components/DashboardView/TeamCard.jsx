@@ -22,11 +22,11 @@ const TeamCard = props => {
   const { classes } = props;
   return (
     <Link className="team-link" to={`/teams/${props.team.id}/home`}>
-      <div>
+      <div className="team-card">
         <Paper className={props.team.id === props.match.params.id ?
           classes.root : classes.inactive}>
           <div className="team-status">
-            <Typography variant="h5" component="h3">
+            <Typography variant="h4" component="h3">
             {props.team.teamName}
             </Typography>
             <div 
