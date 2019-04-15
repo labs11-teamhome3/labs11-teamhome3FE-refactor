@@ -29,6 +29,9 @@ const styles = theme => ({
     justifyContent: 'space-between',
     fontSize: '25px'
   },
+  button: {
+    margin: '5px 0px 5px 7px'
+  }
 });
 
 const ViewFolderModal = props => {
@@ -109,8 +112,9 @@ const ViewFolderModal = props => {
               <ul>
                   {folder.documents.map(document => (
                       <li key={document.id}>
-                        {document.title}
+                        Title: {document.title} | Created By: {document.user.name}
                         <Button 
+                          variant="outlined"
                           className={classes.button} 
                           onClick={() => {
                             props.toggleModal('viewFolder');
