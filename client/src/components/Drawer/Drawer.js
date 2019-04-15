@@ -195,21 +195,25 @@ const PersistentDrawerLeft = props => {
           <Divider />
           <DashboardView history={props.history} match={props.match}/>
           <Divider />
-          <ActivityTimeline setMsg={setMsg} teamId={props.match.params.id} />
+          {userId &&
+            <ActivityTimeline setMsg={setMsg} teamId={props.match.params.id} />
+          }
         </Drawer>
-        <main
-          className={classNames(classes.content, {
-            [classes.contentShift]: open,
-          })}
-        >
-          <div className={classes.drawerHeader} />
-          <TabNavigator 
-            match = {props.match} 
-            history = {props.history}
-            setMsg = {setMsg}  
-            >
-          </TabNavigator>
-        </main>
+        {userId &&
+          <main
+            className={classNames(classes.content, {
+              [classes.contentShift]: open,
+            })}
+          >
+            <div className={classes.drawerHeader} />
+            <TabNavigator 
+              match = {props.match} 
+              history = {props.history}
+              setMsg = {setMsg}  
+              >
+            </TabNavigator>
+          </main>
+        }
       </div>
     );
 //   }
