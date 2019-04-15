@@ -13,19 +13,15 @@ const styles = theme => ({
   },
   paper: {
     position: 'absolute',
-    top: 36,
-    right: 0,
-    left: 0,
+    zIndex: 1,
+    top: 25,
+    right: 35,
+    left: 'auto',
   },
-  fake: {
-    backgroundColor: grey[200],
-    height: theme.spacing.unit,
-    margin: theme.spacing.unit * 2,
-    // Selects every two elements among any group of siblings.
-    '&:nth-child(2n)': {
-      marginRight: theme.spacing.unit * 3,
-    },
-  },
+  button: {
+      width: '100%',
+      
+  }
 });
 
 class MoreMenu extends React.Component {
@@ -48,7 +44,6 @@ class MoreMenu extends React.Component {
   render() {
     const { classes } = this.props;
     const { open } = this.state;
-    const fake = <Button className={classes.fake}>Delete</Button>;
 
     return (
       <div className={classes.root}>
@@ -57,9 +52,10 @@ class MoreMenu extends React.Component {
             <MoreHoriz onClick={this.handleClick}/>
             {open ? (
               <Paper className={classes.paper}>
-                <Button>View</Button>
-                <Button>Edit</Button>
-                {fake}
+                <Button className={classes.button}>Add Comment</Button>
+                <Button className={classes.button}>View</Button>
+                <Button className={classes.button}>Edit</Button>
+                <Button className={classes.button}>Delete</Button>
               </Paper>
             ) : null}
           </div>
