@@ -68,9 +68,9 @@ const UserDropdown = props => {
   }
 
   return (
-    <div>
-      <h2>Filter By User</h2>
-      <select value={choice} onChange={handleSelect}>
+    <div className="filter-by-user label-select">
+      <label htmlFor="user-filter">Filter By User</label>
+      <select id="user-filter" value={choice} onChange={handleSelect}>
         {membersOptions}
       </select>
     </div>

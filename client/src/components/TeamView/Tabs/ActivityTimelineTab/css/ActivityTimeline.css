@@ -1,3 +1,8 @@
+.activity-timeline {
+    height: 60vh;
+    overflow-y: scroll;
+}
+
 .event-createdAt {
     margin-left: 1%;
     font-size: 1rem;
@@ -12,12 +17,12 @@
 }
 
 .at-events {
-    margin-top: 50px;
+    margin-top: 20px;
 }
 
 .activity-timeline select {
     font-size: 1.2rem;
-    width: 75%;
+    width: 50%;
 }
 
 .dropdowns {
@@ -29,6 +34,15 @@
 
 .dropdowns h2 {
     font-size: 1rem;
+    text-align: left;
+}
+
+.label-select {
+    display: flex;
+    width: 70%;
+    margin: 20px auto;
+    justify-content: space-between;
+    align-items: center;
 }
 
 .event {
@@ -87,7 +101,11 @@
 }
 
 .changed {
-    color: #dfe6e9; 
+    color: #2d3436; 
+}
+
+.filter-by-user {
+    margin-top: 20px;
 }
 
 

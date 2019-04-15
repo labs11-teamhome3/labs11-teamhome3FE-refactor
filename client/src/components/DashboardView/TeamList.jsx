@@ -10,6 +10,7 @@ import { useMutation } from "../../graphQL/useMutation";
 
 ////Components////
 import TeamCard from "./TeamCard";
+import StripePaymentPopup from '../Stripe/StripePaymentPopup';
 
 ////Queries////
 import { TEAMS_QUERY } from "../../graphQL/Queries";
@@ -39,6 +40,7 @@ const CURRENT_USER_QUERY = gql`
       inTeam {
         id
         teamName
+        premium
       }
     }
   }
@@ -46,7 +48,7 @@ const CURRENT_USER_QUERY = gql`
 
 const TeamList = props => {
   const userId = localStorage.getItem("userId");
-  console.log('teamList userId', userId);
+  // console.log('teamList userId', userId);
   
   const [teamInput, setTeamInput] = useState("");
   const [errorMsg, setErrorMsg] = useState("");
@@ -74,7 +76,7 @@ const TeamList = props => {
     fetchPolicy: 'network-only',
   });
   
-  console.log('teamsData', data);
+  // console.log('teamsData', data);
   
   
   useEffect( () => {
@@ -112,6 +114,11 @@ const TeamList = props => {
 
   const cancelAddTeam = () => {
     setShowInput(false);
+    setTeamInput("");
+  }
+
+  const cancelPremium = () => {
+    setErrorMsg("");
     setTeamInput("");
   }
 
@@ -156,25 +163,21 @@ const TeamList = props => {
           </form>
         }
       </div>
+      {errorMsg && 
+        <div 
+          className="error-flash">
+            <h3>{errorMsg.split(":")[1]}</h3>
+            {/* add onClick to below to open Stripe payment modal */}
+            <div className="premium">
+              <StripePaymentPopup teamId={props.match.params.id} />
+              <Button onClick={cancelPremium}>Cancel</Button>
+            </div>
+        </div>
+      }
       <Divider />
       {userQuery.data.user && userQuery.data.user.inTeam.map(team => (
         <TeamCard match={props.match} team={team} key={team.id} />
       ))}
-      {errorMsg && 
-        <div 
-          onClick={() => {
-              setErrorMsg("");
-              setTeamInput("");
-            }} 
-          className="error-flash">
-            <h3>{errorMsg.split(":")[1]}</h3>
-            {/* add onClick to below to open Stripe payment modal */}
-            <div className="premium-or-cancel">
-              <Button>Go Premium</Button>
-              <Button onClick={() => setErrorMsg("")}>Cancel</Button>
-            </div>
-        </div>
-      }
     </>
     // );
     //   }}
