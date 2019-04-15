@@ -8,21 +8,22 @@ const styles = theme => ({
   root: {
     padding: '5px 0px',
     'margin-bottom': '15px',
-    background: '#00b894',
+    background: '#55efc4',
   },
-  selected: {
+  inactive: {
     padding: '5px 0px',
     'margin-bottom': '15px',
+    background: '#fab1a0'
   }
 });
 
 const TeamCard = props => {
   const { classes } = props;
   return (
-    <Link to={`/teams/${props.team.id}/home`}>
+    <Link className="team-link" to={`/teams/${props.team.id}/home`}>
       <div>
         <Paper className={props.team.id === props.match.params.id ?
-          classes.root : classes.selected}>
+          classes.root : classes.inactive}>
         <Typography variant="h5" component="h3">
         {props.team.teamName}
         </Typography>

@@ -1,8 +1,9 @@
 .event-createdAt {
     margin-left: 1%;
     font-size: 1rem;
-    color: gray;
+    color: rgb(100, 97, 97);
     margin-top: 10px;
+    font-weight: bold;
 }
 
 .at-title {
@@ -56,4 +57,37 @@
     width: 50px;
     border-radius: 50px;
 }
+
+.created {
+    background: #55efc4;
+}
+
+.updated {
+    background: #74b9ff;
+}
+
+.completed {
+    background: #fdcb6e;
+}
+
+.added {
+    background: #fd79a8;
+}
+
+.commented {
+    background: #b2bec3;
+}
+
+.removed {
+    background: #a29bfe;
+}
+
+.deleted {
+    background: #e17055;
+}
+
+.changed {
+    background: #dfe6e9; 
+}
+
 
