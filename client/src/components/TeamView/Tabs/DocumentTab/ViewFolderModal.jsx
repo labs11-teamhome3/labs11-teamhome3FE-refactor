@@ -110,6 +110,14 @@ const ViewFolderModal = props => {
                   {folder.documents.map(document => (
                       <li key={document.id}>
                         {document.title}
+                        <Button 
+                          className={classes.button} 
+                          onClick={() => {
+                            props.toggleModal('viewFolder');
+                            props.toggleModal('view', document.id) 
+                        }}>
+                          View
+                        </Button>
                         <Button color="secondary" className={classes.button} onClick={() => setDocumentId(document.id)}>Remove</Button>
                       </li>
                   ))}
