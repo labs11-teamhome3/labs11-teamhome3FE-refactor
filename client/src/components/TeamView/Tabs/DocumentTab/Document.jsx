@@ -4,7 +4,8 @@ import { DragSource } from "react-dnd";
 import TableCell from '@material-ui/core/TableCell';
 import TableRow from '@material-ui/core/TableRow';
 import File from '@material-ui/icons/InsertDriveFileOutlined';
-import MoreHoriz from '@material-ui/icons/MoreHoriz';
+import Tooltip from '@material-ui/core/Tooltip';
+import Zoom from '@material-ui/core/Zoom';
 import moment from 'moment';
 
 // const styles = theme => ({
@@ -24,11 +25,23 @@ const Document = props => {
     <TableRow 
       ref={instance => connectDragSource(ReactDOM.findDOMNode(instance))} 
     >
-      <TableCell><File/>{props.document.title}</TableCell>
+      <TableCell onClick={() => props.toggleModal('view', props.document.id)}>
+        <Tooltip title="Drag to folder" TransitionComponent={Zoom}>
+          <File/>
+        </Tooltip>
+          {props.document.title}
+      </TableCell>
       <TableCell>{moment(props.document.createdAt).calendar()}</TableCell>
       <TableCell>{props.document.user.name}</TableCell>
-      <TableCell><a style={{textDecoration:"none", color:"inherit"}} href={props.document.doc_url} target='_blank' rel="noopener noreferrer">{props.document.doc_url}</a></TableCell>
-      <TableCell onClick={() => props.toggleModal('view', props.document.id)}><MoreHoriz/></TableCell>
+      <TableCell>{props.document.comments.length}</TableCell>
+      <TableCell>
+        <MoreMenu 
+          teamId={props.teamId}
+          document={props.document}
+          toggleModal={props.toggleModal}
+          setMsg={props.setMsg} 
+        />
+      </TableCell>
     </TableRow>
   );
 };
