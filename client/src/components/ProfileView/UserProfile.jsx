@@ -1,4 +1,4 @@
-import React, { Component, useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom'
 import {USERS_QUERY} from '../../graphQL/Queries.js'
 import {useQuery} from 'react-apollo-hooks';
@@ -84,7 +84,7 @@ function Form() {
     }
   
     let user = data.users.filter(userData => {
-      if (userData.id == userId) return userData
+      if (userData.id === userId) return userData
     }); 
     
     user = user[0];

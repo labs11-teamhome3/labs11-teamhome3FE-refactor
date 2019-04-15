@@ -5,7 +5,7 @@ import logo from '../assets/Manaje.png';
 import './css/Nav.css';
 
 ////Components////
-import { Button, AppBar, Toolbar } from '../../node_modules/@material-ui/core';
+import { Button, AppBar } from '../../node_modules/@material-ui/core';
 
 const NavigationView = props => {
 

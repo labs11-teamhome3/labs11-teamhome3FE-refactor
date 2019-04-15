@@ -1,9 +1,8 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { useQuery } from "react-apollo-hooks";
-import gql from "graphql-tag";
 import Fab from "@material-ui/core/Fab";
 import AddIcon from "@material-ui/icons/Add";
-import { useMutation } from "../../../../graphQL/useMutation";
+
 
 /////Components/////
 import Message from "./Message";
@@ -12,13 +11,7 @@ import ViewMessageModal from "./ViewMessageModal";
 import EditMessageModal from "./EditMessageModal";
 
 /////Queries/////
-import { CREATE_EVENT } from '../../../../graphQL/Mutations';
-import {
-  MESSAGES_QUERY,
-  USERS_QUERY,
-  MESSAGE_QUERY,
-  EVENTS_QUERY
-} from "../../../../graphQL/Queries";
+import { MESSAGES_QUERY } from "../../../../graphQL/Queries";
 
 const MessageTab = props => {
 
@@ -55,6 +48,9 @@ const MessageTab = props => {
           status: !editModalStatus.status,
           messageId
         });
+        break;
+      
+      default:
         break;
     }
   };

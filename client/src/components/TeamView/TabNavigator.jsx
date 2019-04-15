@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import SwipeableViews from 'react-swipeable-views';
 import AppBar from '@material-ui/core/AppBar';
 import Tabs from '@material-ui/core/Tabs';
@@ -9,17 +9,17 @@ import TodosTab from './Tabs/TodosTab/TodosTab';
 
 import MessageTab from './Tabs/MessageTab/MessageTab';
 import DocumentTab from './Tabs/DocumentTab/DocumentTab'
-import ActivityTimelineTab from './Tabs/ActivityTimelineTab/ActivityTimelineTab';
+// import ActivityTimelineTab from './Tabs/ActivityTimelineTab/ActivityTimelineTab';
 import TeamSettingsTab from './Tabs/TeamSettingsTab/TeamSettingsTab';
 
-import { useMutation } from '../../graphQL/useMutation';
+// import { useMutation } from '../../graphQL/useMutation';
 
-import { CREATE_EVENT } from '../../graphQL/Mutations';
+// import { CREATE_EVENT } from '../../graphQL/Mutations';
 import {
-  MESSAGES_QUERY,
-  USERS_QUERY,
-  MESSAGE_QUERY,
-  EVENTS_QUERY
+  // MESSAGES_QUERY,
+  // USERS_QUERY,
+  // MESSAGE_QUERY,
+  // EVENTS_QUERY
 } from "../../graphQL/Queries";
 
 function TabContainer({ children, dir }) {

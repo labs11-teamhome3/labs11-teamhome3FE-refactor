@@ -1,11 +1,11 @@
-import React, { useState, useEffect, Fragment } from "react";
+import React, { useState, Fragment } from "react";
 import Modal from "@material-ui/core/Modal";
 import Paper from "@material-ui/core/Paper";
 import { withStyles } from "@material-ui/core/styles";
 import Close from "@material-ui/icons/Close";
 import Button from "@material-ui/core/Button";
-import DeleteIcon from "@material-ui/icons/Delete";
-import DropArrow from "@material-ui/icons/ArrowDropDown";
+// import DeleteIcon from "@material-ui/icons/Delete";
+// import DropArrow from "@material-ui/icons/ArrowDropDown";
 import List from "@material-ui/core/List";
 import Divider from "@material-ui/core/Divider";
 import { useMutation } from "../../../../graphQL/useMutation";
@@ -14,13 +14,13 @@ import gql from "graphql-tag";
 
 import MessageComment from "./MessageComment";
 
-import { CREATE_EVENT } from '../../../../graphQL/Mutations';
+// import { CREATE_EVENT } from '../../../../graphQL/Mutations';
 
 import {
   MESSAGES_QUERY,
-  USERS_QUERY,
+  // USERS_QUERY,
   MESSAGE_QUERY,
-  EVENTS_QUERY
+  // EVENTS_QUERY
 } from "../../../../graphQL/Queries";
 
 const styles = theme => ({

@@ -4,13 +4,18 @@ import Paper from "@material-ui/core/Paper";
 import { withStyles } from "@material-ui/core/styles";
 import Close from "@material-ui/icons/Close";
 import Button from "@material-ui/core/Button";
-import DeleteIcon from "@material-ui/icons/Delete";
-import DropArrow from "@material-ui/icons/ArrowDropDown";
+// import DeleteIcon from "@material-ui/icons/Delete";
+// import DropArrow from "@material-ui/icons/ArrowDropDown";
 import { useMutation } from "../../../../graphQL/useMutation";
 import { useQuery } from "react-apollo-hooks";
-import gql from 'graphql-tag';
+// import gql from 'graphql-tag';
 
-import {FOLDER_QUERY, USERS_QUERY, MESSAGE_QUERY} from '../../../../graphQL/Queries';
+import {
+  FOLDER_QUERY, 
+  // USERS_QUERY, 
+  // MESSAGE_QUERY
+} 
+from '../../../../graphQL/Queries';
 import {UPDATE_FOLDER} from '../../../../graphQL/Mutations';
 
 const styles = theme => ({

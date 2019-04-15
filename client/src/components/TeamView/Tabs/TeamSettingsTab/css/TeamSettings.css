@@ -18,11 +18,6 @@
     font-size: 3rem;
 }
 
-.team-info button {
-    width: 10%;
-    margin: 0 auto;
-}
-
 .team-list-pic {
     width: 100px;
     height: 100px;
@@ -51,17 +46,19 @@
 
 .name-info {
     display: flex;
+    justify-content: flex-start;
     align-items: center;
     position: absolute;
     top: 20px;
-}
-
-.name-info h2 {
-    padding-right: 20px;
+    width: 20%;
 }
 
 .name-info svg {
     cursor: pointer;
+}
+
+.name-info h2 {
+    margin-right: 20px;
 }
 
 .change-name {

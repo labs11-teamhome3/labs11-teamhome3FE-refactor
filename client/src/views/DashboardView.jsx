@@ -1,5 +1,4 @@
-import React, { useEffect, useState } from 'react';
-import gql from 'graphql-tag';
+import React from 'react';
 
 ////Components////
 import TeamList from '../components/DashboardView/TeamList';

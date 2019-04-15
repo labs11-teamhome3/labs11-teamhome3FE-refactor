@@ -59,12 +59,13 @@ const TeamList = props => {
     }
   })
 
-  // set the current user to get relevant team ifno
-  let currentUser;
-  if(userQuery.data.user) {
-    console.log('team list user', userQuery.data.user)
-    currentUser = userQuery.data.user
-  }
+  // set the current user to get relevant team info
+
+  // let currentUser;
+  // if(userQuery.data.user) {
+  //   console.log('team list user', userQuery.data.user)
+  //   currentUser = userQuery.data.user
+  // }
   
   
   

@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import MemberCard from './MemberCard';
 import gql from 'graphql-tag';
 import { useMutation } from "../../../../graphQL/useMutation";
-import Button from "@material-ui/core/Button";
+// import Button from "@material-ui/core/Button";
 import EditIcon from "@material-ui/icons/EditOutlined"
 import Fab from "@material-ui/core/Fab"
 
