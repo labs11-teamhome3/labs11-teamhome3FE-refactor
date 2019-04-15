@@ -71,6 +71,10 @@ const MoreMenu = props => {
     onError: err => console.log(err)
   });
 
+  const editMessage = _ => {
+    props.toggleModal("edit", props.document.id);
+  };
+
     const { classes } = props;
     return (
       <div className={classes.root}>
@@ -80,8 +84,8 @@ const MoreMenu = props => {
             {open ? (
               <Paper className={classes.paper}>
                 <Button className={classes.button}>Add Comment</Button>
-                <Button className={classes.button}>View</Button>
-                <Button className={classes.button}>Edit</Button>
+                <Button className={classes.button} onClick={() => props.toggleModal('view', props.document.id)}>View</Button>
+                <Button className={classes.button} onClick={editMessage}>Edit</Button>
                 <Button className={classes.button} onClick={deleteDocument}>Delete</Button>
               </Paper>
             ) : null}

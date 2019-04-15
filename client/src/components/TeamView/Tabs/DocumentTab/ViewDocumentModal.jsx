@@ -20,14 +20,23 @@ import {
 
 const styles = theme => ({
   paper: {
-    "max-width": "800px",
-    margin: "0 auto",
-    "text-align": "left",
-    padding: "20px"
+    position: 'relative',
+    top: '24%',
+    'max-width': '600px',
+    margin: '0 auto',
+    'text-align': 'left',
+    padding: '30px',
   },
-  messageInput: {
-    width: "100%",
-    marginBottom: "10px"
+  textField: {
+    width: '70%'
+  },
+  createDocument: {
+    display: 'flex',
+    justifyContent: 'space-between',
+    fontSize: '25px'
+  },
+  button: {
+    margin: '10px 0 0'
   },
   commentInput: {
     width: "100%"
@@ -40,34 +49,6 @@ const ViewDocumentModal = props => {
 
   const findDocument = useQuery(DOCUMENT_QUERY, {
     variables: { id: props.documentId }
-  });
-  
-  const [deleteDocument] = useMutation(DELETE_DOCUMENT, {
-    update: (cache, { data }) => {
-      const { findDocumentsByTeam } = cache.readQuery({
-        query: DOCUMENTS_QUERY,
-        variables: { teamId: props.teamId }
-      });
-      cache.writeQuery({
-        query: DOCUMENTS_QUERY,
-        variables: { teamId: props.teamId },
-        data: {
-          findDocumentsByTeam: findDocumentsByTeam.filter(document => {
-            if (document.id !== props.documentId) {
-              return document;
-            }
-          })
-        }
-      });
-    },
-    variables: {
-      documentId: props.documentId
-    },
-    onCompleted: e => {
-      props.setMsg('deleted a document')
-      props.toggleModal("view");
-    },
-    onError: err => console.log(err)
   });
 
   const [addDocumentComment] = useMutation(ADD_COMMENT, {
@@ -104,11 +85,6 @@ const ViewDocumentModal = props => {
     props.toggleModal("view");
   };
 
-  const editMessage = _ => {
-    props.toggleModal("edit", props.documentId);
-    closeModal();
-  };
-
   const addComment = e => {
     e.preventDefault();
     if(commentInput) {
@@ -128,20 +104,6 @@ const ViewDocumentModal = props => {
         <Paper className={classes.paper}>
           <Close onClick={closeModal} />
           <br />
-          <Button
-            color="primary"
-            className={classes.button}
-            onClick={editMessage}
-          >
-            Edit
-          </Button>
-          <Button
-            color="primary"
-            className={classes.button}
-            onClick={deleteDocument}
-          >
-            Delete
-          </Button>
           <h2>
             {document === undefined
               ? "Loading"

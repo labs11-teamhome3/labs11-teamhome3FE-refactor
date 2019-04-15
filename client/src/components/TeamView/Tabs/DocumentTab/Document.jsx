@@ -41,7 +41,6 @@ const Document = props => {
           setMsg={props.setMsg} 
         />
       </TableCell>
-      {/* <TableCell onClick={() => props.toggleModal('view', props.document.id)}><MoreHoriz/></TableCell> */}
     </TableRow>
   );
 };
