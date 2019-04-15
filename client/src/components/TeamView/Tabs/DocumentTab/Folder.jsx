@@ -102,6 +102,7 @@ const Folder = props => {
           setTitleEditStatus={setTitleEditStatus}
           titleEditStatus={titleEditStatus}
           refetch={props.refetch}
+          refetchDocs={props.refetchDocs}
           teamId={props.teamId}
           folder={props.folder}
           toggleModal={props.toggleModal}
