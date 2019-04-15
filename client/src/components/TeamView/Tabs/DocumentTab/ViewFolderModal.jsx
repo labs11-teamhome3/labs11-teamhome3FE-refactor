@@ -1,4 +1,4 @@
-import React, { useState, useEffect, Fragment } from "react";
+import React, { useState, useEffect } from "react";
 import Modal from "@material-ui/core/Modal";
 import Paper from "@material-ui/core/Paper";
 import { withStyles } from "@material-ui/core/styles";
@@ -53,11 +53,9 @@ const ViewFolderModal = props => {
         query: FOLDERS_QUERY,
         variables: { teamId: props.teamId },
         data: {
-          findFoldersByTeam: findFoldersByTeam.filter(folder => {
-            if (folder.id !== props.folderId) {
-              return folder;
-            }
-          })
+          findFoldersByTeam: findFoldersByTeam.filter(
+            folder => folder.id !== props.folderId
+          )
         }
       });
     },

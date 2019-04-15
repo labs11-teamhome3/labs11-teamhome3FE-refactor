@@ -4,18 +4,18 @@ import Paper from "@material-ui/core/Paper";
 import { withStyles } from "@material-ui/core/styles";
 import Close from "@material-ui/icons/Close";
 import Button from "@material-ui/core/Button";
-import Menu from "@material-ui/core/Menu";
-import MenuItem from "@material-ui/core/MenuItem";
+// import Menu from "@material-ui/core/Menu";
+// import MenuItem from "@material-ui/core/MenuItem";
 import { useMutation } from "../../../../graphQL/useMutation";
-import { useQuery } from "react-apollo-hooks";
+// import { useQuery } from "react-apollo-hooks";
 import gql from "graphql-tag";
 
 import {
   MESSAGES_QUERY,
-  USERS_QUERY,
-  EVENTS_QUERY
+  // USERS_QUERY,
+  // EVENTS_QUERY
 } from "../../../../graphQL/Queries";
-import { CREATE_EVENT } from "../../../../graphQL/Mutations";
+// import { CREATE_EVENT } from "../../../../graphQL/Mutations";
 
 const styles = theme => ({
   paper: {
@@ -70,7 +70,7 @@ const MessageModal = props => {
     });
   };
 
-  const users = useQuery(USERS_QUERY);
+  // const users = useQuery(USERS_QUERY);
 
   const [createMessage] = useMutation(CREATE_MESSAGE, {
     update: (cache, { data }) => {

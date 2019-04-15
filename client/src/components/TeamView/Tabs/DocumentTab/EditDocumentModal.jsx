@@ -6,7 +6,7 @@ import Close from "@material-ui/icons/Close";
 import Button from "@material-ui/core/Button";
 import { useMutation } from "../../../../graphQL/useMutation";
 import { useQuery } from "react-apollo-hooks";
-import gql from 'graphql-tag';
+// import gql from 'graphql-tag';
 
 import {DOCUMENT_QUERY} from '../../../../graphQL/Queries';
 import {UPDATE_DOCUMENT} from '../../../../graphQL/Mutations';

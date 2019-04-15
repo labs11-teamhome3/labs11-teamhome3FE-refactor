@@ -7,19 +7,19 @@ import File from '@material-ui/icons/InsertDriveFileOutlined';
 import MoreHoriz from '@material-ui/icons/MoreHoriz';
 import moment from 'moment';
 
-const styles = theme => ({
-  root: {
-    width: '100%',
-    marginTop: theme.spacing.unit * 3,
-    overflowX: 'auto',
-  },
-  table: {
-    minWidth: 700,
-  },
-});
+// const styles = theme => ({
+//   root: {
+//     width: '100%',
+//     marginTop: theme.spacing.unit * 3,
+//     overflowX: 'auto',
+//   },
+//   table: {
+//     minWidth: 700,
+//   },
+// });
 
 const Document = props => {
-  const { classes, connectDragSource } = props;
+  const { connectDragSource } = props;
   return (
     <TableRow 
       ref={instance => connectDragSource(ReactDOM.findDOMNode(instance))} 
@@ -27,7 +27,7 @@ const Document = props => {
       <TableCell><File/>{props.document.title}</TableCell>
       <TableCell>{moment(props.document.createdAt).calendar()}</TableCell>
       <TableCell>{props.document.user.name}</TableCell>
-      <TableCell><a style={{textDecoration:"none", color:"inherit"}} href={props.document.doc_url} target='_blank'>{props.document.doc_url}</a></TableCell>
+      <TableCell><a style={{textDecoration:"none", color:"inherit"}} href={props.document.doc_url} target='_blank' rel="noopener noreferrer">{props.document.doc_url}</a></TableCell>
       <TableCell onClick={() => props.toggleModal('view', props.document.id)}><MoreHoriz/></TableCell>
     </TableRow>
   );

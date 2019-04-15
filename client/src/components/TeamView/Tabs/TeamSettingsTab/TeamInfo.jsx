@@ -1,8 +1,10 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import MemberCard from './MemberCard';
 import gql from 'graphql-tag';
 import { useMutation } from "../../../../graphQL/useMutation";
-import Button from "@material-ui/core/Button";
+// import Button from "@material-ui/core/Button";
+import EditIcon from "@material-ui/icons/EditOutlined"
+import Fab from "@material-ui/core/Fab"
 
 /// css ///
 import './css/TeamSettings.css'
@@ -26,6 +28,8 @@ const TeamInfo = props => {
 
     const handleTeamSubmit = e => {
         e.preventDefault();
+        updateTeamName();
+        setNewTeamName("");
     }
 
     const handleCancel = () => {
@@ -47,19 +51,23 @@ const TeamInfo = props => {
 
     return (
         <div className="team-info">
-            {!showInput &&
-                <h2 className="team-name">Team: {props.team.teamName}</h2>
-            }
-            {!showInput && props.userRole === "ADMIN" &&
-                <Button variant="contained" color="primary" onClick={() => setInput(true)}>Edit</Button>
-            }
-            {showInput &&
-                <form onSubmit={handleTeamSubmit}>
-                    <input type="text" name="teamName" onChange={handleNameChange} value={newTeamName} placeholder="New Team Name" />
-                    <button onClick={updateTeamName}>Save</button>
-                    <button onClick={handleCancel}>Cancel</button>
-                </form>
-            }
+            <div className="name-info">
+                <h2 className="team-name">{props.team.teamName}</h2>
+                {!showInput && props.userRole === "ADMIN" &&
+                    <Fab size="small" variant="extended" color="default" aria-label="Edit">
+                        <EditIcon onClick={() => setInput(true)} />
+                    </Fab>
+                }
+            </div>
+            <div className="change-name">
+                {showInput &&
+                    <form onSubmit={handleTeamSubmit}>
+                        <input required type="text" name="teamName" onChange={handleNameChange} value={newTeamName} placeholder="new team name..." />
+                        <button className="save-team" type="submit">Save</button>
+                        <button className="cancel-save-team" type="button" onClick={handleCancel}>Cancel</button>
+                    </form>
+                }
+            </div>
             <h2 className="members">MEMBERS</h2>    
                 {props.team.members.map(member => 
                     <MemberCard key={member.id} setMsg={props.setMsg} member={member} match={props.match} userRole={props.userRole} />

@@ -2,8 +2,8 @@ import React, { useState, useEffect } from "react";
 import { useQuery } from "react-apollo-hooks";
 import { DragDropContext } from "react-dnd";
 import HTML5Backend from "react-dnd-html5-backend";
-import Fab from "@material-ui/core/Fab";
-import AddIcon from "@material-ui/icons/Add";
+// import Fab from "@material-ui/core/Fab";
+// import AddIcon from "@material-ui/icons/Add";
 import Table from "@material-ui/core/Table";
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
@@ -140,10 +140,13 @@ const DocumentTab = props => {
             folderId: id
           });
           break;
+
+        default:
+          break;
       }
     };
     
-    const {classes} = props; 
+    // const {classes} = props; 
     return (
       <div>
         <div>

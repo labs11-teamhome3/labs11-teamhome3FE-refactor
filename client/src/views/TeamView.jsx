@@ -1,12 +1,12 @@
 import React from 'react';
-import { Link } from 'react-router-dom'
+// import { Link } from 'react-router-dom'
 import logo from '../assets/Manaje.png'
 
 import './css/Nav.css'
-import { Button, AppBar, Toolbar } from '../../node_modules/@material-ui/core';
+// import { Button, AppBar, Toolbar } from '../../node_modules/@material-ui/core';
 
 ////Components////
-import TabNavigator from '../components/TeamView/TabNavigator';
+// import TabNavigator from '../components/TeamView/TabNavigator';
 import Drawer from '../components/Drawer/Drawer'
 
 

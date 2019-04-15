@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { Route, withRouter } from 'react-router-dom';
 
 import Auth from './Auth/Auth.js'
@@ -8,10 +8,10 @@ import gql from 'graphql-tag';
 
 import {useMutation} from "./graphQL/useMutation";
 import './App.css';
-import DashboardView from './views/DashboardView';
+// import DashboardView from './views/DashboardView';
 import TeamView from './views/TeamView';
 import LandingView from './views/LandingView';
-import NavigationView from './views/NavigationView';
+// import NavigationView from './views/NavigationView';
 import ProfileView from './views/ProfileView';
 import NewTeam from './views/NewTeam';
 
@@ -38,19 +38,19 @@ const AUTHENTICATE_USER = gql`
   }
 `
 
-const CURRENT_USER_QUERY = gql`
-  query CURRENT_USER_QUERY($id: ID!) {
-    user(id: $id) {
-      id
-      name
-      role
-      inTeam {
-        id
-        teamName
-      }
-    }
-  }
-`;
+// const CURRENT_USER_QUERY = gql`
+//   query CURRENT_USER_QUERY($id: ID!) {
+//     user(id: $id) {
+//       id
+//       name
+//       role
+//       inTeam {
+//         id
+//         teamName
+//       }
+//     }
+//   }
+// `;
 
 const App = (props) => {
 
