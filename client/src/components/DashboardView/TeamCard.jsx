@@ -20,7 +20,7 @@ const styles = theme => ({
 const TeamCard = props => {
   const { classes } = props;
   return (
-    <Link to={`/teams/${props.team.id}/home`}>
+    <Link className="team-link" to={`/teams/${props.team.id}/home`}>
       <div>
         <Paper className={props.team.id === props.match.params.id ?
           classes.root : classes.inactive}>

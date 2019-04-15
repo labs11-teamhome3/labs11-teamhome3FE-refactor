@@ -38,3 +38,7 @@
 .newTeam input {
     margin-right: 5px;
 }
+
+.team-link {
+    text-decoration: none;
+}
