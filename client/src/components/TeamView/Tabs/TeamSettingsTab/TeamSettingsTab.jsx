@@ -209,14 +209,6 @@ if (error) {
   return (
     <div>
       <>
-        <div className="team-settings">
-          <TeamInfo
-            team={data.team}
-            match={props.match}
-            userRole={userRole}
-            setMsg={props.setMsg}
-          />
-        </div>
         <div className="add-user">
           <form onSubmit={handleAddMemberSubmit}>
             <h2>Find a new team member!</h2>
@@ -259,6 +251,14 @@ if (error) {
             <StripePaymentPopup teamId={props.teamId} />
           </div>
         )}
+        <div className="team-settings">
+          <TeamInfo
+            team={data.team}
+            match={props.match}
+            userRole={userRole}
+            setMsg={props.setMsg}
+          />
+        </div>
         {userRole === "ADMIN" && (
           <div className="delete-area">
             <Button

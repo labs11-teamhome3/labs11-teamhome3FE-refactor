@@ -127,13 +127,13 @@ const TeamList = props => {
       <div className="newTeam">
         {!showInput &&
           <div className="show-add-input">
-            <Fab onClick={() => setShowInput(true)} color="primary" aria-label="Add">
+            <Fab onClick={() => setShowInput(true)} color="primary" size="small" aria-label="Add">
               <AddIcon />
             </Fab>
           </div>
         }
         {showInput &&
-          <form>
+          <form onSubmit={createTeam}>
             <input
               required
               type="text"
@@ -141,13 +141,11 @@ const TeamList = props => {
               value={teamInput}
               onChange={e => setTeamInput(e.target.value)}
             />
-            {teamInput && 
-              <Fab onClick={createTeam} color="primary" aria-label="Add">
-                <AddIcon />
-              </Fab>
-            }
-            <Fab onClick={cancelAddTeam} color="secondary" aria-label="Cancel">
-              <CancelIcon />
+            <Fab type="submit" color="primary" size="small" aria-label="Add">
+              <AddIcon />
+            </Fab>
+            <Fab onClick={cancelAddTeam} color="secondary" size="small" aria-label="Cancel">
+              <CancelIcon onClick={cancelAddTeam}/>
             </Fab>
           </form>
         }

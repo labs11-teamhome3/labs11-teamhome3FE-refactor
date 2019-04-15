@@ -48,3 +48,45 @@
 .premium-or-cancel button {
     margin: 0 10px;
 }
+
+.name-info {
+    display: flex;
+    align-items: center;
+    position: absolute;
+    top: 20px;
+}
+
+.name-info h2 {
+    padding-right: 20px;
+}
+
+.name-info svg {
+    cursor: pointer;
+}
+
+.change-name {
+    position: absolute;
+}
+
+.change-name input {
+    margin-top: 15px;
+    font-size: 1.5rem;
+    border-radius: 30px;
+    padding: 5px 20px;
+}
+
+.change-name button {
+    margin: 10px 5px;
+    width: 40%;
+    font-size: 1.3rem;
+    border-radius: 50px;
+    cursor: pointer;
+}
+
+.save-team:hover {
+    background: #55efc4;
+}
+
+.cancel-save-team:hover {
+    background: #fab1a0;   
+}
