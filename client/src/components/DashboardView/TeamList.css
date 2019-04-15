@@ -23,13 +23,13 @@
     display: none;
 }
 
-.show-add-input:hover .add-team-help {
-    display: block;
-}
-
 .teams-list {
     height: 40vh;
     overflow-y: scroll;
+}
+
+.teams-list h1 {
+    text-align: center;
 }
 
 .teams-list h1 {
@@ -66,14 +66,16 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    width: 80%;
+    width: 90%;
     margin: 0 auto;
     font-weight: bold;
 }
 
 .team-status h3 {
-    width: 50%;
+    width: 70%;
     overflow-x: auto;
+    text-align: left;
+    margin-left: 5%;
 }
 
 .team-premium {
@@ -85,11 +87,11 @@
     font-weight: bold;
 }
 
-.team-premium-basic {
+.team-premium-premium {
     background: #fdcb6e;
 }
 
-.team-premium-premium {
+.team-premium-basic {
     background: #6c5ce7;
 }
 
