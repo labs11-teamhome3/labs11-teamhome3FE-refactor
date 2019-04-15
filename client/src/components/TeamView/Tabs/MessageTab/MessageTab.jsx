@@ -135,7 +135,7 @@ const MessageTab = props => {
           name="create message"
           className={classes.textField}
           onKeyPress = { e => {
-            if(e.key === 'Enter') {
+            if(messageContent && e.key === 'Enter') {
               createMessage()
             }
           }
