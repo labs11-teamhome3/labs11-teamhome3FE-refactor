@@ -57,6 +57,32 @@
     text-decoration: none;
 }
 
+.team-status {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    margin-left: 43%;
+}
+
+.team-premium {
+    border: none;
+    color: white;
+    border-radius: 30px;
+    padding: 5px 10px;
+    font-size: 1.1rem;
+    font-weight: bold;
+}
+
+.team-premium-basic {
+    margin-left: 38%;
+    background: #fdcb6e;
+}
+
+.team-premium-premium {
+    margin-left: 32%;
+    background: #6c5ce7;
+}
+
 .premium {
     display: flex;
 }

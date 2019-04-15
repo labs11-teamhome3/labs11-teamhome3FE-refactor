@@ -40,6 +40,7 @@ const CURRENT_USER_QUERY = gql`
       inTeam {
         id
         teamName
+        premium
       }
     }
   }
