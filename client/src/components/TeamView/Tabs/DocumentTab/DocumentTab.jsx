@@ -20,7 +20,6 @@ import ViewDocumentModal from "./ViewDocumentModal";
 import EditDocumentModal from "./EditDocumentModal";
 import CreateFolderModal from "./CreateFolderModal";
 import ViewFolderModal from "./ViewFolderModal";
-import EditFolderModal from "./EditFolderModal";
 import { withStyles } from '@material-ui/core/styles';
 
 /////Queries/////
@@ -77,10 +76,6 @@ const DocumentTab = props => {
 
     //Folders
     const [createFolderModalStatus, setCreateFolderModalStatus] = useState(false)
-    const [editFolderModalStatus, setEditFolderModalStatus] = useState({
-      status: false,
-      folderId: null
-    });
     const [viewFolderModalStatus, setViewFolderModalStatus] = useState({
       status: false,
       folderId: null
@@ -135,12 +130,6 @@ const DocumentTab = props => {
           setCreateFolderModalStatus(!createFolderModalStatus);
           break;
 
-        case "editFolder":
-          setEditFolderModalStatus({
-            status: !editFolderModalStatus.status,
-            folderId: id
-          });
-          break;
       }
     };
     
@@ -230,14 +219,6 @@ const DocumentTab = props => {
             teamId={props.teamId}
             setMsg={props.setMsg}
           />
-          {editModalStatus ? (
-            <EditFolderModal
-              modalStatus={editFolderModalStatus.status}
-              folderId={editFolderModalStatus.folderId}
-              toggleModal={toggleModal}
-              setMsg={props.setMsg}
-            />
-          ) : null}
           {viewFolderModalStatus.status ? (
             <ViewFolderModal
               refetch={documents.refetch}

@@ -127,7 +127,7 @@ const ViewFolderModal = props => {
                   ))}
               </ul>
             </div> 
-          ) : null}
+          ) : <h4>This folder is empty 🤭</h4>}
         </Paper>
       </Modal>
     </div>
