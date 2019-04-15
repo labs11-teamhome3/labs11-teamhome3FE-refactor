@@ -115,6 +115,11 @@ const TeamList = props => {
     setTeamInput("");
   }
 
+  const addTeam = e => {
+    e.preventDefault();
+    createTeam();
+  }
+
   if (loading) {
     return <div>Loading...</div>;
   }
@@ -134,7 +139,7 @@ const TeamList = props => {
           </div>
         }
         {showInput &&
-          <form onSubmit={createTeam}>
+          <form onSubmit={addTeam}>
             <input
               required
               type="text"

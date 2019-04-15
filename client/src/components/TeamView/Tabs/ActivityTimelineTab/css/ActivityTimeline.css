@@ -59,35 +59,35 @@
 }
 
 .created {
-    background: #55efc4;
+    color: #00b894;
 }
 
 .updated {
-    background: #74b9ff;
+    color: #74b9ff;
 }
 
 .completed {
-    background: #fdcb6e;
+    color: #fdcb6e;
 }
 
 .added {
-    background: #fd79a8;
+    color: #fd79a8;
 }
 
 .commented {
-    background: #b2bec3;
+    color: #636e72;
 }
 
 .removed {
-    background: #a29bfe;
+    color: #a29bfe;
 }
 
 .deleted {
-    background: #e17055;
+    color: #e17055;
 }
 
 .changed {
-    background: #dfe6e9; 
+    color: #dfe6e9; 
 }
 
 
