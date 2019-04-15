@@ -168,6 +168,7 @@ const DocumentTab = props => {
             ) : (
               folders.data.findFoldersByTeam.map(folder => (
                 <Folder
+                  refetch={folders.refetch}
                   setDroppedItem={setDroppedItem}
                   droppedItem={droppedItem}
                   setMsg={props.setMsg}

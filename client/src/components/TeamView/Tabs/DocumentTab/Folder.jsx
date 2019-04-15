@@ -7,6 +7,8 @@ import FolderIcon from "@material-ui/icons/Folder";
 import MoreHoriz from '@material-ui/icons/MoreHoriz';
 import moment from 'moment';
 
+import MoreMenuFolder from './MoreMenuFolder';
+
 import { useMutation } from "../../../../graphQL/useMutation";
 import {ADD_DOCUMENT_FOLDER} from '../../../../graphQL/Mutations';
 import {DOCUMENTS_QUERY} from '../../../../graphQL/Queries';
@@ -53,8 +55,16 @@ const Folder = props => {
       <TableCell><FolderIcon/> {props.folder.title}</TableCell>
       <TableCell>{moment(props.folder.createdAt).calendar()}</TableCell>
       <TableCell>{props.folder.user.name}</TableCell>
-      <TableCell>{props.folder.documents.length}</TableCell>
-      <TableCell onClick={_ => props.toggleModal('viewFolder', props.folder.id)}><MoreHoriz/></TableCell>
+      <TableCell>{props.folder.documents ? props.folder.documents.length : 0}</TableCell>
+      <TableCell>
+        <MoreMenuFolder 
+          refetch={props.refetch}
+          teamId={props.teamId}
+          folder={props.folder}
+          toggleModal={props.toggleModal}
+          setMsg={props.setMsg} 
+        />
+      </TableCell>
     </TableRow>
   );
 };

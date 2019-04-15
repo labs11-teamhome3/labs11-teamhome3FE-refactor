@@ -38,7 +38,7 @@ const styles = theme => ({
     fontSize: '25px'
   },
   button: {
-    margin: '10px 0 0'
+    margin: '10px 0 0',
   },
   commentInput: {
     width: "100%"
