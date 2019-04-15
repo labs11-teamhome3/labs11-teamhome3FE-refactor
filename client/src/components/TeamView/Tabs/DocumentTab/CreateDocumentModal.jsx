@@ -107,6 +107,7 @@ const CreateDocumentModal = props => {
           />
           <br />
           <TextField
+            type="url"
             required
             label="Enter the url of this file" 
             value={messageInfo.doc_url}

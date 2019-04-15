@@ -158,7 +158,7 @@ const DocumentTab = props => {
                 <TableCell>Name</TableCell>
                 <TableCell>Created<ArrowUp onClick={newSort} /></TableCell>
                 <TableCell>Created By</TableCell>
-                <TableCell># of Docs or Link</TableCell>
+                <TableCell># of Docs or Comments</TableCell>
                 <TableCell>More</TableCell>
               </TableRow>
             </TableHead>

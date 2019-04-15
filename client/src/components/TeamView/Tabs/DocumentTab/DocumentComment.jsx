@@ -3,11 +3,21 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import { Typography } from '@material-ui/core';
 import DeleteIcon from "@material-ui/icons/Delete";
+import ThumbUp from "@material-ui/icons/ThumbUp";
+import ThumbDown from "@material-ui/icons/ThumbDown";
+import { withStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import { useMutation } from "../../../../graphQL/useMutation";
 
 import {DOCUMENT_QUERY} from '../../../../graphQL/Queries';
 import {DELETE_COMMENT, LIKE_COMMENT, UNLIKE_COMMENT} from '../../../../graphQL/Mutations';
+
+const styles = theme => ({
+  commentTitle: {
+    display: 'flex',
+    justifyContent: 'space-between'
+  },
+});
 
 const DocumentComment = props => {
   const userId = localStorage.getItem('userId');
@@ -105,17 +115,26 @@ const DocumentComment = props => {
     onError: err => console.log(err)
   });
 
+  const { classes } = props;
   return (
     <ListItem>
-      <ListItemText primary={<strong>{props.comment.user.name} <DeleteIcon onClick={deleteComment} /></strong>} secondary={
-        <>
-        <Typography>{props.comment.content}</Typography>
-        <Typography>{props.comment.likes.length} Likes</Typography>
-        </>
-      } />
-      {props.comment.likes.find(like => like.id === userId) ? <Button variant="contained" color="primary" onClick={unlikeComment}>Unlike</Button> : <Button variant="contained" color="primary" onClick={likeComment}>Like</Button>}
+      <ListItemText 
+        primary=
+        {<div className={classes.commentTitle}>
+          {props.comment.user.name}
+          <div>
+            <DeleteIcon onClick={deleteComment} />
+            {props.comment.likes.find(like => like.id === userId) ? <ThumbDown variant="contained" color="primary" onClick={unlikeComment}>Unlike</ThumbDown> : <ThumbUp variant="contained" color="primary" onClick={likeComment}>Like</ThumbUp>}
+          </div> 
+        </div>}
+      secondary={
+          <>
+          <Typography>{props.comment.content}</Typography>
+          <Typography>{props.comment.likes.length} Likes</Typography>
+          </>
+        } />
     </ListItem>
   )
 }
 
-export default DocumentComment
+export default withStyles(styles)(DocumentComment);

@@ -32,7 +32,7 @@ const Document = props => {
       </TableCell>
       <TableCell>{moment(props.document.createdAt).calendar()}</TableCell>
       <TableCell>{props.document.user.name}</TableCell>
-      <TableCell><a style={{textDecoration:"none", color:"inherit"}} href={props.document.doc_url} target='_blank'>{props.document.doc_url}</a></TableCell>
+      <TableCell>{props.document.comments.length}</TableCell>
       <TableCell>
         <MoreMenu 
           teamId={props.teamId}
