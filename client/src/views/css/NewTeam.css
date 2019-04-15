@@ -21,7 +21,7 @@
     font-size: 3rem;
     line-height: 1.3;
     width: 40%;
-    color: #e17055;
+    color: #2d3436;
 }
 
 .nt-form {
@@ -39,10 +39,15 @@
     padding: 10px 30px;
 }
 
+@media (max-width: 1200px) {
+    .new-team h2 {
+        font-size: 2rem;
+    }
+}
+
 @media (max-width: 800px) {
     .new-team h2 {
         width: 80%;
-        font-size: 2rem;
     }
 
     .nt-image {
@@ -55,6 +60,25 @@
 
     .new-team input {
         font-size: 1.5rem;
+    }
+}
+
+@media (max-width: 500px) {
+    .new-team h2 {
+        width: 90%;
+        font-size: 1.5rem;
+    }
+
+    .nt-content {
+        margin-top: -80px
+    }
+
+    .nt-form {
+        margin-top: 10px;
+    }
+
+    .new-team input {
+        font-size: 1.3rem;
     }
 }
 

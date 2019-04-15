@@ -65,7 +65,7 @@ const NewTeam = props => {
             <div className="new-team">
               <div className="nt-content">
                 <img className="nt-image" src='https://www.netcenter.net/sites/default/files/collaboration_inforgraphic.png' alt="collaboration" />
-                <h2>Manaje is all about helping you collaborate with your team.  Create your first team below.</h2>
+                <h2>Manaje is all about helping you collaborate with your teams.  Create your first team below and begin manaje-ing.</h2>
               </div>
                 <div className="nt-form">
                 <form onSubmit={createFirstTeam}>

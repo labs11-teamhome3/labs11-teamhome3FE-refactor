@@ -22,7 +22,7 @@
 
 .activity-timeline select {
     font-size: 1.2rem;
-    width: 50%;
+    width: 90%;
 }
 
 .dropdowns {
@@ -39,8 +39,9 @@
 
 .label-select {
     display: flex;
+    flex-direction: column;
     width: 70%;
-    margin: 20px auto;
+    margin: 5px auto;
     justify-content: space-between;
     align-items: center;
 }
