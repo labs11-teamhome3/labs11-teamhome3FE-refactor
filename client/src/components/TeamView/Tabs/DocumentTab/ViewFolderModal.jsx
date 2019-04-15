@@ -53,11 +53,9 @@ const ViewFolderModal = props => {
         query: FOLDERS_QUERY,
         variables: { teamId: props.teamId },
         data: {
-          findFoldersByTeam: findFoldersByTeam.filter(folder => {
-            if (folder.id !== props.folderId) {
-              return folder;
-            }
-          })
+          findFoldersByTeam: findFoldersByTeam.filter(
+            folder => folder.id !== props.folderId
+          )
         }
       });
     },

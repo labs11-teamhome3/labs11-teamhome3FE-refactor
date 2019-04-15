@@ -52,11 +52,9 @@ const ViewDocumentModal = props => {
         query: DOCUMENTS_QUERY,
         variables: { teamId: props.teamId },
         data: {
-          findDocumentsByTeam: findDocumentsByTeam.filter(document => {
-            if (document.id !== props.documentId) {
-              return document;
-            }
-          })
+          findDocumentsByTeam: findDocumentsByTeam.filter(
+            document => document.id !== props.documentId
+          )
         }
       });
     },

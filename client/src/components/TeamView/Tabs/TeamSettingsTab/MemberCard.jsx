@@ -46,11 +46,9 @@ const MemberCard = props => {
               data: {
                 team: {
                   ...team,
-                  members: team.members.filter(member => {
-                    if (member.id !== props.member.id) {
-                      return member;
-                    }
-                  })
+                  members: team.members.filter(
+                    member => member.id !== props.member.id
+                  )
                 }
               }
             });

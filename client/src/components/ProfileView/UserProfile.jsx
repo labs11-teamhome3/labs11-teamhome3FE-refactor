@@ -83,9 +83,7 @@ function Form() {
       return <div>Error! {error.message}</div>;
     }
   
-    let user = data.users.filter(userData => {
-      if (userData.id === userId) return userData
-    }); 
+    let user = data.users.filter(userData => userData.id === userId)
     
     user = user[0];
     

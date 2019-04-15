@@ -94,12 +94,10 @@ const MessageModal = props => {
         query: MESSAGES_QUERY,
         variables: { teamId: props.teamId },
         data: {
-          messages: messages.filter(message => {
+          messages: messages.filter(
             // console.log(`${message.id} - ${props.messageId}`);
-            if (message.id !== props.messageId) {
-              return message;
-            }
-          })
+            message => message.id !== props.messageId
+          )
         }
       });
     },
