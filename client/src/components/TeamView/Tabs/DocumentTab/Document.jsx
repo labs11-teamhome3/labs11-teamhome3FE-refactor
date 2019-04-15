@@ -24,7 +24,7 @@ const Document = props => {
     <TableRow 
       ref={instance => connectDragSource(ReactDOM.findDOMNode(instance))} 
     >
-      <TableCell>
+      <TableCell onClick={() => props.toggleModal('view', props.document.id)}>
         <Tooltip title="Drag to folder" TransitionComponent={Zoom}>
           <File/>
         </Tooltip>
