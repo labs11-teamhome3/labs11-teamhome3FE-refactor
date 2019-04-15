@@ -52,7 +52,10 @@ const Folder = props => {
     <TableRow 
       ref={instance => connectDropTarget(ReactDOM.findDOMNode(instance))} 
     >
-      <TableCell><FolderIcon/> {props.folder.title}</TableCell>
+      <TableCell onClick={() => props.toggleModal('viewFolder', props.folder.id)}>
+        <FolderIcon/> 
+        {props.folder.title}
+      </TableCell>
       <TableCell>{moment(props.folder.createdAt).calendar()}</TableCell>
       <TableCell>{props.folder.user.name}</TableCell>
       <TableCell>{props.folder.documents ? props.folder.documents.length : 0}</TableCell>
