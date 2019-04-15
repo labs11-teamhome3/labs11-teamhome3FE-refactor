@@ -184,9 +184,11 @@ const DocumentTab = props => {
               documents.data.findDocumentsByTeam.filter(document => !document.folder)
               .map(document => (
                 <Document
+                teamId={props.teamId}
                 document={document}
                 key={document.id}
                 toggleModal={toggleModal}
+                setMsg={props.setMsg}
                 />
               ))   
             )}

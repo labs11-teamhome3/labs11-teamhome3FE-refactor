@@ -33,7 +33,14 @@ const Document = props => {
       <TableCell>{moment(props.document.createdAt).calendar()}</TableCell>
       <TableCell>{props.document.user.name}</TableCell>
       <TableCell><a style={{textDecoration:"none", color:"inherit"}} href={props.document.doc_url} target='_blank'>{props.document.doc_url}</a></TableCell>
-      <TableCell><MoreMenu /></TableCell>
+      <TableCell>
+        <MoreMenu 
+          teamId={props.teamId}
+          document={props.document}
+          toggleModal={props.toggleModal}
+          setMsg={props.setMsg} 
+        />
+      </TableCell>
       {/* <TableCell onClick={() => props.toggleModal('view', props.document.id)}><MoreHoriz/></TableCell> */}
     </TableRow>
   );
