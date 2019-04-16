@@ -249,7 +249,6 @@ const Message = props => {
                 <ThumbUp className={classes.thumbs}  /> 
                 <div className={classes.likes}>{comment.likes ? comment.likes.length : 0}</div>
                 <ThumbDown className={classes.thumbs} /> 
-                <Button>REPLY</Button>
               </div>
             </div>
           ))) : null}
