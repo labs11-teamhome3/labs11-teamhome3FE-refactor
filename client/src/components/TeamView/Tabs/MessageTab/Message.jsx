@@ -6,6 +6,7 @@ import ThumbDown from "@material-ui/icons/ThumbDown";
 import Button from "@material-ui/core/Button";
 import AccountCircle from "@material-ui/icons/AccountCircle";
 import KeyboardArrowDown from "@material-ui/icons/KeyboardArrowDown";
+import KeyboardArrowUp from "@material-ui/icons/KeyboardArrowUp";
 import TextField from "@material-ui/core/TextField";
 
 import { useMutation } from "../../../../graphQL/useMutation";
@@ -226,7 +227,13 @@ const Message = props => {
               />
             </div>
           ) : null}
-          <div className={classes.viewReplies}>View {props.message.comments && props.message.comments.length} replies <KeyboardArrowDown /></div>
+          {/* view replies dropdown */}
+          <div className={classes.viewReplies} onClick={() => setViewReplies(true)}>
+            View 
+            {props.message.comments && props.message.comments.length} 
+            replies 
+            {viewReplies? <KeyboardArrowUp /> : <KeyboardArrowDown />}
+          </div>
         </div>
     </div>
   );
