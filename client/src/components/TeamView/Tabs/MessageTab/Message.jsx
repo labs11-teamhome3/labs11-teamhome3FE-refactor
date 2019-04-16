@@ -9,6 +9,8 @@ import KeyboardArrowDown from "@material-ui/icons/KeyboardArrowDown";
 import KeyboardArrowUp from "@material-ui/icons/KeyboardArrowUp";
 import TextField from "@material-ui/core/TextField";
 
+import MessageComment from "./MessageComment";
+
 import { useMutation } from "../../../../graphQL/useMutation";
 import { LIKE_MESSAGE, UNLIKE_MESSAGE, ADD_MESSAGE_COMMENT } from "../../../../graphQL/Mutations";
 import { MESSAGE_QUERY } from "../../../../graphQL/Queries";
@@ -16,7 +18,7 @@ import { MESSAGE_QUERY } from "../../../../graphQL/Queries";
 const styles = theme => ({
   root: {
     '&:hover': {
-      backgroundColor: '#dfe6e9'
+      backgroundColor: '#FFFFFF',
     },
     display: 'flex',
     marginTop: "35px",
@@ -25,13 +27,13 @@ const styles = theme => ({
     height: '60px',
     width: '60px',
     borderRadius: '50%',
-    margin: '10px 10px 10px 3px'
+    margin: '10px'
   },
   userPicSmall: {
     height: '35px',
     width: '35px',
     borderRadius: '50%',
-    margin: '10px 10px 10px 3px'
+    margin: '10px'
   },
   content: {
     marginTop: '7px',
@@ -197,6 +199,7 @@ const Message = props => {
           <div className={classes.contentTitle}>
             <div className={classes.name}>{user.name}</div>
             <div className={classes.time}>{moment(props.message.createdAt).startOf('minute').fromNow()}</div>
+            <div className={classes.menu} style={{display: 'none'}}>Hi</div>
           </div>
           <div>{props.message.content}</div>
           <div className={classes.messageReaction}>
@@ -234,24 +237,13 @@ const Message = props => {
           {/* view replies dropdown */}
           {viewReplies ? ( 
             props.message.comments.map(comment => (
-            comment.user.profilePic ? (
-            <img className={classes.userPic} src={comment.user.profilePic} alt="profile picture"/> 
-            ):( 
-            <AccountCircle className={classes.userPic}/>
-            ),
-            <div key={comment.user.createdAt} className={classes.content}>
-              <div className={classes.contentTitle}>
-                <div className={classes.name}>{comment.user.name}</div>
-                <div className={classes.time}>{moment(comment.createdAt).startOf('minute').fromNow()}</div>
-              </div>
-              <div>{comment.content}</div>
-              <div className={classes.messageReaction}>
-                <ThumbUp className={classes.thumbs}  /> 
-                <div className={classes.likes}>{comment.likes ? comment.likes.length : 0}</div>
-                <ThumbDown className={classes.thumbs} /> 
-              </div>
-            </div>
-          ))) : null}
+              <MessageComment
+                key={comment.createdAt}
+                comment={comment}
+
+              />
+            )))
+            : null}
     </div>
   </div>
   );

@@ -299,16 +299,17 @@ export const ADD_COMMENT = gql`
       content: $content
     ) {
       id
-        content
-        user {
-          id
-          name
-        }
-        image
-        likes {
-          id
-          name
-        }
+      content
+      user {
+        id
+        name
+        profilePic
+      }
+      image
+      likes {
+        id
+        name
+      }
       }
     
   }
@@ -318,16 +319,17 @@ export const LIKE_COMMENT = gql`
   mutation LIKE_COMMENT($commentId: ID!, $userId: ID!){
     likeDocumentComment(commentId: $commentId, userId: $userId) {
       id
-        content
-        user {
-          id
-          name
-        }
-        image
-        likes {
-          id
-          name
-        }
+      content
+      user {
+        id
+        name
+        profilePic
+      }
+      image
+      likes {
+        id
+        name
+      }
     }
   }
 `;
@@ -336,16 +338,17 @@ export const UNLIKE_COMMENT = gql`
   mutation LIKE_COMMENT($commentId: ID!, $userId: ID!){
     unlikeDocumentComment(commentId: $commentId, userId: $userId) {
       id
-        content
-        user {
-          id
-          name
-        }
-        image
-        likes {
-          id
-          name
-        }
+      content
+      user {
+        id
+        name
+        profilePic
+      }
+      image
+      likes {
+        id
+        name
+      }
     }
   }
 `;
@@ -389,6 +392,7 @@ export const CREATE_MESSAGE = gql`
         user {
           id
           name
+          profilePic
         }
         image
       }
@@ -422,6 +426,7 @@ export const LIKE_MESSAGE = gql`
         user {
           id
           name
+          profilePic
         }
         message {
           id
@@ -461,6 +466,7 @@ export const UNLIKE_MESSAGE = gql`
         user {
           id
           name
+          profilePic
         }
         message {
           id
@@ -483,6 +489,7 @@ export const ADD_MESSAGE_COMMENT = gql`
       user {
         id
         name
+        profilePic
       }
       message {
         id
