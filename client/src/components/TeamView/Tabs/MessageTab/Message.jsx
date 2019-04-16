@@ -8,17 +8,13 @@ import AccountCircle from "@material-ui/icons/AccountCircle";
 import KeyboardArrowDown from "@material-ui/icons/KeyboardArrowDown";
 import KeyboardArrowUp from "@material-ui/icons/KeyboardArrowUp";
 import TextField from "@material-ui/core/TextField";
-import MoreVertIcon from '@material-ui/icons/MoreVert';
-import IconButton from '@material-ui/core/IconButton';
 
 import MessageComment from "./MessageComment";
 import MoreMenu from "./MoreMenu";
 
 import { useMutation } from "../../../../graphQL/useMutation";
 import { LIKE_MESSAGE, UNLIKE_MESSAGE, ADD_MESSAGE_COMMENT, UPDATE_MESSAGE } from "../../../../graphQL/Mutations";
-import { MESSAGE_QUERY, MESSAGES_QUERY } from "../../../../graphQL/Queries";
-import { Icon } from "../../../../../node_modules/@material-ui/core";
-import { useQuery } from "../../../../../node_modules/react-apollo-hooks";
+import { MESSAGES_QUERY } from "../../../../graphQL/Queries";
 
 const styles = theme => ({
   root: {
@@ -256,6 +252,7 @@ const Message = props => {
                 comment={comment}
                 message={props.message}
                 setMsg={props.setMsg}
+                teamId={props.teamId}
               />
             )))
             : null}

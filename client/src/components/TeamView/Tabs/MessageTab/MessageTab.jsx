@@ -1,8 +1,6 @@
 import React, { useState } from "react";
 import { useQuery } from "react-apollo-hooks";
 import { withStyles } from '@material-ui/core/styles';
-import Fab from "@material-ui/core/Fab";
-import AddIcon from "@material-ui/icons/Add";
 import TextField from "@material-ui/core/TextField";
 import AccountCircle from "@material-ui/icons/AccountCircle";
 
@@ -11,8 +9,8 @@ import Message from "./Message";
 
 /////GraphQL/////
 import { useMutation } from "../../../../graphQL/useMutation";
-import { MESSAGES_QUERY, MESSAGE_QUERY, USER_QUERY, TEAM_QUERY } from "../../../../graphQL/Queries";
-import { CREATE_MESSAGE, LIKE_MESSAGE, UNLIKE_MESSAGE } from "../../../../graphQL/Mutations";
+import { MESSAGES_QUERY, USER_QUERY, TEAM_QUERY } from "../../../../graphQL/Queries";
+import { CREATE_MESSAGE } from "../../../../graphQL/Mutations";
 
 const styles = theme => ({
   paper: {
@@ -56,15 +54,6 @@ const MessageTab = props => {
   //console.log('mt messages data', messages.data);
 
   const [messageContent, setMessageContent] = useState('');
-  const [createModalStatus, setCreateModalStatus] = useState(false);
-  const [editModalStatus, setEditModalStatus] = useState({
-    status: false,
-    messageId: null
-  });
-  const [viewModalStatus, setViewModalStatus] = useState({
-    status: false,
-    messageId: null
-  });
   
   const handleChange = e => {
     setMessageContent(e.target.value)

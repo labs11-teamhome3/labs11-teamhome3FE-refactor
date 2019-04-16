@@ -1,16 +1,13 @@
 import React from 'react'
 import moment from "moment";
-import DeleteIcon from "@material-ui/icons/Delete";
-import Button from '@material-ui/core/Button';
+import DeleteIcon from "@material-ui/icons/DeleteOutlined";
 import { useMutation } from "../../../../graphQL/useMutation";
 import gql from "graphql-tag";
 import { withStyles } from "@material-ui/core/styles";
 import ThumbUp from "@material-ui/icons/ThumbUp";
 import ThumbDown from "@material-ui/icons/ThumbDown";
 import AccountCircle from "@material-ui/icons/AccountCircle";
-import KeyboardArrowDown from "@material-ui/icons/KeyboardArrowDown";
-import KeyboardArrowUp from "@material-ui/icons/KeyboardArrowUp";
-import TextField from "@material-ui/core/TextField";
+
 
 import {MESSAGES_QUERY} from '../../../../graphQL/Queries';
 import {LIKE_MESSAGE_COMMENT, UNLIKE_MESSAGE_COMMENT} from '../../../../graphQL/Mutations';
@@ -50,6 +47,13 @@ const styles = theme => ({
     color: 'grey',
     fontSize: '13px'
   },
+  messageReactionWrap: {
+    display: 'flex',
+    justifyContent: 'space-between'
+  },
+  delete: {
+    margin: '10px 0'
+  },
   viewReplies: {
     display: 'flex',
     alignItems: 'center',
@@ -84,24 +88,23 @@ const DELETE_COMMENT = gql`
 const MessageComment = props => {
   const userId = localStorage.getItem('userId');
 
-  const [deleteComment] = useMutation(DELETE_COMMENT, {
+  const [deleteMessageComment] = useMutation(DELETE_COMMENT, {
     update: (cache, { data }) => {
-      const { messages } = cache.readQuery({
+      const {messages} = cache.readQuery({
         query: MESSAGES_QUERY,
-        variables: { id: props.message.id }
+        variables: { teamId: props.teamId }
       });
-      // cache.writeQuery({
-      //   query: MESSAGE_QUERY,
-      //   variables: { id: props.message.id },
-      //   data: {
-      //     message: {
-      //       ...message,
-      //       comments: message.comments.filter(
-      //         comment => comment.id !== props.comment.id
-      //       )
-      //     }
-      //   }
-      // });
+      let oldMessage = messages.find(message => message.id === props.message.id)
+      let newMessageComments = oldMessage.comments.filter(comment => comment.id !== props.comment.id)
+      oldMessage.comments = newMessageComments;
+      let newMessages = messages.filter(message => message.id !== props.message.id)
+      cache.writeQuery({
+        query: MESSAGES_QUERY,
+        variables: { teamId: props.teamId },
+        data: {
+          messages: [...newMessages, oldMessage]
+        }
+      })
     },
     variables: {
       commentId: props.comment.id
@@ -148,10 +151,13 @@ const MessageComment = props => {
           <div className={classes.time}>{moment(props.comment.createdAt).startOf('minute').fromNow()}</div>
         </div>
         <div>{props.comment.content}</div>
-        <div className={classes.messageReaction}>
-          <ThumbUp className={classes.thumbs} onClick={likeMessageComment} /> 
-          <div className={classes.likes}>{props.comment.likes ? props.comment.likes.length : 0}</div>
-          <ThumbDown className={classes.thumbs} onClick={unlikeMessageComment} /> 
+        <div className={classes.messageReactionWrap}>
+          <div className={classes.messageReaction}>
+            <ThumbUp className={classes.thumbs} onClick={likeMessageComment} /> 
+            <div className={classes.likes}>{props.comment.likes ? props.comment.likes.length : 0}</div>
+            <ThumbDown className={classes.thumbs} onClick={unlikeMessageComment} /> 
+          </div>
+          <DeleteIcon className={classes.delete} onClick={deleteMessageComment} />
         </div>
       </div>
     </div>
