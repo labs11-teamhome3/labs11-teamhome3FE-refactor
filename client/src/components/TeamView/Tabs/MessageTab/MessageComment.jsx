@@ -26,7 +26,7 @@ const styles = theme => ({
   content: {
     marginTop: '7px',
     fontSize: '21px',
-    borderBottom: '1px solid #919191' 
+    
   },
   contentTitle: {
     fontSize: '17px',
