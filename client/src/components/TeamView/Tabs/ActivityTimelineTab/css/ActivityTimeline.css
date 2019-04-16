@@ -1,11 +1,10 @@
 .activity-timeline {
     height: 60vh;
-    overflow-y: scroll;
+    overflow-y: auto;
     background: #dfe6e9;
 }
 
 .event-createdAt {
-    margin-left: 1%;
     font-size: 1rem;
     color: rgb(100, 97, 97);
     margin-top: 10px;
@@ -13,12 +12,14 @@
 }
 
 .at-title {
-    margin: 30px 0 20px 0;
-    font-size: 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0px 30px;
 }
 
-.at-events {
-    margin-top: 20px;
+.at-title h2 {
+    font-size: 1.7rem;
 }
 
 .activity-timeline select {
@@ -28,7 +29,6 @@
 
 .dropdowns {
     display: flex;
-    flex-direction: column;
     justify-content: space-between;
     margin: 5px auto;
 }
@@ -49,10 +49,11 @@
 
 .event {
     margin: 0 auto;
-    border: 1px solid lightgray;
+    border-bottom: 1px solid lightgray;
+    border-top: 1px solid lightgray;
     display: flex;
     justify-content: space-between;
-    padding: 30px 10px;
+    padding: 15px 10px;
     align-items: center;
 }
 
@@ -61,18 +62,23 @@
     font-weight: bold;
 }
 
+.event-action {
+    font-weight: normal;
+}
+
 .event-info {
     display: flex;
     text-align: left;
     flex-direction: column;
     justify-content: space-between;
-    width: 80%;
+    width: 83%;
 }
 
 .user-pic {
     height: 50px;
     width: 50px;
     border-radius: 50px;
+    margin-bottom: 7%;
 }
 
 .created {
@@ -107,9 +113,10 @@
     color: #2d3436; 
 }
 
-.filter-by-user {
-    margin-top: 20px;
+.more-vert {
+    cursor: pointer;
 }
+
 
 
 

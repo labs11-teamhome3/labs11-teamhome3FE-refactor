@@ -8,6 +8,8 @@ import gql from "graphql-tag";
 ///Components///
 import TeamInfo from "./TeamInfo";
 import StripePaymentPopup from "../../../Stripe/StripePaymentPopup";
+import Loader from 'react-loader-spinner';
+import AddNewMember from './AddNewMember';
 
 ////Queries////
 import { TEAMS_QUERY, USERS_QUERY } from "../../../../graphQL/Queries";
@@ -170,8 +172,8 @@ const TeamSettingsTab = props => {
         onCompleted: (e) => {
             props.setMsg(`added ${newMember} to the team`);
             setSearchInput("");
-            setNewMember("");
-            setNewMemberId("");
+            // setNewMember("");
+            // setNewMemberId("");
         },
         onError: err => {
             // console.log(err.message);
@@ -191,20 +193,19 @@ const TeamSettingsTab = props => {
 }
 
 if(loading) {
-    return <div>Loading...</div>;
+    return <div>
+      <Loader
+        type="ThreeDots"
+        height="25px"
+        width="25px"
+        color="#0984e3"
+      />
+    </div>;
 }
 
 if (error) {
     return <div>Error! {error.message}</div>
 }
-
-  if (loading) {
-    return <div>Loading...</div>;
-  }
-
-  if (error) {
-    return <div>Error! {error.message}</div>;
-  }
 
   return (
     <div>
@@ -220,7 +221,20 @@ if (error) {
                   value={searchInput}
                   onChange={handleSearchChange}
                 />
-                <select value={newMember} onChange={handleSelectChange}>
+                {allUsersQuery.data.users && searchInput &&
+                  allUsersQuery.data.users.map(user => {
+                    if (user.name.toLowerCase().includes(searchInput.toLowerCase())) {
+                      return <AddNewMember 
+                                user={user} 
+                                newMemberId={newMemberId}
+                                setNewMemberId={setNewMemberId} 
+                                setNewMember={setNewMember}
+                                addUserToTeam={addUserToTeam} 
+                              />
+                    }
+                  })
+                }
+                {/* <select value={newMember} onChange={handleSelectChange}>
                   {optionsItems.filter(item =>
                     item.props.children
                       .toLowerCase()
@@ -231,7 +245,7 @@ if (error) {
                   <button
                     onClick={addUserToTeam}
                   >{`Add ${newMember} to the Team!`}</button>
-                )}
+                )} */}
                 {errorMsg && (
                   <div className="error-flash">
                     <h3>{errorMsg.split(":")[1]}</h3>
@@ -269,31 +283,31 @@ if (error) {
               Delete team
               <DeleteIcon />
             </Button>
-          </div>
-        )}
-        {areYouSure && (
-          <div>
-            <h2>
-              Do you really want to delete this team? All messages, activities,
-              documents, and todo lists which belong to this team will also be
-              deleted! There is no coming back from this. If you are sure,
-              please type the name of the team below.
-            </h2>
-            <input
-              type="text"
-              name="deleteInput"
-              value={deleteInput}
-              onChange={handleDeleteChange}
-            />
-            <button onClick={() => setAreYouSure(false)}>Cancel</button>
-            {deleteInput === data.team.teamName && (
-              <Button
-                variant="contained"
-                color="secondary"
-                onClick={deleteTeam}
-              >
-                I understand the consequences. Delete this team.
-              </Button>
+            {areYouSure && (
+              <div>
+                <h2>
+                  Do you really want to delete this team? All messages, activities,
+                  documents, and todo lists which belong to this team will also be
+                  deleted! There is no coming back from this. If you are sure,
+                  please type the name of the team below.
+                </h2>
+                <input
+                  type="text"
+                  name="deleteInput"
+                  value={deleteInput}
+                  onChange={handleDeleteChange}
+                />
+                <button onClick={() => setAreYouSure(false)}>Cancel</button>
+                {deleteInput === data.team.teamName && (
+                  <Button
+                    variant="contained"
+                    color="secondary"
+                    onClick={deleteTeam}
+                  >
+                    I understand the consequences. Delete this team.
+                  </Button>
+                )}
+              </div>
             )}
           </div>
         )}
