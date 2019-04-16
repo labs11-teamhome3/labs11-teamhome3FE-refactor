@@ -6,6 +6,7 @@ import Button from "@material-ui/core/Button"
 import AddIcon from "@material-ui/icons/Add";
 import Divider from '@material-ui/core/Divider';
 import CancelIcon from "@material-ui/icons/Cancel"
+import TextField from '@material-ui/core/TextField';
 import { useMutation } from "../../graphQL/useMutation";
 import Loader from 'react-loader-spinner';
 
@@ -159,13 +160,21 @@ const TeamList = props => {
         }
         {showInput &&
           <form className="new-team-form" onSubmit={addTeam}>
-            <input
+            <TextField
+              className="nt-textfield"
               required
               type="text"
               placeholder="new team name..."
               value={teamInput}
               onChange={e => setTeamInput(e.target.value)}
             />
+            {/* <input
+              required
+              type="text"
+              placeholder="new team name..."
+              value={teamInput}
+              onChange={e => setTeamInput(e.target.value)}
+            /> */}
             <Fab type="submit" color="primary" size="small" aria-label="Add">
               <AddIcon />
             </Fab>

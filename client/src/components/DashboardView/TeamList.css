@@ -64,11 +64,16 @@
     padding: 15px 0;
 }
 
+.nt-textfield input::placeholder {
+    color: white;;
+}
+
 .newTeam input {
     margin-right: 5px;
     font-size: 1.3rem;
     border-radius: 30px;
     padding: 5px 20px;
+    color: white;
 }
 
 .newTeam button {
