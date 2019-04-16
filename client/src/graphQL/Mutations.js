@@ -330,7 +330,8 @@ export const LIKE_COMMENT = gql`
         }
     }
   }
-`
+`;
+
 export const UNLIKE_COMMENT = gql`
   mutation LIKE_COMMENT($commentId: ID!, $userId: ID!){
     unlikeDocumentComment(commentId: $commentId, userId: $userId) {
@@ -365,6 +366,71 @@ export const CREATE_MESSAGE = gql`
       id
       createdAt
       content
+      likes {
+        id
+      }
+      creator {
+        id
+        name
+        profilePic
+      }
+      images 
+      tag {
+        id
+        name
+      }
+      comments {
+        id
+        likes {
+          id
+        }
+        content
+        createdAt
+      }
+    }
+  }
+`;
+
+export const LIKE_MESSAGE = gql`
+  mutation LIKE_MESSAGE ($messageId: ID!, $userId: ID!){
+    likeMessage(messageId: $messageId, userId: $userId) {
+      id
+      createdAt
+      content
+      likes {
+        id
+      }
+      creator {
+        id
+        name
+        profilePic
+      }
+      images 
+      tag {
+        id
+        name
+      }
+      comments {
+        id
+        likes {
+          id
+        }
+        content
+        createdAt
+      }
+    }
+  }
+`;
+
+export const UNLIKE_MESSAGE = gql`
+  mutation UNLIKE_MESSAGE ($messageId: ID!, $userId: ID!){
+    unlikeMessage(messageId: $messageId, userId: $userId) {
+      id
+      createdAt
+      content
+      likes {
+        id
+      }
       creator {
         id
         name

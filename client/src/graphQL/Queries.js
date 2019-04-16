@@ -108,6 +108,9 @@ export const MESSAGES_QUERY = gql`
       id
       createdAt
       content
+      likes {
+        id
+      }
       creator {
         id
         name
@@ -136,6 +139,9 @@ export const MESSAGE_QUERY = gql`
       id
       createdAt
       content
+      likes {
+        id
+      }
       creator {
         id
         name

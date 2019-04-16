@@ -14,8 +14,8 @@ import EditMessageModal from "./EditMessageModal";
 
 /////GraphQL/////
 import { useMutation } from "../../../../graphQL/useMutation";
-import { MESSAGES_QUERY, USER_QUERY, TEAM_QUERY } from "../../../../graphQL/Queries";
-import { CREATE_MESSAGE } from "../../../../graphQL/Mutations";
+import { MESSAGES_QUERY, MESSAGE_QUERY, USER_QUERY, TEAM_QUERY } from "../../../../graphQL/Queries";
+import { CREATE_MESSAGE, LIKE_MESSAGE, UNLIKE_MESSAGE } from "../../../../graphQL/Mutations";
 
 const styles = theme => ({
   paper: {
@@ -27,14 +27,14 @@ const styles = theme => ({
     padding: '30px',
   },
   textField: {
-    width: '70%'
+    width: '60%'
   },
   button: {
     margin: '0'
   },
   userPic: {
-    height: '50px',
-    width: '50px',
+    height: '55px',
+    width: '55px',
     borderRadius: '50px',
     margin: '4px 12px 0 0'
   }
