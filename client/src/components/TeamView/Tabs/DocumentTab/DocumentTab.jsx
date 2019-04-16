@@ -20,15 +20,16 @@ import ViewDocumentModal from "./ViewDocumentModal";
 import EditDocumentModal from "./EditDocumentModal";
 import CreateFolderModal from "./CreateFolderModal";
 import ViewFolderModal from "./ViewFolderModal";
-import EditFolderModal from "./EditFolderModal";
 import { withStyles } from '@material-ui/core/styles';
 
 /////Queries/////
 import { DOCUMENTS_QUERY, FOLDERS_QUERY } from '../../../../graphQL/Queries';
+import { useMutation } from "../../../../graphQL/useMutation";
 
 const styles = theme => ({
-  button: {
-    
+  table: {
+    minWidth: '400px',
+    width: '100%'
   },
   input: {
     display: 'none',
@@ -37,6 +38,7 @@ const styles = theme => ({
 
 const DocumentTab = props => {
     const [droppedItem, setDroppedItem] = useState('');
+    const [sortStatus, setSortStatus] = useState(false);
 
     function onDrop(item){
       setDroppedItem(item)
@@ -45,7 +47,7 @@ const DocumentTab = props => {
 
     function newSort() {
       //new to old sort
-      console.log('newSort')
+      //console.log('newSort')
       function compare(a, b) {
         const createdAtA = a.createdAt.toUpperCase();
         const createdAtB = b.createdAt.toUpperCase();
@@ -58,9 +60,13 @@ const DocumentTab = props => {
         }
         return comparison * -1;
       }
+
+      //console.log(folders.data.findFoldersByTeam[0].title)
       //how can I get this to rerender after the sort?
       folders.data.findFoldersByTeam.sort(compare);
       documents.data.findDocumentsByTeam.sort(compare);
+
+      setSortStatus(!sortStatus);
     }
 
     //Documents
@@ -76,10 +82,6 @@ const DocumentTab = props => {
 
     //Folders
     const [createFolderModalStatus, setCreateFolderModalStatus] = useState(false)
-    const [editFolderModalStatus, setEditFolderModalStatus] = useState({
-      status: false,
-      folderId: null
-    });
     const [viewFolderModalStatus, setViewFolderModalStatus] = useState({
       status: false,
       folderId: null
@@ -94,10 +96,6 @@ const DocumentTab = props => {
     const folders = useQuery(FOLDERS_QUERY, {
       variables: { teamId: props.teamId }
     })
-
-    useEffect(() => {
-      
-    }, [folders.data.findFoldersByTeam])
   
     //Modal handler
     const toggleModal = (modal, id = null) => {
@@ -134,33 +132,24 @@ const DocumentTab = props => {
           setCreateFolderModalStatus(!createFolderModalStatus);
           break;
 
-        case "editFolder":
-          setEditFolderModalStatus({
-            status: !editFolderModalStatus.status,
-            folderId: id
-          });
-          break;
-
-        default:
-          break;
       }
     };
     
-    // const {classes} = props; 
+    const {classes} = props; 
     return (
       <div>
         <div>
           <div style={{display:'flex', justifyContent:'start'}}>
-            <Button variant="contained" color='primary' style={{marginRight: '17px'}} onClick={() => toggleModal('create')}>Create File</Button>
-            <Button variant="contained" color='primary' onClick={() => toggleModal('createFolder')}>Create Folder</Button>
+            <Button variant="outlined" color='primary' style={{marginRight: '17px'}} onClick={() => toggleModal('createFolder')}>Create Folder</Button>
+            <Button variant="contained" color='primary'  onClick={() => toggleModal('create')}>Create File</Button>
           </div>
-          <Table>
+          <Table className={classes.table}>
             <TableHead>
               <TableRow>
                 <TableCell>Name</TableCell>
                 <TableCell>Created<ArrowUp onClick={newSort} /></TableCell>
                 <TableCell>Created By</TableCell>
-                <TableCell># of Docs or Link</TableCell>
+                <TableCell># of Docs or Comments</TableCell>
                 <TableCell>More</TableCell>
               </TableRow>
             </TableHead>
@@ -170,6 +159,8 @@ const DocumentTab = props => {
             ) : (
               folders.data.findFoldersByTeam.map(folder => (
                 <Folder
+                  refetch={folders.refetch}
+                  refetchDocs={documents.refetch}
                   setDroppedItem={setDroppedItem}
                   droppedItem={droppedItem}
                   setMsg={props.setMsg}
@@ -186,9 +177,11 @@ const DocumentTab = props => {
               documents.data.findDocumentsByTeam.filter(document => !document.folder)
               .map(document => (
                 <Document
+                teamId={props.teamId}
                 document={document}
                 key={document.id}
                 toggleModal={toggleModal}
+                setMsg={props.setMsg}
                 />
               ))   
             )}
@@ -229,14 +222,6 @@ const DocumentTab = props => {
             teamId={props.teamId}
             setMsg={props.setMsg}
           />
-          {editModalStatus ? (
-            <EditFolderModal
-              modalStatus={editFolderModalStatus.status}
-              folderId={editFolderModalStatus.folderId}
-              toggleModal={toggleModal}
-              setMsg={props.setMsg}
-            />
-          ) : null}
           {viewFolderModalStatus.status ? (
             <ViewFolderModal
               refetch={documents.refetch}

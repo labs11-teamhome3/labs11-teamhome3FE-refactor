@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useMutation } from '../../graphQL/useMutation';
+import { useQuery } from "react-apollo-hooks";
+import gql from 'graphql-tag';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import { Link } from 'react-router-dom'
@@ -24,6 +26,9 @@ import DashboardView from '../../views/DashboardView';
 // queries //
 import { CREATE_EVENT } from '../../graphQL/Mutations';
 import { EVENTS_QUERY } from "../../graphQL/Queries";
+
+// css //
+import './css/Drawer.css'
 
 const drawerWidth = 400;
 
@@ -84,6 +89,15 @@ const styles = theme => ({
   },
 });
 
+const PIC_QUERY = gql`
+  query PIC_QUERY($id: ID!) {
+    user(id: $id) {
+      id
+      profilePic
+    }
+  }
+`
+
 const PersistentDrawerLeft = props => {
     const userId = localStorage.getItem('userId')
 //   state = {
@@ -96,6 +110,13 @@ const PersistentDrawerLeft = props => {
   useEffect( _ => {
     createEvent();
   }, [msg])
+
+  const picQuery = useQuery(PIC_QUERY, {
+    variables: { id: userId }
+  })
+
+  console.log('pq data', picQuery.data);
+
 
   const [createEvent] = useMutation(CREATE_EVENT, {
     update: (cache, { data }) => {
@@ -156,9 +177,9 @@ const PersistentDrawerLeft = props => {
               <MenuIcon />
             </IconButton>
             <div className="header">
-                <div className="logo">
+                {/* <div className="logo">
                     <img className="logo-img" src={props.logo} alt="Manaje" />
-                </div>
+                </div> */}
                 {!localStorage.getItem('userId') ? (
                     <div className="nav-btns">
                         <Button onClick={props.login}>Log in</Button>
@@ -170,7 +191,18 @@ const PersistentDrawerLeft = props => {
                             <Button>Dashboard</Button>
                         </Link> */}
                         <Link to="/profile">
-                            <Button>Profile</Button>
+                            {picQuery.data.user && picQuery.data.user.profilePic ? 
+                              <img 
+                                className="nav-profile-pic" 
+                                src={picQuery.data.user.profilePic} 
+                                alt="profile" 
+                              /> :
+                              <img 
+                                className="nav-profile-pic" 
+                                src='http://chittagongit.com//images/default-user-icon/default-user-icon-8.jpg'
+                                alt="profile" 
+                              />  
+                            }
                         </Link>
                         <Button onClick={props.logout}>Log out</Button>
                     </div>
@@ -195,21 +227,25 @@ const PersistentDrawerLeft = props => {
           <Divider />
           <DashboardView history={props.history} match={props.match}/>
           <Divider />
-          <ActivityTimeline setMsg={setMsg} teamId={props.match.params.id} />
+          {userId &&
+            <ActivityTimeline setMsg={setMsg} teamId={props.match.params.id} />
+          }
         </Drawer>
-        <main
-          className={classNames(classes.content, {
-            [classes.contentShift]: open,
-          })}
-        >
-          <div className={classes.drawerHeader} />
-          <TabNavigator 
-            match = {props.match} 
-            history = {props.history}
-            setMsg = {setMsg}  
-            >
-          </TabNavigator>
-        </main>
+        {userId &&
+          <main
+            className={classNames(classes.content, {
+              [classes.contentShift]: open,
+            })}
+          >
+            <div className={classes.drawerHeader} />
+            <TabNavigator 
+              match = {props.match} 
+              history = {props.history}
+              setMsg = {setMsg}  
+              >
+            </TabNavigator>
+          </main>
+        }
       </div>
     );
 //   }

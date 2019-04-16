@@ -4,6 +4,7 @@ import Paper from "@material-ui/core/Paper";
 import { withStyles } from "@material-ui/core/styles";
 import Close from "@material-ui/icons/Close";
 import Button from '@material-ui/core/Button';
+import FolderIcon from "@material-ui/icons/Folder";
 import { useMutation } from "../../../../graphQL/useMutation";
 import { useQuery } from "react-apollo-hooks";
 
@@ -16,17 +17,20 @@ import {
 
 const styles = theme => ({
   paper: {
-    "max-width": "800px",
-    margin: "0 auto",
-    "text-align": "left",
-    padding: "20px"
+    position: 'relative',
+    top: '24%',
+    'max-width': '600px',
+    margin: '0 auto',
+    'text-align': 'left',
+    padding: '30px',
   },
-  messageInput: {
-    width: "100%",
-    marginBottom: "10px"
+  viewFolder: {
+    display: 'flex',
+    justifyContent: 'space-between',
+    fontSize: '25px'
   },
-  commentInput: {
-    width: "100%"
+  button: {
+    margin: '5px 0px 5px 7px'
   }
 });
 
@@ -41,33 +45,6 @@ const ViewFolderModal = props => {
 
   const findFolder = useQuery(FOLDER_QUERY, {
     variables: { id: props.folderId }
-  });
-  
-  const [deleteFolder] = useMutation(DELETE_FOLDER, {
-    update: (cache, { data }) => {
-      const { findFoldersByTeam } = cache.readQuery({
-        query: FOLDERS_QUERY,
-        variables: { teamId: props.teamId }
-      });
-      cache.writeQuery({
-        query: FOLDERS_QUERY,
-        variables: { teamId: props.teamId },
-        data: {
-          findFoldersByTeam: findFoldersByTeam.filter(
-            folder => folder.id !== props.folderId
-          )
-        }
-      });
-    },
-    variables: {
-      folderId: props.folderId
-    },
-    onCompleted: e => {
-      props.refetch();
-      props.setMsg('deleted a folder');
-      props.toggleModal("viewFolder");
-    },
-    onError: err => console.log(err)
   });
 
   const [removeDocumentFromFolder] = useMutation(REMOVE_DOC_FOLDER, {
@@ -115,44 +92,42 @@ const ViewFolderModal = props => {
         open={props.modalStatus}
       >
         <Paper className={classes.paper}>
-          <Close onClick={closeModal} />
-          <br />
-          <Button
-            color="primary"
-            className={classes.button}
-            onClick={editMessage}
-          >
-            Edit
-          </Button>
-          <Button
-            color="primary"
-            className={classes.button}
-            onClick={deleteFolder}
-          >
-            Delete
-          </Button>
-          <h2>
-            {folder === undefined
-              ? "Loading"
-              : folder.title}
-          </h2>
-          <br />
+          <div className={classes.viewFolder}>
+            <div>
+              <FolderIcon />
+              <div>
+                {folder === undefined
+                  ? "Loading"
+                  : folder.title}
+              </div>
+            </div>
+            <Close onClick={closeModal} />
+          </div>
           {folder !== undefined &&
           folder.documents !== undefined &&
           folder.documents !== null && 
           folder.documents.length > 0 ? (
             <div>
-              <h3>Documents</h3>
+              <h4>Documents</h4>
               <ul>
                   {folder.documents.map(document => (
                       <li key={document.id}>
-                        {document.title}
+                        Title: {document.title} | Created By: {document.user.name}
+                        <Button 
+                          variant="outlined"
+                          className={classes.button} 
+                          onClick={() => {
+                            props.toggleModal('viewFolder');
+                            props.toggleModal('view', document.id) 
+                        }}>
+                          View
+                        </Button>
                         <Button color="secondary" className={classes.button} onClick={() => setDocumentId(document.id)}>Remove</Button>
                       </li>
                   ))}
               </ul>
             </div> 
-          ) : null}
+          ) : <h4>This folder is empty 🤭</h4>}
         </Paper>
       </Modal>
     </div>

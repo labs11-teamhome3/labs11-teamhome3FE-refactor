@@ -46,7 +46,7 @@ const ActivityTimeline = props => {
         {/* <ActionDropdown /> */}
         <UserDropdown allEvents={allEvents} teamId={props.teamId} setAllEvents={setAllEvents} setFilteredEvents={setFilteredEvents}/>
       </div>
-      <ViewEventModal status={status} toggleModal={toggleModal} />
+      {/* <ViewEventModal status={status} toggleModal={toggleModal} /> */}
       <div className="at-events">
         {!events.loading && filteredEvents &&
           filteredEvents.map(event => <Event event={event} key={event.id} />)}

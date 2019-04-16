@@ -12,6 +12,9 @@ import NavigationView from '../views/NavigationView'
 ////Queries////
 import { TEAMS_QUERY } from "../graphQL/Queries";
 
+/// css ///
+import './css/NewTeam.css'
+
 const CREATE_TEAM = gql`
   mutation createTeam($teamName: String!, $userId: ID!) {
     createTeam(teamName: $teamName, userId: $userId) {
@@ -50,22 +53,35 @@ const NewTeam = props => {
         }
       });
 
+    const createFirstTeam = e => {
+      e.preventDefault();
+      createTeam();
+    }
+
 
     return (
         <div>
             <NavigationView auth={props.auth}/>
-            <h1>Manage is all about helpting you collaborate with your team.  Create your first team below to get started!</h1>
-            <form onSubmit={createTeam}>
-                <input 
-                    type="text" 
-                    placeholder='My First Team' 
-                    value={teamInput} 
-                    onChange={handleChange}
-                />
-                <Fab onClick={createTeam} color="primary" aria-label="Add">
-                    <AddIcon />
-                </Fab>
-            </form>
+            <div className="new-team">
+              <div className="nt-content">
+                <img className="nt-image" src='https://www.netcenter.net/sites/default/files/collaboration_inforgraphic.png' alt="collaboration" />
+                <h2>Manaje is all about helping you collaborate with your teams.  Create your first team below and begin manaje-ing.</h2>
+              </div>
+                <div className="nt-form">
+                <form onSubmit={createFirstTeam}>
+                    <input 
+                      required
+                      type="text" 
+                      placeholder='My First Team...' 
+                      value={teamInput} 
+                      onChange={handleChange}
+                    />
+                    <Fab type="submit" size="large" color="primary" aria-label="Add">
+                        <AddIcon />
+                    </Fab>
+                </form>
+                </div>
+            </div>
         </div>
     )
 }

@@ -6,6 +6,8 @@ import Close from "@material-ui/icons/Close";
 import Button from "@material-ui/core/Button";
 import List from "@material-ui/core/List";
 import Divider from "@material-ui/core/Divider";
+import TextField from '@material-ui/core/TextField';
+import File from '@material-ui/icons/InsertDriveFileOutlined';
 import { useMutation } from "../../../../graphQL/useMutation";
 import { useQuery } from "react-apollo-hooks";
 
@@ -20,14 +22,23 @@ import {
 
 const styles = theme => ({
   paper: {
-    "max-width": "800px",
-    margin: "0 auto",
-    "text-align": "left",
-    padding: "20px"
+    position: 'relative',
+    top: '24%',
+    'max-width': '600px',
+    margin: '0 auto',
+    'text-align': 'left',
+    padding: '30px',
   },
-  messageInput: {
-    width: "100%",
-    marginBottom: "10px"
+  textField: {
+    width: '70%'
+  },
+  viewDocument: {
+    display: 'flex',
+    justifyContent: 'space-between',
+    fontSize: '25px'
+  },
+  button: {
+    margin: '10px 0 0',
   },
   commentInput: {
     width: "100%"
@@ -40,32 +51,6 @@ const ViewDocumentModal = props => {
 
   const findDocument = useQuery(DOCUMENT_QUERY, {
     variables: { id: props.documentId }
-  });
-  
-  const [deleteDocument] = useMutation(DELETE_DOCUMENT, {
-    update: (cache, { data }) => {
-      const { findDocumentsByTeam } = cache.readQuery({
-        query: DOCUMENTS_QUERY,
-        variables: { teamId: props.teamId }
-      });
-      cache.writeQuery({
-        query: DOCUMENTS_QUERY,
-        variables: { teamId: props.teamId },
-        data: {
-          findDocumentsByTeam: findDocumentsByTeam.filter(
-            document => document.id !== props.documentId
-          )
-        }
-      });
-    },
-    variables: {
-      documentId: props.documentId
-    },
-    onCompleted: e => {
-      props.setMsg('deleted a document')
-      props.toggleModal("view");
-    },
-    onError: err => console.log(err)
   });
 
   const [addDocumentComment] = useMutation(ADD_COMMENT, {
@@ -102,11 +87,6 @@ const ViewDocumentModal = props => {
     props.toggleModal("view");
   };
 
-  const editMessage = _ => {
-    props.toggleModal("edit", props.documentId);
-    closeModal();
-  };
-
   const addComment = e => {
     e.preventDefault();
     if(commentInput) {
@@ -124,38 +104,32 @@ const ViewDocumentModal = props => {
         open={props.modalStatus}
       >
         <Paper className={classes.paper}>
-          <Close onClick={closeModal} />
-          <br />
-          <Button
-            color="primary"
-            className={classes.button}
-            onClick={editMessage}
-          >
-            Edit
-          </Button>
-          <Button
-            color="primary"
-            className={classes.button}
-            onClick={deleteDocument}
-          >
-            Delete
-          </Button>
-          <h2>
-            {document === undefined
-              ? "Loading"
-              : document.title}
-          </h2>
-          <br />
-          <h4>
+          <div className={classes.viewDocument}>
+            <div>
+              <File />
+              <div>
+                {document === undefined
+                  ? "Loading"
+                  : document.title}
+              </div>
+            </div>
+            <Close onClick={closeModal} />
+          </div>
+          <div style={{margin: '10px 0'}}>
             {document === undefined
               ? "Loading"
               : document.textContent}
-          </h4>
-          <br />
+          </div>
+          <div>
+            {document === undefined
+              ? null
+              : <a href={document.doc_url.slice(0, 4)==='http' ? document.doc_url : `https://${document.doc_url}`} target="_blank">{document.doc_url}</a>
+            }
+          </div>
           {document !== undefined &&
-          document.comments.length !== undefined ? (
+          document.comments.length > 0 ? (
             <div>
-              <h3>Comments</h3>
+              <h4>Comments</h4>
               <List>
                 {document.comments.map((comment, index) => (
                   <Fragment key={comment.id}>
@@ -174,11 +148,11 @@ const ViewDocumentModal = props => {
             </div> 
           ) : null}
           <form onSubmit={addComment}>
-            <input
-              type="text"
+            <TextField
+              label="Add a comment to this document"
               value={commentInput}
               onChange={e => setCommentInput(e.target.value)}
-              className={classes.commentInput}
+              className={classes.textField}
             />
           </form>
         </Paper>
