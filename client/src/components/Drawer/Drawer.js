@@ -70,6 +70,7 @@ const styles = theme => ({
     padding: '0 8px',
     ...theme.mixins.toolbar,
     justifyContent: 'flex-end',
+    height: '75px'
   },
   content: {
     flexGrow: 1,

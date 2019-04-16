@@ -22,7 +22,8 @@ const Event = props => {
         <div className="event-info">
           <span className={`event-activity`}>
             <span className="event-user">{`${props.event.user.name} `}</span>
-            <span className={`${props.event.action_string.split(' ')[0]}`}>{props.event.action_string}</span>
+            {/* <span className={`${props.event.action_string.split(' ')[0]}`}>{props.event.action_string}</span> */}
+            <span className='event-action'>{props.event.action_string}</span>
           </span>
           <span className="event-createdAt">
             {moment(props.event.createdAt).fromNow()}
