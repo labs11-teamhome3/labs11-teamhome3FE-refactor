@@ -113,22 +113,6 @@ const MessageComment = props => {
   });
 
   const [likeMessageComment] = useMutation(LIKE_MESSAGE_COMMENT, {
-    update: (cache, { data }) => {
-      const { messages } = cache.readQuery({
-        query: MESSAGES_QUERY,
-        variables: { id: props.message.id }
-      });
-      console.log('messssages', messages)
-      // cache.writeQuery({
-      //   query: MESSAGES_QUERY,
-      //   variables: { id: props.message.id },
-      //   data: {
-      //     messages: {
-            
-      //     }
-      //   }
-      // });
-    },
     variables: {
       commentId: props.comment.id,
       userId: userId

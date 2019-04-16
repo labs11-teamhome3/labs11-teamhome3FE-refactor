@@ -112,7 +112,7 @@ const TeamSettingsTab = props => {
   let userRole = "";
   let currentUser;
   if (userQuery.data.user) {
-    console.log('user', userQuery.data.user)
+    //console.log('user', userQuery.data.user)
     currentUser = userQuery.data.user;
     userRole = userQuery.data.user.role;
   }
