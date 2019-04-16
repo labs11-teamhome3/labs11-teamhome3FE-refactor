@@ -15,7 +15,7 @@ import MessageComment from "./MessageComment";
 import MoreMenu from "./MoreMenu";
 
 import { useMutation } from "../../../../graphQL/useMutation";
-import { LIKE_MESSAGE, UNLIKE_MESSAGE, ADD_MESSAGE_COMMENT } from "../../../../graphQL/Mutations";
+import { LIKE_MESSAGE, UNLIKE_MESSAGE, ADD_MESSAGE_COMMENT, UPDATE_MESSAGE } from "../../../../graphQL/Mutations";
 import { MESSAGE_QUERY } from "../../../../graphQL/Queries";
 import { Icon } from "../../../../../node_modules/@material-ui/core";
 
@@ -161,6 +161,19 @@ const Message = props => {
     onError: err => console.log(err)
   });
 
+  const [updateMessage] = useMutation(UPDATE_MESSAGE, {
+    variables: {
+      messageId: props.message.id,
+      title: messageHandler,
+      content: messageHandler
+    },
+    onCompleted: e => {
+      props.setMsg('updated a message')
+      setMessageEditStatus(false)
+    },
+    onError: err => console.log(err)
+  });
+
   const [addMessageComment] = useMutation(ADD_MESSAGE_COMMENT, {
     update: (cache, { data }) => {
       const { message } = cache.readQuery({
@@ -240,7 +253,7 @@ const Message = props => {
               onChange={handleChangeMessage}
               onKeyPress = { e => {
                   if(e.key === 'Enter') {
-                    //updateFolderTitle()
+                    updateMessage()
                   }
                 }
               }

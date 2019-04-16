@@ -511,3 +511,48 @@ export const DELETE_MESSAGE = gql`
     }
   }
 `
+
+export const UPDATE_MESSAGE = gql`
+  mutation UPDATE_MESSAGE(
+    $title: String!
+    $messageId: ID!
+    $content: String!
+  ) {
+    updateMessage(
+      title: $title
+      messageId: $messageId
+      content: $content
+    ) {
+      id
+      createdAt
+      content
+      likes {
+        id
+      }
+      creator {
+        id
+        name
+        profilePic
+      }
+      images 
+      tag {
+        id
+        name
+      }
+      comments {
+        id
+        likes {
+          id
+        }
+        content
+        createdAt
+        user {
+          id
+          name
+          profilePic
+        }
+        image
+      }
+    }
+  }
+`;
