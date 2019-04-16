@@ -3,8 +3,8 @@ import { useQuery } from 'react-apollo-hooks';
 
 ////Components////
 import ObjectDropdown from './ObjectDropdown';
-// import ActionDropdown from './ActionDropdown';
 import UserDropdown from './UserDropdown';
+import Loader from 'react-loader-spinner'
 import ViewEventModal from './ViewEventModal';
 import { EVENTS_QUERY } from '../../../../graphQL/Queries';
 import Event from './Event';
@@ -48,6 +48,18 @@ const ActivityTimeline = props => {
       </div>
       {/* <ViewEventModal status={status} toggleModal={toggleModal} /> */}
       <div className="at-events">
+        {events.loading &&
+          <Loader
+            type="ThreeDots"
+            height="25px"
+            width="25px"
+            color="#0984e3"
+          
+          />
+        }
+        {events.error &&
+          <div>Error fetching events</div>
+        }
         {!events.loading && filteredEvents &&
           filteredEvents.map(event => <Event event={event} key={event.id} />)}
       </div>
