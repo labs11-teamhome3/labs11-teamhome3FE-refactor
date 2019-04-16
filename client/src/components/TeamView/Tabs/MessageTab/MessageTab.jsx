@@ -164,6 +164,7 @@ const MessageTab = props => {
           messages.data.messages.sort(compare).map(message => (
             <Message
               setMsg={props.setMsg}
+              teamId={props.teamId}
               user={user}
               message={message}
               key={message.id}

@@ -9,12 +9,15 @@ import KeyboardArrowDown from "@material-ui/icons/KeyboardArrowDown";
 import KeyboardArrowUp from "@material-ui/icons/KeyboardArrowUp";
 import TextField from "@material-ui/core/TextField";
 import MoreVertIcon from '@material-ui/icons/MoreVert';
+import IconButton from '@material-ui/core/IconButton';
 
 import MessageComment from "./MessageComment";
+import MoreMenu from "./MoreMenu";
 
 import { useMutation } from "../../../../graphQL/useMutation";
 import { LIKE_MESSAGE, UNLIKE_MESSAGE, ADD_MESSAGE_COMMENT } from "../../../../graphQL/Mutations";
 import { MESSAGE_QUERY } from "../../../../graphQL/Queries";
+import { Icon } from "../../../../../node_modules/@material-ui/core";
 
 const styles = theme => ({
   root: {
@@ -79,7 +82,7 @@ const styles = theme => ({
   },
   textField: {
     width: '80%'
-  }
+  },
 });
 
 const Message = props => {
@@ -195,7 +198,7 @@ const Message = props => {
     <div 
       className={classes.root}
       onMouseOver={() => setMenuStatus(true)}
-      onMouseOut={() => setMenuStatus(false)}
+      onMouseLeave={()=> setMenuStatus(false)}
     >
       {user.profilePic ? 
         <img className={classes.userPic} src={user.profilePic} alt="profile picture"/> 
@@ -203,9 +206,17 @@ const Message = props => {
         <AccountCircle className={classes.userPic}/>} 
         <div className={classes.content}>
           <div className={classes.contentTitle}>
-            <div className={classes.name}>{user.name}</div>
-            <div className={classes.time}>{moment(props.message.createdAt).startOf('minute').fromNow()}</div>
-            <MoreVertIcon />
+              <div className={classes.name}>{user.name}</div>
+              <div className={classes.time}>{moment(props.message.createdAt).startOf('minute').fromNow()}</div>
+              {menuStatus ? (
+                <MoreMenu
+                  teamId={props.teamId}
+                  message={props.message}
+                  setMsg={props.setMsg} 
+                />
+                // <IconButton className={classes.menu}><MoreVertIcon /></IconButton>
+              )
+              : null}
           </div>
           <div>{props.message.content}</div>
           <div className={classes.messageReaction}>

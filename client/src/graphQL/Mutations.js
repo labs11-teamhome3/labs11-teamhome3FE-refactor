@@ -501,3 +501,13 @@ export const ADD_MESSAGE_COMMENT = gql`
     }
   }
 `;
+
+export const DELETE_MESSAGE = gql`
+  mutation DELETE_MESSAGE(
+    $id: ID!
+  ) {
+    deleteMessage(id: $id) {
+      id
+    }
+  }
+`
