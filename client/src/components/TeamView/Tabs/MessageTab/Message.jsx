@@ -75,7 +75,8 @@ const styles = theme => ({
     width: '300px'
   },
   textField: {
-    width: '80%'
+    width: '80%',
+    fontSize: '14px'
   },
 });
 

@@ -13,15 +13,8 @@ import { MESSAGES_QUERY, USER_QUERY, TEAM_QUERY } from "../../../../graphQL/Quer
 import { CREATE_MESSAGE } from "../../../../graphQL/Mutations";
 
 const styles = theme => ({
-  paper: {
-    position: 'relative',
-    top: '24%',
-    'max-width': '600px',
-    margin: '0 auto',
-    'text-align': 'left',
-    padding: '30px',
-  },
   textField: {
+    marginTop: '10px',
     width: '60%'
   },
   button: {
