@@ -26,10 +26,12 @@
 .teams-list {
     height: 40vh;
     overflow-y: scroll;
+    background: #636e72;
 }
 
 .teams-list h1 {
     text-align: center;
+    color: white;
 }
 
 .teams-list h1 {
@@ -104,7 +106,8 @@
 
 .team-card {
     margin-bottom: 0;
-    border: 1px solid lightgray;
+    border-top: 1px solid lightgray;
+    border-bottom: 1px solid lightgray;
     padding: 10px 10px;
     background: #636e72;
 }

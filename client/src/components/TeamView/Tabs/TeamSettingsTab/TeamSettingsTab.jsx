@@ -8,6 +8,8 @@ import gql from "graphql-tag";
 ///Components///
 import TeamInfo from "./TeamInfo";
 import StripePaymentPopup from "../../../Stripe/StripePaymentPopup";
+import Loader from 'react-loader-spinner';
+import AddNewMember from './AddNewMember';
 
 ////Queries////
 import { TEAMS_QUERY, USERS_QUERY } from "../../../../graphQL/Queries";
@@ -169,9 +171,9 @@ const TeamSettingsTab = props => {
         },
         onCompleted: (e) => {
             props.setMsg(`added ${newMember} to the team`);
-            setSearchInput("");
-            setNewMember("");
-            setNewMemberId("");
+            // setSearchInput("");
+            // setNewMember("");
+            // setNewMemberId("");
         },
         onError: err => {
             // console.log(err.message);
@@ -191,20 +193,19 @@ const TeamSettingsTab = props => {
 }
 
 if(loading) {
-    return <div>Loading...</div>;
+    return <div>
+      <Loader
+        type="ThreeDots"
+        height="25px"
+        width="25px"
+        color="#0984e3"
+      />
+    </div>;
 }
 
 if (error) {
     return <div>Error! {error.message}</div>
 }
-
-  if (loading) {
-    return <div>Loading...</div>;
-  }
-
-  if (error) {
-    return <div>Error! {error.message}</div>;
-  }
 
   return (
     <div>
@@ -220,7 +221,20 @@ if (error) {
                   value={searchInput}
                   onChange={handleSearchChange}
                 />
-                <select value={newMember} onChange={handleSelectChange}>
+                {allUsersQuery.data.users && searchInput &&
+                  allUsersQuery.data.users.map(user => {
+                    if (user.name.toLowerCase().includes(searchInput.toLowerCase())) {
+                      return <AddNewMember 
+                                user={user} 
+                                newMemberId={newMemberId}
+                                setNewMemberId={setNewMemberId} 
+                                setNewMember={setNewMember}
+                                addUserToTeam={addUserToTeam} 
+                              />
+                    }
+                  })
+                }
+                {/* <select value={newMember} onChange={handleSelectChange}>
                   {optionsItems.filter(item =>
                     item.props.children
                       .toLowerCase()
@@ -231,7 +245,7 @@ if (error) {
                   <button
                     onClick={addUserToTeam}
                   >{`Add ${newMember} to the Team!`}</button>
-                )}
+                )} */}
                 {errorMsg && (
                   <div className="error-flash">
                     <h3>{errorMsg.split(":")[1]}</h3>
