@@ -33,7 +33,7 @@ const styles = theme => ({
     height: '55px',
     width: '55px',
     borderRadius: '50px',
-    margin: '4px 12px 0 0'
+    margin: '10px'
   }
 });
 
@@ -108,32 +108,6 @@ const MessageTab = props => {
     }
     return comparison * -1;
   }
-
-  // const toggleModal = (modal, messageId = null) => {
-  //   switch (modal) {
-  //     case "view":
-  //       setViewModalStatus({
-  //         status: !viewModalStatus.status,
-  //         messageId
-  //       });
-  //       break;
-
-  //     case "create":
-  //       setCreateModalStatus(!createModalStatus);
-  //       break;
-
-  //     case "edit":
-  //       // console.log(messageId);
-  //       setEditModalStatus({
-  //         status: !editModalStatus.status,
-  //         messageId
-  //       });
-  //       break;
-      
-  //     default:
-  //       break;
-  //   }
-  // };
   
   const { classes } = props;
   return (

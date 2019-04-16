@@ -12,31 +12,24 @@ import KeyboardArrowDown from "@material-ui/icons/KeyboardArrowDown";
 import KeyboardArrowUp from "@material-ui/icons/KeyboardArrowUp";
 import TextField from "@material-ui/core/TextField";
 
-import {MESSAGE_QUERY} from '../../../../graphQL/Queries';
+import {MESSAGES_QUERY} from '../../../../graphQL/Queries';
+import {LIKE_MESSAGE_COMMENT, UNLIKE_MESSAGE_COMMENT} from '../../../../graphQL/Mutations';
 
 const styles = theme => ({
   root: {
-    '&:hover': {
-      backgroundColor: '#dfe6e9'
-    },
     display: 'flex',
-    marginTop: "35px",
-  },
-  userPic: {
-    height: '60px',
-    width: '60px',
-    borderRadius: '50%',
-    margin: '10px 10px 10px 3px'
+    marginTop: "10px",
   },
   userPicSmall: {
-    height: '35px',
-    width: '35px',
+    height: '40px',
+    width: '40px',
     borderRadius: '50%',
-    margin: '10px 10px 10px 3px'
+    margin: '10px 10px 10px 0'
   },
   content: {
     marginTop: '7px',
-    fontSize: '21px' 
+    fontSize: '21px',
+    borderBottom: '1px solid #919191' 
   },
   contentTitle: {
     fontSize: '17px',
@@ -53,7 +46,7 @@ const styles = theme => ({
   messageReaction: {
     display: 'flex',
     alignItems: 'center',
-    margin: '6px 0',
+    margin: '10px 0',
     color: 'grey',
     fontSize: '13px'
   },
@@ -88,62 +81,27 @@ const DELETE_COMMENT = gql`
   }
 `
 
-const LIKE_COMMENT = gql`
-  mutation LIKE_COMMENT($commentId: ID!, $userId: ID!){
-    likeMessageComment(commentId: $commentId, userId: $userId) {
-      id
-        content
-        user {
-          id
-          name
-        }
-        image
-        likes {
-          id
-          name
-        }
-    }
-  }
-`
-const UNLIKE_COMMENT = gql`
-  mutation LIKE_COMMENT($commentId: ID!, $userId: ID!){
-    unlikeMessageComment(commentId: $commentId, userId: $userId) {
-      id
-        content
-        user {
-          id
-          name
-        }
-        image
-        likes {
-          id
-          name
-        }
-    }
-  }
-`
-
 const MessageComment = props => {
   const userId = localStorage.getItem('userId');
-  //console.log(props.comment.id);
+
   const [deleteComment] = useMutation(DELETE_COMMENT, {
     update: (cache, { data }) => {
-      const { message } = cache.readQuery({
-        query: MESSAGE_QUERY,
-        variables: { id: props.messageId }
+      const { messages } = cache.readQuery({
+        query: MESSAGES_QUERY,
+        variables: { id: props.message.id }
       });
-      cache.writeQuery({
-        query: MESSAGE_QUERY,
-        variables: { id: props.messageId },
-        data: {
-          message: {
-            ...message,
-            comments: message.comments.filter(
-              comment => comment.id !== props.comment.id
-            )
-          }
-        }
-      });
+      // cache.writeQuery({
+      //   query: MESSAGE_QUERY,
+      //   variables: { id: props.message.id },
+      //   data: {
+      //     message: {
+      //       ...message,
+      //       comments: message.comments.filter(
+      //         comment => comment.id !== props.comment.id
+      //       )
+      //     }
+      //   }
+      // });
     },
     variables: {
       commentId: props.comment.id
@@ -154,77 +112,52 @@ const MessageComment = props => {
     onError: err => console.log(err)
   });
 
-  const [likeComment] = useMutation(LIKE_COMMENT, {
+  const [likeMessageComment] = useMutation(LIKE_MESSAGE_COMMENT, {
     update: (cache, { data }) => {
-      const { message } = cache.readQuery({
-        query: MESSAGE_QUERY,
-        variables: { id: props.messageId }
+      const { messages } = cache.readQuery({
+        query: MESSAGES_QUERY,
+        variables: { id: props.message.id }
       });
-      cache.writeQuery({
-        query: MESSAGE_QUERY,
-        variables: { id: props.messageId },
-        data: {
-          message: {
-            ...message,
-            comments: message.comments.map(comment => {
-              if(comment.id === data.likeMessageComment.id) {
-                return data.likeMessageComment
-              } else {
-                return comment
-              }
-            })
-          }
-        }
-      });
+      console.log('messssages', messages)
+      // cache.writeQuery({
+      //   query: MESSAGES_QUERY,
+      //   variables: { id: props.message.id },
+      //   data: {
+      //     messages: {
+            
+      //     }
+      //   }
+      // });
     },
     variables: {
       commentId: props.comment.id,
       userId: userId
     },
     onCompleted: e => {
+      props.setMsg("liked a comment");
     },
     onError: err => console.log(err)
   });
 
-  const [unlikeComment] = useMutation(UNLIKE_COMMENT, {
-    update: (cache, { data }) => {
-      const { message } = cache.readQuery({
-        query: MESSAGE_QUERY,
-        variables: { id: props.messageId }
-      });
-      cache.writeQuery({
-        query: MESSAGE_QUERY,
-        variables: { id: props.messageId },
-        data: {
-          message: {
-            ...message,
-            comments: message.comments.map(comment => {
-              if(comment.id !== data.unlikeMessageComment.id) {
-                return data.likeMessageComment
-              } else {
-                return comment
-              }
-            })
-          }
-        }
-      });
-    },
+  const [unlikeMessageComment] = useMutation(UNLIKE_MESSAGE_COMMENT, {
     variables: {
       commentId: props.comment.id,
       userId: userId
     },
     onCompleted: e => {
+      props.setMsg("unliked a comment");
     },
     onError: err => console.log(err)
   });
 
   const { classes } = props; 
   return (
-    props.comment.user.profilePic ? (
-      <img className={classes.userPic} src={props.comment.user.profilePic} alt="profile picture"/> 
+    <div className={classes.root}>
+      {props.comment.user.profilePic ? (
+      <img className={classes.userPicSmall} src={props.comment.user.profilePic} alt="profile picture"/> 
       ):( 
-      <AccountCircle className={classes.userPic}/>
-      ),
+      <AccountCircle className={classes.userPicSmall}/>
+      )}
       <div key={props.comment.user.createdAt} className={classes.content}>
         <div className={classes.contentTitle}>
           <div className={classes.name}>{props.comment.user.name}</div>
@@ -232,11 +165,12 @@ const MessageComment = props => {
         </div>
         <div>{props.comment.content}</div>
         <div className={classes.messageReaction}>
-          <ThumbUp className={classes.thumbs}  /> 
+          <ThumbUp className={classes.thumbs} onClick={likeMessageComment} /> 
           <div className={classes.likes}>{props.comment.likes ? props.comment.likes.length : 0}</div>
-          <ThumbDown className={classes.thumbs} /> 
+          <ThumbDown className={classes.thumbs} onClick={unlikeMessageComment} /> 
         </div>
       </div>
+    </div>
   )
 }
 

@@ -22,15 +22,12 @@ import { useQuery } from "../../../../../node_modules/react-apollo-hooks";
 
 const styles = theme => ({
   root: {
-    '&:hover': {
-      backgroundColor: '#FFFFFF',
-    },
     display: 'flex',
     marginTop: "35px",
   },
   userPic: {
-    height: '60px',
-    width: '60px',
+    height: '55px',
+    width: '55px',
     borderRadius: '50%',
     margin: '10px'
   },
@@ -79,7 +76,7 @@ const styles = theme => ({
     fontSize: '18px'
   },
   replyToMessage: {
-    width: '600px'
+    width: '300px'
   },
   textField: {
     width: '80%'
@@ -87,7 +84,6 @@ const styles = theme => ({
 });
 
 const Message = props => {
-  console.log('proooops', props)
 
   const userId = localStorage.getItem('userId');
   const [messageEditStatus, setMessageEditStatus] = useState(false);
@@ -98,29 +94,6 @@ const Message = props => {
   const [menuStatus, setMenuStatus] = useState(false);
 
   const [likeMessage] = useMutation(LIKE_MESSAGE, {
-    update: (cache, { data }) => {
-      //console.log('#### messageId', props)
-      const { message } = cache.readQuery({
-        query: MESSAGE_QUERY,
-        variables: { id: props.message.id }
-      });
-      cache.writeQuery({
-        query: MESSAGE_QUERY,
-        variables: { id: props.message.id },
-        data: {
-          message: {
-            ...message,
-            likes: message.likes.map(like => {
-              if(like.id === data.likeMessage.id) {
-                return data.likeMessage
-              } else {
-                return like
-              }
-            })
-          }
-        }
-      });
-    },
     variables: {
       userId: userId,
       messageId: props.message.id
@@ -132,28 +105,6 @@ const Message = props => {
   });
 
   const [unlikeMessage] = useMutation(UNLIKE_MESSAGE, {
-    update: (cache, { data }) => {
-      const { message } = cache.readQuery({
-        query: MESSAGE_QUERY,
-        variables: { id: props.message.id }
-      });
-      cache.writeQuery({
-        query: MESSAGE_QUERY,
-        variables: { id: props.message.id },
-        data: {
-          message: {
-            ...message,
-            likes: message.likes.map(like => {
-              if(like.id !== data.unlikeMessage.id) {
-                return data.unlikeMessage
-              } else {
-                return like
-              }
-            })
-          }
-        }
-      });
-    },
     variables: {
       messageId: props.message.id,
       userId: userId
@@ -202,6 +153,7 @@ const Message = props => {
     },
     onCompleted: e => {
       props.setMsg("replied to a message");
+      setReply('');
     },
     onError: err => console.log(err)
   });
@@ -222,7 +174,6 @@ const Message = props => {
 
   const { classes } = props;
   const user = props.message.creator;
-  console.log('### props', props) 
   return (
     <div 
       className={classes.root}
@@ -269,7 +220,7 @@ const Message = props => {
             <ThumbUp className={classes.thumbs} onClick={likeMessage} /> 
             <div className={classes.likes}>{props.message && props.message.likes ? props.message.likes.length : 0}</div>
             <ThumbDown className={classes.thumbs} onClick={unlikeMessage}/> 
-            <Button onClick={()=> {setReplyStatus(true)}}>REPLY</Button>
+            <Button onClick={()=> {setReplyStatus(!replyStatus)}}>REPLY</Button>
           </div>
           {/* reply dropdown */}
           {replyStatus ? (
@@ -303,7 +254,8 @@ const Message = props => {
               <MessageComment
                 key={comment.createdAt}
                 comment={comment}
-
+                message={props.message}
+                setMsg={props.setMsg}
               />
             )))
             : null}

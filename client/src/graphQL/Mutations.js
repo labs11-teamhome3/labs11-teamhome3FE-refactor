@@ -552,3 +552,41 @@ export const UPDATE_MESSAGE = gql`
     }
   }
 `;
+
+export const LIKE_MESSAGE_COMMENT = gql`
+  mutation LIKE_MESSAGE_COMMENT($commentId: ID!, $userId: ID!){
+    likeMessageComment(commentId: $commentId, userId: $userId) {
+      id
+      likes {
+        id
+      }
+      content
+      createdAt
+      user {
+        id
+        name
+        profilePic
+      }
+      image
+    }
+  }
+`;
+
+export const UNLIKE_MESSAGE_COMMENT = gql`
+  mutation UNLIKE_MESSAGE_COMMENT($commentId: ID!, $userId: ID!){
+    unlikeMessageComment(commentId: $commentId, userId: $userId) {
+      id
+      likes {
+        id
+      }
+      content
+      createdAt
+      user {
+        id
+        name
+        profilePic
+      }
+      image
+    }
+  }
+`;
