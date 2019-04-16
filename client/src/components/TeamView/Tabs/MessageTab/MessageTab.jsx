@@ -8,9 +8,6 @@ import AccountCircle from "@material-ui/icons/AccountCircle";
 
 /////Components/////
 import Message from "./Message";
-import CreateMessageModal from "./CreateMessageModal";
-import ViewMessageModal from "./ViewMessageModal";
-import EditMessageModal from "./EditMessageModal";
 
 /////GraphQL/////
 import { useMutation } from "../../../../graphQL/useMutation";
@@ -56,7 +53,7 @@ const MessageTab = props => {
     variables: { teamId: props.teamId }
   });
 
-  console.log('mt messages data', messages.data);
+  //console.log('mt messages data', messages.data);
 
   const [messageContent, setMessageContent] = useState('');
   const [createModalStatus, setCreateModalStatus] = useState(false);
@@ -139,7 +136,6 @@ const MessageTab = props => {
   // };
   
   const { classes } = props;
-  //console.log('### messages', messages) 
   return (
     <div style={{textAlign: 'left'}}>
       <div>
@@ -169,6 +165,7 @@ const MessageTab = props => {
         {messages.data && messages.data.messages && (
           messages.data.messages.sort(compare).map(message => (
             <Message
+              compare={compare}
               setMsg={props.setMsg}
               teamId={props.teamId}
               user={user}

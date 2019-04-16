@@ -167,10 +167,6 @@ export const MESSAGE_QUERY = gql`
           name
           profilePic
         }
-        message {
-          id
-        }
-        image
         likes {
           id
         }

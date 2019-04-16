@@ -491,10 +491,6 @@ export const ADD_MESSAGE_COMMENT = gql`
         name
         profilePic
       }
-      message {
-        id
-      }
-      image
       likes {
         id
       }

@@ -16,8 +16,9 @@ import MoreMenu from "./MoreMenu";
 
 import { useMutation } from "../../../../graphQL/useMutation";
 import { LIKE_MESSAGE, UNLIKE_MESSAGE, ADD_MESSAGE_COMMENT, UPDATE_MESSAGE } from "../../../../graphQL/Mutations";
-import { MESSAGE_QUERY } from "../../../../graphQL/Queries";
+import { MESSAGE_QUERY, MESSAGES_QUERY } from "../../../../graphQL/Queries";
 import { Icon } from "../../../../../node_modules/@material-ui/core";
+import { useQuery } from "../../../../../node_modules/react-apollo-hooks";
 
 const styles = theme => ({
   root: {
@@ -86,6 +87,8 @@ const styles = theme => ({
 });
 
 const Message = props => {
+  console.log('proooops', props)
+
   const userId = localStorage.getItem('userId');
   const [messageEditStatus, setMessageEditStatus] = useState(false);
   const [messageHandler, setMessageHandler] = useState(''); 
@@ -96,7 +99,7 @@ const Message = props => {
 
   const [likeMessage] = useMutation(LIKE_MESSAGE, {
     update: (cache, { data }) => {
-      console.log('#### messageId', props)
+      //console.log('#### messageId', props)
       const { message } = cache.readQuery({
         query: MESSAGE_QUERY,
         variables: { id: props.message.id }
@@ -132,11 +135,11 @@ const Message = props => {
     update: (cache, { data }) => {
       const { message } = cache.readQuery({
         query: MESSAGE_QUERY,
-        variables: { id: props.messageId }
+        variables: { id: props.message.id }
       });
       cache.writeQuery({
         query: MESSAGE_QUERY,
-        variables: { id: props.messageId },
+        variables: { id: props.message.id },
         data: {
           message: {
             ...message,
@@ -176,18 +179,18 @@ const Message = props => {
 
   const [addMessageComment] = useMutation(ADD_MESSAGE_COMMENT, {
     update: (cache, { data }) => {
-      const { message } = cache.readQuery({
-        query: MESSAGE_QUERY,
-        variables: { id: props.messageId }
+      const {messages} = cache.readQuery({
+        query: MESSAGES_QUERY,
+        variables: { teamId: props.teamId }
       });
+      let message = messages.find(message => message.id === props.message.id)
+      let newMessages = messages.filter(message => message.id !== props.message.id)
+      message.comments.push(data.addMessageComment);
       cache.writeQuery({
-        query: MESSAGE_QUERY,
-        variables: { id: props.messageId },
+        query: MESSAGES_QUERY,
+        variables: { teamId: props.teamId },
         data: {
-          message: {
-            ...message,
-            comments: [...message.comments, data.addMessageComment]
-          }
+          ...newMessages, message
         }
       })
     },
@@ -219,6 +222,7 @@ const Message = props => {
 
   const { classes } = props;
   const user = props.message.creator;
+  console.log('### props', props) 
   return (
     <div 
       className={classes.root}
@@ -295,7 +299,7 @@ const Message = props => {
           </div>
           {/* view replies dropdown */}
           {viewReplies ? ( 
-            props.message.comments.map(comment => (
+            props.message.comments.sort(props.compare).map(comment => (
               <MessageComment
                 key={comment.createdAt}
                 comment={comment}
