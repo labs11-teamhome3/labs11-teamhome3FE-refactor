@@ -6,6 +6,7 @@ import React, { useState } from "react";
 // import { useMutation } from "../../../../graphQL/useMutation";
 import Button from "@material-ui/core/Button";
 import { withStyles } from "@material-ui/core/styles";
+import Drawer from "@material-ui/core/Drawer";
 
 /////Components/////
 import CreateTodolistModal from "./CreateTodoListModal";
@@ -30,6 +31,9 @@ const styles = theme => ({
   title: {
     margin: "0px",
     lineHeight: "35px"
+  },
+  tabCont: {
+    position: "relative"
   }
 });
 
@@ -60,7 +64,7 @@ const TodosTab = props => {
   };
 
   return (
-    <div>
+    <div className={classes.tabCont}>
       <div className={classes.tabHeaderCont}>
         <h1 className={classes.title}>Todo Lists</h1>
         <Button

@@ -77,6 +77,7 @@ const TodoLists = props => {
   const normalise = (value, MIN, MAX) => ((value - MIN) * 100) / (MAX - MIN);
 
   return (
+    <>
     <div className={classes.flexcont}>
       {!todoLists.data.todoLists ? (
         <h3>Loading</h3>
@@ -93,7 +94,7 @@ const TodoLists = props => {
         ))
       )}
       {todoList && (
-        <Drawer anchor="bottom" open={drawerStatus} onClose={closeDrawer}>
+        <Drawer variant='persistent' anchor="top" open={drawerStatus} onClose={closeDrawer}>
           {todoList !== undefined && todoList !== null && (
             <>
               <LinearProgress
@@ -129,6 +130,7 @@ const TodoLists = props => {
         </Drawer>
       )}
     </div>
+    </>
   );
 };
 

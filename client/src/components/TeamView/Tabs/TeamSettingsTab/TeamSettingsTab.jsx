@@ -112,7 +112,7 @@ const TeamSettingsTab = props => {
   let userRole = "";
   let currentUser;
   if (userQuery.data.user) {
-    console.log('user', userQuery.data.user)
+    console.log("user", userQuery.data.user);
     currentUser = userQuery.data.user;
     userRole = userQuery.data.user.role;
   }
@@ -131,9 +131,9 @@ const TeamSettingsTab = props => {
     },
     variables: { id: props.teamId },
     onCompleted: e => {
-      console.log('currentUser', currentUser)
+      console.log("currentUser", currentUser);
       if (currentUser.inTeam.length > 1) {
-        props.history.push(`/teams/${currentUser.inTeam[0].id}/home`)
+        props.history.push(`/teams/${currentUser.inTeam[0].id}/home`);
       } else {
         props.history.push(`/teams/first-team`);
       }
@@ -142,61 +142,62 @@ const TeamSettingsTab = props => {
     },
     onError: err => console.log(err)
   });
-  
+
   // mutation for adding user
   const [addUserToTeam] = useMutation(ADD_MEMBER, {
-      update: (cache, { data }) => {
-          // console.log('data', data);
-          const { team } = cache.readQuery({
-              query: TEAM_QUERY,
-              variables: { id: props.match.params.id }
-            });
-            // console.log('team', team)
-            cache.writeQuery({
-                query: TEAM_QUERY,
-                variables: { id: props.match.params.id },
-                data: {
-                    team: {
-                        ...team,
-                        members: [...team.members]
-                    }
-                }
-            })
-        },
-        variables: {
-            userId: newMemberId,
-            teamId: props.match.params.id
-        },
-        onCompleted: (e) => {
-            props.setMsg(`added ${newMember} to the team`);
-            setSearchInput("");
-            setNewMember("");
-            setNewMemberId("");
-        },
-        onError: err => {
-            // console.log(err.message);
-            setErrorMsg(err.message)
+    update: (cache, { data }) => {
+      // console.log('data', data);
+      const { team } = cache.readQuery({
+        query: TEAM_QUERY,
+        variables: { id: props.match.params.id }
+      });
+      // console.log('team', team)
+      cache.writeQuery({
+        query: TEAM_QUERY,
+        variables: { id: props.match.params.id },
+        data: {
+          team: {
+            ...team,
+            members: [...team.members]
+          }
         }
+      });
+    },
+    variables: {
+      userId: newMemberId,
+      teamId: props.match.params.id
+    },
+    onCompleted: e => {
+      props.setMsg(`added ${newMember} to the team`);
+      setSearchInput("");
+      setNewMember("");
+      setNewMemberId("");
+    },
+    onError: err => {
+      // console.log(err.message);
+      setErrorMsg(err.message);
     }
-    )
+  });
 
-    // query all users to populate dropdown for adding member to team
-    const allUsersQuery = useQuery(USERS_QUERY)
-    // set up options for the add a member <select> element
-    let optionsItems;
-    if (allUsersQuery.data.users) {
-        optionsItems = allUsersQuery.data.users.map(user => 
-            <option className="selected-member" data-id={user.id} key={user.id}>{user.name}</option>
-            )
-}
+  // query all users to populate dropdown for adding member to team
+  const allUsersQuery = useQuery(USERS_QUERY);
+  // set up options for the add a member <select> element
+  let optionsItems;
+  if (allUsersQuery.data.users) {
+    optionsItems = allUsersQuery.data.users.map(user => (
+      <option className="selected-member" data-id={user.id} key={user.id}>
+        {user.name}
+      </option>
+    ));
+  }
 
-if(loading) {
+  if (loading) {
     return <div>Loading...</div>;
-}
+  }
 
-if (error) {
-    return <div>Error! {error.message}</div>
-}
+  if (error) {
+    return <div>Error! {error.message}</div>;
+  }
 
   if (loading) {
     return <div>Loading...</div>;
@@ -221,11 +222,7 @@ if (error) {
                   onChange={handleSearchChange}
                 />
                 <select value={newMember} onChange={handleSelectChange}>
-                  {optionsItems.filter(item =>
-                    item.props.children
-                      .toLowerCase()
-                      .includes(searchInput.toLowerCase())
-                  )}
+                  {optionsItems.filter(item => item.props.children)}
                 </select>
                 {newMember && (
                   <button
