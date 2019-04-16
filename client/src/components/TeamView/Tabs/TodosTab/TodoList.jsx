@@ -19,8 +19,6 @@ import Todo from "./Todo";
 const styles = theme => ({
   root: {
     marginBottom: "10px",
-    width: "24%",
-    margin: "0 5px",
     padding: "10px",
     cursor: "pointer",
     textAlign: "left",
@@ -48,6 +46,10 @@ const styles = theme => ({
     fontSize: "40px",
     position: "relative",
     top: "2px"
+  },
+  spacers: {
+    width: "25%",
+    padding: "0 5px"
   }
 });
 
@@ -104,69 +106,72 @@ const TodoList = props => {
   };
 
   return (
-    <Paper
-      className={classes.root}
-      onClick={_ => props.openDrawer(props.todoList)}
-    >
-      <LinearProgress
+    <div className={classes.spacers}>
+      <Paper
+        className={classes.root}
+        onClick={_ => props.openPanel(props.todoList.id)}
+      >
+        {/* <LinearProgress
         variant="determinate"
         value={props.normalise(
           props.todoList.todos.filter(todo => todo.completed).length,
           0,
           props.todoList.todos.length
         )}
-      />
-      <div>
-        <Typography
-          variant="h6"
-          className={props.todoList.completed ? classes.completedHeading : ""}
-        >
-          {props.todoList.description}
-        </Typography>
-        <Typography
-          className={
-            (props.todoList.todos.filter(todo => todo.completed).length ===
-              props.todoList.todos.length &&
-              props.todoList.todos.filter(todo => todo.completed).length > 0) ||
-            props.todoList.completed
-              ? classes.completedTaskText
-              : ""
-          }
-        >
-          {props.todoList.todos.filter(todo => todo.completed).length} /{" "}
-          {props.todoList.todos.length} Tasks Completed
-        </Typography>
-      </div>
-      {/* <h3 onClick={_ => console.log(props.todoList)}>Todos</h3> */}
-      {/* <div>
+      /> */}
+        <div>
+          <Typography
+            variant="h6"
+            className={props.todoList.completed ? classes.completedHeading : ""}
+          >
+            {props.todoList.description}
+          </Typography>
+          <Typography
+            className={
+              (props.todoList.todos.filter(todo => todo.completed).length ===
+                props.todoList.todos.length &&
+                props.todoList.todos.filter(todo => todo.completed).length >
+                  0) ||
+              props.todoList.completed
+                ? classes.completedTaskText
+                : ""
+            }
+          >
+            {props.todoList.todos.filter(todo => todo.completed).length} /{" "}
+            {props.todoList.todos.length} Tasks Completed
+          </Typography>
+        </div>
+        {/* <h3 onClick={_ => console.log(props.todoList)}>Todos</h3> */}
+        {/* <div>
           {props.todoList.todos.map(todo => (
             <Todo key={todo.id} todo={todo} />
           ))}
         </div> */}
-      {/* <Button
+        {/* <Button
           variant="contained"
           color="primary"
           onClick={_ => props.toggleModal("edit", props.todoList.id)}
         >
           Edit
         </Button> */}
-      <div>
-        {props.todoList.todos.every(todo => todo.completed === true) &&
-        props.todoList.completed === false &&
-        props.todoList.todos.length > 0 ? (
-          <Button
-            variant="contained"
-            color="primary"
-            onClick={completeaTodoList}
-          >
-            Complete
-          </Button>
-        ) : null}
-        {props.todoList.completed && (
-          <CheckCircle className={classes.completeIcon} />
-        )}
-      </div>
-    </Paper>
+        <div>
+          {props.todoList.todos.every(todo => todo.completed === true) &&
+          props.todoList.completed === false &&
+          props.todoList.todos.length > 0 ? (
+            <Button
+              variant="contained"
+              color="primary"
+              onClick={completeaTodoList}
+            >
+              Complete
+            </Button>
+          ) : null}
+          {props.todoList.completed && (
+            <CheckCircle className={classes.completeIcon} />
+          )}
+        </div>
+      </Paper>
+    </div>
   );
 };
 
