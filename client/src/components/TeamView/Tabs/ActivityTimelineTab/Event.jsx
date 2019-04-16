@@ -21,7 +21,7 @@ const Event = props => {
         <img className="user-pic" src={props.event.user.profilePic} alt="pic" />
         <div className="event-info">
           <span className={`event-activity`}>
-            <span>{`${props.event.user.name} `}</span>
+            <span className="event-user">{`${props.event.user.name} `}</span>
             <span className={`${props.event.action_string.split(' ')[0]}`}>{props.event.action_string}</span>
           </span>
           <span className="event-createdAt">

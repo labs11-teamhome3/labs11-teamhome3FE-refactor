@@ -56,6 +56,8 @@ const MessageTab = props => {
     variables: { teamId: props.teamId }
   });
 
+  console.log('mt messages data', messages.data);
+
   const [messageContent, setMessageContent] = useState('');
   const [createModalStatus, setCreateModalStatus] = useState(false);
   const [editModalStatus, setEditModalStatus] = useState({
@@ -158,9 +160,13 @@ const MessageTab = props => {
         />
       </div>
       <div>
-        {messages.loading ? (
-          <h3>Loading</h3>
-        ) : (
+        {messages.loading &&
+          <h3>Loading...</h3>
+        }
+        {messages.error &&
+          <h3>Error fetching messages.</h3>
+        }
+        {messages.data && messages.data.messages && (
           messages.data.messages.sort(compare).map(message => (
             <Message
               setMsg={props.setMsg}

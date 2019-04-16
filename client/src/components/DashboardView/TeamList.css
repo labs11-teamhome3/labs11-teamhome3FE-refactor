@@ -89,6 +89,7 @@
 
 .team-premium-premium {
     background: #fdcb6e;
+    color: black;
 }
 
 .team-premium-basic {
@@ -101,4 +102,19 @@
 
 .team-card {
     margin-bottom: 0;
+    border: 1px solid lightgray;
+    padding: 10px 10px;
+    background: #636e72;
+}
+
+.team-card h3 {
+    color: white;
+}
+
+.team-card-active {
+    background: #74b9ff;
+}
+
+.team-card-active h3 {
+    font-weight: 900;
 }
