@@ -22,7 +22,7 @@ const TEAM_QUERY = gql`
 `
 
 const UserDropdown = props => {
-  const [choice, setChoice] = useState('all');
+  const [choice, setChoice] = useState("");
   //console.log('userdd props', props);
 
   const handleSelect = e => {
@@ -36,6 +36,7 @@ const UserDropdown = props => {
     } else {
       props.setFilteredEvents(props.allEvents.filter(event => event.user.name === selectedChoice));
     }
+    props.setOpen(false)
   }
   
   const { data, error, loading } = useQuery(TEAM_QUERY, {
@@ -45,7 +46,11 @@ const UserDropdown = props => {
   })
   
   let members; 
-  let membersOptions = [<option className="member-option" key={Math.random()}>all</option>];
+  let membersOptions = [
+    <option className="member-option" key={Math.random()}></option>,
+    <option className="member-option" key={Math.random()}>all</option>
+  ];
+
   if (data.team) {
     members = data.team.members
     //console.log('members', members)

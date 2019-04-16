@@ -1,32 +1,20 @@
 import React, { useState } from "react";
 import { useQuery } from "react-apollo-hooks";
 import { withStyles } from '@material-ui/core/styles';
-import Fab from "@material-ui/core/Fab";
-import AddIcon from "@material-ui/icons/Add";
 import TextField from "@material-ui/core/TextField";
 import AccountCircle from "@material-ui/icons/AccountCircle";
 
 /////Components/////
 import Message from "./Message";
-import CreateMessageModal from "./CreateMessageModal";
-import ViewMessageModal from "./ViewMessageModal";
-import EditMessageModal from "./EditMessageModal";
 
 /////GraphQL/////
 import { useMutation } from "../../../../graphQL/useMutation";
-import { MESSAGES_QUERY, MESSAGE_QUERY, USER_QUERY, TEAM_QUERY } from "../../../../graphQL/Queries";
-import { CREATE_MESSAGE, LIKE_MESSAGE, UNLIKE_MESSAGE } from "../../../../graphQL/Mutations";
+import { MESSAGES_QUERY, USER_QUERY, TEAM_QUERY } from "../../../../graphQL/Queries";
+import { CREATE_MESSAGE } from "../../../../graphQL/Mutations";
 
 const styles = theme => ({
-  paper: {
-    position: 'relative',
-    top: '24%',
-    'max-width': '600px',
-    margin: '0 auto',
-    'text-align': 'left',
-    padding: '30px',
-  },
   textField: {
+    marginTop: '10px',
     width: '60%'
   },
   button: {
@@ -36,7 +24,7 @@ const styles = theme => ({
     height: '55px',
     width: '55px',
     borderRadius: '50px',
-    margin: '4px 12px 0 0'
+    margin: '10px'
   }
 });
 
@@ -56,18 +44,9 @@ const MessageTab = props => {
     variables: { teamId: props.teamId }
   });
 
-  console.log('mt messages data', messages.data);
+  //console.log('mt messages data', messages.data);
 
   const [messageContent, setMessageContent] = useState('');
-  const [createModalStatus, setCreateModalStatus] = useState(false);
-  const [editModalStatus, setEditModalStatus] = useState({
-    status: false,
-    messageId: null
-  });
-  const [viewModalStatus, setViewModalStatus] = useState({
-    status: false,
-    messageId: null
-  });
   
   const handleChange = e => {
     setMessageContent(e.target.value)
@@ -111,35 +90,8 @@ const MessageTab = props => {
     }
     return comparison * -1;
   }
-
-  // const toggleModal = (modal, messageId = null) => {
-  //   switch (modal) {
-  //     case "view":
-  //       setViewModalStatus({
-  //         status: !viewModalStatus.status,
-  //         messageId
-  //       });
-  //       break;
-
-  //     case "create":
-  //       setCreateModalStatus(!createModalStatus);
-  //       break;
-
-  //     case "edit":
-  //       // console.log(messageId);
-  //       setEditModalStatus({
-  //         status: !editModalStatus.status,
-  //         messageId
-  //       });
-  //       break;
-      
-  //     default:
-  //       break;
-  //   }
-  // };
   
   const { classes } = props;
-  //console.log('### messages', messages) 
   return (
     <div style={{textAlign: 'left'}}>
       <div>
@@ -169,7 +121,9 @@ const MessageTab = props => {
         {messages.data && messages.data.messages && (
           messages.data.messages.sort(compare).map(message => (
             <Message
+              compare={compare}
               setMsg={props.setMsg}
+              teamId={props.teamId}
               user={user}
               message={message}
               key={message.id}

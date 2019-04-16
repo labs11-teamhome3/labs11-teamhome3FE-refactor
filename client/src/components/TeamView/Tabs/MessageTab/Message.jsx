@@ -9,29 +9,29 @@ import KeyboardArrowDown from "@material-ui/icons/KeyboardArrowDown";
 import KeyboardArrowUp from "@material-ui/icons/KeyboardArrowUp";
 import TextField from "@material-ui/core/TextField";
 
+import MessageComment from "./MessageComment";
+import MoreMenu from "./MoreMenu";
+
 import { useMutation } from "../../../../graphQL/useMutation";
-import { LIKE_MESSAGE, UNLIKE_MESSAGE, ADD_MESSAGE_COMMENT } from "../../../../graphQL/Mutations";
-import { MESSAGE_QUERY } from "../../../../graphQL/Queries";
+import { LIKE_MESSAGE, UNLIKE_MESSAGE, ADD_MESSAGE_COMMENT, UPDATE_MESSAGE } from "../../../../graphQL/Mutations";
+import { MESSAGES_QUERY } from "../../../../graphQL/Queries";
 
 const styles = theme => ({
   root: {
-    '&:hover': {
-      backgroundColor: '#dfe6e9'
-    },
     display: 'flex',
     marginTop: "35px",
   },
   userPic: {
-    height: '60px',
-    width: '60px',
+    height: '55px',
+    width: '55px',
     borderRadius: '50%',
-    margin: '10px 10px 10px 3px'
+    margin: '10px'
   },
   userPicSmall: {
     height: '35px',
     width: '35px',
     borderRadius: '50%',
-    margin: '10px 10px 10px 3px'
+    margin: '10px'
   },
   content: {
     marginTop: '7px',
@@ -72,43 +72,25 @@ const styles = theme => ({
     fontSize: '18px'
   },
   replyToMessage: {
-    width: '600px'
+    width: '300px'
   },
   textField: {
-    width: '80%'
-  }
+    width: '80%',
+    fontSize: '14px'
+  },
 });
 
 const Message = props => {
+
   const userId = localStorage.getItem('userId');
+  const [messageEditStatus, setMessageEditStatus] = useState(false);
+  const [messageHandler, setMessageHandler] = useState(''); 
   const [replyStatus, setReplyStatus] = useState(false);
   const [viewReplies, setViewReplies] = useState(false);
   const [reply, setReply] = useState('');
+  const [menuStatus, setMenuStatus] = useState(false);
 
   const [likeMessage] = useMutation(LIKE_MESSAGE, {
-    update: (cache, { data }) => {
-      console.log('#### messageId', props)
-      const { message } = cache.readQuery({
-        query: MESSAGE_QUERY,
-        variables: { id: props.message.id }
-      });
-      cache.writeQuery({
-        query: MESSAGE_QUERY,
-        variables: { id: props.message.id },
-        data: {
-          message: {
-            ...message,
-            likes: message.likes.map(like => {
-              if(like.id === data.likeMessage.id) {
-                return data.likeMessage
-              } else {
-                return like
-              }
-            })
-          }
-        }
-      });
-    },
     variables: {
       userId: userId,
       messageId: props.message.id
@@ -120,28 +102,6 @@ const Message = props => {
   });
 
   const [unlikeMessage] = useMutation(UNLIKE_MESSAGE, {
-    update: (cache, { data }) => {
-      const { message } = cache.readQuery({
-        query: MESSAGE_QUERY,
-        variables: { id: props.messageId }
-      });
-      cache.writeQuery({
-        query: MESSAGE_QUERY,
-        variables: { id: props.messageId },
-        data: {
-          message: {
-            ...message,
-            likes: message.likes.map(like => {
-              if(like.id !== data.unlikeMessage.id) {
-                return data.unlikeMessage
-              } else {
-                return like
-              }
-            })
-          }
-        }
-      });
-    },
     variables: {
       messageId: props.message.id,
       userId: userId
@@ -152,20 +112,33 @@ const Message = props => {
     onError: err => console.log(err)
   });
 
+  const [updateMessage] = useMutation(UPDATE_MESSAGE, {
+    variables: {
+      messageId: props.message.id,
+      title: messageHandler,
+      content: messageHandler
+    },
+    onCompleted: e => {
+      props.setMsg('updated a message')
+      setMessageEditStatus(false)
+    },
+    onError: err => console.log(err)
+  });
+
   const [addMessageComment] = useMutation(ADD_MESSAGE_COMMENT, {
     update: (cache, { data }) => {
-      const { message } = cache.readQuery({
-        query: MESSAGE_QUERY,
-        variables: { id: props.messageId }
+      const {messages} = cache.readQuery({
+        query: MESSAGES_QUERY,
+        variables: { teamId: props.teamId }
       });
+      let message = messages.find(message => message.id === props.message.id)
+      let newMessages = messages.filter(message => message.id !== props.message.id)
+      message.comments.push(data.addMessageComment);
       cache.writeQuery({
-        query: MESSAGE_QUERY,
-        variables: { id: props.messageId },
+        query: MESSAGES_QUERY,
+        variables: { teamId: props.teamId },
         data: {
-          message: {
-            ...message,
-            comments: [...message.comments, data.addMessageComment]
-          }
+          ...newMessages, message
         }
       })
     },
@@ -177,6 +150,7 @@ const Message = props => {
     },
     onCompleted: e => {
       props.setMsg("replied to a message");
+      setReply('');
     },
     onError: err => console.log(err)
   });
@@ -185,25 +159,65 @@ const Message = props => {
     setReply(e.target.value)
   };
 
+  useEffect(() => {
+    if(props.message.content) {
+      setMessageHandler(props.message.content)
+    }
+  }, []);
+
+  const handleChangeMessage = e => {
+    setMessageHandler(e.target.value)
+  };
+
   const { classes } = props;
   const user = props.message.creator;
   return (
-    <div className={classes.root}>
+    <div 
+      className={classes.root}
+      onMouseOver={() => setMenuStatus(true)}
+      onMouseLeave={()=> setMenuStatus(false)}
+    >
       {user.profilePic ? 
         <img className={classes.userPic} src={user.profilePic} alt="profile picture"/> 
         : 
         <AccountCircle className={classes.userPic}/>} 
         <div className={classes.content}>
           <div className={classes.contentTitle}>
-            <div className={classes.name}>{user.name}</div>
-            <div className={classes.time}>{moment(props.message.createdAt).startOf('minute').fromNow()}</div>
+              <div className={classes.name}>{user.name}</div>
+              <div className={classes.time}>{moment(props.message.createdAt).startOf('minute').fromNow()}</div>
+              {menuStatus ? (
+                <MoreMenu
+                  teamId={props.teamId}
+                  message={props.message}
+                  setMsg={props.setMsg}           
+                  setMessageEditStatus={setMessageEditStatus}
+                  messageEditStatus={messageEditStatus}
+                />
+                // <IconButton className={classes.menu}><MoreVertIcon /></IconButton>
+              )
+              : null}
           </div>
-          <div>{props.message.content}</div>
+
+          {/* Triggers when a user clicks edit in the menu */}
+          {messageEditStatus ? 
+            <TextField 
+              value={messageHandler}
+              onChange={handleChangeMessage}
+              onKeyPress = { e => {
+                  if(e.key === 'Enter') {
+                    updateMessage()
+                  }
+                }
+              }
+            /> 
+          : 
+          <div>{props.message.content}</div>}
+
           <div className={classes.messageReaction}>
             <ThumbUp className={classes.thumbs} onClick={likeMessage} /> 
             <div className={classes.likes}>{props.message && props.message.likes ? props.message.likes.length : 0}</div>
             <ThumbDown className={classes.thumbs} onClick={unlikeMessage}/> 
-            <Button onClick={()=> {setReplyStatus(true)}}>REPLY</Button>
+            <Button onClick={()=> {setReplyStatus(!replyStatus)}}>REPLY</Button>
           </div>
           {/* reply dropdown */}
           {replyStatus ? (
@@ -233,25 +247,16 @@ const Message = props => {
           </div>
           {/* view replies dropdown */}
           {viewReplies ? ( 
-            props.message.comments.map(comment => (
-            comment.user.profilePic ? (
-            <img className={classes.userPic} src={comment.user.profilePic} alt="profile picture"/> 
-            ):( 
-            <AccountCircle className={classes.userPic}/>
-            ),
-            <div key={comment.user.createdAt} className={classes.content}>
-              <div className={classes.contentTitle}>
-                <div className={classes.name}>{comment.user.name}</div>
-                <div className={classes.time}>{moment(comment.createdAt).startOf('minute').fromNow()}</div>
-              </div>
-              <div>{comment.content}</div>
-              <div className={classes.messageReaction}>
-                <ThumbUp className={classes.thumbs}  /> 
-                <div className={classes.likes}>{comment.likes ? comment.likes.length : 0}</div>
-                <ThumbDown className={classes.thumbs} /> 
-              </div>
-            </div>
-          ))) : null}
+            props.message.comments.sort(props.compare).map(comment => (
+              <MessageComment
+                key={comment.createdAt}
+                comment={comment}
+                message={props.message}
+                setMsg={props.setMsg}
+                teamId={props.teamId}
+              />
+            )))
+            : null}
     </div>
   </div>
   );

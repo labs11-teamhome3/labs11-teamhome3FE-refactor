@@ -70,6 +70,7 @@ const styles = theme => ({
     padding: '0 8px',
     ...theme.mixins.toolbar,
     justifyContent: 'flex-end',
+    height: '75px'
   },
   content: {
     flexGrow: 1,
@@ -115,7 +116,7 @@ const PersistentDrawerLeft = props => {
     variables: { id: userId }
   })
 
-  console.log('pq data', picQuery.data);
+  //console.log('pq data', picQuery.data);
 
 
   const [createEvent] = useMutation(CREATE_EVENT, {

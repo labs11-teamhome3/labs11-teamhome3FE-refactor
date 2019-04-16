@@ -5,7 +5,7 @@ import React, { useState } from 'react';
 // import Arrow from '@material-ui/icons/ArrowDropDown';
 
 const ObjectDropdown = props => {
-  const [choice, setChoice] = useState('all');
+  const [choice, setChoice] = useState("");
   //console.log(props);
 
   const handleSelect = e => {
@@ -26,10 +26,12 @@ const ObjectDropdown = props => {
         break;
       default:
         props.setFilteredEvents(props.allEvents.filter(event => event.action_string.includes(selectedChoice)));
+    } 
+    props.setOpen(false);
   }
-}
 
   const activities = [
+    {name: ' '},
     {name: 'all'},
     {name: 'created a message'},
     {name: 'added to the team'},

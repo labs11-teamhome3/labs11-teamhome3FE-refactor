@@ -121,6 +121,7 @@ const TeamList = props => {
   const cancelPremium = () => {
     setErrorMsg("");
     setTeamInput("");
+    setShowInput(false);
   }
 
   const addTeam = e => {
@@ -147,14 +148,17 @@ const TeamList = props => {
     <>
       <div className="newTeam">
         {!showInput &&
-          <div className="show-add-input">
-            <Fab onClick={() => setShowInput(true)} color="primary" size="small" aria-label="Add">
-              <AddIcon />
-            </Fab>
-          </div>
+          <>
+            <h2>My Teams</h2>
+            <div className="show-add-input">
+              <Fab onClick={() => setShowInput(true)} color="primary" size="small" aria-label="Add">
+                <AddIcon />
+              </Fab>
+            </div>
+          </>
         }
         {showInput &&
-          <form onSubmit={addTeam}>
+          <form className="new-team-form" onSubmit={addTeam}>
             <input
               required
               type="text"

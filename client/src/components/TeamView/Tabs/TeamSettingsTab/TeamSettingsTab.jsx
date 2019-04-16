@@ -8,6 +8,8 @@ import gql from "graphql-tag";
 ///Components///
 import TeamInfo from "./TeamInfo";
 import StripePaymentPopup from "../../../Stripe/StripePaymentPopup";
+import Loader from 'react-loader-spinner';
+import AddNewMember from './AddNewMember';
 
 ////Queries////
 import { TEAMS_QUERY, USERS_QUERY } from "../../../../graphQL/Queries";
@@ -112,7 +114,7 @@ const TeamSettingsTab = props => {
   let userRole = "";
   let currentUser;
   if (userQuery.data.user) {
-    console.log("user", userQuery.data.user);
+    //console.log('user', userQuery.data.user)
     currentUser = userQuery.data.user;
     userRole = userQuery.data.user.role;
   }
@@ -145,39 +147,39 @@ const TeamSettingsTab = props => {
 
   // mutation for adding user
   const [addUserToTeam] = useMutation(ADD_MEMBER, {
-    update: (cache, { data }) => {
-      // console.log('data', data);
-      const { team } = cache.readQuery({
-        query: TEAM_QUERY,
-        variables: { id: props.match.params.id }
-      });
-      // console.log('team', team)
-      cache.writeQuery({
-        query: TEAM_QUERY,
-        variables: { id: props.match.params.id },
-        data: {
-          team: {
-            ...team,
-            members: [...team.members]
-          }
+      update: (cache, { data }) => {
+          // console.log('data', data);
+          const { team } = cache.readQuery({
+              query: TEAM_QUERY,
+              variables: { id: props.match.params.id }
+            });
+            // console.log('team', team)
+            cache.writeQuery({
+                query: TEAM_QUERY,
+                variables: { id: props.match.params.id },
+                data: {
+                    team: {
+                        ...team,
+                        members: [...team.members]
+                    }
+                }
+            })
+        },
+        variables: {
+          userId: newMemberId,
+          teamId: props.match.params.id
+        },
+        onCompleted: e => {
+          props.setMsg(`added ${newMember} to the team`);
+          setSearchInput("");
+          setNewMember("");
+          setNewMemberId("");
+        },
+        onError: err => {
+          // console.log(err.message);
+          setErrorMsg(err.message);
         }
       });
-    },
-    variables: {
-      userId: newMemberId,
-      teamId: props.match.params.id
-    },
-    onCompleted: e => {
-      props.setMsg(`added ${newMember} to the team`);
-      setSearchInput("");
-      setNewMember("");
-      setNewMemberId("");
-    },
-    onError: err => {
-      // console.log(err.message);
-      setErrorMsg(err.message);
-    }
-  });
 
   // query all users to populate dropdown for adding member to team
   const allUsersQuery = useQuery(USERS_QUERY);
@@ -191,17 +193,16 @@ const TeamSettingsTab = props => {
     ));
   }
 
-  if (loading) {
-    return <div>Loading...</div>;
-  }
-
-  if (error) {
-    return <div>Error! {error.message}</div>;
-  }
-
-  if (loading) {
-    return <div>Loading...</div>;
-  }
+if(loading) {
+    return <div>
+      <Loader
+        type="ThreeDots"
+        height="25px"
+        width="25px"
+        color="#0984e3"
+      />
+    </div>;
+}
 
   if (error) {
     return <div>Error! {error.message}</div>;
@@ -221,14 +222,31 @@ const TeamSettingsTab = props => {
                   value={searchInput}
                   onChange={handleSearchChange}
                 />
-                <select value={newMember} onChange={handleSelectChange}>
-                  {optionsItems.filter(item => item.props.children)}
+                {allUsersQuery.data.users && searchInput &&
+                  allUsersQuery.data.users.map(user => {
+                    if (user.name.toLowerCase().includes(searchInput.toLowerCase())) {
+                      return <AddNewMember 
+                                user={user} 
+                                newMemberId={newMemberId}
+                                setNewMemberId={setNewMemberId} 
+                                setNewMember={setNewMember}
+                                addUserToTeam={addUserToTeam} 
+                              />
+                    }
+                  })
+                }
+                {/* <select value={newMember} onChange={handleSelectChange}>
+                  {optionsItems.filter(item =>
+                    item.props.children
+                      .toLowerCase()
+                      .includes(searchInput.toLowerCase())
+                  )}
                 </select>
                 {newMember && (
                   <button
                     onClick={addUserToTeam}
                   >{`Add ${newMember} to the Team!`}</button>
-                )}
+                )} */}
                 {errorMsg && (
                   <div className="error-flash">
                     <h3>{errorMsg.split(":")[1]}</h3>
@@ -266,31 +284,31 @@ const TeamSettingsTab = props => {
               Delete team
               <DeleteIcon />
             </Button>
-          </div>
-        )}
-        {areYouSure && (
-          <div>
-            <h2>
-              Do you really want to delete this team? All messages, activities,
-              documents, and todo lists which belong to this team will also be
-              deleted! There is no coming back from this. If you are sure,
-              please type the name of the team below.
-            </h2>
-            <input
-              type="text"
-              name="deleteInput"
-              value={deleteInput}
-              onChange={handleDeleteChange}
-            />
-            <button onClick={() => setAreYouSure(false)}>Cancel</button>
-            {deleteInput === data.team.teamName && (
-              <Button
-                variant="contained"
-                color="secondary"
-                onClick={deleteTeam}
-              >
-                I understand the consequences. Delete this team.
-              </Button>
+            {areYouSure && (
+              <div>
+                <h2>
+                  Do you really want to delete this team? All messages, activities,
+                  documents, and todo lists which belong to this team will also be
+                  deleted! There is no coming back from this. If you are sure,
+                  please type the name of the team below.
+                </h2>
+                <input
+                  type="text"
+                  name="deleteInput"
+                  value={deleteInput}
+                  onChange={handleDeleteChange}
+                />
+                <button onClick={() => setAreYouSure(false)}>Cancel</button>
+                {deleteInput === data.team.teamName && (
+                  <Button
+                    variant="contained"
+                    color="secondary"
+                    onClick={deleteTeam}
+                  >
+                    I understand the consequences. Delete this team.
+                  </Button>
+                )}
+              </div>
             )}
           </div>
         )}
