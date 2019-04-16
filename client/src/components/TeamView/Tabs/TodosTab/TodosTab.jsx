@@ -4,6 +4,7 @@ import React, { useState } from "react";
 // import Fab from "@material-ui/core/Fab";
 // import AddIcon from "@material-ui/icons/Add";
 // import { useMutation } from "../../../../graphQL/useMutation";
+import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import Button from "@material-ui/core/Button";
 import { withStyles } from "@material-ui/core/styles";
 import Drawer from "@material-ui/core/Drawer";
@@ -12,6 +13,7 @@ import Drawer from "@material-ui/core/Drawer";
 import CreateTodolistModal from "./CreateTodoListModal";
 import TodoLists from "./TodoLists";
 import EditTodoListModal from "./EditTodoListModal";
+import TodoListPanel from "./TodoListPanel";
 
 /////Queries/////
 // import { CREATE_EVENT } from "../../../../graphQL/Mutations";
@@ -39,6 +41,8 @@ const styles = theme => ({
 
 const TodosTab = props => {
   const { classes } = props;
+  const [panelOpen, setPanelOpen] = useState(false);
+  const [todoListId, setTodoListId] = useState(null);
   const [createModalStatus, setCreateModalStatus] = useState(false);
   const [editModalStatus, setEditModalStatus] = useState({
     status: false,
@@ -63,22 +67,38 @@ const TodosTab = props => {
     }
   };
 
+  const openPanel = (todoListId = null) => {
+    setPanelOpen(true);
+    setTodoListId(todoListId);
+  };
+
+  const closePanel = _ => {
+    setPanelOpen(false);
+  };
+
   return (
     <div className={classes.tabCont}>
       <div className={classes.tabHeaderCont}>
-        <h1 className={classes.title}>Todo Lists</h1>
         <Button
           variant="contained"
           color="primary"
           onClick={_ => toggleModal("create")}
         >
-          Add Todo List
+          Create Todo List
         </Button>
       </div>
+      <TodoListPanel
+        openPanel={openPanel}
+        closePanel={closePanel}
+        panelOpen={panelOpen}
+        todoListId={todoListId}
+        toggleModal={toggleModal}
+      />
       <TodoLists
         teamId={props.teamId}
         toggleModal={toggleModal}
         setMsg={props.setMsg}
+        openPanel={openPanel}
       />
       <CreateTodolistModal
         setMsg={props.setMsg}

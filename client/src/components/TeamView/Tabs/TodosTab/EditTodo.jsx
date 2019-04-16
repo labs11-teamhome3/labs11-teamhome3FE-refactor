@@ -4,6 +4,10 @@ import Divider from "@material-ui/core/Divider";
 import DeleteIcon from "@material-ui/icons/Delete";
 import { useMutation } from "../../../../graphQL/useMutation";
 import gql from "graphql-tag";
+import { withStyles } from "@material-ui/core/styles";
+import ListItem from "@material-ui/core/ListItem";
+import ListItemSecondaryAction from "@material-ui/core/ListItemSecondaryAction";
+import ListItemText from "@material-ui/core/ListItemText";
 
 import "./TodosTab.css";
 
@@ -17,7 +21,21 @@ const DELETE_TODO = gql`
   }
 `;
 
+const styles = theme => ({
+  todoCont: {
+    width: "100%"
+  },
+  listItem: {
+    width: "100%",
+    cursor: 'default'
+  },
+  delete: {
+    cursor: 'pointer'
+  }
+});
+
 const Todo = props => {
+  const {classes} = props;
   const [deleteTodo] = useMutation(DELETE_TODO, {
     update: (cache, { data }) => {
       const { todoList } = cache.readQuery({
@@ -42,14 +60,19 @@ const Todo = props => {
     onError: err => console.log(err)
   });
   return (
-    <div className="todo edit">
-      <h3>
-        {props.todo.description}
-        <DeleteIcon onClick={deleteTodo} />
-      </h3>
-      <Divider />
-    </div>
+    <div className={classes.todoCont}>
+    <ListItem
+      className={classes.listItem}
+      button
+    >
+      <ListItemText primary={props.todo.description} />
+      <ListItemSecondaryAction>
+      <DeleteIcon onClick={deleteTodo} className={classes.delete} />
+      </ListItemSecondaryAction>
+    </ListItem>
+    {props.divider && <Divider />}
+  </div>
   );
 };
 
-export default Todo;
+export default withStyles(styles)(Todo);

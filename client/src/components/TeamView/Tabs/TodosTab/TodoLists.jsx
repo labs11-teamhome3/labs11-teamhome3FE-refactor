@@ -24,7 +24,7 @@ const masonryOptions = {
 const styles = theme => ({
   flexcont: {
     display: "flex",
-    flexWrap: "wrap"
+    flexWrap: "wrap",
   },
   drawerCont: {
     padding: "40px"
@@ -42,39 +42,39 @@ const styles = theme => ({
 
 const TodoLists = props => {
   const { classes } = props;
-  const [drawerStatus, setDrawerStatus] = useState(false);
-  const [todoList, setTodoList] = useState(null);
-  const [completeTodos, setCompleteTodos] = useState(0);
+  // const [drawerStatus, setDrawerStatus] = useState(false);
+  // const [todoList, setTodoList] = useState(null);
+  // const [completeTodos, setCompleteTodos] = useState(0);
   const todoLists = useQuery(TODOS_QUERY, {
     variables: {
       teamId: props.teamId
     }
   });
 
-  useEffect(
-    _ => {
-      if (todoList) {
-        setCompleteTodos(todoList.todos.filter(todo => todo.completed).length);
-      }
-    },
-    [todoList]
-  );
+  // useEffect(
+  //   _ => {
+  //     if (todoList) {
+  //       setCompleteTodos(todoList.todos.filter(todo => todo.completed).length);
+  //     }
+  //   },
+  //   [todoList]
+  // );
 
-  const openDrawer = todoListFocus => {
-    console.log("open");
-    setDrawerStatus(true);
-    if (todoListFocus) {
-      setTodoList(todoListFocus);
-    }
-    console.log(drawerStatus);
-  };
+  // const openDrawer = todoListFocus => {
+  //   console.log("open");
+  //   setDrawerStatus(true);
+  //   if (todoListFocus) {
+  //     setTodoList(todoListFocus);
+  //   }
+  //   console.log(drawerStatus);
+  // };
 
-  const closeDrawer = _ => {
-    setTodoList(null);
-    setDrawerStatus(false);
-  };
+  // const closeDrawer = _ => {
+  //   setTodoList(null);
+  //   setDrawerStatus(false);
+  // };
 
-  const normalise = (value, MIN, MAX) => ((value - MIN) * 100) / (MAX - MIN);
+
 
   return (
     <>
@@ -87,14 +87,13 @@ const TodoLists = props => {
             todoList={todoList}
             toggleModal={props.toggleModal}
             setMsg={props.setMsg}
-            openDrawer={openDrawer}
-            refetchTodoLists={todoLists.refetch()}
-            normalise={normalise}
+            openPanel={props.openPanel}
+            normalise={props.normalise}
           />
         ))
       )}
-      {todoList && (
-        <Drawer variant='persistent' anchor="top" open={drawerStatus} onClose={closeDrawer}>
+      {/* {todoList && ( */}
+        {/* <Drawer variant='persistent' anchor="top" open={drawerStatus} onClose={closeDrawer}>
           {todoList !== undefined && todoList !== null && (
             <>
               <LinearProgress
@@ -127,8 +126,8 @@ const TodoLists = props => {
               </div>
             </>
           )}
-        </Drawer>
-      )}
+        </Drawer> 
+      )}*/}
     </div>
     </>
   );
