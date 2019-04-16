@@ -5,8 +5,8 @@
     flex-direction: column;
     justify-content: space-evenly;
     align-items: center;
-    color: red;
-    margin-top: 20px;
+    color: #fab1a0;
+    margin: 15px auto;
 }
 
 .error-flash h3 {
@@ -40,19 +40,32 @@
 }
 
 .newTeam form {
-    margin-bottom: 10px;
     display: flex;
     justify-content: center;
     align-items: flex-start;
 }
 
 .newTeam {
-    margin-bottom: 20px;
+    display: flex;
+    width: 100%;
+    margin: 0 auto;
+    justify-content: space-evenly;
+    align-items: center;
+    background: #2d3436;
+}
+
+.newTeam h2 {
+    color: white;
+    font-size: 1.5rem;
+}
+
+.new-team-form {
+    padding: 15px 0;
 }
 
 .newTeam input {
     margin-right: 5px;
-    font-size: 1.5rem;
+    font-size: 1.3rem;
     border-radius: 30px;
     padding: 5px 20px;
 }
@@ -103,6 +116,10 @@
 
 .premium {
     display: flex;
+}
+
+.premium span {
+    font-weight: bold;
 }
 
 .team-card {
