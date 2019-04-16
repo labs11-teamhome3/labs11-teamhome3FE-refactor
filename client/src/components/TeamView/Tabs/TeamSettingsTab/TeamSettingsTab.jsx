@@ -171,7 +171,7 @@ const TeamSettingsTab = props => {
         },
         onCompleted: (e) => {
             props.setMsg(`added ${newMember} to the team`);
-            // setSearchInput("");
+            setSearchInput("");
             // setNewMember("");
             // setNewMemberId("");
         },
@@ -283,31 +283,31 @@ if (error) {
               Delete team
               <DeleteIcon />
             </Button>
-          </div>
-        )}
-        {areYouSure && (
-          <div>
-            <h2>
-              Do you really want to delete this team? All messages, activities,
-              documents, and todo lists which belong to this team will also be
-              deleted! There is no coming back from this. If you are sure,
-              please type the name of the team below.
-            </h2>
-            <input
-              type="text"
-              name="deleteInput"
-              value={deleteInput}
-              onChange={handleDeleteChange}
-            />
-            <button onClick={() => setAreYouSure(false)}>Cancel</button>
-            {deleteInput === data.team.teamName && (
-              <Button
-                variant="contained"
-                color="secondary"
-                onClick={deleteTeam}
-              >
-                I understand the consequences. Delete this team.
-              </Button>
+            {areYouSure && (
+              <div>
+                <h2>
+                  Do you really want to delete this team? All messages, activities,
+                  documents, and todo lists which belong to this team will also be
+                  deleted! There is no coming back from this. If you are sure,
+                  please type the name of the team below.
+                </h2>
+                <input
+                  type="text"
+                  name="deleteInput"
+                  value={deleteInput}
+                  onChange={handleDeleteChange}
+                />
+                <button onClick={() => setAreYouSure(false)}>Cancel</button>
+                {deleteInput === data.team.teamName && (
+                  <Button
+                    variant="contained"
+                    color="secondary"
+                    onClick={deleteTeam}
+                  >
+                    I understand the consequences. Delete this team.
+                  </Button>
+                )}
+              </div>
             )}
           </div>
         )}

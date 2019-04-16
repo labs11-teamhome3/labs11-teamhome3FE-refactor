@@ -1,5 +1,6 @@
 .error-flash {
-    font-size: 1.2rem;
+    font-size: 1.1rem;
+    width: 90%;
     display: flex;
     flex-direction: column;
     justify-content: space-evenly;
