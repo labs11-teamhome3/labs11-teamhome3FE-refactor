@@ -8,7 +8,9 @@ import Button from "@material-ui/core/Button";
 import Modal from "@material-ui/core/Modal";
 import Paper from "@material-ui/core/Paper";
 import Close from "@material-ui/icons/Close";
+import List from "@material-ui/icons/List";
 import { withStyles } from "@material-ui/core/styles";
+import TextField from "@material-ui/core/TextField";
 
 /////Components/////
 
@@ -24,14 +26,24 @@ import {
 
 const styles = theme => ({
   paper: {
-    "max-width": "800px",
+    position: "relative",
+    top: "24%",
+    "max-width": "600px",
     margin: "0 auto",
     "text-align": "left",
-    padding: "20px"
+    padding: "30px"
   },
   todoListInput: {
     width: "100%",
     marginBottom: "10px"
+  },
+  modalHeader: {
+    display: "flex",
+    justifyContent: "space-between",
+    alignItems: "center"
+  },
+  closeBtn: {
+    cursor: "pointer"
   }
 });
 
@@ -59,12 +71,12 @@ const CREATE_TODOLIST = gql`
 `;
 
 const CreateTodoListModal = props => {
-  const userId = localStorage.getItem('userId')
+  const userId = localStorage.getItem("userId");
   const { classes } = props;
-  const [todoListTitle, setTodoListTitle] = useState('');
+  const [todoListTitle, setTodoListTitle] = useState("");
   const [createTodoList] = useMutation(CREATE_TODOLIST, {
     update: (cache, { data }) => {
-      const {todoLists} = cache.readQuery({
+      const { todoLists } = cache.readQuery({
         query: TODOS_QUERY,
         variables: { teamId: props.teamId }
       });
@@ -80,17 +92,17 @@ const CreateTodoListModal = props => {
       inTeam: props.teamId
     },
     onCompleted: e => {
-      setTodoListTitle('');
-      props.setMsg('created a todo list');
-      props.toggleModal('edit', e.createTodoList.id);
-      props.toggleModal('create');
+      setTodoListTitle("");
+      props.setMsg("created a todo list");
+      props.toggleModal("edit", e.createTodoList.id);
+      props.toggleModal("create");
     },
     onError: err => console.log(err)
   });
 
   const handleChange = e => {
     setTodoListTitle(e.target.value);
-  }
+  };
 
   return (
     <div>
@@ -100,15 +112,20 @@ const CreateTodoListModal = props => {
         open={props.modalStatus}
       >
         <Paper className={classes.paper}>
-          <h3>Name your new Todo List</h3>
-          <Close onClick={_ => props.toggleModal("create")} />
+          <div className={classes.modalHeader}>
+            <List />
+            <Close
+              onClick={_ => props.toggleModal("create")}
+              className={classes.closeBtn}
+            />
+          </div>
           <br />
-          <input
-            type="text"
+          <TextField
+            required
             value={todoListTitle}
             onChange={handleChange}
             name="title"
-            placeholder="Todo List Title"
+            label="Todo List Title"
             className={classes.todoListInput}
           />
           <br />
@@ -116,7 +133,7 @@ const CreateTodoListModal = props => {
         </Paper>
       </Modal>
     </div>
-  )
-}
+  );
+};
 
 export default withStyles(styles)(CreateTodoListModal);
