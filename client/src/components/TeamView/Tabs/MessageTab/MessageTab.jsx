@@ -123,7 +123,7 @@ const MessageTab = props => {
   };
   
   const { classes } = props;
-  console.log('### messages', messages) 
+  //console.log('### messages', messages) 
   return (
     <div style={{textAlign: 'left'}}>
       <div>
@@ -149,6 +149,7 @@ const MessageTab = props => {
         ) : (
           messages.data.messages.map(message => (
             <Message
+              user={user}
               message={message}
               key={message.id}
               toggleModal={toggleModal}

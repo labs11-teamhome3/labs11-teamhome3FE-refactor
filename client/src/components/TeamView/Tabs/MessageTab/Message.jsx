@@ -1,10 +1,11 @@
-import React from "react";
+import React, {useState, useEffect} from "react";
 import moment from "moment";
 import { withStyles } from "@material-ui/core/styles";
 import ThumbUp from "@material-ui/icons/ThumbUp";
 import ThumbDown from "@material-ui/icons/ThumbDown";
 import Button from "@material-ui/core/Button";
 import AccountCircle from "@material-ui/icons/AccountCircle";
+import TextField from "@material-ui/core/TextField";
 
 import { useMutation } from "../../../../graphQL/useMutation";
 import { LIKE_MESSAGE, UNLIKE_MESSAGE } from "../../../../graphQL/Mutations";
@@ -18,6 +19,12 @@ const styles = theme => ({
   userPic: {
     height: '60px',
     width: '60px',
+    borderRadius: '50%',
+    margin: '10px 10px 10px 3px'
+  },
+  userPicSmall: {
+    height: '35px',
+    width: '35px',
     borderRadius: '50%',
     margin: '10px 10px 10px 3px'
   },
@@ -56,11 +63,20 @@ const styles = theme => ({
   likes: {
     display: 'inline',
     fontSize: '18px'
+  },
+  replyToMessage: {
+    width: '600px'
+  },
+  textField: {
+    width: '80%'
   }
 });
 
 const Message = props => {
   const userId = localStorage.getItem('userId');
+  const [replyStatus, setReplyStatus] = useState(false);
+  const [reply, setReply] = useState('');
+
   const [likeMessage] = useMutation(LIKE_MESSAGE, {
     update: (cache, { data }) => {
       console.log('#### messageId', props)
@@ -127,6 +143,10 @@ const Message = props => {
     onError: err => console.log(err)
   });
 
+  const handleChange = e => {
+    setReply(e.target.value)
+  };
+
   const { classes } = props;
   const user = props.message.creator;
   return (
@@ -145,8 +165,29 @@ const Message = props => {
             <ThumbUp className={classes.thumbs} onClick={likeMessage} /> 
             <div className={classes.likes}>{props.message && props.message.likes ? props.message.likes.length : 0}</div>
             <ThumbDown className={classes.thumbs} onClick={unlikeMessage}/> 
-            <Button>REPLY</Button>
+            <Button onClick={()=> {setReplyStatus(true)}}>REPLY</Button>
           </div>
+          {/* reply dropdown */}
+          {replyStatus ? (
+            <div className={classes.replyToMessage}>
+              {props.user.data && props.user.data.user ? <img className={classes.userPicSmall} src={props.user.data.user.profilePic} alt="profile picture"/> : <AccountCircle />}
+              <TextField
+                required
+                label={`Reply to ${props.user.data && props.user.data.user ? `${props.user.data.user.name}...` : 'your team...'}`}
+                value={reply}
+                onChange={handleChange}
+                className={classes.textField}
+                name="create reply"
+                onKeyPress = { e => {
+                  if(reply && e.key === 'Enter') {
+                    //add comment to message  
+                    
+                  }
+                }
+              }
+              />
+            </div>
+          ) : null}
           <div className={classes.viewReplies}>View Count replies v</div>
         </div>
     </div>
