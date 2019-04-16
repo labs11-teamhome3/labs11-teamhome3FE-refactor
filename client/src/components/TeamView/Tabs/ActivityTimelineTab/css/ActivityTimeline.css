@@ -5,7 +5,6 @@
 }
 
 .event-createdAt {
-    margin-left: 1%;
     font-size: 1rem;
     color: rgb(100, 97, 97);
     margin-top: 10px;
@@ -50,10 +49,11 @@
 
 .event {
     margin: 0 auto;
-    border: 1px solid lightgray;
+    border-bottom: 1px solid lightgray;
+    border-top: 1px solid lightgray;
     display: flex;
     justify-content: space-between;
-    padding: 30px 10px;
+    padding: 15px 10px;
     align-items: center;
 }
 
@@ -71,13 +71,14 @@
     text-align: left;
     flex-direction: column;
     justify-content: space-between;
-    width: 80%;
+    width: 83%;
 }
 
 .user-pic {
     height: 50px;
     width: 50px;
     border-radius: 50px;
+    margin-bottom: 7%;
 }
 
 .created {
