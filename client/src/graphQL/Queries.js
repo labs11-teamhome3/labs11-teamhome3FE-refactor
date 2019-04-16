@@ -131,6 +131,7 @@ export const MESSAGES_QUERY = gql`
         user {
           id
           name
+          profilePic
         }
         image
       }
@@ -164,11 +165,8 @@ export const MESSAGE_QUERY = gql`
         user {
           id
           name
+          profilePic
         }
-        message {
-          id
-        }
-        image
         likes {
           id
         }
@@ -240,6 +238,7 @@ query DOCUMENTS_QUERY($teamId: ID!) {
         user {
           id
           name
+          profilePic
         }
         image
         likes {
@@ -275,6 +274,7 @@ query DOCUMENT_QUERY($id: ID!) {
         user {
           id
           name
+          profilePic
         }
         image
         likes {

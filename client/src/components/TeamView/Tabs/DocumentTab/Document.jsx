@@ -24,6 +24,7 @@ const Document = props => {
   const { connectDragSource } = props;
   return (
     <TableRow 
+      hover={true}
       ref={instance => connectDragSource(ReactDOM.findDOMNode(instance))} 
     >
       <TableCell onClick={() => props.toggleModal('view', props.document.id)}>

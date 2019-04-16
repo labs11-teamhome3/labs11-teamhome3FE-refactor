@@ -115,7 +115,7 @@ const PersistentDrawerLeft = props => {
     variables: { id: userId }
   })
 
-  console.log('pq data', picQuery.data);
+  //console.log('pq data', picQuery.data);
 
 
   const [createEvent] = useMutation(CREATE_EVENT, {
