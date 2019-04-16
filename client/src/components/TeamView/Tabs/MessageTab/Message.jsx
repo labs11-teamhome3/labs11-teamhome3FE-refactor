@@ -5,14 +5,18 @@ import ThumbUp from "@material-ui/icons/ThumbUp";
 import ThumbDown from "@material-ui/icons/ThumbDown";
 import Button from "@material-ui/core/Button";
 import AccountCircle from "@material-ui/icons/AccountCircle";
+import KeyboardArrowDown from "@material-ui/icons/KeyboardArrowDown";
 import TextField from "@material-ui/core/TextField";
 
 import { useMutation } from "../../../../graphQL/useMutation";
-import { LIKE_MESSAGE, UNLIKE_MESSAGE } from "../../../../graphQL/Mutations";
+import { LIKE_MESSAGE, UNLIKE_MESSAGE, ADD_MESSAGE_COMMENT } from "../../../../graphQL/Mutations";
 import { MESSAGE_QUERY } from "../../../../graphQL/Queries";
 
 const styles = theme => ({
   root: {
+    '&:hover': {
+      backgroundColor: '#dfe6e9'
+    },
     display: 'flex',
     marginTop: "35px",
   },
@@ -52,6 +56,8 @@ const styles = theme => ({
     fontSize: '13px'
   },
   viewReplies: {
+    display: 'flex',
+    alignItems: 'center',
     fontWeight: 'bold',
     fontSize: '13px'
   },
@@ -75,6 +81,7 @@ const styles = theme => ({
 const Message = props => {
   const userId = localStorage.getItem('userId');
   const [replyStatus, setReplyStatus] = useState(false);
+  const [viewReplies, setViewReplies] = useState(false);
   const [reply, setReply] = useState('');
 
   const [likeMessage] = useMutation(LIKE_MESSAGE, {
@@ -139,6 +146,36 @@ const Message = props => {
       userId: userId
     },
     onCompleted: e => {
+      props.setMsg("unliked a message");
+    },
+    onError: err => console.log(err)
+  });
+
+  const [addMessageComment] = useMutation(ADD_MESSAGE_COMMENT, {
+    update: (cache, { data }) => {
+      const { message } = cache.readQuery({
+        query: MESSAGE_QUERY,
+        variables: { id: props.messageId }
+      });
+      cache.writeQuery({
+        query: MESSAGE_QUERY,
+        variables: { id: props.messageId },
+        data: {
+          message: {
+            ...message,
+            comments: [...message.comments, data.addMessageComment]
+          }
+        }
+      })
+    },
+    variables: {
+      messageId: props.message.id,
+      userId: userId,
+      content: reply,
+      image: ''
+    },
+    onCompleted: e => {
+      props.setMsg("replied to a message");
     },
     onError: err => console.log(err)
   });
@@ -180,15 +217,16 @@ const Message = props => {
                 name="create reply"
                 onKeyPress = { e => {
                   if(reply && e.key === 'Enter') {
-                    //add comment to message  
-                    
+                    addMessageComment();
+                    setReplyStatus(false);
+                    setViewReplies(true);
                   }
                 }
               }
               />
             </div>
           ) : null}
-          <div className={classes.viewReplies}>View Count replies v</div>
+          <div className={classes.viewReplies}>View {props.message.comments && props.message.comments.length} replies <KeyboardArrowDown /></div>
         </div>
     </div>
   );

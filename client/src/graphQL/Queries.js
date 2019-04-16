@@ -128,6 +128,11 @@ export const MESSAGES_QUERY = gql`
         }
         content
         createdAt
+        user {
+          id
+          name
+        }
+        image
       }
     }
   }
@@ -154,11 +159,19 @@ export const MESSAGE_QUERY = gql`
       }
       comments {
         id
+        createdAt
+        content
+        user {
+          id
+          name
+        }
+        message {
+          id
+        }
+        image
         likes {
           id
         }
-        content
-        createdAt
       }
     }
   }

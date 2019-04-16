@@ -149,6 +149,7 @@ const MessageTab = props => {
         ) : (
           messages.data.messages.map(message => (
             <Message
+              setMsg={props.setMsg}
               user={user}
               message={message}
               key={message.id}

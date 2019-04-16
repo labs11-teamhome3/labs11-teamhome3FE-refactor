@@ -386,6 +386,11 @@ export const CREATE_MESSAGE = gql`
         }
         content
         createdAt
+        user {
+          id
+          name
+        }
+        image
       }
     }
   }
@@ -412,11 +417,19 @@ export const LIKE_MESSAGE = gql`
       }
       comments {
         id
+        createdAt
+        content
+        user {
+          id
+          name
+        }
+        message {
+          id
+        }
+        image
         likes {
           id
         }
-        content
-        createdAt
       }
     }
   }
@@ -443,11 +456,40 @@ export const UNLIKE_MESSAGE = gql`
       }
       comments {
         id
+        createdAt
+        content
+        user {
+          id
+          name
+        }
+        message {
+          id
+        }
+        image
         likes {
           id
         }
-        content
-        createdAt
+      }
+    }
+  }
+`;
+
+export const ADD_MESSAGE_COMMENT = gql`
+  mutation ADD_MESSAGE_COMMENT ($messageId: ID!, $userId: ID!, $content: String!, $image: String){
+    addMessageComment(messageId: $messageId, userId: $userId, content: $content, image: $image) {
+      id
+      createdAt
+      content
+      user {
+        id
+        name
+      }
+      message {
+        id
+      }
+      image
+      likes {
+        id
       }
     }
   }
