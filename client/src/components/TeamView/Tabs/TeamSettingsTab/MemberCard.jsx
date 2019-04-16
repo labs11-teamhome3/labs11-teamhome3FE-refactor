@@ -66,7 +66,11 @@ const MemberCard = props => {
     return (
         <div className="member-card">
             <div className="member-info">
-                <img className="team-list-pic" src={props.member.profilePic} alt="profile" />
+                {props.member.profilePic ?
+                    <img className="team-list-pic" src={props.member.profilePic} alt="profile" /> :
+                    <img className="team-list-pic" src='https://cdn.pixabay.com/photo/2016/08/08/09/17/avatar-1577909_960_720.png' alt="profile" /> 
+                    
+                }
                 <h3>{props.member.name}</h3>
             </div>
             {props.member.id !== localStorage.getItem('userId') && props.userRole === "ADMIN" &&

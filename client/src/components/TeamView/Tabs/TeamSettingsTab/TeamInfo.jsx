@@ -62,7 +62,7 @@ const TeamInfo = props => {
             <div className="change-name">
                 {showInput &&
                     <form onSubmit={handleTeamSubmit}>
-                        <input required type="text" name="teamName" onChange={handleNameChange} value={newTeamName} placeholder="new team name..." />
+                        <input required type="text" name="teamName" onChange={handleNameChange} value={newTeamName} placeholder="edit team name..." />
                         <button className="save-team" type="submit">Save</button>
                         <button className="cancel-save-team" type="button" onClick={handleCancel}>Cancel</button>
                     </form>

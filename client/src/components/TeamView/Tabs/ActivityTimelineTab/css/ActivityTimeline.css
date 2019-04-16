@@ -1,6 +1,7 @@
 .activity-timeline {
     height: 60vh;
     overflow-y: scroll;
+    background: #dfe6e9;
 }
 
 .event-createdAt {
@@ -56,7 +57,8 @@
 }
 
 .event-activity {
-    font-size: 1.5rem;
+    font-size: 1.3rem;
+    font-weight: bold;
 }
 
 .event-info {
@@ -108,5 +110,7 @@
 .filter-by-user {
     margin-top: 20px;
 }
+
+
 
 

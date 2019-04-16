@@ -7,6 +7,7 @@ import AddIcon from "@material-ui/icons/Add";
 import Divider from '@material-ui/core/Divider';
 import CancelIcon from "@material-ui/icons/Cancel"
 import { useMutation } from "../../graphQL/useMutation";
+import Loader from 'react-loader-spinner';
 
 ////Components////
 import TeamCard from "./TeamCard";
@@ -128,7 +129,14 @@ const TeamList = props => {
   }
 
   if (loading) {
-    return <div>Loading...</div>;
+    return <div>
+            <Loader 
+              type="ThreeDots"
+              height="25px"
+              width="25px"
+              color="#0984e3"
+            />
+          </div>
   }
 
   if (error) {
@@ -150,7 +158,7 @@ const TeamList = props => {
             <input
               required
               type="text"
-              placeholder="New Team Name..."
+              placeholder="new team name..."
               value={teamInput}
               onChange={e => setTeamInput(e.target.value)}
             />
