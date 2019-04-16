@@ -60,7 +60,7 @@ const MoreMenu = props => {
         variables: { teamId: props.teamId },
         data: {
           messages: messages.filter(message => {
-            if (message.id !== props.message.id) {
+            if (message.id !== data.deleteMessage.id) {
               return message;
             }
           })
