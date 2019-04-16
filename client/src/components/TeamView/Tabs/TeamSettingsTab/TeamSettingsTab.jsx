@@ -246,11 +246,11 @@ if (error) {
             )}
           </form>
         </div>
-        {userRole === "ADMIN" && !data.team.premium && (
+        {/* {userRole === "ADMIN" && !data.team.premium && (
           <div>
             <StripePaymentPopup teamId={props.teamId} />
           </div>
-        )}
+        )} */}
         <div className="team-settings">
           <TeamInfo
             team={data.team}
