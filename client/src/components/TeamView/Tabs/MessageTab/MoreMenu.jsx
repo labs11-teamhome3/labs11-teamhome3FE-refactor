@@ -77,7 +77,8 @@ const MoreMenu = props => {
   });
 
   const editMessage = _ => {
-    
+    setOpen(false);
+    props.setMessageEditStatus(!props.messageEditStatus);
   };
 
     const { classes } = props;

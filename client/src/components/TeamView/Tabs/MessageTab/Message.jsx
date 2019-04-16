@@ -87,6 +87,8 @@ const styles = theme => ({
 
 const Message = props => {
   const userId = localStorage.getItem('userId');
+  const [messageEditStatus, setMessageEditStatus] = useState(false);
+  const [messageHandler, setMessageHandler] = useState(''); 
   const [replyStatus, setReplyStatus] = useState(false);
   const [viewReplies, setViewReplies] = useState(false);
   const [reply, setReply] = useState('');
@@ -192,6 +194,16 @@ const Message = props => {
     setReply(e.target.value)
   };
 
+  useEffect(() => {
+    if(props.message.content) {
+      setMessageHandler(props.message.content)
+    }
+  }, []);
+
+  const handleChangeMessage = e => {
+    setMessageHandler(e.target.value)
+  };
+
   const { classes } = props;
   const user = props.message.creator;
   return (
@@ -212,13 +224,30 @@ const Message = props => {
                 <MoreMenu
                   teamId={props.teamId}
                   message={props.message}
-                  setMsg={props.setMsg} 
+                  setMsg={props.setMsg}           
+                  setMessageEditStatus={setMessageEditStatus}
+                  messageEditStatus={messageEditStatus}
                 />
                 // <IconButton className={classes.menu}><MoreVertIcon /></IconButton>
               )
               : null}
           </div>
-          <div>{props.message.content}</div>
+
+          {/* Triggers when a user clicks edit in the menu */}
+          {messageEditStatus ? 
+            <TextField 
+              value={messageHandler}
+              onChange={handleChangeMessage}
+              onKeyPress = { e => {
+                  if(e.key === 'Enter') {
+                    //updateFolderTitle()
+                  }
+                }
+              }
+            /> 
+          : 
+          <div>{props.message.content}</div>}
+
           <div className={classes.messageReaction}>
             <ThumbUp className={classes.thumbs} onClick={likeMessage} /> 
             <div className={classes.likes}>{props.message && props.message.likes ? props.message.likes.length : 0}</div>
