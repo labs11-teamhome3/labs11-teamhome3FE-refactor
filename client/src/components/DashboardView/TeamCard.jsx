@@ -26,7 +26,7 @@ const TeamCard = props => {
         {/* <Paper className={props.team.id === props.match.params.id ?
           classes.root : classes.inactive}> */}
           <div className="team-status">
-            <Typography variant="h4" component="h3">
+            <Typography variant="h5" component="h3">
             {props.team.teamName}
             </Typography>
             <div 
