@@ -96,31 +96,45 @@ const MessageTab = props => {
     onError: err => console.log(err)
   });
 
-  const toggleModal = (modal, messageId = null) => {
-    switch (modal) {
-      case "view":
-        setViewModalStatus({
-          status: !viewModalStatus.status,
-          messageId
-        });
-        break;
 
-      case "create":
-        setCreateModalStatus(!createModalStatus);
-        break;
-
-      case "edit":
-        // console.log(messageId);
-        setEditModalStatus({
-          status: !editModalStatus.status,
-          messageId
-        });
-        break;
-      
-      default:
-        break;
+  function compare(a, b) {
+    const createdAtA = a.createdAt.toUpperCase();
+    const createdAtB = b.createdAt.toUpperCase();
+    
+    let comparison = 0;
+    if (createdAtA > createdAtB) {
+      comparison = 1;
+    } else if (createdAtA < createdAtB) {
+      comparison = -1;
     }
-  };
+    return comparison * -1;
+  }
+
+  // const toggleModal = (modal, messageId = null) => {
+  //   switch (modal) {
+  //     case "view":
+  //       setViewModalStatus({
+  //         status: !viewModalStatus.status,
+  //         messageId
+  //       });
+  //       break;
+
+  //     case "create":
+  //       setCreateModalStatus(!createModalStatus);
+  //       break;
+
+  //     case "edit":
+  //       // console.log(messageId);
+  //       setEditModalStatus({
+  //         status: !editModalStatus.status,
+  //         messageId
+  //       });
+  //       break;
+      
+  //     default:
+  //       break;
+  //   }
+  // };
   
   const { classes } = props;
   //console.log('### messages', messages) 
@@ -147,41 +161,16 @@ const MessageTab = props => {
         {messages.loading ? (
           <h3>Loading</h3>
         ) : (
-          messages.data.messages.map(message => (
+          messages.data.messages.sort(compare).map(message => (
             <Message
               setMsg={props.setMsg}
               user={user}
               message={message}
               key={message.id}
-              toggleModal={toggleModal}
             />
           ))
         )}
       </div>
-
-      <CreateMessageModal
-        modalStatus={createModalStatus}
-        toggleModal={toggleModal}
-        teamId={props.teamId}
-        setMsg={props.setMsg}
-      />
-      {editModalStatus ? (
-        <EditMessageModal
-          modalStatus={editModalStatus.status}
-          messageId={editModalStatus.messageId}
-          toggleModal={toggleModal}
-          setMsg={props.setMsg}
-        />
-      ) : null}
-      {viewModalStatus ? (
-        <ViewMessageModal
-          modalStatus={viewModalStatus.status}
-          messageId={viewModalStatus.messageId}
-          toggleModal={toggleModal}
-          teamId={props.teamId}
-          setMsg={props.setMsg}
-        />
-      ) : null}
     </div>
   );
 };

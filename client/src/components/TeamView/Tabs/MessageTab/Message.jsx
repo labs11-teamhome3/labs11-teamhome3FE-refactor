@@ -227,15 +227,36 @@ const Message = props => {
               />
             </div>
           ) : null}
-          {/* view replies dropdown */}
-          <div className={classes.viewReplies} onClick={() => setViewReplies(true)}>
+          <div className={classes.viewReplies} onClick={() => setViewReplies(!viewReplies)}>
             View 
             {props.message.comments && props.message.comments.length} 
             replies 
             {viewReplies? <KeyboardArrowUp /> : <KeyboardArrowDown />}
           </div>
-        </div>
+          {/* view replies dropdown */}
+          {viewReplies ? ( 
+            props.message.comments.map(comment => (
+            comment.user.profilePic ? (
+            <img className={classes.userPic} src={comment.user.profilePic} alt="profile picture"/> 
+            ):( 
+            <AccountCircle className={classes.userPic}/>
+            ),
+            <div key={comment.user.createdAt} className={classes.content}>
+              <div className={classes.contentTitle}>
+                <div className={classes.name}>{comment.user.name}</div>
+                <div className={classes.time}>{moment(comment.createdAt).startOf('minute').fromNow()}</div>
+              </div>
+              <div>{comment.content}</div>
+              <div className={classes.messageReaction}>
+                <ThumbUp className={classes.thumbs}  /> 
+                <div className={classes.likes}>{comment.likes ? comment.likes.length : 0}</div>
+                <ThumbDown className={classes.thumbs} /> 
+                <Button>REPLY</Button>
+              </div>
+            </div>
+          ))) : null}
     </div>
+  </div>
   );
 };
 
