@@ -228,9 +228,7 @@ const Message = props => {
             </div>
           ) : null}
           <div className={classes.viewReplies} onClick={() => setViewReplies(!viewReplies)}>
-            View 
-            {props.message.comments && props.message.comments.length} 
-            replies 
+            View {props.message.comments && props.message.comments.length} replies 
             {viewReplies? <KeyboardArrowUp /> : <KeyboardArrowDown />}
           </div>
           {/* view replies dropdown */}
