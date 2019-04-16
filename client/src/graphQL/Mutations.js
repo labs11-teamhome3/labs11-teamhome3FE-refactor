@@ -1,5 +1,26 @@
 import gql from 'graphql-tag';
 
+export const AUTHENTICATE_USER = gql`
+  mutation AUTHENTICATE_USER(
+    $idToken: String!
+  ) {
+    authenticateUser(
+      idToken: $idToken
+    ) {
+      id
+      name
+      inTeam {
+        id
+        teamName
+        members {
+          id
+          name
+        }
+      }
+    }
+  }
+`;
+
 export const CREATE_EVENT = gql`
 mutation CREATE_EVENT($userId: ID, $teamId: ID!, $action_string: String!, $object_string: String!) {
   addEvent(userId: $userId, teamId: $teamId, action_string: $action_string, object_string: $object_string) {
