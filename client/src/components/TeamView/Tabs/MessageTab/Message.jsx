@@ -8,6 +8,7 @@ import AccountCircle from "@material-ui/icons/AccountCircle";
 import KeyboardArrowDown from "@material-ui/icons/KeyboardArrowDown";
 import KeyboardArrowUp from "@material-ui/icons/KeyboardArrowUp";
 import TextField from "@material-ui/core/TextField";
+import MoreVertIcon from '@material-ui/icons/MoreVert';
 
 import MessageComment from "./MessageComment";
 
@@ -86,6 +87,7 @@ const Message = props => {
   const [replyStatus, setReplyStatus] = useState(false);
   const [viewReplies, setViewReplies] = useState(false);
   const [reply, setReply] = useState('');
+  const [menuStatus, setMenuStatus] = useState(false);
 
   const [likeMessage] = useMutation(LIKE_MESSAGE, {
     update: (cache, { data }) => {
@@ -190,7 +192,11 @@ const Message = props => {
   const { classes } = props;
   const user = props.message.creator;
   return (
-    <div className={classes.root}>
+    <div 
+      className={classes.root}
+      onMouseOver={() => setMenuStatus(true)}
+      onMouseOut={() => setMenuStatus(false)}
+    >
       {user.profilePic ? 
         <img className={classes.userPic} src={user.profilePic} alt="profile picture"/> 
         : 
@@ -199,7 +205,7 @@ const Message = props => {
           <div className={classes.contentTitle}>
             <div className={classes.name}>{user.name}</div>
             <div className={classes.time}>{moment(props.message.createdAt).startOf('minute').fromNow()}</div>
-            <div className={classes.menu} style={{display: 'none'}}>Hi</div>
+            <MoreVertIcon />
           </div>
           <div>{props.message.content}</div>
           <div className={classes.messageReaction}>
