@@ -76,6 +76,8 @@
     overflow-x: auto;
     text-align: left;
     margin-left: 5%;
+    color: white;
+    font-size: 1.7rem;
 }
 
 .team-premium {
@@ -89,6 +91,7 @@
 
 .team-premium-premium {
     background: #fdcb6e;
+    color: black;
 }
 
 .team-premium-basic {
@@ -101,4 +104,15 @@
 
 .team-card {
     margin-bottom: 0;
+    border: 1px solid lightgray;
+    padding: 10px 10px;
+    background: #636e72;
+}
+
+.team-card-active {
+    background: #74b9ff;
+}
+
+.team-card-active h3 {
+    font-weight: 900;
 }
