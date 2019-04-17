@@ -10,9 +10,11 @@ import ViewEventModal from './ViewEventModal';
 import { EVENTS_QUERY } from '../../../../graphQL/Queries';
 import Event from './Event';
 import MoreVert from '@material-ui/icons/MoreVert'
-import ClickAwayListener from '@material-ui/core/ClickAwayListener';
 import Button from '@material-ui/core/Button';
 import Paper from '@material-ui/core/Paper';
+import IconButton from '@material-ui/core/IconButton';
+import Menu from '@material-ui/core/Menu';
+import MenuItem from '@material-ui/core/MenuItem';
 
 /// css ///
 import './css/ActivityTimeline.css'
@@ -34,7 +36,8 @@ const ActivityTimeline = props => {
   const [status, setStatus] = useState(false);
   const [allEvents, setAllEvents] = useState(null);
   const [filteredEvents, setFilteredEvents] = useState([]);
-  const [open, setOpen] = useState(false);
+  // const [open, setOpen] = useState(false);
+  const [anchorEl, setAnchorEl] = useState(null)
 
   const events = useQuery(EVENTS_QUERY, {
     variables: {
@@ -57,24 +60,32 @@ const ActivityTimeline = props => {
     setStatus(!status);
   };
 
-  const handleClick = () => {
-    setOpen(!open);
+  const handleClick = e => {
+    setAnchorEl(e.currentTarget)
   }
 
-  const handleClickAway = () => {
-    setOpen(false)
+
+  const handleClose = () => {
+    setAnchorEl(null)
   }
 
 
   const { classes } = props;
+  const open = Boolean(anchorEl);
 
   return (
     <div className="activity-timeline">
       <div className="at-title">
         <h2>Activity</h2>
-        {/* <ClickAwayListener onClickAway={handleClickAway}> */}
-          <MoreVert className="more-vert" onClick={handleClick}/>
-          {open && 
+        <IconButton
+          aria-label="More"
+          aria-haspopup="true"
+          ara-owns={open ? 'long-menu' : undefined}
+          onClick={handleClick}
+        >
+          <MoreVert className="more-vert"/>
+        </IconButton>
+          {/* {open && 
             <Paper className={classes.paper}>
               <Button className={classes.button}>
                 <div className="dropdowns">
@@ -94,11 +105,37 @@ const ActivityTimeline = props => {
                 </div>
               </Button>
             </Paper>
-            // <div className="dropdowns">
-            //   <ObjectDropdown allEvents={allEvents} setAllEvents={setAllEvents} setFilteredEvents={setFilteredEvents}/>
-            // </div>
-          }
-        {/* </ClickAwayListener> */}
+          } */}
+        <Menu
+          id="long-menu"
+          anchorEl={anchorEl}
+          open={open}
+          onClose={handleClose}
+          PaperProps={{
+            style: {
+              width: 300,
+            },
+          }}
+        >
+          <MenuItem key='obj-dropdown'>
+            <ObjectDropdown 
+              allEvents={allEvents} 
+              setAllEvents={setAllEvents} 
+              setFilteredEvents={setFilteredEvents}
+              setAnchorEl={setAnchorEl}
+            />
+          </MenuItem>
+          <MenuItem key='user-dropdown'>
+            <UserDropdown 
+              allEvents={allEvents} 
+              teamId={props.teamId} 
+              setAllEvents={setAllEvents} 
+              setFilteredEvents={setFilteredEvents}
+              setAnchorEl={setAnchorEl}
+            />
+          </MenuItem>
+        </Menu>
+
       </div>
       {/* <ViewEventModal status={status} toggleModal={toggleModal} /> */}
       <div className="at-events">
