@@ -106,6 +106,18 @@ export const USERS_QUERY = gql`
           id
         }
       }
+      todoListsOwned {
+        description
+        inTeam {
+          teamName
+        }
+      }
+      todoListsAssigned{
+        description
+        inTeam {
+          teamName
+        }
+      }
     }
   }
 `;
