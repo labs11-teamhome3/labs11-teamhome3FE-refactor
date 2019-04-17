@@ -183,6 +183,7 @@ const TeamSettingsTab = props => {
 
   // query all users to populate dropdown for adding member to team
   const allUsersQuery = useQuery(USERS_QUERY);
+  console.log('auq', allUsersQuery);
   // set up options for the add a member <select> element
   let optionsItems;
   if (allUsersQuery.data.users) {
@@ -235,18 +236,6 @@ if(loading) {
                     }
                   })
                 }
-                {/* <select value={newMember} onChange={handleSelectChange}>
-                  {optionsItems.filter(item =>
-                    item.props.children
-                      .toLowerCase()
-                      .includes(searchInput.toLowerCase())
-                  )}
-                </select>
-                {newMember && (
-                  <button
-                    onClick={addUserToTeam}
-                  >{`Add ${newMember} to the Team!`}</button>
-                )} */}
                 {errorMsg && (
                   <div className="error-flash">
                     <h3>{errorMsg.split(":")[1]}</h3>
