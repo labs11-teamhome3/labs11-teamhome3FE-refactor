@@ -46,6 +46,7 @@ const NewTeam = props => {
         variables: { teamName: teamInput, userId: userId },
         onCompleted: (e) => {
           setTeamInput("");
+          localStorage.setItem("firstTeamId", e.createTeam.id)
           props.history.push(`/teams/${e.createTeam.id}/home`)
         },
         onError: err => {
