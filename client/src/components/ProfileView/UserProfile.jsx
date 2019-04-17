@@ -5,9 +5,9 @@ import {useQuery} from 'react-apollo-hooks';
 import styled from 'styled-components';
 import gql from 'graphql-tag'
 import { useMutation } from "../../graphQL/useMutation";
-import { TEAMS_QUERY } from "../../graphQL/Queries";
 import Button from '@material-ui/core/Button';
 import Paper from '@material-ui/core/Paper';
+import { TEAMS_QUERY } from "../../graphQL/Queries";
 
 const StyledAvatar = styled.img`{
   border-radius: 50%;
@@ -69,7 +69,6 @@ const EDIT_USER = gql`
 `;
 
 
-
 function Form(props) {
     const userId = localStorage.getItem("userId");
     const [name, setName] = useState(null);
@@ -92,12 +91,6 @@ function Form(props) {
 
 
     const { data, error, loading } = useQuery(USERS_QUERY);
-  
-    const teamsQuery = useQuery(TEAMS_QUERY, {
-      variables: {
-        userId: userId
-      }
-    })
 
     if (loading) {
       return <div>Loading...</div>;
@@ -105,8 +98,9 @@ function Form(props) {
     if (error) {
       return <div>Error! {error.message}</div>;
     }
-    let user = data.users.filter(userData => userData.id === userId); user = user[0];
-
+    let user = data.users.filter(userData => userData.id === userId); 
+    user = user[0];
+    
   return (
     <>
     <Paper>
@@ -132,7 +126,7 @@ function Form(props) {
             placeholder={`Contact Email: ${user.email}`}
             name="email"
           />
-          <Button variant="outlined" color="secondary" type="submit" onClick={(e) => {
+          <Button variant="outlined" color="primary" type="submit" onClick={(e) => {
               editUser({variables: {
                 id: userId, 
                 name: name ? name : user.name, 
@@ -145,17 +139,29 @@ function Form(props) {
 
       </StyledContainer>
       </Paper>
-      <StyledTeams>
-        <StyledHeader>My Teams</StyledHeader>
-          {user.inTeam && user.inTeam.length > 0 &&
-            user.inTeam.map(team => 
-                <Link to={`/teams/${team.id}/home`}>{team.teamName}</Link>
-              )
-          }
-          {user.inTeam && user.inTeam.length < 1 &&
-            <Link to='teams/first-team'>Create a team</Link>
-          }
-      </StyledTeams>
+
+        <StyledTeams>
+          <StyledHeader>My Teams</StyledHeader>
+            {user.inTeam && user.inTeam.length > 0 &&
+              user.inTeam.map(team => 
+                  <Link to={`/teams/${team.id}/home`}>{team.teamName}</Link>
+                )
+            }
+            {user.inTeam && user.inTeam.length < 1 &&
+              <Link to='teams/first-team'>Create a team</Link>
+            }
+        </StyledTeams>
+        <StyledTeams>
+          <StyledHeader>My Activity</StyledHeader>
+            {user.events && 
+              user.events.map(event => {
+                return (
+                  <p> 
+                    {event.action_string} in {event.team.teamName}
+                  </p>)
+              })
+            }
+        </StyledTeams>
   </>
   );
 }

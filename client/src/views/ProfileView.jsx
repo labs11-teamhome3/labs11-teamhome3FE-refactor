@@ -12,6 +12,3 @@ const ProfileView = props => {
 };
 
 export default ProfileView;
-
-// Need to add Form Component to change User details
-// Render Image 
