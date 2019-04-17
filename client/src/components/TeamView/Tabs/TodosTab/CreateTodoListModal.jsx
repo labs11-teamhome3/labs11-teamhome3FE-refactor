@@ -104,6 +104,11 @@ const CreateTodoListModal = props => {
     setTodoListTitle(e.target.value);
   };
 
+  const createTodoPD = e => {
+    e.preventDefault();
+    createTodoList();
+  };
+
   return (
     <div>
       <Modal
@@ -120,16 +125,18 @@ const CreateTodoListModal = props => {
             />
           </div>
           <br />
-          <TextField
-            required
-            value={todoListTitle}
-            onChange={handleChange}
-            name="title"
-            label="Todo List Title"
-            className={classes.todoListInput}
-          />
-          <br />
-          <Button onClick={createTodoList}>Save</Button>
+          <form onSubmit={createTodoPD}>
+            <TextField
+              required
+              value={todoListTitle}
+              onChange={handleChange}
+              name="title"
+              label="Todo List Title"
+              className={classes.todoListInput}
+            />
+            <br />
+            <Button onClick={createTodoPD}>Save</Button>
+          </form>
         </Paper>
       </Modal>
     </div>

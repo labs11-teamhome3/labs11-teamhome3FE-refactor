@@ -34,7 +34,6 @@ const styles = theme => ({
 
 const Todo = props => {
   const { classes } = props;
-  const [todoComplete, setTodoComplete] = useState(props.todo.completed);
   const [toggleComplete] = useMutation(TOGGLE_COMPLETE, {
     // update: (cache, { data }) => {
     //   const { todoList } = cache.readQuery({
@@ -71,22 +70,18 @@ const Todo = props => {
     onError: err => console.log(err)
   });
 
-  const listToggleComplete = _ => {
-    toggleComplete();
-    setTodoComplete(!todoComplete);
-  };
   return (
     <div className={classes.todoCont}>
       <ListItem
         className={classes.listItem}
-        onClick={listToggleComplete}
+        onClick={toggleComplete}
         button
       >
         <ListItemText primary={props.todo.description} />
         <ListItemSecondaryAction>
           <Checkbox
-            checked={todoComplete}
-            onChange={_ => setTodoComplete(!todoComplete)}
+            checked={props.todo.completed}
+            onChange={toggleComplete}
             onClick={toggleComplete}
             value="checkedB"
             color="primary"
