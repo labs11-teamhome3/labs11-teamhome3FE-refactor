@@ -5,8 +5,11 @@
     flex-direction: column;
     justify-content: space-evenly;
     align-items: center;
-    color: #fab1a0;
+    color: #fdcb6e;
     margin: 15px auto;
+    border: 1px solid #fdcb6e;
+    padding-top: 20px;
+    border-radius: 10px;
 }
 
 .error-flash h3 {
