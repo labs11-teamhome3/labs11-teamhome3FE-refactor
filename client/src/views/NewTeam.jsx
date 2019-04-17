@@ -5,6 +5,7 @@ import { useMutation } from '../graphQL/useMutation';
 import Fab from "@material-ui/core/Fab";
 // import Button from "@material-ui/core/Button"
 import AddIcon from "@material-ui/icons/Add";
+import TextField from '@material-ui/core/TextField';
 
 // components //
 import NavigationView from '../views/NavigationView'
@@ -70,11 +71,11 @@ const NewTeam = props => {
               </div>
                 <div className="nt-form">
                 <form onSubmit={createFirstTeam}>
-                    <input 
+                    <TextField
                       required
-                      type="text" 
-                      placeholder='My First Team...' 
-                      value={teamInput} 
+                      type="text"
+                      placeholder="My First Team..."
+                      value={teamInput}
                       onChange={handleChange}
                     />
                     <Fab type="submit" size="large" color="primary" aria-label="Add">
