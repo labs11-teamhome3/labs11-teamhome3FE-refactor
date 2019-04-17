@@ -1,23 +1,31 @@
 import React, { useEffect } from 'react';
 // import { Link } from 'react-router-dom';
-
-import Button from '@material-ui/core/Button';
 import { withStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
+import styled from 'styled-components'
+import NavigationView from './NavigationView';
+
+const StyledDiv = styled.div`{
+  display: flex;
+  justify-content: space-around;
+  // border: solid blue 2px;
+  
+
+}`;
 
 // components //
-import NavigationView from './NavigationView';
+
 
 const styles = {
   card: {
-    width: '500px',
+    width: '550px',
     height: '200px',
-    backgroundColor: 'yellow',
+    margin: '0 auto',
+    backgroundColor: 'white',
+    // border: 'solid yellow 2px',
   },
-  pos: {
-    margin: 12,
-  },
+
 };
 
 const LandingView = props => {
@@ -45,9 +53,6 @@ const LandingView = props => {
         here.{' '}
       </p>
       <div className="nav-btns">
-        <Button variant="contained" color="primary">
-          Sign Up Now
-        </Button>
       </div>
       <p>
         Organizing a team is hard. Every person has their preferred work
@@ -61,6 +66,7 @@ const LandingView = props => {
         out of the environment they are most comfortable working in.{' '}
       </p>
       <h2>Benefits</h2>
+      <StyledDiv>
       <Card className={classes.card}>
         <CardContent>
           <div>
@@ -106,6 +112,10 @@ const LandingView = props => {
           </div>
         </CardContent>
       </Card>
+
+
+      </StyledDiv>
+
       <h2>Integration</h2>
       <p>
         In addition to its own built in tracking, commenting, and messaging
