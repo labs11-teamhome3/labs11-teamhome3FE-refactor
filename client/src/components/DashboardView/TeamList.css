@@ -27,7 +27,7 @@
 .teams-list {
     height: 40vh;
     overflow-y: auto;
-    background: #636e72;
+    background: #2d3436;
 }
 
 .teams-list h1 {
@@ -131,7 +131,7 @@
 .team-card {
     margin-bottom: 0;
     padding: 10px 10px;
-    background: #636e72;
+    background: #2d3436;
 }
 
 .team-card-active {
@@ -140,4 +140,10 @@
 
 .team-card-active h3 {
     font-weight: 900;
+}
+
+#long-menu ul {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-start;
 }

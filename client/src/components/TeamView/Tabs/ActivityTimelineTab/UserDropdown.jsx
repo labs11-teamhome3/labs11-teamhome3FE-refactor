@@ -36,7 +36,7 @@ const UserDropdown = props => {
     } else {
       props.setFilteredEvents(props.allEvents.filter(event => event.user.name === selectedChoice));
     }
-    props.setOpen(false)
+    props.setAnchorEl(null)
   }
   
   const { data, error, loading } = useQuery(TEAM_QUERY, {
