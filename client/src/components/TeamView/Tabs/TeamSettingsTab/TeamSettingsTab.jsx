@@ -10,6 +10,9 @@ import TeamInfo from "./TeamInfo";
 import StripePaymentPopup from "../../../Stripe/StripePaymentPopup";
 import Loader from 'react-loader-spinner';
 import AddNewMember from './AddNewMember';
+import TextField from '@material-ui/core/TextField';
+import { withStyles } from '@material-ui/core/styles'
+
 
 ////Queries////
 import { TEAMS_QUERY, USERS_QUERY } from "../../../../graphQL/Queries";
@@ -69,6 +72,12 @@ const ADD_MEMBER = gql`
     }
   }
 `;
+
+const styles = theme => ({
+  findMember: {
+    width: '100%'
+  }
+})
 
 const TeamSettingsTab = props => {
   const [deleteInput, setDeleteInput] = useState("");
@@ -208,6 +217,8 @@ if(loading) {
     return <div>Error! {error.message}</div>;
   }
 
+  const { classes } = props;
+
   return (
     <div>
       <>
@@ -215,13 +226,27 @@ if(loading) {
           <form onSubmit={handleAddMemberSubmit}>
             <h2>Find a new team member!</h2>
             {optionsItems && (
-              <>
-                <input
-                  type="text"
-                  placeholder="search all users"
+                <>
+                <TextField
+                  className={classes.findMember}
+                  label="Search all users"
+                  defaultValue="user search"
+                  helperText="Find your next great team member"
+                  margin="normal"
+                  variant="outlined"
                   value={searchInput}
                   onChange={handleSearchChange}
                 />
+              <div className="all-members">
+                {errorMsg && (
+                  <div className="error-flash">
+                    <h3>{errorMsg.split(":")[1]}</h3>
+                    <div className="premium-or-cancel">
+                      <StripePaymentPopup teamId={props.teamId} />
+                      <Button onClick={() => setErrorMsg("")}>Cancel</Button>
+                    </div>
+                  </div>
+                )}
                 {allUsersQuery.data.users && searchInput &&
                   allUsersQuery.data.users.map(user => {
                     if (user.name.toLowerCase().includes(searchInput.toLowerCase())) {
@@ -235,34 +260,25 @@ if(loading) {
                     }
                   })
                 }
-                {errorMsg && (
-                  <div className="error-flash">
-                    <h3>{errorMsg.split(":")[1]}</h3>
-                    <div className="premium-or-cancel">
-                      {/* Need to add stripe integration to button below */}
-                      <StripePaymentPopup teamId={props.teamId} />
-                      <Button onClick={() => setErrorMsg("")}>Cancel</Button>
-                    </div>
-                  </div>
-                )}
+              </div>
               </>
             )}
           </form>
         </div>
-        {/* {userRole === "ADMIN" && !data.team.premium && (
-          <div>
-            <StripePaymentPopup teamId={props.teamId} />
-          </div>
-        )} */}
         <div className="team-settings">
           <TeamInfo
             team={data.team}
             match={props.match}
             userRole={userRole}
             setMsg={props.setMsg}
+            deleteTeam={deleteTeam}
+            areYouSure={areYouSure}
+            setAreYouSure={setAreYouSure}
+            deleteInput={deleteInput}
+            handleDeleteChange={handleDeleteChange}
           />
         </div>
-        {userRole === "ADMIN" && (
+        {/* {userRole === "ADMIN" && (
           <div className="delete-area">
             <Button
               variant="contained"
@@ -299,10 +315,10 @@ if(loading) {
               </div>
             )}
           </div>
-        )}
+        )} */}
       </>
     </div>
   );
 };
 
-export default TeamSettingsTab;
+export default withStyles(styles)(TeamSettingsTab);
