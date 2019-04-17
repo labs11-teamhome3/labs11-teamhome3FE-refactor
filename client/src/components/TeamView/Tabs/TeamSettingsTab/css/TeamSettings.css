@@ -45,7 +45,6 @@
 }
 
 .members {
-    margin-top: 50px;
     display: flex;
     flex-wrap: wrap;
 }
@@ -177,7 +176,17 @@
     background-color: black;
 }
 
+.cancel-delete-team {
+    /* display: flex; */
+    /* align-items: center; */
+    /* margin-left: 2%; */
+}
+
 .cancel-delete-team button {
     margin: 1%;
 }
+
+/* .delete-input-and-btns {
+    display: flex;
+} */
 

@@ -34,6 +34,17 @@ const styles = theme => ({
     'font-size': '1.3rem',
     'font-weight': 'bold',
     'margin': '50px 0 30px 0',
+  },
+  deleteInput: {
+    width: '50%'
+  },
+  teamMembers: {
+    display: 'flex',
+    'justify-content': 'flex-start',
+    'margin-top': '50px',
+    'padding-left': '1%',
+    'font-size': '1.5rem'
+    
   }
 })
 
@@ -128,42 +139,50 @@ const TeamInfo = props => {
                         deleted! There is no coming back from this. If you are sure,
                         please type the name of the team below.
                     </Typography>
-                    <TextField
+                    <div className='delete-input-and-btns'>
+                      <TextField
+                        className={classes.deleteInput}
                         label="Team Name"
                         margin="normal"
                         variant="outlined"
                         value={props.deleteInput}
                         onChange={props.handleDeleteChange}
-                    />
-                    <div className="cancel-delete-team">
-                      <Button 
-                          variant="outlined"
-                          onClick={() => props.setAreYouSure(false)}
-                      >
-                      Cancel
-                      </Button>
-                      {props.deleteInput === props.team.teamName &&
-                        <Button
-                          variant="contained"
-                          color="secondary"
-                          onClick={props.deleteTeam}
+                      />
+                      <div className="cancel-delete-team">
+                        <Button 
+                            variant="outlined"
+                            onClick={() => {
+                                props.setAreYouSure(false);
+                                props.setDeleteInput('');
+                              } 
+                            }
                         >
-                        Delete
+                        Cancel
                         </Button>
-                      }
+                        {props.deleteInput === props.team.teamName &&
+                          <Button
+                            variant="contained"
+                            color="secondary"
+                            onClick={props.deleteTeam}
+                          >
+                          Delete
+                          </Button>
+                        }
+                      </div>
                     </div>
                 </>
             }
+            <Typography className={classes.teamMembers} component="h2">Team Members</Typography>
             <div className="members">
-                {props.team.members.map(member => 
-                    <MemberCard 
-                        key={member.id} 
-                        setMsg={props.setMsg} 
-                        member={member} 
-                        match={props.match} 
-                        userRole={props.userRole} 
-                    />
-                )}
+              {props.team.members.map(member => 
+                <MemberCard 
+                  key={member.id} 
+                  setMsg={props.setMsg} 
+                  member={member} 
+                  match={props.match} 
+                  userRole={props.userRole} 
+                />
+              )}
             </div>
         </div>
     )

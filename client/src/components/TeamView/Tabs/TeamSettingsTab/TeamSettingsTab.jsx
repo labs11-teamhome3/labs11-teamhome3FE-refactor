@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Button from "@material-ui/core/Button";
 // import { withStyles } from "@material-ui/core/styles";
 import DeleteIcon from "@material-ui/icons/Delete";
@@ -275,6 +275,7 @@ if(loading) {
             areYouSure={areYouSure}
             setAreYouSure={setAreYouSure}
             deleteInput={deleteInput}
+            setDeleteInput={setDeleteInput}
             handleDeleteChange={handleDeleteChange}
           />
         </div>
