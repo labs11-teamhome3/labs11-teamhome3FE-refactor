@@ -98,6 +98,26 @@ export const USERS_QUERY = gql`
         id
         teamName
       }
+      events {
+        action_string
+        id
+        team {
+          teamName
+          id
+        }
+      }
+      todoListsOwned {
+        description
+        inTeam {
+          teamName
+        }
+      }
+      todoListsAssigned{
+        description
+        inTeam {
+          teamName
+        }
+      }
     }
   }
 `;
