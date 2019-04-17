@@ -299,16 +299,17 @@ export const ADD_COMMENT = gql`
       content: $content
     ) {
       id
-        content
-        user {
-          id
-          name
-        }
-        image
-        likes {
-          id
-          name
-        }
+      content
+      user {
+        id
+        name
+        profilePic
+      }
+      image
+      likes {
+        id
+        name
+      }
       }
     
   }
@@ -318,33 +319,274 @@ export const LIKE_COMMENT = gql`
   mutation LIKE_COMMENT($commentId: ID!, $userId: ID!){
     likeDocumentComment(commentId: $commentId, userId: $userId) {
       id
-        content
-        user {
-          id
-          name
-        }
-        image
-        likes {
-          id
-          name
-        }
+      content
+      user {
+        id
+        name
+        profilePic
+      }
+      image
+      likes {
+        id
+        name
+      }
     }
   }
-`
+`;
+
 export const UNLIKE_COMMENT = gql`
   mutation LIKE_COMMENT($commentId: ID!, $userId: ID!){
     unlikeDocumentComment(commentId: $commentId, userId: $userId) {
       id
+      content
+      user {
+        id
+        name
+        profilePic
+      }
+      image
+      likes {
+        id
+        name
+      }
+    }
+  }
+`;
+
+export const CREATE_MESSAGE = gql`
+  mutation CREATE_MESSAGE(
+    $title: String!
+    $teamId: ID!
+    $userId: ID!
+    $content: String!
+  ) {
+    createMessage(
+      title: $title
+      teamId: $teamId
+      userId: $userId
+      content: $content
+    ) {
+      id
+      createdAt
+      content
+      likes {
+        id
+      }
+      creator {
+        id
+        name
+        profilePic
+      }
+      images 
+      tag {
+        id
+        name
+      }
+      comments {
+        id
+        likes {
+          id
+        }
+        content
+        createdAt
+        user {
+          id
+          name
+          profilePic
+        }
+        image
+      }
+    }
+  }
+`;
+
+export const LIKE_MESSAGE = gql`
+  mutation LIKE_MESSAGE ($messageId: ID!, $userId: ID!){
+    likeMessage(messageId: $messageId, userId: $userId) {
+      id
+      createdAt
+      content
+      likes {
+        id
+      }
+      creator {
+        id
+        name
+        profilePic
+      }
+      images 
+      tag {
+        id
+        name
+      }
+      comments {
+        id
+        createdAt
         content
         user {
           id
           name
+          profilePic
+        }
+        message {
+          id
         }
         image
         likes {
           id
-          name
         }
+      }
+    }
+  }
+`;
+
+export const UNLIKE_MESSAGE = gql`
+  mutation UNLIKE_MESSAGE ($messageId: ID!, $userId: ID!){
+    unlikeMessage(messageId: $messageId, userId: $userId) {
+      id
+      createdAt
+      content
+      likes {
+        id
+      }
+      creator {
+        id
+        name
+        profilePic
+      }
+      images 
+      tag {
+        id
+        name
+      }
+      comments {
+        id
+        createdAt
+        content
+        user {
+          id
+          name
+          profilePic
+        }
+        message {
+          id
+        }
+        image
+        likes {
+          id
+        }
+      }
+    }
+  }
+`;
+
+export const ADD_MESSAGE_COMMENT = gql`
+  mutation ADD_MESSAGE_COMMENT ($messageId: ID!, $userId: ID!, $content: String!, $image: String){
+    addMessageComment(messageId: $messageId, userId: $userId, content: $content, image: $image) {
+      id
+      createdAt
+      content
+      user {
+        id
+        name
+        profilePic
+      }
+      likes {
+        id
+      }
+    }
+  }
+`;
+
+export const DELETE_MESSAGE = gql`
+  mutation DELETE_MESSAGE(
+    $id: ID!
+  ) {
+    deleteMessage(id: $id) {
+      id
     }
   }
 `
+
+export const UPDATE_MESSAGE = gql`
+  mutation UPDATE_MESSAGE(
+    $title: String!
+    $messageId: ID!
+    $content: String!
+  ) {
+    updateMessage(
+      title: $title
+      messageId: $messageId
+      content: $content
+    ) {
+      id
+      createdAt
+      content
+      likes {
+        id
+      }
+      creator {
+        id
+        name
+        profilePic
+      }
+      images 
+      tag {
+        id
+        name
+      }
+      comments {
+        id
+        likes {
+          id
+        }
+        content
+        createdAt
+        user {
+          id
+          name
+          profilePic
+        }
+        image
+      }
+    }
+  }
+`;
+
+export const LIKE_MESSAGE_COMMENT = gql`
+  mutation LIKE_MESSAGE_COMMENT($commentId: ID!, $userId: ID!){
+    likeMessageComment(commentId: $commentId, userId: $userId) {
+      id
+      likes {
+        id
+      }
+      content
+      createdAt
+      user {
+        id
+        name
+        profilePic
+      }
+      image
+    }
+  }
+`;
+
+export const UNLIKE_MESSAGE_COMMENT = gql`
+  mutation UNLIKE_MESSAGE_COMMENT($commentId: ID!, $userId: ID!){
+    unlikeMessageComment(commentId: $commentId, userId: $userId) {
+      id
+      likes {
+        id
+      }
+      content
+      createdAt
+      user {
+        id
+        name
+        profilePic
+      }
+      image
+    }
+  }
+`;

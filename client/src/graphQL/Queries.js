@@ -34,6 +34,14 @@ export const FULL_DOCUMENT = gql`
   }
 `;
 
+export const TEAM_QUERY = gql`
+  query TEAM_QUERY($id: ID!) {
+    team(id: $id) {
+      teamName
+    }
+  }
+`;
+
 export const TEAMS_QUERY = gql`
   {
     teamsByUser(userId: "${userId}") {
@@ -62,6 +70,22 @@ export const TODOS_QUERY = gql`
   }
 `;
 
+export const USER_QUERY = gql`
+  query USER_QUERY($id: ID) {
+    user(id: $id) {
+      id
+      name
+      email
+      phone
+      profilePic
+      inTeam {
+        id
+        teamName
+      }
+    }
+  }  
+`;
+
 export const USERS_QUERY = gql`
   {
     users {
@@ -82,13 +106,34 @@ export const MESSAGES_QUERY = gql`
   query MESSAGES_QUERY($teamId: ID!) {
     messages(teamId: $teamId) {
       id
-      title
+      createdAt
+      content
+      likes {
+        id
+      }
       creator {
+        id
+        name
+        profilePic
+      }
+      images 
+      tag {
         id
         name
       }
       comments {
         id
+        likes {
+          id
+        }
+        content
+        createdAt
+        user {
+          id
+          name
+          profilePic
+        }
+        image
       }
     }
   }
@@ -98,23 +143,32 @@ export const MESSAGE_QUERY = gql`
   query MESSAGE_QUERY($id: ID!) {
     message(id: $id) {
       id
-      title
+      createdAt
       content
+      likes {
+        id
+      }
       creator {
+        id
+        name
+        profilePic
+      }
+      images 
+      tag {
         id
         name
       }
       comments {
         id
+        createdAt
         content
         user {
           id
           name
+          profilePic
         }
-        image
         likes {
           id
-          name
         }
       }
     }
@@ -184,6 +238,7 @@ query DOCUMENTS_QUERY($teamId: ID!) {
         user {
           id
           name
+          profilePic
         }
         image
         likes {
@@ -219,6 +274,7 @@ query DOCUMENT_QUERY($id: ID!) {
         user {
           id
           name
+          profilePic
         }
         image
         likes {

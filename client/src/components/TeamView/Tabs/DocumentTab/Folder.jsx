@@ -76,6 +76,7 @@ const Folder = props => {
   const { classes, isOver, canDrop, connectDropTarget, droppedItem } = props;
   return (
     <TableRow 
+      hover={true}
       ref={instance => connectDropTarget(ReactDOM.findDOMNode(instance))} 
     >
       <TableCell onClick={titleEditStatus ? null : () => props.toggleModal('viewFolder', props.folder.id)}>
@@ -102,6 +103,7 @@ const Folder = props => {
           setTitleEditStatus={setTitleEditStatus}
           titleEditStatus={titleEditStatus}
           refetch={props.refetch}
+          refetchDocs={props.refetchDocs}
           teamId={props.teamId}
           folder={props.folder}
           toggleModal={props.toggleModal}

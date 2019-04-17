@@ -15,7 +15,7 @@
 }
 
 .team-name {
-    font-size: 3rem;
+    font-size: 2rem;
 }
 
 .team-list-pic {
@@ -33,7 +33,13 @@
 }
 
 .delete-area {
-   margin-top: 20vh;
+    margin-top: 20vh;
+    line-height: 1.2;
+}
+
+.delete-area h2 {
+    font-size: 1.2rem;
+    width: 60%;
 }
 
 .members {
@@ -48,9 +54,6 @@
     display: flex;
     justify-content: flex-start;
     align-items: center;
-    position: absolute;
-    top: 20px;
-    width: 20%;
 }
 
 .name-info svg {
@@ -62,11 +65,11 @@
 }
 
 .change-name {
-    position: absolute;
+    width: 25%;
 }
 
 .change-name input {
-    margin-top: 15px;
+    /* margin-top: 15px; */
     font-size: 1.5rem;
     border-radius: 30px;
     padding: 5px 20px;
@@ -81,9 +84,67 @@
 }
 
 .save-team:hover {
-    background: #55efc4;
+    background: #2d3436;
+    color: white;
 }
 
 .cancel-save-team:hover {
-    background: #fab1a0;   
+    background: #2d3436;
+    color: white;   
+}
+
+.add-user {
+    width: 25%;
+    float: right;
+    height: 100vh;
+    border-left: 2px solid lightgray;
+    border-right: 2px solid lightgray;
+}
+
+.add-user h2 {
+    font-size: 1.5rem;
+}
+
+.add-user input {
+    font-size: 1.5rem;
+    border-radius: 50px;
+    padding: 5px 20px;
+}
+
+.add-member-card {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 20px auto;
+    width: 90%;
+}
+
+.add-member-info {
+    width: 80%;
+    display: flex;
+}
+
+.add-member-info h3 {
+    margin-left: 5%;
+    font-size: 1.2rem;
+}
+
+.add-member-pic {
+    height: 50px;
+    border-radius: 50px;
+}
+
+.add-member-button {
+    width: 25%;
+    font-size: 1.2rem;
+    border-radius: 20px;
+    padding: 10px 0px;
+    background: #0984e3;
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.add-member-button:hover {
+    background: #d63031;
 }

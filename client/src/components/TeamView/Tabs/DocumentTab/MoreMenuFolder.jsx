@@ -67,6 +67,7 @@ const MoreMenuFolder = props => {
         },
         onCompleted: e => {
             props.refetch();
+            props.refetchDocs();
             props.setMsg('deleted a folder');
         },
         onError: err => console.log(err)

@@ -6,7 +6,9 @@ import Button from "@material-ui/core/Button"
 import AddIcon from "@material-ui/icons/Add";
 import Divider from '@material-ui/core/Divider';
 import CancelIcon from "@material-ui/icons/Cancel"
+import TextField from '@material-ui/core/TextField';
 import { useMutation } from "../../graphQL/useMutation";
+import Loader from 'react-loader-spinner';
 
 ////Components////
 import TeamCard from "./TeamCard";
@@ -120,6 +122,7 @@ const TeamList = props => {
   const cancelPremium = () => {
     setErrorMsg("");
     setTeamInput("");
+    setShowInput(false);
   }
 
   const addTeam = e => {
@@ -128,7 +131,14 @@ const TeamList = props => {
   }
 
   if (loading) {
-    return <div>Loading...</div>;
+    return <div>
+            <Loader 
+              type="ThreeDots"
+              height="25px"
+              width="25px"
+              color="#0984e3"
+            />
+          </div>
   }
 
   if (error) {
@@ -139,18 +149,22 @@ const TeamList = props => {
     <>
       <div className="newTeam">
         {!showInput &&
-          <div className="show-add-input">
-            <Fab onClick={() => setShowInput(true)} color="primary" size="small" aria-label="Add">
-              <AddIcon />
-            </Fab>
-          </div>
+          <>
+            <h2>My Teams</h2>
+            <div className="show-add-input">
+              <Fab onClick={() => setShowInput(true)} color="primary" size="small" aria-label="Add">
+                <AddIcon />
+              </Fab>
+            </div>
+          </>
         }
         {showInput &&
-          <form onSubmit={addTeam}>
-            <input
+          <form className="new-team-form" onSubmit={addTeam}>
+            <TextField
+              className="nt-textfield"
               required
               type="text"
-              placeholder="New Team Name..."
+              placeholder="new team name..."
               value={teamInput}
               onChange={e => setTeamInput(e.target.value)}
             />

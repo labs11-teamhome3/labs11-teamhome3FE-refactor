@@ -1,11 +1,12 @@
 .error-flash {
-    font-size: 1.2rem;
+    font-size: 1.1rem;
+    width: 90%;
     display: flex;
     flex-direction: column;
     justify-content: space-evenly;
     align-items: center;
-    color: red;
-    margin-top: 20px;
+    color: #fab1a0;
+    margin: 15px auto;
 }
 
 .error-flash h3 {
@@ -25,11 +26,13 @@
 
 .teams-list {
     height: 40vh;
-    overflow-y: scroll;
+    overflow-y: auto;
+    background: #636e72;
 }
 
 .teams-list h1 {
     text-align: center;
+    color: white;
 }
 
 .teams-list h1 {
@@ -37,21 +40,41 @@
 }
 
 .newTeam form {
-    margin-bottom: 10px;
     display: flex;
     justify-content: center;
     align-items: flex-start;
 }
 
 .newTeam {
-    margin-bottom: 20px;
+    display: flex;
+    width: 100%;
+    margin: 0 auto;
+    justify-content: space-between;
+    align-items: center;
+    background: #2d3436;
+    padding: 0px 30px;
+}
+
+.newTeam h2 {
+    color: white;
+    font-size: 1.5rem;
+}
+
+.new-team-form {
+    padding: 15px 0;
+}
+
+.nt-textfield input::placeholder {
+    color: white;
+    opacity: 0.9;
 }
 
 .newTeam input {
     margin-right: 5px;
-    font-size: 1.5rem;
+    font-size: 1.3rem;
     border-radius: 30px;
     padding: 5px 20px;
+    color: white;
 }
 
 .newTeam button {
@@ -66,7 +89,6 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    width: 90%;
     margin: 0 auto;
     font-weight: bold;
 }
@@ -76,6 +98,8 @@
     overflow-x: auto;
     text-align: left;
     margin-left: 5%;
+    color: white;
+    font-size: 1.5rem;
 }
 
 .team-premium {
@@ -88,17 +112,32 @@
 }
 
 .team-premium-premium {
-    background: #fdcb6e;
+    /* background: #fdcb6e; */
+    color: #fdcb6e;
 }
 
 .team-premium-basic {
-    background: #6c5ce7;
+    color: #6c5ce7;
 }
 
 .premium {
     display: flex;
 }
 
+.premium span {
+    font-weight: bold;
+}
+
 .team-card {
     margin-bottom: 0;
+    padding: 10px 10px;
+    background: #636e72;
+}
+
+.team-card-active {
+    background: #74b9ff;
+}
+
+.team-card-active h3 {
+    font-weight: 900;
 }
