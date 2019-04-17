@@ -65,7 +65,8 @@
 }
 
 .nt-textfield input::placeholder {
-    color: white;;
+    color: white;
+    opacity: 0.9;
 }
 
 .newTeam input {

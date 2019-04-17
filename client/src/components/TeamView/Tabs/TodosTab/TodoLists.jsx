@@ -82,6 +82,7 @@ const TodoLists = props => {
       ) : (
         todoLists.data.todoLists.map(todoList => (
           <TodoList
+            key={Math.random()}
             todoList={todoList}
             toggleModal={props.toggleModal}
             setMsg={props.setMsg}

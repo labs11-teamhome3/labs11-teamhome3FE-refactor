@@ -168,13 +168,6 @@ const TeamList = props => {
               value={teamInput}
               onChange={e => setTeamInput(e.target.value)}
             />
-            {/* <input
-              required
-              type="text"
-              placeholder="new team name..."
-              value={teamInput}
-              onChange={e => setTeamInput(e.target.value)}
-            /> */}
             <Fab type="submit" color="primary" size="small" aria-label="Add">
               <AddIcon />
             </Fab>
