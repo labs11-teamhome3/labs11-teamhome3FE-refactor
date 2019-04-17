@@ -69,7 +69,7 @@
 }
 
 .change-name input {
-    margin-top: 15px;
+    /* margin-top: 15px; */
     font-size: 1.5rem;
     border-radius: 30px;
     padding: 5px 20px;
@@ -84,11 +84,13 @@
 }
 
 .save-team:hover {
-    background: #55efc4;
+    background: #2d3436;
+    color: white;
 }
 
 .cancel-save-team:hover {
-    background: #fab1a0;   
+    background: #2d3436;
+    color: white;   
 }
 
 .add-user {
