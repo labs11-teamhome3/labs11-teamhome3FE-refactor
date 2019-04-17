@@ -113,12 +113,13 @@
 }
 
 #long-menu li {
-    padding-bottom: 25px;
+    padding-bottom: 30px;
     width: 100%;
 }
 
 #long-menu select {
     width: 80%;
+    font-size: 1.2rem;
 }
 
 
