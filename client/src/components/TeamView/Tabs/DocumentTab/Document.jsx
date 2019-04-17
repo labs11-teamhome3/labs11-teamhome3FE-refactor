@@ -8,20 +8,17 @@ import Tooltip from '@material-ui/core/Tooltip';
 import Zoom from '@material-ui/core/Zoom';
 import moment from 'moment';
 import MoreMenu from './MoreMenu';
+import { withStyles } from '@material-ui/core/styles';
 
-// const styles = theme => ({
-//   root: {
-//     width: '100%',
-//     marginTop: theme.spacing.unit * 3,
-//     overflowX: 'auto',
-//   },
-//   table: {
-//     minWidth: 700,
-//   },
-// });
+const styles = theme => ({
+  root: {
+    marginBottom: '-5px',
+    marginRight: '7px'
+  }
+});
 
 const Document = props => {
-  const { connectDragSource } = props;
+  const { connectDragSource, classes } = props;
   return (
     <TableRow 
       hover={true}
@@ -29,7 +26,7 @@ const Document = props => {
     >
       <TableCell onClick={() => props.toggleModal('view', props.document.id)}>
         <Tooltip title="Drag to folder" TransitionComponent={Zoom}>
-          <File/>
+          <File className={classes.root}/>
         </Tooltip>
           {props.document.title}
       </TableCell>
@@ -61,4 +58,4 @@ const cardSource = {
   }
 }
 
-export default DragSource("SOURCE", cardSource, collect)(Document);
+export default withStyles(styles)(DragSource("SOURCE", cardSource, collect)(Document));

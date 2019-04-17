@@ -7,16 +7,19 @@ import FolderIcon from "@material-ui/icons/Folder";
 import MoreHoriz from '@material-ui/icons/MoreHoriz';
 import TextField from '@material-ui/core/TextField';
 import moment from 'moment';
+import { withStyles } from '@material-ui/core/styles';
 
 import MoreMenuFolder from './MoreMenuFolder';
 
 import { useMutation } from "../../../../graphQL/useMutation";
 import {ADD_DOCUMENT_FOLDER, UPDATE_FOLDER} from '../../../../graphQL/Mutations';
 import {DOCUMENTS_QUERY} from '../../../../graphQL/Queries';
+import { FormHelperText } from "../../../../../node_modules/@material-ui/core";
 
 const styles = theme => ({
   root: {
-    marginBottom: "10px"
+    marginBottom: '-5px',
+    marginRight: '7px'
   }
 });
 
@@ -80,7 +83,7 @@ const Folder = props => {
       ref={instance => connectDropTarget(ReactDOM.findDOMNode(instance))} 
     >
       <TableCell onClick={titleEditStatus ? null : () => props.toggleModal('viewFolder', props.folder.id)}>
-        <FolderIcon/> 
+        <FolderIcon className={classes.root}/> 
         {titleEditStatus ? 
           <TextField 
             value={titleHandler}
@@ -130,4 +133,4 @@ function collect(connect, monitor) {
   }
 }
 
-export default DropTarget("SOURCE", spec, collect)(Folder);
+export default withStyles(styles)(DropTarget("SOURCE", spec, collect)(Folder));
