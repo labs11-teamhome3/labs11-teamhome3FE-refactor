@@ -83,7 +83,7 @@ const Folder = props => {
       ref={instance => connectDropTarget(ReactDOM.findDOMNode(instance))} 
     >
       <TableCell onClick={titleEditStatus ? null : () => props.toggleModal('viewFolder', props.folder.id)}>
-        <FolderIcon className={classes.root}/> 
+        <FolderIcon style={isOver && canDrop ? {fontSize: '50px'} : null} className={classes.root}/> 
         {titleEditStatus ? 
           <TextField 
             value={titleHandler}
