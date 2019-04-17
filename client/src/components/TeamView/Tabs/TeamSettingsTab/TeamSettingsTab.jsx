@@ -235,18 +235,6 @@ if(loading) {
                     }
                   })
                 }
-                {/* <select value={newMember} onChange={handleSelectChange}>
-                  {optionsItems.filter(item =>
-                    item.props.children
-                      .toLowerCase()
-                      .includes(searchInput.toLowerCase())
-                  )}
-                </select>
-                {newMember && (
-                  <button
-                    onClick={addUserToTeam}
-                  >{`Add ${newMember} to the Team!`}</button>
-                )} */}
                 {errorMsg && (
                   <div className="error-flash">
                     <h3>{errorMsg.split(":")[1]}</h3>
