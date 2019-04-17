@@ -183,7 +183,6 @@ const TeamSettingsTab = props => {
 
   // query all users to populate dropdown for adding member to team
   const allUsersQuery = useQuery(USERS_QUERY);
-  console.log('auq', allUsersQuery);
   // set up options for the add a member <select> element
   let optionsItems;
   if (allUsersQuery.data.users) {
