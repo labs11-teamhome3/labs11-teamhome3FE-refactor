@@ -54,8 +54,8 @@ const TeamInfo = props => {
             <div className="name-info">
                 <h2 className="team-name">{props.team.teamName}</h2>
                 {!showInput && props.userRole === "ADMIN" &&
-                    <Fab size="small" variant="extended" color="default" aria-label="Edit">
-                        <EditIcon onClick={() => setInput(true)} />
+                    <Fab onClick={() => setInput(true)} size="small" variant="extended" color="default" aria-label="Edit">
+                        <EditIcon />
                     </Fab>
                 }
             </div>
