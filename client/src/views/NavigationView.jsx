@@ -56,8 +56,13 @@ const NavigationView = props => {
   // This makes sure that the home/profile link always works
   const checkTeams = () => {   
     let team; 
-    data.teamsByUser ? team = data.teamsByUser.map(team => team.id)[0] : team = localStorage.firstTeamId
-    return team
+    if (data.teamsByUser) {
+      team = data.teamsByUser.map(team => team.id)
+      return team[0]
+    } else {
+        team = localStorage.firstTeamId
+        return team
+    }
   }
 
   return (
