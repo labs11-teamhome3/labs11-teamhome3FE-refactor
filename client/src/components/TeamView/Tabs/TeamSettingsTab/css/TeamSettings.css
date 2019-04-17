@@ -1,12 +1,9 @@
 .member-card {
     display: flex;
-    width: 30%;
-    justify-content: space-between;
     align-items: center;
-    margin: 10px auto;
-    border: 1px solid lightgray;
-    box-shadow: inset 0 0 10px #000000;
-    padding: 20px
+    width: 100%;
+    padding: 2%;
+    justify-content: space-between;
 }
 
 .team-info {
@@ -19,21 +16,26 @@
 }
 
 .team-list-pic {
-    width: 100px;
-    height: 100px;
+    width: 50px;
+    height: 50px;
     border-radius: 50px;
-    margin-right: 10%;
+    margin-right: 3%;
 }
 
 .member-info {
     display: flex;
     align-items: center;
     justify-content: flex-start;
-    width: 60%;
+    width: 90%;
+}
+
+.member-info h2 {
+    font-size: 1.3rem;
 }
 
 .delete-area {
-    margin-top: 20vh;
+    float: bottom;
+    bottom: 0;
     line-height: 1.2;
 }
 
@@ -43,17 +45,19 @@
 }
 
 .members {
-    margin-top: 5%;
+    display: flex;
+    flex-wrap: wrap;
 }
 
-.premium-or-cancel button {
-    margin: 0 10px;
+.premium-or-cancel {
+   display: flex;
 }
 
 .name-info {
     display: flex;
-    justify-content: flex-start;
+    justify-content: space-between;
     align-items: center;
+    padding-left: 1.2%;
 }
 
 .name-info svg {
@@ -62,6 +66,8 @@
 
 .name-info h2 {
     margin-right: 20px;
+    font-weight: bold;
+    font-size: 2rem;
 }
 
 .change-name {
@@ -94,33 +100,29 @@
 
 .add-user {
     width: 25%;
-    float: right;
     height: 100vh;
-    border-left: 2px solid lightgray;
-    border-right: 2px solid lightgray;
+    float: right;
+    padding-left: 2%;
+    overflow-y: auto;
 }
 
 .add-user h2 {
     font-size: 1.5rem;
 }
 
-.add-user input {
-    font-size: 1.5rem;
-    border-radius: 50px;
-    padding: 5px 20px;
-}
-
 .add-member-card {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin: 20px auto;
-    width: 90%;
+    width: 95%;
+    margin-top: 10px;
+    padding: 1%;
 }
 
 .add-member-info {
     width: 80%;
     display: flex;
+    align-items: center;
 }
 
 .add-member-info h3 {
@@ -147,3 +149,44 @@
 .add-member-button:hover {
     background: #d63031;
 }
+
+.all-members {
+    margin-top: 25px;
+}
+
+.name-edit {
+    width: 70%;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+}
+
+.name-edit button {
+    margin: 0px 5px;
+}
+
+.upgrade-delete {
+    width: 25%;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.delete-team-btn {
+    background-color: black;
+}
+
+.cancel-delete-team {
+    /* display: flex; */
+    /* align-items: center; */
+    /* margin-left: 2%; */
+}
+
+.cancel-delete-team button {
+    margin: 1%;
+}
+
+/* .delete-input-and-btns {
+    display: flex;
+} */
+

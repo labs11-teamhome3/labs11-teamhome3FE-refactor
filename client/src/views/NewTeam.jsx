@@ -5,6 +5,7 @@ import { useMutation } from '../graphQL/useMutation';
 import Fab from "@material-ui/core/Fab";
 // import Button from "@material-ui/core/Button"
 import AddIcon from "@material-ui/icons/Add";
+import TextField from '@material-ui/core/TextField';
 
 // components //
 import NavigationView from '../views/NavigationView'
@@ -69,18 +70,18 @@ const NewTeam = props => {
                 <h2>Manaje is all about helping you collaborate with your teams.  Create your first team below and begin manaje-ing.</h2>
               </div>
                 <div className="nt-form">
-                <form onSubmit={createFirstTeam}>
-                    <input 
-                      required
-                      type="text" 
-                      placeholder='My First Team...' 
-                      value={teamInput} 
-                      onChange={handleChange}
-                    />
-                    <Fab type="submit" size="large" color="primary" aria-label="Add">
-                        <AddIcon />
-                    </Fab>
-                </form>
+                  <form onSubmit={createFirstTeam}>
+                      <TextField
+                        required
+                        type="text"
+                        placeholder="My First Team..."
+                        value={teamInput}
+                        onChange={handleChange}
+                      />
+                      <Fab type="submit" size="large" color="primary" aria-label="Add">
+                          <AddIcon />
+                      </Fab>
+                  </form>
                 </div>
             </div>
         </div>

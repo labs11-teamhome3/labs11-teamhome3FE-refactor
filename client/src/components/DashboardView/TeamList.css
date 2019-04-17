@@ -5,9 +5,8 @@
     flex-direction: column;
     justify-content: space-evenly;
     align-items: center;
-    background-color: #E09D6C;
+    color: #f50057;
     margin: 15px auto;
-    /* border: 1px solid #fdcb6e; */
     padding-top: 20px;
     border-radius: 10px;
     color: white;

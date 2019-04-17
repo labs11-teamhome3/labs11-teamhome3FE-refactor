@@ -28,7 +28,7 @@ const StripePaymentPopup = props => {
 
   return (
     <div>
-      <Button variant="outlined" color="primary" onClick={handleClickOpen}>
+      <Button variant="contained" color="primary" onClick={handleClickOpen}>
         Upgrade
       </Button>
       <Dialog

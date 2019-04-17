@@ -3,8 +3,13 @@ import Button from "@material-ui/core/Button";
 import gql from "graphql-tag";
 // import { useQuery } from "react-apollo-hooks";
 import { useMutation } from "../../../../graphQL/useMutation";
+import Typography from '@material-ui/core/Typography';
+import { withStyles } from '@material-ui/core/styles'
 
 // components //
+import Paper from '@material-ui/core/Paper';
+import DeleteIcon from '@material-ui/icons/Delete'
+import Fab from '@material-ui/core/Fab'
 
 
 //// css ///
@@ -32,8 +37,12 @@ const TEAM_QUERY = gql`
     }
 `
 
-
-
+const styles = theme => ({
+    root: {
+        width: '30%',
+        margin: '1%'
+    }
+})
 
 const MemberCard = props => {
     // mutation to remove a team member from the team.
@@ -66,21 +75,37 @@ const MemberCard = props => {
         onError: err => console.log(err)
     })
 
+    const { classes } = props;
+
     return (
-        <div className="member-card">
-            <div className="member-info">
-                {props.member.profilePic ?
-                    <img className="team-list-pic" src={props.member.profilePic} alt="profile" /> :
-                    <img className="team-list-pic" src='https://cdn.pixabay.com/photo/2016/08/08/09/17/avatar-1577909_960_720.png' alt="profile" /> 
-                    
+        <Paper className={classes.root}>
+            <div className="member-card">
+                <div className="member-info">
+                    {props.member.profilePic ?
+                        <img className="team-list-pic" src={props.member.profilePic} alt="profile" /> :
+                        <img className="team-list-pic" src='https://cdn.pixabay.com/photo/2016/08/08/09/17/avatar-1577909_960_720.png' alt="profile" /> 
+                    }
+                    <Typography component="h2">
+                        {props.member.name}
+                    </Typography>
+                </div>
+                {props.member.id !== localStorage.getItem('userId') && props.userRole === "ADMIN" &&
+                    <Fab 
+                        size="small" 
+                        color="secondary"
+                        onClick={removeMember}
+                    >
+                        <DeleteIcon />
+                    </Fab>
+                    // <Button 
+                    //     variant="contained" 
+                    //     color="secondary" 
+                    //     onClick={removeMember}
+                    // >Remove</Button>
                 }
-                <h3>{props.member.name}</h3>
             </div>
-            {props.member.id !== localStorage.getItem('userId') && props.userRole === "ADMIN" &&
-                <Button variant="contained" color="secondary" onClick={removeMember}>Remove</Button>
-            }
-        </div>
+        </Paper>
     )
 }
 
-export default MemberCard;
+export default withStyles(styles)(MemberCard);
