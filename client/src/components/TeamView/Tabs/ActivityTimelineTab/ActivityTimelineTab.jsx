@@ -113,8 +113,7 @@ const ActivityTimeline = props => {
           onClose={handleClose}
           PaperProps={{
             style: {
-              width: 200,
-              height: '13%'
+              width: 300,
             },
           }}
         >
