@@ -192,7 +192,7 @@ const PersistentDrawerLeft = props => {
                             <Button>Dashboard</Button>
                         </Link> */}
                         <Link to="/profile">
-                            {picQuery.data.user && picQuery.data.user.profilePic ? 
+                            {/* {picQuery.data.user && picQuery.data.user.profilePic ? 
                               <img 
                                 className="nav-profile-pic" 
                                 src={picQuery.data.user.profilePic} 
@@ -202,8 +202,7 @@ const PersistentDrawerLeft = props => {
                                 className="nav-profile-pic" 
                                 src='http://chittagongit.com//images/default-user-icon/default-user-icon-8.jpg'
                                 alt="profile" 
-                              />  
-                            }
+                            /> } */}  <Button>Profile</Button> 
                         </Link>
                         <Button onClick={props.logout}>Log out</Button>
                     </div>
