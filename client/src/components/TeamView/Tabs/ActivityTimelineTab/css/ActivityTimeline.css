@@ -43,10 +43,9 @@
 .label-select {
     display: flex;
     flex-direction: column;
-    width: 70%;
-    margin: 5px auto;
     justify-content: space-between;
-    align-items: center;
+    width: 100%;
+    font-size: 1.25rem;
 }
 
 .event {
@@ -113,9 +112,16 @@
     color: #2d3436; 
 }
 
-.more-vert {
-    cursor: pointer;
+#long-menu li {
+    padding-bottom: 30px;
+    width: 100%;
 }
+
+#long-menu select {
+    width: 80%;
+    font-size: 1.2rem;
+}
+
 
 
 
