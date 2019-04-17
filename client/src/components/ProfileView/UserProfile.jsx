@@ -6,7 +6,7 @@ import styled from 'styled-components';
 import gql from 'graphql-tag'
 import { useMutation } from "../../graphQL/useMutation";
 import Button from '@material-ui/core/Button';
-import Paper from '@material-ui/core/Paper';
+// import '../ProfileView/Profile.css'
 
 const StyledAvatar = styled.img`{
   border-radius: 50%;
@@ -25,11 +25,10 @@ const StyledHeader2 = styled.h2`{
 }`
 
 const StyledContainer = styled.div`{
-  // border: solid green 2px;
   display: flex;
   justify-content: center;
   margin-top: 25px;
-  padding-top: 25px
+  padding-top: 25px;
 }`
 
 const StyledTeams = styled.div`{
@@ -45,7 +44,7 @@ const StyledForm = styled.form`{
   flex-direction: column;
   align-items: center;
   margin-top: 10px;
-  margin-left: 25px;
+  margin-left: 25px;  
     button {
       align-self: flex-end;
       margin-bottom: 20px;
@@ -70,6 +69,14 @@ const SDiv = styled.div`{
   width: 65%;
   margin-left: 18%;
   margin-top: 25px;
+  background-color: #DDE4E9;
+}`
+
+const BDiv = styled.div`{
+  background-color: #DDE4E9;
+  height: 1000px;
+  // border: solid red 1px;
+  margin-bottom: 10px;
 }`
 
 const EDIT_USER = gql`
@@ -116,8 +123,7 @@ function Form(props) {
     user = user[0];
 
   return (
-    <>
-    <Paper>
+    <BDiv>
       <StyledHeader>User Settings</StyledHeader>
       <StyledContainer>
         <StyledAvatar src={user.profilePic} alt="avatar"/>
@@ -152,7 +158,6 @@ function Form(props) {
         </StyledForm>
 
       </StyledContainer>
-      </Paper>
       <SDiv>
         <StyledTeams>
             <StyledHeader2>My Teams</StyledHeader2>
@@ -202,7 +207,7 @@ function Form(props) {
               }
           </StyledTeams>
       </SDiv>
-  </>
+  </BDiv>
   );
 }
 

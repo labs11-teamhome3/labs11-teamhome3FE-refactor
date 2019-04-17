@@ -5,11 +5,12 @@
     flex-direction: column;
     justify-content: space-evenly;
     align-items: center;
-    color: #fdcb6e;
+    background-color: #E09D6C;
     margin: 15px auto;
-    border: 1px solid #fdcb6e;
+    /* border: 1px solid #fdcb6e; */
     padding-top: 20px;
     border-radius: 10px;
+    color: white;
 }
 
 .error-flash h3 {
@@ -31,6 +32,7 @@
     height: 40vh;
     overflow-y: auto;
     background: #2d3436;
+    background: #D3D4E4;
 }
 
 .teams-list h1 {
@@ -54,7 +56,9 @@
     margin: 0 auto;
     justify-content: space-between;
     align-items: center;
-    background: #2d3436;
+    /* background: #2d3436; */
+    /* misty blue */
+    background: #D3D4E4;
     padding: 0px 30px;
 }
 
@@ -134,11 +138,12 @@
 .team-card {
     margin-bottom: 0;
     padding: 10px 10px;
-    background: #2d3436;
+    /* background: #2d3436; */
+    background: #D3D4E4
 }
 
 .team-card-active {
-    background: #74b9ff;
+    background: #B97E7E;
 }
 
 .team-card-active h3 {
