@@ -4,23 +4,18 @@ import AppBar from '@material-ui/core/AppBar';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import Typography from '@material-ui/core/Typography';
-
+import { withStyles } from '@material-ui/core/styles';
 import TodosTab from './Tabs/TodosTab/TodosTab';
 
 import MessageTab from './Tabs/MessageTab/MessageTab';
 import DocumentTab from './Tabs/DocumentTab/DocumentTab'
-// import ActivityTimelineTab from './Tabs/ActivityTimelineTab/ActivityTimelineTab';
 import TeamSettingsTab from './Tabs/TeamSettingsTab/TeamSettingsTab';
 
-// import { useMutation } from '../../graphQL/useMutation';
+const styles = theme => ({
+  root: {
 
-// import { CREATE_EVENT } from '../../graphQL/Mutations';
-import {
-  // MESSAGES_QUERY,
-  // USERS_QUERY,
-  // MESSAGE_QUERY,
-  // EVENTS_QUERY
-} from "../../graphQL/Queries";
+  }
+})
 
 function TabContainer({ children, dir }) {
   return (
@@ -33,35 +28,6 @@ function TabContainer({ children, dir }) {
 const TabNavigator = props => {
   // const userId = localStorage.getItem('userId')
   const [tab, setTab] = useState(0);
-  // const [msg, setMsg] = useState(null);
-
-  // useEffect( _ => {
-  //   createEvent();
-  // }, [msg])
-
-  // const [createEvent] = useMutation(CREATE_EVENT, {
-  //   update: (cache, { data }) => {
-  //     // console.log(data.createMessage)
-  //     const {findEventsByTeam} = cache.readQuery({
-  //       query: EVENTS_QUERY,
-  //       variables: { teamId: props.match.params.id },
-  //     });
-  //     cache.writeQuery({
-  //       query: EVENTS_QUERY,
-  //       variables: { teamId: props.match.params.id },
-  //       data: { findEventsByTeam: [...findEventsByTeam, data.addEvent] },
-  //     });
-  //   },
-  //   variables: {
-  //     action_string: msg,
-  //     object_string: '',
-  //     userId: userId,
-  //     teamId: props.match.params.id,
-  //   },
-  //   onCompleted: e => {
-  //   },
-  //   onError: err => console.log(err),
-  // });
 
   const handleChange = (event, value) => {
     setTab(value);
@@ -71,8 +37,9 @@ const TabNavigator = props => {
     setTab(index);
   };
 
+  const { classes } = props; 
   return (
-    <div>
+    <div className={classes.root}>
       <AppBar position="static" color="default">
         <Tabs
           value={tab}
@@ -82,7 +49,6 @@ const TabNavigator = props => {
           variant="fullWidth"
         >
           <Tab label="Message Board" />
-          {/* <Tab label="Activity Timeline" /> */}
           <Tab label="Documents" />
           <Tab label="Todos" />
           <Tab label="Team Settings" />
@@ -92,10 +58,6 @@ const TabNavigator = props => {
         <TabContainer>
           <MessageTab teamId={props.match.params.id} setMsg={props.setMsg} />
         </TabContainer>
-
-        {/* <TabContainer>
-          <ActivityTimelineTab teamId={props.match.params.id} setMsg={setMsg} />
-        </TabContainer> */}
 
         <TabContainer>
           <DocumentTab teamId={props.match.params.id} setMsg={props.setMsg} />
@@ -113,4 +75,4 @@ const TabNavigator = props => {
   );
 };
 
-export default TabNavigator;
+export default withStyles(styles)(TabNavigator);
