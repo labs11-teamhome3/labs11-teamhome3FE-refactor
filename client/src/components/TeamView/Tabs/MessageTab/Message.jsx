@@ -34,11 +34,11 @@ const styles = theme => ({
     margin: '10px'
   },
   content: {
-    marginTop: '7px',
-    fontSize: '21px' 
+    marginTop: '6px',
+    fontSize: '19px' 
   },
   contentTitle: {
-    fontSize: '17px',
+    fontSize: '15px',
     display: 'flex', 
     marginBottom: '6px'
   },
@@ -65,7 +65,7 @@ const styles = theme => ({
   thumbs: {
     width: '18px',
     height: 'auto',
-    margin: '0 5px'
+    margin: '0 6px'
   },
   likes: {
     display: 'inline',
