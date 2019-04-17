@@ -40,7 +40,9 @@ const styles = theme => ({
     "max-width": "600px",
     margin: "0 auto",
     "text-align": "left",
-    padding: "30px"
+    padding: "30px",
+    maxHeight: "540px",
+    overflow: "auto"
   },
   todoListInput: {
     width: "100%",
@@ -512,6 +514,11 @@ const CreateTodoListModal = props => {
     return <h1>Loading...</h1>;
   }
 
+  const createTodoPD = e => {
+    e.preventDefault();
+    createTodo();
+  };
+
   return (
     <div>
       <Modal
@@ -672,24 +679,27 @@ const CreateTodoListModal = props => {
               )}
             </List>
           </div>
-          <div className={classes.todoInputFlex}>
-            <TextField
-              placeholder="Todo Task"
-              type="text"
-              value={todoListTask}
-              onChange={e => setTodoListTask(e.target.value)}
-              fullWidth
-              variant="outlined"
-            />
-            <Button
-              variant="contained"
-              color="primary"
-              onClick={createTodo}
-              className={classes.addTodoBtn}
-            >
-              Add Todo
-            </Button>
-          </div>
+
+          <form onSubmit={createTodoPD}>
+            <div className={classes.todoInputFlex}>
+              <TextField
+                placeholder="Todo Task"
+                type="text"
+                value={todoListTask}
+                onChange={e => setTodoListTask(e.target.value)}
+                fullWidth
+                variant="outlined"
+              />
+              <Button
+                variant="contained"
+                color="primary"
+                className={classes.addTodoBtn}
+                onClick={createTodoPD}
+              >
+                Add Todo
+              </Button>
+            </div>
+          </form>
           <div className={classes.bottomBtnCont}>
             <Button onClick={updateTodoList} color="primary" variant="outlined">
               Save

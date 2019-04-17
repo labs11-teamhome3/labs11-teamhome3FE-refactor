@@ -29,19 +29,29 @@ const ObjectDropdown = props => {
       default:
         props.setFilteredEvents(props.allEvents.filter(event => event.action_string.includes(selectedChoice)));
     } 
-    props.setOpen(false);
+    props.setAnchorEl(null);
   }
 
   const activities = [
     {name: ' '},
     {name: 'all'},
     {name: 'created a message'},
-    {name: 'added to the team'},
-    {name: 'removed from the team'},
+    {name: 'liked a message'},
+    {name: 'unliked a message'},
     {name: 'created a todo list'},
     {name: 'deleted a todo list'},
     {name: 'completed a todo list'},
-    {name: 'changed the team name'}
+    {name: 'created a document'},
+    {name: 'deleted a document'},
+    {name: 'updated a document'},
+    {name: 'created a folder'},
+    {name: 'deleted a folder'},
+    {name: 'updated a folder'},
+    {name: 'added document to folder'},
+    {name: 'removed a document from a folder'},
+    {name: 'added to the team'},
+    {name: 'removed from the team'},
+    {name: 'changed the team name'},
   ]
 
   const activityOptions = activities.map(activity => 
