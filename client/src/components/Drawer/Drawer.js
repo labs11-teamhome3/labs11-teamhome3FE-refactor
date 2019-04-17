@@ -73,6 +73,8 @@ const styles = theme => ({
     height: '75px'
   },
   content: {
+    // 63% works ideal for 1000 px with drawer out
+    width: '63%',
     flexGrow: 1,
     padding: theme.spacing.unit * 3,
     transition: theme.transitions.create('margin', {
