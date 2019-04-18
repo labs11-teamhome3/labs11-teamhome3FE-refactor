@@ -44,8 +44,6 @@ const StyledDiv2 = styled.div`
   margin: 0 auto;
   width: 90%;
   margin-top: 35px;
-  // box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-  // box-shadow: 0 1px 1px 0 gray, 0 1px 10px 0 #507F43;
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 50px 0 rgba(0, 0, 0, 0.19);
   img {
     width: 500px;
