@@ -28,7 +28,7 @@ import { useMutation } from "../../../../graphQL/useMutation";
 
 const styles = theme => ({
   table: {
-    minWidth: '400px',
+    minWidth: '300px',
     width: '100%'
   },
   input: {
@@ -168,7 +168,8 @@ const DocumentTab = props => {
                   folder={folder}
                   key={folder.id}
                   toggleModal={toggleModal}
-                />
+                  teamId={props.teamId}
+                  />
               ))
             )}
             {!documents.data.findDocumentsByTeam ? (

@@ -83,15 +83,17 @@ const CreateFolderModal = props => {
             <Close onClick={_ => props.toggleModal('createFolder')} />
           </div>
           <br />
-          <TextField
-            required
-            label="Name this folder"
-            className={classes.textField}
-            value={title}
-            onChange={handleChange}
-            name="title"
-          />
-          <Button variant="contained" disabled={!title} className={classes.button} onClick={createFolder}>Create</Button>
+          <form onSubmit={(e) => {e.preventDefault(); createFolder()}}>
+            <TextField
+              required
+              label="Name this folder"
+              className={classes.textField}
+              value={title}
+              onChange={handleChange}
+              name="title"
+            />
+            <Button variant="contained" disabled={!title} className={classes.button} onClick={createFolder}>Create</Button>
+          </form>
         </Paper>
       </Modal>
     </div>

@@ -17,7 +17,6 @@ import MenuIcon from '@material-ui/icons/Menu';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 
-
 // components //
 import TabNavigator from '../../components/TeamView/TabNavigator'
 import ActivityTimeline from '../TeamView/Tabs/ActivityTimelineTab/ActivityTimelineTab';
@@ -30,7 +29,7 @@ import { EVENTS_QUERY } from "../../graphQL/Queries";
 // css //
 import './css/Drawer.css'
 
-const drawerWidth = 400;
+const drawerWidth = 375;
 
 const styles = theme => ({
   root: {
@@ -87,6 +86,7 @@ const styles = theme => ({
     height: '75px',
   },
   content: {
+    width: '30%',
     flexGrow: 1,
     padding: theme.spacing.unit * 3,
     transition: theme.transitions.create('margin', {
@@ -114,10 +114,7 @@ const PIC_QUERY = gql`
 `
 
 const PersistentDrawerLeft = props => {
-    const userId = localStorage.getItem('userId')
-//   state = {
-//     open: false,
-//   };
+  const userId = localStorage.getItem('userId')
 
   const [open, setOpen] = useState(true)
   const [msg, setMsg] = useState(null);
@@ -130,12 +127,8 @@ const PersistentDrawerLeft = props => {
     variables: { id: userId }
   })
 
-  //console.log('pq data', picQuery.data);
-
-
   const [createEvent] = useMutation(CREATE_EVENT, {
     update: (cache, { data }) => {
-      // console.log(data.createMessage)
       const {findEventsByTeam} = cache.readQuery({
         query: EVENTS_QUERY,
         variables: { teamId: props.match.params.id },
@@ -158,21 +151,14 @@ const PersistentDrawerLeft = props => {
   });
 
   const handleDrawerOpen = () => {
-    // this.setState({ open: true });
     setOpen(true)
   };
 
   const handleDrawerClose = () => {
-    // this.setState({ open: false });
     setOpen(false)
   };
 
-//   render() {
-    // const { classes, theme } = this.props;
     const { classes, theme } = props;
-
-    // const { open } = this.state;
-
     return (
       <div className={classes.root}>
         <CssBaseline />
