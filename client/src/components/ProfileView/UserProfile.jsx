@@ -47,9 +47,9 @@ const StyledHeader2 = styled.h2`
 
 const StyledContainer = styled.div`
    {
-    // border: solid green 2px;
     display: flex;
     justify-content: space-between;
+    background-color: #DDE4E9;
     @media (max-width: 850px) {
       flex-direction: column; 
     }
@@ -62,7 +62,9 @@ const StyledTeams = styled.div`
     display: flex;
     margin-left: 25px;
     flex-direction: column; */
-  padding: 12px 12px 0 12px;
+    padding: 12px 12px 0 12px;
+    background-color: #DDE4E9;
+  }
 `;
 
 const StyledForm = styled.form`
@@ -96,7 +98,21 @@ const SDiv = styled.div`
     margin-top: 25px; */
   /* display: flex;
     justify-content: space-between; */
-  paddingright: '10px';
+    paddingright: "10px";
+    background-color: #DDE4E9;
+    background-color: white;
+    border: solid white 1px;
+  }
+`;
+
+const Umbrella = styled.div`
+   {
+    background-color: #DDE4E9;
+    height: 1000px;
+    // border: solid red 2px;
+    margin-top: 3px;
+    box-shadow: inset 0 0 10px gray;
+  }
 `;
 
 const EDIT_USER = gql`
@@ -112,8 +128,8 @@ const EDIT_USER = gql`
 const styles = theme => ({
   root: {},
   listPaper: {
-    overflow: 'hidden',
-    paddingBottom: '10px',
+    overflow: "hidden",
+    paddingBottom: "10px",
   },
   listTeamsPaper: {
     height: "279px",
@@ -170,7 +186,7 @@ const styles = theme => ({
   cardAppBar: {},
   tabNav: {},
   tabNavCont: {
-    margin: "30px 12px 0px 12px",
+    margin: "0px 12px 0px 12px",
     overflow: "hidden"
   }
 });
@@ -228,6 +244,7 @@ const Form = props => {
   };
 
   return (
+    <Umbrella>
     <div className={classes.root}>
       <div>
         {/* <StyledHeader>User Settings</StyledHeader> */}
@@ -498,6 +515,7 @@ const Form = props => {
         )}
       </SDiv>
     </div>
+  </Umbrella>
   );
 };
 

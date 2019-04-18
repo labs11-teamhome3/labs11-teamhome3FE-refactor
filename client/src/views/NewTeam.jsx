@@ -20,7 +20,7 @@ import './css/NewTeam.css'
 
 const StyledDiv = styled.div`{
   // border: solid red 2px;
-  box-shadow: 0 1px 1px 0 gray, 0 1px 10px 0 #507F43;
+  // box-shadow: 0 1px 1px 0 gray, 0 1px 10px 0 #507F43;
   border-radius: 50%;
   width: 650px;
   height: 650px;
