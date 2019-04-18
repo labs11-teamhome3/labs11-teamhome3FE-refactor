@@ -96,7 +96,7 @@ const Folder = props => {
         <TableCell
           onClick={() => setExpandedStatus(!expandedStatus)}
         >
-          {props.folder.documents.length > 0 ? expandedStatus ? <ArrowDown className={classes.arrow} /> : <ArrowRight className={classes.arrow} /> : null}
+          {expandedStatus ? <ArrowDown className={classes.arrow} /> : <ArrowRight className={classes.arrow} />}
           <FolderIcon style={isOver && canDrop ? {fontSize: '50px'} : null} className={classes.root}/> 
           {titleEditStatus ? 
             <TextField 
