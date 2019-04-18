@@ -52,7 +52,7 @@ const styles = theme => ({
     width: "25%",
     padding: "0 5px",
     [theme.breakpoints.down("md")]: {
-      width: "33%"
+      width: "300px"
     }
   },
   textCont: {
