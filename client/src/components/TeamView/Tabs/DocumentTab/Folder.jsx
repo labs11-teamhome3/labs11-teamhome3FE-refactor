@@ -4,25 +4,37 @@ import { DropTarget } from "react-dnd";
 import TableCell from '@material-ui/core/TableCell';
 import TableRow from '@material-ui/core/TableRow';
 import FolderIcon from "@material-ui/icons/Folder";
-import MoreHoriz from '@material-ui/icons/MoreHoriz';
 import TextField from '@material-ui/core/TextField';
 import moment from 'moment';
+import { withStyles } from '@material-ui/core/styles';
+import ArrowRight from '@material-ui/icons/ArrowRight';
+import ArrowDown from '@material-ui/icons/ArrowDropDown';
 
 import MoreMenuFolder from './MoreMenuFolder';
+import Document from './Document';
 
 import { useMutation } from "../../../../graphQL/useMutation";
 import {ADD_DOCUMENT_FOLDER, UPDATE_FOLDER} from '../../../../graphQL/Mutations';
 import {DOCUMENTS_QUERY} from '../../../../graphQL/Queries';
+import { FormHelperText } from "../../../../../node_modules/@material-ui/core";
 
 const styles = theme => ({
   root: {
-    marginBottom: "10px"
+    marginBottom: '-5px',
+    marginRight: '7px'
+  },
+  panel: {
+    width: '100%'
+  },
+  arrow: {
+    marginBottom: '-5px'
   }
 });
 
 const Folder = props => {
   const [titleEditStatus, setTitleEditStatus] = useState(false);
   const [titleHandler, setTitleHandler] = useState(''); 
+  const [expandedStatus, setExpandedStatus] = useState(false);
 
   const [addDocumentToFolder] = useMutation(ADD_DOCUMENT_FOLDER, {
     update: (cache, { data }) => {
@@ -75,42 +87,63 @@ const Folder = props => {
 
   const { classes, isOver, canDrop, connectDropTarget, droppedItem } = props;
   return (
-    <TableRow 
-      hover={true}
-      ref={instance => connectDropTarget(ReactDOM.findDOMNode(instance))} 
-    >
-      <TableCell onClick={titleEditStatus ? null : () => props.toggleModal('viewFolder', props.folder.id)}>
-        <FolderIcon/> 
-        {titleEditStatus ? 
-          <TextField 
-            value={titleHandler}
-            onChange={handleChange}
-            onKeyPress = { e => {
-                if(e.key === 'Enter') {
-                  updateFolderTitle()
+    <>
+      <TableRow 
+        hover={true}
+        ref={instance => connectDropTarget(ReactDOM.findDOMNode(instance))} 
+      >
+      {/* onClick={titleEditStatus ? null : () => props.toggleModal('viewFolder', props.folder.id)} */}
+        <TableCell
+          onClick={() => setExpandedStatus(!expandedStatus)}
+        >
+          {expandedStatus ? <ArrowDown className={classes.arrow} /> : <ArrowRight className={classes.arrow} />}
+          <FolderIcon style={isOver && canDrop ? {fontSize: '50px'} : null} className={classes.root}/> 
+          {titleEditStatus ? 
+            <TextField 
+              value={titleHandler}
+              onChange={handleChange}
+              onKeyPress = { e => {
+                  if(e.key === 'Enter') {
+                    updateFolderTitle()
+                  }
                 }
               }
-            }
-          /> 
-          : 
-          props.folder.title}
-      </TableCell>
-      <TableCell>{moment(props.folder.createdAt).calendar()}</TableCell>
-      <TableCell>{props.folder.user.name}</TableCell>
-      <TableCell>{props.folder.documents ? props.folder.documents.length : 0}</TableCell>
-      <TableCell>
-        <MoreMenuFolder 
-          setTitleEditStatus={setTitleEditStatus}
-          titleEditStatus={titleEditStatus}
-          refetch={props.refetch}
-          refetchDocs={props.refetchDocs}
-          teamId={props.teamId}
-          folder={props.folder}
-          toggleModal={props.toggleModal}
-          setMsg={props.setMsg} 
-        />
-      </TableCell>
-    </TableRow>
+            /> 
+            : 
+            props.folder.title}
+        </TableCell>
+        <TableCell>{moment(props.folder.createdAt).calendar()}</TableCell>
+        <TableCell>{props.folder.user.name}</TableCell>
+        <TableCell>{props.folder.documents ? props.folder.documents.length : 0}</TableCell>
+        <TableCell>
+          <MoreMenuFolder 
+            setTitleEditStatus={setTitleEditStatus}
+            titleEditStatus={titleEditStatus}
+            refetch={props.refetch}
+            refetchDocs={props.refetchDocs}
+            teamId={props.teamId}
+            folder={props.folder}
+            toggleModal={props.toggleModal}
+            setMsg={props.setMsg} 
+          />
+        </TableCell>
+      </TableRow>
+      {props.folder.documents && expandedStatus ? (
+        props.folder.documents.map(document => (
+            <Document
+              folderId={props.folder.id}
+              folderDoc={true}
+              teamId={props.teamId}
+              className={classes.document}
+              teamId={props.teamId}
+              document={document}
+              key={document.id}
+              toggleModal={props.toggleModal}
+              setMsg={props.setMsg}
+            />
+        ))
+      ): null}
+    </>
   );
 };
 
@@ -130,4 +163,4 @@ function collect(connect, monitor) {
   }
 }
 
-export default DropTarget("SOURCE", spec, collect)(Folder);
+export default withStyles(styles)(DropTarget("SOURCE", spec, collect)(Folder));

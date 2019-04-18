@@ -15,45 +15,11 @@ import LandingView from './views/LandingView';
 import ProfileView from './views/ProfileView';
 import NewTeam from './views/NewTeam';
 
+import { AUTHENTICATE_USER } from './graphQL/Mutations';
+
 const auth = new Auth();
 
-const AUTHENTICATE_USER = gql`
-  mutation AUTHENTICATE_USER(
-    $idToken: String!
-  ) {
-    authenticateUser(
-      idToken: $idToken
-    ) {
-      id
-      name
-      inTeam {
-        id
-        teamName
-        members {
-          id
-          name
-        }
-      }
-    }
-  }
-`
-
-// const CURRENT_USER_QUERY = gql`
-//   query CURRENT_USER_QUERY($id: ID!) {
-//     user(id: $id) {
-//       id
-//       name
-//       role
-//       inTeam {
-//         id
-//         teamName
-//       }
-//     }
-//   }
-// `;
-
 const App = (props) => {
-
 
     useEffect(() => {
       if(localStorage.getItem('userId')) {
@@ -64,19 +30,14 @@ const App = (props) => {
     }
     , [])
 
-
     const [authenticateUser] = useMutation(AUTHENTICATE_USER, {
         onCompleted: e => {
-          // console.log('first team id', e.authenticateUser.inTeam[0].id);
-          // alert('Welcome User'); 
           localStorage.setItem('userId', e.authenticateUser.id)
           if (e.authenticateUser.inTeam.length > 0) {
             props.history.push(`/teams/${e.authenticateUser.inTeam[0].id}/home`)
           } else {
             props.history.push(`/teams/first-team`)
           }
-          // props.history.push('/dashboard')
-          // window.location.reload();
       },
       onError: err => console.log(err)
     });

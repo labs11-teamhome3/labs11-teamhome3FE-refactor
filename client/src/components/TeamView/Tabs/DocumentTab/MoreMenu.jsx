@@ -9,10 +9,11 @@ import MoreHoriz from '@material-ui/icons/MoreHoriz';
 
 import { useMutation } from "../../../../graphQL/useMutation";
 import { useQuery } from "react-apollo-hooks";
-import { DELETE_DOCUMENT, ADD_COMMENT } from '../../../../graphQL/Mutations';
+import { DELETE_DOCUMENT, ADD_COMMENT, REMOVE_DOC_FOLDER } from '../../../../graphQL/Mutations';
 import {
     DOCUMENTS_QUERY,
-    DOCUMENT_QUERY
+    DOCUMENT_QUERY,
+    FOLDERS_QUERY
   } from "../../../../graphQL/Queries";
 
 const styles = theme => ({
@@ -22,19 +23,17 @@ const styles = theme => ({
   paper: {
     position: 'absolute',
     zIndex: 1,
-    top: 22,
-    right: '73%',
+    top: 23,
+    right: '75%',
     left: 'auto',
   },
   button: {
       width: '100%',
-      
   }
 });
 
 const MoreMenu = props => {
   const [open, setOpen] = useState(false)
-
 
     const handleClick = () => {
         setOpen(!open);
@@ -43,6 +42,39 @@ const MoreMenu = props => {
     const handleClickAway = () => {
         setOpen(false);
     };
+
+    const [removeDocumentFromFolder] = useMutation(REMOVE_DOC_FOLDER, {
+      update: (cache, {data}) => {
+        const { findFoldersByTeam } = cache.readQuery({
+          query: FOLDERS_QUERY,
+          variables: { teamId: props.teamId }
+        });
+        console.log('folders', findFoldersByTeam);
+        let folder = findFoldersByTeam.find(folder => folder.id === props.folderId)
+        console.log('folder', folder)
+        let newDocuments = folder.documents.filter(document => document.id !== data.removeDocumentFromFolder.id)
+        console.log('newDocs', newDocuments)
+        folder.documents = newDocuments; 
+        console.log('folder', folder)
+        let newFolders = findFoldersByTeam.filter(folder => folder.id !== props.folderId)
+        console.log('newFolder', newFolders)
+        cache.writeQuery({
+          query: FOLDERS_QUERY,
+          variables: { teamId: props.teamId },
+          data: {
+            findFoldersByTeam: [...newFolders, folder]
+          }
+        });
+      },
+      variables: {
+        folderId: props.folderId,
+        documentId: props.document.id
+      },
+      onCompleted: e => {
+        props.setMsg('removed a document from a folder');
+      },
+      onError: err => console.log(err)
+    })
 
   const [deleteDocument] = useMutation(DELETE_DOCUMENT, {
     update: (cache, { data }) => {
@@ -85,6 +117,7 @@ const MoreMenu = props => {
               <Paper className={classes.paper}>
                 <Button className={classes.button} onClick={() => props.toggleModal('view', props.document.id)}>View</Button>
                 <Button className={classes.button} onClick={editMessage}>Edit</Button>
+                {props.folderDoc ? <Button className={classes.button} onClick={removeDocumentFromFolder}>Remove</Button> : null}
                 <Button className={classes.button} onClick={deleteDocument}>Delete</Button>
               </Paper>
             ) : null}
