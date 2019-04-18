@@ -49,15 +49,15 @@ const MoreMenu = props => {
           query: FOLDERS_QUERY,
           variables: { teamId: props.teamId }
         });
-        console.log('folders', findFoldersByTeam);
+        //console.log('folders', findFoldersByTeam);
         let folder = findFoldersByTeam.find(folder => folder.id === props.folderId)
-        console.log('folder', folder)
-        let newDocuments = folder.documents.filter(document => document.id !== data.removeDocumentFromFolder.id)
-        console.log('newDocs', newDocuments)
+        //console.log('folder', folder)
+        let newDocuments = folder.documents.filter(document => document.id !== props.document.id)
+        //console.log('newDocs', newDocuments)
         folder.documents = newDocuments; 
-        console.log('folder', folder)
+        //console.log('folder', folder)
         let newFolders = findFoldersByTeam.filter(folder => folder.id !== props.folderId)
-        console.log('newFolder', newFolders)
+        //console.log('newFolder', newFolders)
         cache.writeQuery({
           query: FOLDERS_QUERY,
           variables: { teamId: props.teamId },
