@@ -11,6 +11,7 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Button from '@material-ui/core/Button';
 import ArrowUp from '@material-ui/icons/ArrowDropUp';
+import { unstable_useMediaQuery as useMediaQuery } from '@material-ui/core/useMediaQuery';
 
 /////Components/////
 import Folder from "./Folder";
@@ -29,8 +30,9 @@ import { useMutation } from "../../../../graphQL/useMutation";
 
 const styles = theme => ({
   table: {
-    minWidth: '300px',
-    width: '100%'
+    minWidth: '400px',
+    overflow: 'auto',
+    width: '100%',
   },
   input: {
     display: 'none',
@@ -135,6 +137,8 @@ const DocumentTab = props => {
 
       }
     };
+
+    const matches = useMediaQuery('(min-width:700px)');
     
     const {classes} = props; 
     return (
@@ -149,8 +153,8 @@ const DocumentTab = props => {
               <TableRow>
                 <TableCell>Name</TableCell>
                 <TableCell>Created<ArrowUp onClick={newSort} /></TableCell>
-                <TableCell>Created By</TableCell>
-                <TableCell># of Docs or Comments</TableCell>
+                {matches ? <TableCell>Created By</TableCell> : null}
+                {matches ? <TableCell># of Docs or Comments</TableCell> : null}
                 <TableCell>More</TableCell>
               </TableRow>
             </TableHead>
@@ -165,6 +169,7 @@ const DocumentTab = props => {
             ) : (
               folders.data.findFoldersByTeam.map(folder => (
                 <Folder
+                  matches={matches}
                   refetch={folders.refetch}
                   refetchDocs={documents.refetch}
                   setDroppedItem={setDroppedItem}
@@ -184,11 +189,12 @@ const DocumentTab = props => {
               documents.data.findDocumentsByTeam.filter(document => !document.folder)
               .map(document => (
                 <Document
-                teamId={props.teamId}
-                document={document}
-                key={document.id}
-                toggleModal={toggleModal}
-                setMsg={props.setMsg}
+                  matches={matches}
+                  teamId={props.teamId}
+                  document={document}
+                  key={document.id}
+                  toggleModal={toggleModal}
+                  setMsg={props.setMsg}
                 />
               ))   
             )}

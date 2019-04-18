@@ -89,6 +89,7 @@ const styles = theme => ({
   },
   content: {
     width: '30%',
+    minWidth: '500px',
     flexGrow: 1,
     padding: theme.spacing.unit * 3,
     transition: theme.transitions.create('margin', {

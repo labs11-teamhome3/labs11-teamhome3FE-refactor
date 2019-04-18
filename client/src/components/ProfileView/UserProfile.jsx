@@ -28,7 +28,10 @@ import Loader from 'react-loader-spinner';
 const StyledAvatar = styled.img`
    {
     border-radius: 100px;
-    height: 175px;
+    height: 150px;
+    @media (max-width: 850px) {
+      height: 130px;
+    }
     width: auto;
     margin-right: 20px;
   }
@@ -51,7 +54,10 @@ const StyledContainer = styled.div`
     // border: solid green 2px;
     display: flex;
     justify-content: space-between;
-    padding-top: 60px;
+    @media (max-width: 850px) {
+      flex-direction: column; 
+    }
+    padding-top: 30px;
   }
 `;
 
@@ -122,8 +128,11 @@ const styles = theme => ({
   listTeamsPaper: {
     height: "279px",
     width: "50%",
-    margin: "0 12px 0px 6px",
-    overflow: "hidden"
+    '@media (max-width: 850px)': {
+      width: 'auto'
+    },
+    margin: "0 12px 15px 12px",
+    overflow: "auto"
   },
   tabHeaders: {
     textAlign: "left"
@@ -133,8 +142,11 @@ const styles = theme => ({
   },
   userCard: {
     // padding: "0px 60px 20px 60px",
+    '@media (max-width: 850px)': {
+      width: 'auto'
+    },
     position: "relative",
-    margin: "0 6px 0px 12px",
+    margin: "0 12px 15px 12px",
     width: "50%",
     overflow: "hidden",
     maxHeight: "279px"
@@ -142,10 +154,10 @@ const styles = theme => ({
   userCardFlex: {
     display: "flex",
     alignItems: "center",
-    justifyContent: "space-evenly",
-    padding: "0px 60px 20px 60px",
+    justifyContent: "flex-start",
+    padding: "10px 60px 20px 20px",
     marginTop: "20px",
-    minWidth: "726px"
+    minWidth: "450px",
   },
   userInfoIcons: {
     position: "relative",
@@ -168,7 +180,7 @@ const styles = theme => ({
   cardAppBar: {},
   tabNav: {},
   tabNavCont: {
-    margin: "50px 12px 0px 12px",
+    margin: "30px 12px 0px 12px",
     overflow: "hidden"
   }
 });

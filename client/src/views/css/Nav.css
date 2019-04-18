@@ -23,6 +23,7 @@ a {
     display: flex;
     align-items: center;
     margin-right: 20px;
+    min-width: 201px;
 }
 
 .nav-btns button {
