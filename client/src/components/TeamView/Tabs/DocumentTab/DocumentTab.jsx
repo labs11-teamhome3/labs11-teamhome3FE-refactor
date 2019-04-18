@@ -168,7 +168,8 @@ const DocumentTab = props => {
                   folder={folder}
                   key={folder.id}
                   toggleModal={toggleModal}
-                />
+                  teamId={props.teamId}
+                  />
               ))
             )}
             {!documents.data.findDocumentsByTeam ? (

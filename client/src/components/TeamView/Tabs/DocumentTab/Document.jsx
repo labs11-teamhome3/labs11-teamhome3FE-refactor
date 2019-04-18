@@ -12,21 +12,29 @@ import { withStyles } from '@material-ui/core/styles';
 
 const styles = theme => ({
   root: {
-    marginBottom: '-5px',
-    marginRight: '7px'
+    margin: '0 7px -5px 0'
+  },
+  folderDoc: {
+    backgroundColor: '#f0f0f0',
+  },
+  folderDocCell: {
+    margin: '0 7px -5px 0'
   }
 });
 
 const Document = props => {
+
   const { connectDragSource, classes } = props;
   return (
     <TableRow 
-      hover={true}
+      className={props.folderDoc ? classes.folderDoc : null}
       ref={instance => connectDragSource(ReactDOM.findDOMNode(instance))} 
     >
-      <TableCell onClick={() => props.toggleModal('view', props.document.id)}>
+      <TableCell 
+        onClick={() => props.toggleModal('view', props.document.id)}
+      >
         <Tooltip title="Drag to folder" TransitionComponent={Zoom}>
-          <File className={classes.root}/>
+          <File className={props.folderDoc ? classes.folderDocCell : classes.root}/>
         </Tooltip>
           {props.document.title}
       </TableCell>
@@ -35,6 +43,8 @@ const Document = props => {
       <TableCell>{props.document.comments.length}</TableCell>
       <TableCell>
         <MoreMenu 
+          folderId={props.folderId}
+          folderDoc={props.folderDoc}
           teamId={props.teamId}
           document={props.document}
           toggleModal={props.toggleModal}
