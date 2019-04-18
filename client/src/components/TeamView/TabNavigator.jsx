@@ -48,10 +48,10 @@ const TabNavigator = props => {
           textColor="primary"
           variant="fullWidth"
         >
-          <Tab label="Message Board" />
+          <Tab label="Messages" />
           <Tab label="Documents" />
           <Tab label="Todos" />
-          <Tab label="Team Settings" />
+          <Tab label="Settings" />
         </Tabs>
       </AppBar>
       <SwipeableViews axis="x" index={tab} onChangeIndex={handleChangeIndex}>
