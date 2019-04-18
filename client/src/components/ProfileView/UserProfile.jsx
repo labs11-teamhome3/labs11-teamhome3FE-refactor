@@ -79,7 +79,7 @@ const StyledForm = styled.form`
       /* border: solid gray 1px;
       padding: 0px;
       margin-bottom: 20px;
-      width: 300px;
+      width: 500px;
       height: 50px;
       border-radius: 15px;
       ::placeholder {

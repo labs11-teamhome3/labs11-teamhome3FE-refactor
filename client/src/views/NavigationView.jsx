@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import logo from '../assets/Manaje.png';
 import gql from 'graphql-tag';
@@ -11,24 +11,33 @@ import './css/Nav.css';
 import { Button, AppBar } from '../../node_modules/@material-ui/core';
 import { isNull } from 'util';
 
-const userId = localStorage.getItem('userId'); 
 
 // const PIC_QUERY = gql`
 //   query PIC_QUERY($id: ID!) {
-//     user(id: $id) {
-//       id
-//       profilePic
-//     }
-//   }
-// `
-
+  //     user(id: $id) {
+    //       id
+    //       profilePic
+    //     }
+    //   }
+    // `
+    
 const NavigationView = props => {
+  const userId = localStorage.getItem('userId');
+
+  const [firstTeamId, setFirstTeamId] = useState('');
 
   const { data, error, loading } = useQuery(TEAMS_QUERY, {
     variables: {
       userId: userId
     }
   });
+
+  useEffect ( _ => {
+    if (data.teamsByUser && data.teamsByUser.length > 0 && localStorage.getItem('userId')) {
+      setFirstTeamId(data.teamsByUser[0].id)
+    }
+  }, [data.teamsByUser])
+
 
 
   if (loading) {
@@ -54,15 +63,10 @@ const NavigationView = props => {
   };
 
   // This makes sure that the home/profile link always works
-  const checkTeams = () => {   
-    let team; 
-    if (data.teamsByUser) {
-      team = data.teamsByUser.map(team => team.id)
-      return team[0]
-    } else {
-        team = localStorage.firstTeamId
-        return team
-    }
+  const checkTeams = async () => {   
+    const team = await data.teamsByUser
+    console.log('ct team', team);
+    console.log('ct team0 id', team[0].id);
   }
 
   return (
@@ -79,19 +83,17 @@ const NavigationView = props => {
             </div>
           ) : (
             <div className="nav-btns">
-              {/* <Link to="/teams/first-team">
-                <Button>Dashboard</Button>
-              </Link> */}
-              <Link to={`/teams/${ checkTeams() }/home/`}>
-                {/* {picQuery.data.user && picQuery.data.user.profilePic ? 
-                  <img 
-                    className="nav-profile-pic" 
-                    src={picQuery.data.user.profilePic} 
-                    alt="profile" 
-                  /> : */}
-                  <Button>Home</Button>
-                
-              </Link>
+              {firstTeamId &&
+                <Link to={firstTeamId ? `/teams/${firstTeamId}/home/` : `/teams/first-team`}>
+                  {/* {picQuery.data.user && picQuery.data.user.profilePic ? 
+                    <img 
+                      className="nav-profile-pic" 
+                      src={picQuery.data.user.profilePic} 
+                      alt="profile" 
+                    /> : */}
+                    <Button>Home</Button>
+                </Link>
+              }
               <Button onClick={logout}>Log out</Button>
             </div>
           )}

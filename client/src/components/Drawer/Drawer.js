@@ -17,7 +17,6 @@ import MenuIcon from '@material-ui/icons/Menu';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 
-
 // components //
 import TabNavigator from '../../components/TeamView/TabNavigator'
 import ActivityTimeline from '../TeamView/Tabs/ActivityTimelineTab/ActivityTimelineTab';
@@ -30,17 +29,22 @@ import { EVENTS_QUERY } from "../../graphQL/Queries";
 // css //
 import './css/Drawer.css'
 
-const drawerWidth = 400;
+const drawerWidth = 375;
 
 const styles = theme => ({
   root: {
     display: 'flex',
+    // misty blue
+    backgroundColor: '#DDE4E9',
+    
   },
   appBar: {
     transition: theme.transitions.create(['margin', 'width'], {
       easing: theme.transitions.easing.sharp,
       duration: theme.transitions.duration.leavingScreen,
     }),
+    // golden slivers
+    backgroundColor: '#5862DF'
   },
   appBarShift: {
     width: `calc(100% - ${drawerWidth}px)`,
@@ -58,11 +62,21 @@ const styles = theme => ({
     display: 'none',
   },
   drawer: {
+    // purple slot
+    // backgroundColor: '#D3D4E4',
+    // misty blue slot
+    backgroundColor: '#DDE4E9',
     width: drawerWidth,
     flexShrink: 0,
   },
   drawerPaper: {
     width: drawerWidth,
+    // purple top
+    backgroundColor: '#D3D4E4',
+    backgroundColor: '#95A5B7',
+    // misty blue top
+    // backgroundColor: '#DDE4E9',
+    borderBottom: ' solid #5862DF 1px',
   },
   drawerHeader: {
     display: 'flex',
@@ -70,9 +84,10 @@ const styles = theme => ({
     padding: '0 8px',
     ...theme.mixins.toolbar,
     justifyContent: 'flex-end',
-    height: '75px'
+    height: '75px',
   },
   content: {
+    width: '30%',
     flexGrow: 1,
     padding: theme.spacing.unit * 3,
     transition: theme.transitions.create('margin', {
@@ -100,10 +115,7 @@ const PIC_QUERY = gql`
 `
 
 const PersistentDrawerLeft = props => {
-    const userId = localStorage.getItem('userId')
-//   state = {
-//     open: false,
-//   };
+  const userId = localStorage.getItem('userId')
 
   const [open, setOpen] = useState(true)
   const [msg, setMsg] = useState(null);
@@ -116,12 +128,8 @@ const PersistentDrawerLeft = props => {
     variables: { id: userId }
   })
 
-  //console.log('pq data', picQuery.data);
-
-
   const [createEvent] = useMutation(CREATE_EVENT, {
     update: (cache, { data }) => {
-      // console.log(data.createMessage)
       const {findEventsByTeam} = cache.readQuery({
         query: EVENTS_QUERY,
         variables: { teamId: props.match.params.id },
@@ -144,21 +152,14 @@ const PersistentDrawerLeft = props => {
   });
 
   const handleDrawerOpen = () => {
-    // this.setState({ open: true });
     setOpen(true)
   };
 
   const handleDrawerClose = () => {
-    // this.setState({ open: false });
     setOpen(false)
   };
 
-//   render() {
-    // const { classes, theme } = this.props;
     const { classes, theme } = props;
-
-    // const { open } = this.state;
-
     return (
       <div className={classes.root}>
         <CssBaseline />

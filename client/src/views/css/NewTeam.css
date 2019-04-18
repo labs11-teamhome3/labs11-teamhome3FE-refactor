@@ -1,6 +1,6 @@
 .new-team {
     height: 100vh;
-    background: #dfe6e9;
+    background-color: #D3D4E4;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -12,10 +12,10 @@
     align-items: center;
 }
 
-.nt-image {
+/* .nt-image {
     width: 30%;
     height: auto;
-}
+} */
 
 .new-team h2 {
     font-size: 3rem;
