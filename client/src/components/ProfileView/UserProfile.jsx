@@ -6,7 +6,7 @@ import styled from 'styled-components';
 import gql from 'graphql-tag'
 import { useMutation } from "../../graphQL/useMutation";
 import Button from '@material-ui/core/Button';
-// import '../ProfileView/Profile.css'
+
 
 const StyledAvatar = styled.img`{
   border-radius: 50%;

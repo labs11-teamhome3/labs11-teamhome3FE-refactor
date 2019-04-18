@@ -73,6 +73,7 @@ const styles = theme => ({
     width: drawerWidth,
     // purple top
     backgroundColor: '#D3D4E4',
+    backgroundColor: '#95A5B7',
     // misty blue top
     // backgroundColor: '#DDE4E9',
     borderBottom: ' solid #5862DF 1px',
