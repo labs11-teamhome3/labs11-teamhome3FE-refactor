@@ -94,6 +94,7 @@ const ViewDocumentModal = props => {
 
   const { classes } = props;
   const document = findDocument.data.findDocument;
+
   return (
     <div>
       <Modal
@@ -148,7 +149,6 @@ const ViewDocumentModal = props => {
           </div>
           {document !== undefined && document.comments.length > 0 ? (
             <div>
-              <Typography component="h4">Comments</Typography>
               <List>
                 {document.comments.map((comment, index) => (
                   <Fragment key={comment.id}>
