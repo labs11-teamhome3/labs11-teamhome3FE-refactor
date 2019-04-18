@@ -28,8 +28,8 @@ import { useMutation } from "../../../../graphQL/useMutation";
 
 const styles = theme => ({
   table: {
-    minWidth: '300px',
-    width: '100%'
+    minWidth: '700px',
+    width: '100%',
   },
   input: {
     display: 'none',
