@@ -11,17 +11,18 @@ import Button from '@material-ui/core/Button';
 const StyledAvatar = styled.img`{
   border-radius: 50%;
   height: 20%;
-  width: 12%;
+  width: 50%;
   margin-bottom: 10px;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 50px 0 rgba(0, 0, 0, 0.19);
 }`
 
 const StyledHeader = styled.h1`{
-  margin-right: 400px;
-  margin-right: 800px;
+  margin: 0 auto;
 }`
 
-const StyledHeader2 = styled.h2`{
+const StyledHeader2 = styled.h1`{
   // margin-left: 100px;
+  font-size: 2rem;
 }`
 
 const StyledContainer = styled.div`{
@@ -30,13 +31,16 @@ const StyledContainer = styled.div`{
   margin-top: 25px;
   padding-top: 25px;
   margin-right: 800px;
+  margin-left: 10%;
+  // border: solid red 2px;
 }`
 
 const StyledTeams = styled.div`{
-  // border: solid gray 1px;
+  // border: solid blue 1px;
   display: flex;
-  margin-left: 25px;
+  // margin-left: 25px;
   flex-direction: column;
+  width: 100%;
 }`
 
 const StyledForm = styled.form`{
@@ -45,7 +49,8 @@ const StyledForm = styled.form`{
   flex-direction: column;
   align-items: center;
   margin-top: 10px;
-  margin-left: 25px;  
+  margin-left: 45px;  
+  // border: solid green 2px;
     button {
       align-self: flex-end;
       margin-bottom: 20px;
@@ -55,7 +60,7 @@ const StyledForm = styled.form`{
       border: solid gray 1px;
       padding: 0px;
       margin-bottom: 20px;
-      width: 300px;
+      width: 500px;
       height: 50px;
       border-radius: 15px;
         ::placeholder {
@@ -66,11 +71,15 @@ const StyledForm = styled.form`{
 
 const SDiv = styled.div`{
   display: flex;
-  justify-content: space-around;
-  width: 65%;
-  margin-left: 18%;
+  justify-content: center;
+  flex-direction: column-reverse;
+  flex-wrap: wrap;
+  width: 75%;
+  margin: 0 auto;
+  // margin-left: 18%;
   margin-top: 25px;
   background-color: #DDE4E9;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 50px 0 rgba(0, 0, 0, 0.19);
 }`
 
 const BDiv = styled.div`{
