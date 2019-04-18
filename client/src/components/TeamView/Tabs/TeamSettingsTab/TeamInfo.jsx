@@ -49,6 +49,8 @@ const styles = theme => ({
 })
 
 const TeamInfo = props => {
+    // console.log('team members', props.team.members)
+
     const [showInput, setInput] = useState(false);
     const [newTeamName, setNewTeamName] = useState("");
 

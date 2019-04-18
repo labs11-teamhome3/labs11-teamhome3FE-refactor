@@ -10,6 +10,7 @@ import TextField from '@material-ui/core/TextField';
 import File from '@material-ui/icons/InsertDriveFileOutlined';
 import { useMutation } from "../../../../graphQL/useMutation";
 import { useQuery } from "react-apollo-hooks";
+import Loader from 'react-loader-spinner';
 
 import DocumentComment from "./DocumentComment";
 
@@ -109,7 +110,12 @@ const ViewDocumentModal = props => {
               <File />
               <div>
                 {document === undefined
-                  ? "Loading"
+                  ? <Loader 
+                      type="ThreeDots"
+                      height="25px"
+                      width="25px"
+                      color="#0984e3"
+                    />
                   : document.title}
               </div>
             </div>
@@ -117,7 +123,12 @@ const ViewDocumentModal = props => {
           </div>
           <div style={{margin: '10px 0'}}>
             {document === undefined
-              ? "Loading"
+              ? <Loader 
+                  type="ThreeDots"
+                  height="25px"
+                  width="25px"
+                  color="#0984e3"
+                />
               : document.textContent}
           </div>
           <div>

@@ -23,6 +23,7 @@ import Phone from "@material-ui/icons/Smartphone";
 import Email from "@material-ui/icons/Email";
 import Pencil from "@material-ui/icons/Edit";
 import Toolbar from "@material-ui/core/Toolbar";
+import Loader from 'react-loader-spinner';
 
 const StyledAvatar = styled.img`
    {
@@ -201,7 +202,12 @@ const Form = props => {
     return <div>Error! {error.message}</div>;
   }
   if (!user) {
-    return <div>Loading...</div>;
+    return <Loader 
+            type="ThreeDots"
+            height="25px"
+            width="25px"
+            color="#0984e3"
+          />;
   }
 
   const handleTabChange = (e, val) => {
