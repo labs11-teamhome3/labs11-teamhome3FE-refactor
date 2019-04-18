@@ -14,7 +14,7 @@ import TextField from '@material-ui/core/TextField';
 import { withStyles } from '@material-ui/core/styles';
 
 ////Queries////
-import { TEAMS_QUERY, USERS_QUERY } from '../../../../graphQL/Queries';
+import { TEAMS_QUERY, USERS_QUERY, CURRENT_USER_QUERY } from '../../../../graphQL/Queries';
 import { useQuery } from 'react-apollo-hooks';
 
 /// css ///
@@ -45,19 +45,6 @@ const TEAM_QUERY = gql`
   }
 `;
 
-const CURRENT_USER_QUERY = gql`
-  query CURRENT_USER_QUERY($id: ID!) {
-    user(id: $id) {
-      id
-      name
-      role
-      inTeam {
-        id
-      }
-    }
-  }
-`;
-
 const ADD_MEMBER = gql`
   mutation ADD_MEMBER($userId: ID!, $teamId: ID!) {
     addUserToTeam(userId: $userId, teamId: $teamId) {
@@ -80,16 +67,20 @@ const styles = theme => ({
 });
 
 const TeamSettingsTab = props => {
+  const userId = localStorage.getItem('userId');
+
   const [deleteInput, setDeleteInput] = useState('');
   const [searchInput, setSearchInput] = useState('');
   const [newMember, setNewMember] = useState('');
   const [newMemberId, setNewMemberId] = useState('');
   const [errorMsg, setErrorMsg] = useState('');
+  const [areYouSure, setAreYouSure] = useState(false);
   // const [currentUser, setCurrentUser] = useState(null)
 
-  // useEffect(() => {
-  //   setCurrentUser(userQuery.data.user)
-  // }, [currentUser])
+  useEffect(() => {
+    setAreYouSure(false)
+    setDeleteInput('');
+  }, [props.match.params.id])
 
   const handleDeleteChange = e => {
     setDeleteInput(e.target.value);
@@ -103,43 +94,55 @@ const TeamSettingsTab = props => {
     e.preventDefault();
   };
 
-  const [areYouSure, setAreYouSure] = useState(false);
   // get the current user for conditional rendering of removal buttons based on ADMIN status
   const userQuery = useQuery(CURRENT_USER_QUERY, {
     variables: {
       id: localStorage.getItem('userId'),
     },
   });
+
+  console.log('uq', userQuery);
+
   let userRole = '';
   let currentUser;
   if (userQuery.data.user) {
     //console.log('user', userQuery.data.user)
     currentUser = userQuery.data.user;
     userRole = userQuery.data.user.role;
+    console.log(userRole);
   }
 
   const { data, error, loading } = useQuery(TEAM_QUERY, {
     variables: { id: props.teamId },
   });
+
   //   console.log("team settings data", data);
   const [deleteTeam] = useMutation(DELETE_TEAM, {
     update: (cache, { data }) => {
-      const { teams } = cache.readQuery({ query: TEAMS_QUERY });
+      const { user } = cache.readQuery({ query: CURRENT_USER_QUERY, variables: { id: userId }});
       cache.writeQuery({
-        query: TEAMS_QUERY,
-        data: { teams: teams.filter(team => team.id !== data.deleteTeam.id) },
+        query: CURRENT_USER_QUERY,
+        variables: {
+          id: userId
+        },
+        data: 
+          { user: 
+            {
+              ...user,
+              inTeam: user.inTeam.filter(team => team.id !== data.deleteTeam.id)
+            }
+          }
       });
     },
     variables: { id: props.teamId },
     onCompleted: e => {
-      console.log('currentUser', currentUser);
       if (currentUser.inTeam.length > 1) {
         props.history.push(`/teams/${currentUser.inTeam[0].id}/home`);
       } else {
         props.history.push(`/teams/first-team`);
       }
       // reload the window to remove the team.  NEEDS TO BE FIXED
-      window.location.reload();
+      // window.location.reload();
     },
     onError: err => console.log(err),
   });
@@ -232,15 +235,15 @@ const TeamSettingsTab = props => {
                 />
                 <div className="all-members">
                   {errorMsg && (
-                    <div className="error-flash">
-                      <Typography component="h3">
-                        {errorMsg.split(':')[1]}
-                      </Typography>
-                      <div className="premium-or-cancel">
-                        <StripePaymentPopup teamId={props.teamId} />
-                        <Button onClick={() => setErrorMsg('')}>Cancel</Button>
+                      <div className="error-flash">
+                        <Typography component="h3">
+                          {errorMsg.split(':')[1]}
+                        </Typography>
+                        <div className="premium-or-cancel">
+                          <StripePaymentPopup teamId={props.teamId} />
+                          <Button onClick={() => setErrorMsg('')}>Cancel</Button>
+                        </div>
                       </div>
-                    </div>
                   )}
                   {allUsersQuery.data.users &&
                     searchInput &&

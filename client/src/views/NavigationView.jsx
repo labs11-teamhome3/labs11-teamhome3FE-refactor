@@ -12,16 +12,6 @@ import './css/Nav.css';
 import { Button, AppBar } from '../../node_modules/@material-ui/core';
 import { isNull } from 'util';
 
-
-// const PIC_QUERY = gql`
-//   query PIC_QUERY($id: ID!) {
-  //     user(id: $id) {
-    //       id
-    //       profilePic
-    //     }
-    //   }
-    // `
-    
 const NavigationView = props => {
   const userId = localStorage.getItem('userId');
 
@@ -78,7 +68,7 @@ const NavigationView = props => {
           {!localStorage.getItem('userId') ? (
             <div className="nav-btns">
               <Button onClick={login}>Log in</Button>
-              <Button onClick={signup}>Sign Up</Button>
+              <Button variant="contained" color="secondary" onClick={signup}>Sign Up</Button>
             </div>
           ) : (
             <div className="nav-btns">

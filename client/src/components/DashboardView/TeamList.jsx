@@ -16,7 +16,7 @@ import TeamCard from './TeamCard';
 import StripePaymentPopup from '../Stripe/StripePaymentPopup';
 
 ////Queries////
-import { TEAMS_QUERY } from '../../graphQL/Queries';
+import { TEAMS_QUERY, CURRENT_USER_QUERY } from '../../graphQL/Queries';
 
 /////css////
 import './TeamList.css';
@@ -29,21 +29,6 @@ const CREATE_TEAM = gql`
       members {
         id
         name
-      }
-    }
-  }
-`;
-
-const CURRENT_USER_QUERY = gql`
-  query CURRENT_USER_QUERY($id: ID!) {
-    user(id: $id) {
-      id
-      name
-      role
-      inTeam {
-        id
-        teamName
-        premium
       }
     }
   }
@@ -161,6 +146,9 @@ const TeamList = props => {
             <TextField
               className="nt-textfield"
               required
+              inputProps={{
+                maxLength: 20
+              }}
               type="text"
               placeholder="new team name..."
               value={teamInput}

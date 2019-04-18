@@ -107,15 +107,6 @@ const styles = theme => ({
   },
 });
 
-const PIC_QUERY = gql`
-  query PIC_QUERY($id: ID!) {
-    user(id: $id) {
-      id
-      profilePic
-    }
-  }
-`
-
 const PersistentDrawerLeft = props => {
   const userId = localStorage.getItem('userId')
 
@@ -125,10 +116,6 @@ const PersistentDrawerLeft = props => {
   useEffect( _ => {
     createEvent();
   }, [msg])
-
-  const picQuery = useQuery(PIC_QUERY, {
-    variables: { id: userId }
-  })
 
   const [createEvent] = useMutation(CREATE_EVENT, {
     update: (cache, { data }) => {
