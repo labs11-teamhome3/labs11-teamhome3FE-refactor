@@ -24,7 +24,8 @@ const styles = theme => ({
     textAlign: "left",
     display: "flex",
     alignItems: "center",
-    justifyContent: "space-between"
+    justifyContent: "space-between",
+    maxHeight: "72px"
   },
   expansionPanelSummary: {
     display: "flex",
@@ -49,7 +50,14 @@ const styles = theme => ({
   },
   spacers: {
     width: "25%",
-    padding: "0 5px"
+    padding: "0 5px",
+    [theme.breakpoints.down("md")]: {
+      width: "33%"
+    }
+  },
+  textCont: {
+    minWidth: "140px",
+    overflow: "auto"
   }
 });
 
@@ -119,7 +127,7 @@ const TodoList = props => {
           props.todoList.todos.length
         )}
       /> */}
-        <div>
+        <div className={classes.textCont}>
           <Typography
             variant="h6"
             className={props.todoList.completed ? classes.completedHeading : ""}
