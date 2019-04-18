@@ -72,6 +72,11 @@ const styles = theme => ({
   },
   drawerPaper: {
     width: drawerWidth,
+    '@media (max-width: 675px)': {
+      width: '100%',
+      maxWidth: '675px',
+      minWidth: '375px'
+    },
     // purple top
     backgroundColor: '#D3D4E4',
     backgroundColor: '#95A5B7',

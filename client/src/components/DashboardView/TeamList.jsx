@@ -10,6 +10,7 @@ import TextField from '@material-ui/core/TextField';
 import { useMutation } from "../../graphQL/useMutation";
 import Loader from 'react-loader-spinner';
 import Typography from '@material-ui/core/Typography';
+import { withStyles } from '@material-ui/core/styles';
 
 ////Components////
 import TeamCard from "./TeamCard";
@@ -20,6 +21,12 @@ import { TEAMS_QUERY } from "../../graphQL/Queries";
 
 /////css////
 import './TeamList.css'
+
+const styles = theme => ({
+  root: {
+
+  },
+});
 
 const CREATE_TEAM = gql`
   mutation createTeam($teamName: String!, $userId: ID!) {
@@ -200,4 +207,4 @@ const TeamList = props => {
   );
 };
 
-export default TeamList;
+export default withStyles(styles)(TeamList);

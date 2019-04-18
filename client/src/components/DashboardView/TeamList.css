@@ -66,7 +66,7 @@
 
 .newTeam h2 {
     color: black;
-    font-size: 2rem;
+    font-size: 1.7rem;
 }
 
 .new-team-form {
@@ -87,7 +87,7 @@
 }
 
 .newTeam button {
-    margin-right: 5px;
+    margin: 5px;
     /* background-color: rgb(100, 201, 167); */
 }
 
@@ -110,7 +110,7 @@
     margin-left: 5%;
     color: black;
     /* color: white; */
-    font-size: 1.5rem;
+    font-size: 1.2rem;
 }
 
 .team-premium {
@@ -125,7 +125,7 @@
 .team-premium-premium {
     /* background: #fdcb6e; */
     color: #FBB513;
-    font-weight: 900;
+    font-weight: 500;
 }
 
 .team-premium-basic {
