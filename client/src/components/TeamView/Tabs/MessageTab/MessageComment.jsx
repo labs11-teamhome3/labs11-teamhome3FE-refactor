@@ -116,29 +116,6 @@ const MessageComment = props => {
   });
 
   const [likeMessageComment] = useMutation(LIKE_MESSAGE_COMMENT, {
-    update: (cache, { data }) => {
-      const {messages} = cache.readQuery({
-        query: MESSAGES_QUERY,
-        variables: { teamId: props.teamId }
-      });
-      //find message
-      let message = messages.find(message => message.id === props.message.id)
-      //filter out comment 
-      let newComments = message.comments.filter(comment => comment.id !== props.comment.id)
-      //add comment to comments
-      newComments.push(data.likeMessageComment)
-      //add comments to message
-      message.comments = newComments
-      //filter out message
-      let newMessages = messages.filter(message => message.id !== props.message.id)
-      cache.writeQuery({
-        query: MESSAGES_QUERY,
-        variables: { teamId: props.teamId },
-        data: [
-          ...newMessages, message
-        ]
-      })
-    },
     variables: {
       commentId: props.comment.id,
       userId: userId
@@ -150,33 +127,6 @@ const MessageComment = props => {
   });
 
   const [unlikeMessageComment] = useMutation(UNLIKE_MESSAGE_COMMENT, {
-    update: (cache, { data }) => {
-      const {messages} = cache.readQuery({
-        query: MESSAGES_QUERY,
-        variables: { teamId: props.teamId }
-      });
-      //find message
-      let message = messages.find(message => message.id === props.message.id)
-      //find comment
-      let comment = message.comments.find(comment => comment.id === props.comment.id)
-      //filter out like
-      let newLikes = comment.likes.filter(like => like.id !== props.comment.likes.id)
-      //add likes to comment
-      comment.likes = newLikes;
-      //filter out message
-      let newMessages = messages.filter(message => message.id !== props.message.id)
-      //add comment to message
-      let newComments = message.comments.filter(comment => comment.id !== props.comment.id)
-      newComments.push(comment);
-      message.comments = newComments;
-      cache.writeQuery({
-        query: MESSAGES_QUERY,
-        variables: { teamId: props.teamId },
-        data: [
-          ...newMessages, message
-        ]
-      })
-    },
     variables: {
       commentId: props.comment.id,
       userId: userId
