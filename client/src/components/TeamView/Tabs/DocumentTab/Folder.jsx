@@ -113,8 +113,8 @@ const Folder = props => {
             props.folder.title}
         </TableCell>
         <TableCell>{moment(props.folder.createdAt).calendar()}</TableCell>
-        <TableCell>{props.folder.user.name}</TableCell>
-        <TableCell>{props.folder.documents ? props.folder.documents.length : 0}</TableCell>
+        {props.matches ? <TableCell>{props.folder.user.name}</TableCell> : null}
+        {props.matches ? <TableCell>{props.folder.documents ? props.folder.documents.length : 0}</TableCell> : null}
         <TableCell>
           <MoreMenuFolder 
             setTitleEditStatus={setTitleEditStatus}
@@ -131,6 +131,7 @@ const Folder = props => {
       {props.folder.documents && expandedStatus ? (
         props.folder.documents.map(document => (
             <Document
+              matches={props.matches}
               folderId={props.folder.id}
               folderDoc={true}
               teamId={props.teamId}

@@ -39,8 +39,8 @@ const Document = props => {
           {props.document.title}
       </TableCell>
       <TableCell>{moment(props.document.createdAt).calendar()}</TableCell>
-      <TableCell>{props.document.user.name}</TableCell>
-      <TableCell>{props.document.comments.length}</TableCell>
+      {props.matches ? <TableCell>{props.document.user.name}</TableCell> : null}
+      {props.matches ? <TableCell>{props.document.comments.length}</TableCell> : null}
       <TableCell>
         <MoreMenu 
           folderId={props.folderId}
