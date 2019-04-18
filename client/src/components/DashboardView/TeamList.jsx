@@ -9,6 +9,7 @@ import DeleteIcon from "@material-ui/icons/Delete";
 import TextField from '@material-ui/core/TextField';
 import { useMutation } from "../../graphQL/useMutation";
 import Loader from 'react-loader-spinner';
+import Typography from '@material-ui/core/Typography';
 
 ////Components////
 import TeamCard from "./TeamCard";
@@ -150,7 +151,7 @@ const TeamList = props => {
       <div className="newTeam">
         {!showInput &&
           <>
-            <h2>My Teams</h2>
+            <Typography component="h2">My Teams</Typography>
             <div className="show-add-input">
               <Fab onClick={() => setShowInput(true)} color="primary" size="small" aria-label="Add">
                 <AddIcon />

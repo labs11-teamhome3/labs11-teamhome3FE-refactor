@@ -99,16 +99,6 @@ const TeamSettingsTab = props => {
     setSearchInput(e.target.value);
   };
 
-  const handleSelectChange = e => {
-    // console.log('e', e.target)
-    const members = Array.from(e.target);
-    // console.log('members', members);
-    const selectedMember = members.find(member => member.selected);
-    const selectedMemberId = selectedMember.dataset.id;
-    setNewMember(e.target.value);
-    setNewMemberId(selectedMemberId);
-  };
-
   const handleAddMemberSubmit = e => {
     e.preventDefault();
   };
