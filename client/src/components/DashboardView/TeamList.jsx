@@ -146,6 +146,9 @@ const TeamList = props => {
             <TextField
               className="nt-textfield"
               required
+              inputProps={{
+                maxLength: 20
+              }}
               type="text"
               placeholder="new team name..."
               value={teamInput}
