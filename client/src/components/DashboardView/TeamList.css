@@ -30,8 +30,9 @@
 .teams-list {
     height: 40vh;
     overflow-y: auto;
-    background: #2d3436;
+    /* background: #2d3436; */
     background: #D3D4E4;
+    
 }
 
 .teams-list h1 {
@@ -62,8 +63,8 @@
 }
 
 .newTeam h2 {
-    color: white;
-    font-size: 1.5rem;
+    color: black;
+    font-size: 2rem;
 }
 
 .new-team-form {
@@ -71,7 +72,7 @@
 }
 
 .nt-textfield input::placeholder {
-    color: white;
+    color: black;
     opacity: 0.9;
 }
 
@@ -80,11 +81,12 @@
     font-size: 1.3rem;
     border-radius: 30px;
     padding: 5px 20px;
-    color: white;
+    color:black;
 }
 
 .newTeam button {
     margin-right: 5px;
+    /* background-color: rgb(100, 201, 167); */
 }
 
 .team-link {
@@ -104,7 +106,8 @@
     overflow-x: auto;
     text-align: left;
     margin-left: 5%;
-    color: white;
+    color: black;
+    /* color: white; */
     font-size: 1.5rem;
 }
 
@@ -119,7 +122,8 @@
 
 .team-premium-premium {
     /* background: #fdcb6e; */
-    color: #fdcb6e;
+    color: #FBB513;
+    font-weight: 900;
 }
 
 .team-premium-basic {
@@ -143,10 +147,12 @@
 
 .team-card-active {
     background: #B97E7E;
+    /* background: #DDE4E9 */
 }
 
 .team-card-active h3 {
-    font-weight: 900;
+    font-weight: 300;
+    color: white;
 }
 
 #long-menu ul {

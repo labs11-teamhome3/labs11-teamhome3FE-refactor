@@ -37,6 +37,7 @@ const styles = theme => ({
     display: 'flex',
     // misty blue
     backgroundColor: '#DDE4E9',
+    
   },
   appBar: {
     transition: theme.transitions.create(['margin', 'width'], {
@@ -63,14 +64,18 @@ const styles = theme => ({
   },
   drawer: {
     // purple slot
-    backgroundColor: '#D3D4E4',
+    // backgroundColor: '#D3D4E4',
+    // misty blue slot
+    backgroundColor: '#DDE4E9',
     width: drawerWidth,
     flexShrink: 0,
   },
   drawerPaper: {
     width: drawerWidth,
-    // misty purple top
+    // purple top
     backgroundColor: '#D3D4E4',
+    // misty blue top
+    // backgroundColor: '#DDE4E9',
     borderBottom: ' solid #5862DF 1px',
   },
   drawerHeader: {
@@ -80,10 +85,8 @@ const styles = theme => ({
     ...theme.mixins.toolbar,
     justifyContent: 'flex-end',
     height: '75px',
-
   },
   content: {
-    // backgroundColor: '#D3D4E4',
     flexGrow: 1,
     padding: theme.spacing.unit * 3,
     transition: theme.transitions.create('margin', {
