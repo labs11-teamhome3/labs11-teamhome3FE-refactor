@@ -21,7 +21,7 @@ const styles = theme => ({
   },
   root: {
     display: 'flex',
-    marginTop: "10px",
+    margin: "10px",
   },
   userPicSmall: {
     height: '40px',

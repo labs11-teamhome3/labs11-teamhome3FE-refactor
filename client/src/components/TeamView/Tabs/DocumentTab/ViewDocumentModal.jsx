@@ -30,6 +30,7 @@ const styles = theme => ({
   },
   textField: {
     width: '70%',
+    margin: '10px 5px'
   },
   viewDocument: {
     display: 'flex',
@@ -115,7 +116,7 @@ const ViewDocumentModal = props => {
                     color="#0984e3"
                   />
                 ) : (
-                  document.title
+                  <div style={{margin: '10px 5px'}}>Title: {document.title}</div>
                 )}
               </div>
             </div>
@@ -130,7 +131,7 @@ const ViewDocumentModal = props => {
                 color="#0984e3"
               />
             ) : (
-              document.textContent
+              <div style={{margin: '10px 5px'}}>{document.textContent}</div>
             )}
           </div>
           <div>
@@ -142,8 +143,9 @@ const ViewDocumentModal = props => {
                     : `https://${document.doc_url}`
                 }
                 target="_blank"
+                style={{margin: '10px 5px'}}
               >
-                {document.doc_url}
+                Link to document: {document.doc_url}
               </a>
             )}
           </div>
