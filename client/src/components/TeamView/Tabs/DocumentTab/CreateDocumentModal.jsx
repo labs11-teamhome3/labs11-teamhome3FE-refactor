@@ -21,25 +21,25 @@ const styles = theme => ({
     padding: '30px',
   },
   textField: {
-    width: '70%'
+    width: '70%',
   },
   createDocument: {
     display: 'flex',
     justifyContent: 'space-between',
-    fontSize: '25px'
+    fontSize: '25px',
   },
   button: {
-    margin: '10px 0 0'
-  }
+    margin: '10px 0 0',
+  },
 });
 
 const CreateDocumentModal = props => {
-    const userId = localStorage.getItem('userId');
-    const [messageInfo, setMessageInfo] = useState({
-        title: '',
-        textContent: '',
-        doc_url: ''
-    });
+  const userId = localStorage.getItem('userId');
+  const [messageInfo, setMessageInfo] = useState({
+    title: '',
+    textContent: '',
+    doc_url: '',
+  });
 
   const handleChange = e => {
     setMessageInfo({
@@ -50,22 +50,24 @@ const CreateDocumentModal = props => {
 
   const [createDocument] = useMutation(CREATE_DOCUMENT, {
     update: (cache, { data }) => {
-      const {findDocumentsByTeam} = cache.readQuery({
+      const { findDocumentsByTeam } = cache.readQuery({
         query: DOCUMENTS_QUERY,
         variables: { teamId: props.teamId },
       });
       cache.writeQuery({
         query: DOCUMENTS_QUERY,
         variables: { teamId: props.teamId },
-        data: { findDocumentsByTeam: [...findDocumentsByTeam, data.addDocument] },
+        data: {
+          findDocumentsByTeam: [...findDocumentsByTeam, data.addDocument],
+        },
       });
     },
     variables: {
-        doc_url: messageInfo.doc_url,
-        title: messageInfo.title,
-        textContent: messageInfo.textContent,
-        userId: userId,
-        teamId: props.teamId,
+      doc_url: messageInfo.doc_url,
+      title: messageInfo.title,
+      textContent: messageInfo.textContent,
+      userId: userId,
+      teamId: props.teamId,
     },
     onCompleted: e => {
       props.setMsg('created a document');
@@ -107,7 +109,7 @@ const CreateDocumentModal = props => {
           <TextField
             type="url"
             required
-            label="Enter the url of this file" 
+            label="Enter the url of this file"
             value={messageInfo.doc_url}
             onChange={handleChange}
             name="doc_url"
@@ -125,7 +127,14 @@ const CreateDocumentModal = props => {
             margin="normal"
           />
           <br />
-          <Button variant="contained" disabled={!messageInfo.title && !messageInfo.doc_url} className={classes.button} onClick={createDocument}>Create</Button>
+          <Button
+            variant="contained"
+            disabled={!messageInfo.title && !messageInfo.doc_url}
+            className={classes.button}
+            onClick={createDocument}
+          >
+            Create
+          </Button>
         </Paper>
       </Modal>
     </div>

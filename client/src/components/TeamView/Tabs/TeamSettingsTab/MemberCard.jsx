@@ -40,7 +40,8 @@ const TEAM_QUERY = gql`
 const styles = theme => ({
     root: {
         width: '300px',
-        margin: '1%'
+        'margin-top': '10px',
+        'margin-left': '10px;'
     }
 })
 
