@@ -136,46 +136,8 @@ const DocumentTab = props => {
     }
   };
 
-  const { classes } = props;
-  return (
-    <div>
-      <div>
-        <div style={{ display: 'flex', justifyContent: 'start' }}>
-          <Button
-            variant="outlined"
-            color="primary"
-            style={{ marginRight: '17px' }}
-            onClick={() => toggleModal('createFolder')}
-          >
-            Create Folder
-          </Button>
-          <Button
-            variant="contained"
-            color="primary"
-            onClick={() => toggleModal('create')}
-          >
-            Create File
-          </Button>
-        </div>
-        <Table className={classes.table}>
-          <TableHead>
-            <TableRow>
-              <TableCell>Name</TableCell>
-              <TableCell>
-                Created
-                <ArrowUp onClick={newSort} />
-              </TableCell>
-              <TableCell>Created By</TableCell>
-              <TableCell># of Docs or Comments</TableCell>
-              <TableCell>More</TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-      }
-    };
-
     const matches = useMediaQuery('(min-width:700px)');
-    
+
     const {classes} = props; 
     return (
       <div>

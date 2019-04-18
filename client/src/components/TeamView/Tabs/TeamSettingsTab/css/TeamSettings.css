@@ -5,7 +5,12 @@
 
 .team-settings {
     width: 50%;
-    margin-top: 7px;
+}
+
+@media (min-width: 1200px) {
+    .team-settings {
+        width: 75%;
+    }
 }
 
 .member-card {
