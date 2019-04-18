@@ -18,6 +18,7 @@ import Typography from "@material-ui/core/Typography";
 import Edit from "@material-ui/icons/Edit";
 import TextField from "@material-ui/core/TextField";
 import List from "@material-ui/core/List";
+import Loader from 'react-loader-spinner';
 
 /////Components/////
 import EditTodo from "./EditTodo";
@@ -511,7 +512,12 @@ const CreateTodoListModal = props => {
   };
 
   if (!todoList.data.todoList) {
-    return <h1>Loading...</h1>;
+    return <Loader 
+            type="ThreeDots"
+            height="25px"
+            width="25px"
+            color="#0984e3"
+          />;
   }
 
   const createTodoPD = e => {
@@ -675,7 +681,12 @@ const CreateTodoListModal = props => {
                   ))}
                 </>
               ) : (
-                <h2>Loading</h2>
+                <Loader 
+                  type="ThreeDots"
+                  height="25px"
+                  width="25px"
+                  color="#0984e3"
+                />
               )}
             </List>
           </div>

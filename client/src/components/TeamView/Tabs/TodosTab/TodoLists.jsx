@@ -8,6 +8,7 @@ import Typography from "@material-ui/core/Typography";
 import LinearProgress from "@material-ui/core/LinearProgress";
 import List from "@material-ui/core/List";
 import Button from "@material-ui/core/Button";
+import Loader from 'react-loader-spinner';
 
 // Queries //
 import { TODOS_QUERY } from "../../../../graphQL/Queries";
@@ -79,7 +80,12 @@ const TodoLists = props => {
     <>
     <div className={classes.flexcont}>
       {!todoLists.data.todoLists ? (
-        <h3>Loading</h3>
+        <Loader 
+          type="ThreeDots"
+          height="25px"
+          width="25px"
+          color="#0984e3"
+        />
       ) : (
         todoLists.data.todoLists.map(todoList => (
           <TodoList

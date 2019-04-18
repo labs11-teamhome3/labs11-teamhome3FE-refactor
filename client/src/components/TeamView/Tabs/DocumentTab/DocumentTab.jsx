@@ -21,6 +21,7 @@ import EditDocumentModal from "./EditDocumentModal";
 import CreateFolderModal from "./CreateFolderModal";
 import ViewFolderModal from "./ViewFolderModal";
 import { withStyles } from '@material-ui/core/styles';
+import Loader from 'react-loader-spinner';
 
 /////Queries/////
 import { DOCUMENTS_QUERY, FOLDERS_QUERY } from '../../../../graphQL/Queries';
@@ -155,7 +156,12 @@ const DocumentTab = props => {
             </TableHead>
             <TableBody>
             {folders.loading ? (
-              <h3>Loading Folders...</h3>
+              <Loader 
+                type="ThreeDots"
+                height="25px"
+                width="25px"
+                color="#0984e3"
+              />
             ) : (
               folders.data.findFoldersByTeam.map(folder => (
                 <Folder

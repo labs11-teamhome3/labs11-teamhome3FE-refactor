@@ -6,6 +6,7 @@ import AccountCircle from "@material-ui/icons/AccountCircle";
 
 /////Components/////
 import Message from "./Message";
+import Loader from 'react-loader-spinner';
 
 /////GraphQL/////
 import { useMutation } from "../../../../graphQL/useMutation";
@@ -113,7 +114,12 @@ const MessageTab = props => {
       </div>
       <div>
         {messages.loading &&
-          <h3>Loading...</h3>
+          <Loader 
+            type="ThreeDots"
+            height="25px"
+            width="25px"
+            color="#0984e3"
+          />
         }
         {messages.error &&
           <h3>Error fetching messages.</h3>
