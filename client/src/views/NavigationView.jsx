@@ -68,7 +68,7 @@ const NavigationView = props => {
           {!localStorage.getItem('userId') ? (
             <div className="nav-btns">
               <Button onClick={login}>Log in</Button>
-              <Button onClick={signup}>Sign Up</Button>
+              <Button variant="contained" color="primary" onClick={signup}>Sign Up</Button>
             </div>
           ) : (
             <div className="nav-btns">
