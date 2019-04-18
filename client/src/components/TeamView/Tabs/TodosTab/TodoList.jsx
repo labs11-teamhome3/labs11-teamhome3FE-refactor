@@ -56,7 +56,7 @@ const styles = theme => ({
     }
   },
   textCont: {
-    minWidth: "140px",
+    minWidth: "90px",
     overflow: "auto"
   }
 });
