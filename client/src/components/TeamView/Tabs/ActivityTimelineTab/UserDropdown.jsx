@@ -4,6 +4,7 @@ import React, { useState } from 'react';
 // import MenuItem from '@material-ui/core/MenuItem';
 // import Arrow from '@material-ui/icons/ArrowDropDown';
 import gql from 'graphql-tag';
+import Loader from 'react-loader-spinner';
 
 // queries //
 // import { USERS_QUERY } from '../../../../graphQL/Queries'
@@ -68,7 +69,12 @@ const UserDropdown = props => {
 
   if (loading) {
     return (
-      <div>Loading...</div>
+      <Loader 
+        type="ThreeDots"
+        height="25px"
+        width="25px"
+        color="#0984e3"
+      />
     )
   }
 

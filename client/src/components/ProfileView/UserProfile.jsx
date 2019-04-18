@@ -6,6 +6,7 @@ import styled from 'styled-components';
 import gql from 'graphql-tag'
 import { useMutation } from "../../graphQL/useMutation";
 import Button from '@material-ui/core/Button';
+import Loader from 'react-loader-spinner';
 
 
 const StyledAvatar = styled.img`{
@@ -124,7 +125,12 @@ function Form(props) {
     const { data, error, loading } = useQuery(USERS_QUERY);
 
     if (loading) {
-      return <div>Loading...</div>;
+      return <Loader 
+              type="ThreeDots"
+              height="25px"
+              width="25px"
+              color="#0984e3"
+            />;
     }
     if (error) {
       return <div>Error! {error.message}</div>;

@@ -7,6 +7,7 @@ import Button from '@material-ui/core/Button';
 import FolderIcon from "@material-ui/icons/Folder";
 import { useMutation } from "../../../../graphQL/useMutation";
 import { useQuery } from "react-apollo-hooks";
+import Loader from 'react-loader-spinner';
 
 import { DELETE_FOLDER, REMOVE_DOC_FOLDER } from '../../../../graphQL/Mutations';
 
@@ -97,7 +98,12 @@ const ViewFolderModal = props => {
               <FolderIcon />
               <div>
                 {folder === undefined
-                  ? "Loading"
+                  ? <Loader 
+                      type="ThreeDots"
+                      height="25px"
+                      width="25px"
+                      color="#0984e3"
+                    />
                   : folder.title}
               </div>
             </div>

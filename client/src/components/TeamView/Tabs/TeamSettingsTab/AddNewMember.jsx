@@ -13,6 +13,7 @@ const AddNewMember = props => {
   }, [props.newMemberId])
 
   const setMember = e => {
+    console.log('e', e.target);
     props.setNewMember(e.target.dataset.name)
     props.setNewMemberId(e.target.dataset.id);
   }
@@ -28,18 +29,18 @@ const AddNewMember = props => {
           <h3>{props.user.name}</h3> 
         </div>
         <Fab
-            size="small"
-            color="primary"
-            aria-label="Add"
-            className="add-member-button" 
-            data-id={props.user.id} 
-            data-name={props.user.name}
-            onClick={setMember}
-        > 
-        <AddIcon 
+          size="small"
+          color="primary"
+          aria-label="Add"
+          className="add-member-button" 
           data-id={props.user.id} 
           data-name={props.user.name}
           onClick={setMember}
+        > 
+        <AddIcon 
+          // data-id={props.user.id} 
+          // data-name={props.user.name}
+          // onClick={setMember}
         />
         </Fab>
       </div>
