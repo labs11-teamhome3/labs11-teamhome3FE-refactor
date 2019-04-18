@@ -33,7 +33,8 @@ const styles = theme => ({
   },
   menu: {
     position: 'absolute',
-    left: '300px'
+    left: '300px',
+    top: '-13px'
   }
 });
 

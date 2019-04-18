@@ -28,7 +28,7 @@ const styles = theme => ({
   tabHeaderCont: {
     display: "flex",
     justifyContent: "space-between",
-    marginBottom: "30px"
+    marginBottom: "8px"
   },
   title: {
     margin: "0px",
