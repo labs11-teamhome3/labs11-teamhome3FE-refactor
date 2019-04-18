@@ -210,11 +210,10 @@ if(loading) {
   const { classes } = props;
 
   return (
-    <div>
-      <>
+    <div className="team-settings-page">
         <div className="add-user">
           <form onSubmit={handleAddMemberSubmit}>
-            <h2>Find a new team member!</h2>
+            <h2>Find a new team member</h2>
             {allUsersQuery.loading &&
               <Loader
               type="ThreeDots"
@@ -277,45 +276,6 @@ if(loading) {
             handleDeleteChange={handleDeleteChange}
           />
         </div>
-        {/* {userRole === "ADMIN" && (
-          <div className="delete-area">
-            <Button
-              variant="contained"
-              color="secondary"
-              onClick={() => setAreYouSure(true)}
-            >
-              Delete team
-              <DeleteIcon />
-            </Button>
-            {areYouSure && (
-              <div>
-                <h2>
-                  Do you really want to delete this team? All messages, activities,
-                  documents, and todo lists which belong to this team will also be
-                  deleted! There is no coming back from this. If you are sure,
-                  please type the name of the team below.
-                </h2>
-                <input
-                  type="text"
-                  name="deleteInput"
-                  value={deleteInput}
-                  onChange={handleDeleteChange}
-                />
-                <button onClick={() => setAreYouSure(false)}>Cancel</button>
-                {deleteInput === data.team.teamName && (
-                  <Button
-                    variant="contained"
-                    color="secondary"
-                    onClick={deleteTeam}
-                  >
-                    I understand the consequences. Delete this team.
-                  </Button>
-                )}
-              </div>
-            )}
-          </div>
-        )} */}
-      </>
     </div>
   );
 };
