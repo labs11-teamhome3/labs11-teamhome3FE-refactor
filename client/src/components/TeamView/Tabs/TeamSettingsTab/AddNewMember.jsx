@@ -13,9 +13,8 @@ const AddNewMember = props => {
   }, [props.newMemberId])
 
   const setMember = e => {
-    console.log('e', e.target);
-    props.setNewMember(e.target.dataset.name)
-    props.setNewMemberId(e.target.dataset.id);
+    props.setNewMember(e.currentTarget.dataset.name)
+    props.setNewMemberId(e.currentTarget.dataset.id);
   }
 
   return (
