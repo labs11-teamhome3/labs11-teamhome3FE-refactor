@@ -45,7 +45,7 @@ const styles = theme => ({
       duration: theme.transitions.duration.leavingScreen,
     }),
     // golden slivers
-    backgroundColor: '#E29E1D'
+    backgroundColor: '#5862DF'
   },
   appBarShift: {
     width: `calc(100% - ${drawerWidth}px)`,

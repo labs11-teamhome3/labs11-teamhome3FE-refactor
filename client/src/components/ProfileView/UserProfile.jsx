@@ -13,11 +13,11 @@ const StyledAvatar = styled.img`{
   height: 20%;
   width: 12%;
   margin-bottom: 10px;
-  margin-right: 35px;
 }`
 
 const StyledHeader = styled.h1`{
   margin-right: 400px;
+  margin-right: 800px;
 }`
 
 const StyledHeader2 = styled.h2`{
@@ -29,6 +29,7 @@ const StyledContainer = styled.div`{
   justify-content: center;
   margin-top: 25px;
   padding-top: 25px;
+  margin-right: 800px;
 }`
 
 const StyledTeams = styled.div`{

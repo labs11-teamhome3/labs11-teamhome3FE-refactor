@@ -22,6 +22,15 @@ const StyledDiv = styled.div`{
     }
 }`;
 
+const StyledDiv3 = styled.div`{
+  // border: solid yellow 2px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  margin: 0;
+  padding: 0;
+}`;
+
 const StyledContainer = styled.div`{
   background-color: #D3D4E4;
   // border: solid green 2px;
@@ -35,14 +44,23 @@ const StyledDiv2 = styled.div`{
   margin: 0 auto
   width: 90%
   margin-top: 35px;
+  // box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  // box-shadow: 0 1px 1px 0 gray, 0 1px 10px 0 #507F43;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 50px 0 rgba(0, 0, 0, 0.19);
     img {
       width: 500px;
       height: 500px;
     }
     h1 {
-      // border: solid blue 2px;
       font-size: 5rem;
       margin-bottom: 20px
+      margin-left: 0;
+      padding-left: 0;
+      // border: solid blue 2px;
+        span {
+          // border: solid red 2px;
+          // margin-left: 12%;
+        }
     }
     p {
       font-size: 2rem;
@@ -65,7 +83,8 @@ const styles = {
     margin: '0 auto',
     // backgroundColor: 'gold',
     // border: 'solid yellow 2px',
-    background: 'linear-gradient(45deg, #5862DF, #E29E1D);'
+    background: 'linear-gradient(45deg, #5862DF, gray);',
+    boxShadow: '0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);'
   },
 
 };
@@ -85,9 +104,11 @@ const LandingView = props => {
       <NavigationView auth={props.auth}/>
       <StyledDiv2>
         <div>
-          <h1>
-            Connect. <br/>Conduct. <br/> Collaborate.
-          </h1>
+          <StyledDiv3>
+            <h1>
+              <span> Connect. <br/>Conduct.<br/> Collaborate. </span>
+            </h1>
+          </StyledDiv3>
           <br/> 
           <p>
             No more missed conversations. No more missed opportunities. 
