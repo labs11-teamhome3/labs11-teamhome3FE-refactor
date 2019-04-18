@@ -4,6 +4,7 @@ import logo from '../assets/Manaje.png';
 import gql from 'graphql-tag';
 import { useQuery } from "react-apollo-hooks";
 import { TEAMS_QUERY } from "../graphQL/Queries";
+import Loader from 'react-loader-spinner';
 
 import './css/Nav.css';
 
@@ -41,7 +42,12 @@ const NavigationView = props => {
 
 
   if (loading) {
-    return <div>Loading...</div>;
+    return <Loader 
+            type="ThreeDots"
+            height="25px"
+            width="25px"
+            color="#0984e3"
+          />;
   }
   if (error) {
     return <div>Error! {error.message}</div>;
@@ -61,13 +67,6 @@ const NavigationView = props => {
   const logout = () => {
     props.auth.logout();
   };
-
-  // This makes sure that the home/profile link always works
-  const checkTeams = async () => {   
-    const team = await data.teamsByUser
-    console.log('ct team', team);
-    console.log('ct team0 id', team[0].id);
-  }
 
   return (
     <div>

@@ -99,16 +99,6 @@ const TeamSettingsTab = props => {
     setSearchInput(e.target.value);
   };
 
-  const handleSelectChange = e => {
-    // console.log('e', e.target)
-    const members = Array.from(e.target);
-    // console.log('members', members);
-    const selectedMember = members.find(member => member.selected);
-    const selectedMemberId = selectedMember.dataset.id;
-    setNewMember(e.target.value);
-    setNewMemberId(selectedMemberId);
-  };
-
   const handleAddMemberSubmit = e => {
     e.preventDefault();
   };
@@ -225,12 +215,19 @@ if(loading) {
         <div className="add-user">
           <form onSubmit={handleAddMemberSubmit}>
             <h2>Find a new team member!</h2>
+            {allUsersQuery.loading &&
+              <Loader
+              type="ThreeDots"
+              height="25px"
+              width="25px"
+              color="#0984e3"
+            />
+            }
             {optionsItems && (
                 <>
                 <TextField
                   className={classes.findMember}
                   label="Search all users"
-                  defaultValue="user search"
                   helperText="Find your next great team member"
                   margin="normal"
                   variant="outlined"
@@ -251,7 +248,8 @@ if(loading) {
                   allUsersQuery.data.users.map(user => {
                     if (user.name.toLowerCase().includes(searchInput.toLowerCase())) {
                       return <AddNewMember 
-                                user={user} 
+                                user={user}
+                                key={user.id} 
                                 newMemberId={newMemberId}
                                 setNewMemberId={setNewMemberId} 
                                 setNewMember={setNewMember}
