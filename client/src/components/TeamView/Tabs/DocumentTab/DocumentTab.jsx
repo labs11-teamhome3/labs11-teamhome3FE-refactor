@@ -12,6 +12,7 @@ import TableRow from '@material-ui/core/TableRow';
 import Button from '@material-ui/core/Button';
 import ArrowUp from '@material-ui/icons/ArrowDropUp';
 import Typography from '@material-ui/core/Typography';
+import { unstable_useMediaQuery as useMediaQuery } from '@material-ui/core/useMediaQuery';
 
 /////Components/////
 import Folder from './Folder';
@@ -30,7 +31,8 @@ import { useMutation } from '../../../../graphQL/useMutation';
 
 const styles = theme => ({
   table: {
-    minWidth: '300px',
+    minWidth: '400px',
+    overflow: 'auto',
     width: '100%',
   },
   input: {
@@ -169,6 +171,30 @@ const DocumentTab = props => {
             </TableRow>
           </TableHead>
           <TableBody>
+      }
+    };
+
+    const matches = useMediaQuery('(min-width:700px)');
+    
+    const {classes} = props; 
+    return (
+      <div>
+        <div>
+          <div style={{display:'flex', justifyContent:'start'}}>
+            <Button variant="outlined" color='primary' style={{marginRight: '17px'}} onClick={() => toggleModal('createFolder')}>Create Folder</Button>
+            <Button variant="contained" color='primary'  onClick={() => toggleModal('create')}>Create File</Button>
+          </div>
+          <Table className={classes.table}>
+            <TableHead>
+              <TableRow>
+                <TableCell>Name</TableCell>
+                <TableCell>Created<ArrowUp onClick={newSort} /></TableCell>
+                {matches ? <TableCell>Created By</TableCell> : null}
+                {matches ? <TableCell># of Docs or Comments</TableCell> : null}
+                <TableCell>More</TableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
             {folders.loading ? (
               <Loader
                 type="ThreeDots"
@@ -179,6 +205,7 @@ const DocumentTab = props => {
             ) : (
               folders.data.findFoldersByTeam.map(folder => (
                 <Folder
+                  matches={matches}
                   refetch={folders.refetch}
                   refetchDocs={documents.refetch}
                   setDroppedItem={setDroppedItem}
@@ -195,17 +222,17 @@ const DocumentTab = props => {
             {!documents.data.findDocumentsByTeam ? (
               <Typography component="h3">Loading Documents...</Typography>
             ) : (
-              documents.data.findDocumentsByTeam
-                .filter(document => !document.folder)
-                .map(document => (
-                  <Document
-                    teamId={props.teamId}
-                    document={document}
-                    key={document.id}
-                    toggleModal={toggleModal}
-                    setMsg={props.setMsg}
-                  />
-                ))
+              documents.data.findDocumentsByTeam.filter(document => !document.folder)
+              .map(document => (
+                <Document
+                  matches={matches}
+                  teamId={props.teamId}
+                  document={document}
+                  key={document.id}
+                  toggleModal={toggleModal}
+                  setMsg={props.setMsg}
+                />
+              ))
             )}
           </TableBody>
         </Table>

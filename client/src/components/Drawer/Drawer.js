@@ -67,6 +67,7 @@ const styles = theme => ({
     // misty blue slot
     backgroundColor: '#DDE4E9',
     width: drawerWidth,
+    height: '100vh',
     flexShrink: 0,
   },
   drawerPaper: {
@@ -88,6 +89,7 @@ const styles = theme => ({
   },
   content: {
     width: '30%',
+    minWidth: '500px',
     flexGrow: 1,
     padding: theme.spacing.unit * 3,
     transition: theme.transitions.create('margin', {

@@ -43,6 +43,7 @@ const styles = theme => ({
   },
   panelTitleCont: {
     display: "flex",
+    'flex-wrap': 'wrap',
     justifyContent: "space-between",
     alignItems: "center",
     padding: "0 15px"

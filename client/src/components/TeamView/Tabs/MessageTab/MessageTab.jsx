@@ -98,7 +98,7 @@ const MessageTab = props => {
 
   const { classes } = props;
   return (
-    <div style={{ textAlign: 'left' }}>
+    <div style={{textAlign: 'left', minWidth: '430px'}}>
       <div>
         {user.data && user.data.user ? (
           <img
