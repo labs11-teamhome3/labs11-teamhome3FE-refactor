@@ -117,6 +117,8 @@ const Folder = props => {
         {props.matches ? <TableCell>{props.folder.documents ? props.folder.documents.length : 0}</TableCell> : null}
         <TableCell>
           <MoreMenuFolder 
+            setExpandedStatus={setExpandedStatus}
+            expandedStatus={expandedStatus}
             setTitleEditStatus={setTitleEditStatus}
             titleEditStatus={titleEditStatus}
             refetch={props.refetch}
