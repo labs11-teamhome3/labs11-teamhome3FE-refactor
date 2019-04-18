@@ -12,16 +12,6 @@ import './css/Nav.css';
 import { Button, AppBar } from '../../node_modules/@material-ui/core';
 import { isNull } from 'util';
 
-
-// const PIC_QUERY = gql`
-//   query PIC_QUERY($id: ID!) {
-  //     user(id: $id) {
-    //       id
-    //       profilePic
-    //     }
-    //   }
-    // `
-    
 const NavigationView = props => {
   const userId = localStorage.getItem('userId');
 
