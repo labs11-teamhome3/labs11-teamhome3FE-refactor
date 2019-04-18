@@ -3,6 +3,7 @@ import Button from '@material-ui/core/Button';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import Arrow from '@material-ui/icons/ArrowDropDown';
+import Typography from '@material-ui/core/Typography';
 
 const ActionDropdown = props => {
   const [actionDropdown, setActionDropdown] = useState(null);
@@ -18,7 +19,7 @@ const ActionDropdown = props => {
 
   return (
     <div>
-      <h3>
+      <Typography component="h3">
         Action:
         <Button
           id="action"
@@ -28,7 +29,7 @@ const ActionDropdown = props => {
           All
           <Arrow />
         </Button>
-      </h3>
+      </Typography>
       <Menu
         id="action"
         onClose={handleClose}

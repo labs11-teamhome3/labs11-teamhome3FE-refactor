@@ -1,20 +1,21 @@
-import React, { useState, useEffect } from "react";
-import Modal from "@material-ui/core/Modal";
-import Paper from "@material-ui/core/Paper";
-import { withStyles } from "@material-ui/core/styles";
-import Close from "@material-ui/icons/Close";
+import React, { useState, useEffect } from 'react';
+import Modal from '@material-ui/core/Modal';
+import Paper from '@material-ui/core/Paper';
+import { withStyles } from '@material-ui/core/styles';
+import Close from '@material-ui/icons/Close';
 import Button from '@material-ui/core/Button';
-import FolderIcon from "@material-ui/icons/Folder";
-import { useMutation } from "../../../../graphQL/useMutation";
-import { useQuery } from "react-apollo-hooks";
+import Typography from '@material-ui/core/Typography';
+import FolderIcon from '@material-ui/icons/Folder';
+import { useMutation } from '../../../../graphQL/useMutation';
+import { useQuery } from 'react-apollo-hooks';
 import Loader from 'react-loader-spinner';
 
-import { DELETE_FOLDER, REMOVE_DOC_FOLDER } from '../../../../graphQL/Mutations';
-
 import {
-  FOLDERS_QUERY,
-  FOLDER_QUERY
-} from "../../../../graphQL/Queries";
+  DELETE_FOLDER,
+  REMOVE_DOC_FOLDER,
+} from '../../../../graphQL/Mutations';
+
+import { FOLDERS_QUERY, FOLDER_QUERY } from '../../../../graphQL/Queries';
 
 const styles = theme => ({
   paper: {
@@ -28,58 +29,62 @@ const styles = theme => ({
   viewFolder: {
     display: 'flex',
     justifyContent: 'space-between',
-    fontSize: '25px'
+    fontSize: '25px',
   },
   button: {
-    margin: '5px 0px 5px 7px'
-  }
+    margin: '5px 0px 5px 7px',
+  },
 });
 
 const ViewFolderModal = props => {
-  const [documentId, setDocumentId] = useState(null)
+  const [documentId, setDocumentId] = useState(null);
 
   useEffect(() => {
-    if(documentId) {
-      removeDocumentFromFolder()
+    if (documentId) {
+      removeDocumentFromFolder();
     }
-  }, [documentId])
+  }, [documentId]);
 
   const findFolder = useQuery(FOLDER_QUERY, {
-    variables: { id: props.folderId }
+    variables: { id: props.folderId },
   });
 
   const [removeDocumentFromFolder] = useMutation(REMOVE_DOC_FOLDER, {
-    update: (cache, {data}) => {
+    update: (cache, { data }) => {
       const { findFolder } = cache.readQuery({
         query: FOLDER_QUERY,
-        variables: { id: props.folderId }
+        variables: { id: props.folderId },
       });
       cache.writeQuery({
         query: FOLDER_QUERY,
         variables: { id: props.folderId },
         data: {
-          findFolder: {...findFolder, documents: findFolder.documents.filter(document => document.id !== data.removeDocumentFromFolder.id)}
-        }
+          findFolder: {
+            ...findFolder,
+            documents: findFolder.documents.filter(
+              document => document.id !== data.removeDocumentFromFolder.id
+            ),
+          },
+        },
       });
     },
     variables: {
       folderId: props.folderId,
-      documentId: documentId
+      documentId: documentId,
     },
     onCompleted: e => {
       props.setMsg('removed a document from a folder');
       setDocumentId(null);
     },
-    onError: err => console.log(err)
-  })
-
+    onError: err => console.log(err),
+  });
 
   const closeModal = _ => {
-    props.toggleModal("viewFolder");
+    props.toggleModal('viewFolder');
   };
 
   const editMessage = _ => {
-    props.toggleModal("editFolder", props.folderId);
+    props.toggleModal('editFolder', props.folderId);
     closeModal();
   };
 
@@ -97,43 +102,54 @@ const ViewFolderModal = props => {
             <div>
               <FolderIcon />
               <div>
-                {folder === undefined
-                  ? <Loader 
-                      type="ThreeDots"
-                      height="25px"
-                      width="25px"
-                      color="#0984e3"
-                    />
-                  : folder.title}
+                {folder === undefined ? (
+                  <Loader
+                    type="ThreeDots"
+                    height="25px"
+                    width="25px"
+                    color="#0984e3"
+                  />
+                ) : (
+                  folder.title
+                )}
               </div>
             </div>
             <Close onClick={closeModal} />
           </div>
           {folder !== undefined &&
           folder.documents !== undefined &&
-          folder.documents !== null && 
+          folder.documents !== null &&
           folder.documents.length > 0 ? (
             <div>
-              <h4>Documents</h4>
+              <Typography component="h4">Documents</Typography>
               <ul>
-                  {folder.documents.map(document => (
-                      <li key={document.id}>
-                        Title: {document.title} | Created By: {document.user.name}
-                        <Button 
-                          variant="outlined"
-                          className={classes.button} 
-                          onClick={() => {
-                            props.toggleModal('viewFolder');
-                            props.toggleModal('view', document.id) 
-                        }}>
-                          View
-                        </Button>
-                        <Button color="secondary" className={classes.button} onClick={() => setDocumentId(document.id)}>Remove</Button>
-                      </li>
-                  ))}
+                {folder.documents.map(document => (
+                  <li key={document.id}>
+                    Title: {document.title} | Created By: {document.user.name}
+                    <Button
+                      variant="outlined"
+                      className={classes.button}
+                      onClick={() => {
+                        props.toggleModal('viewFolder');
+                        props.toggleModal('view', document.id);
+                      }}
+                    >
+                      View
+                    </Button>
+                    <Button
+                      color="secondary"
+                      className={classes.button}
+                      onClick={() => setDocumentId(document.id)}
+                    >
+                      Remove
+                    </Button>
+                  </li>
+                ))}
               </ul>
-            </div> 
-          ) : <h4>This folder is empty 🤭</h4>}
+            </div>
+          ) : (
+            <Typography component="h4">This folder is empty 🤭</Typography>
+          )}
         </Paper>
       </Modal>
     </div>

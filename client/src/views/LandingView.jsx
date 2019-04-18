@@ -3,6 +3,7 @@ import React, { useEffect } from 'react';
 import { withStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
+import Typography from '@material-ui/core/Typography';
 import styled from 'styled-components';
 import NavigationView from './NavigationView';
 import Paper from '@material-ui/core/Paper';
@@ -102,17 +103,19 @@ const LandingView = props => {
       <StyledDiv2>
         <div>
           <StyledDiv3>
-            <h1>
+            <Typography component="h1">
               <span>
                 {' '}
                 Connect. <br />
                 Conduct.
                 <br /> Collaborate.{' '}
               </span>
-            </h1>
+            </Typography>
           </StyledDiv3>
           <br />
-          <p>No more missed conversations. No more missed opportunities.</p>
+          <Typography component="p">
+            No more missed conversations. No more missed opportunities.
+          </Typography>
         </div>
         <img
           className="nt-image"
@@ -125,47 +128,49 @@ const LandingView = props => {
         <Card className={classes.card}>
           <CardContent>
             <div>
-              <h2>Ease of use</h2>
+              <Typography component="h2">Ease of use</Typography>
             </div>
             <div>
-              <p>Manaje is out of the box and ready to use. Right now. </p>
-              <p>
+              <Typography component="p">
+                Manaje is out of the box and ready to use. Right now.{' '}
+              </Typography>
+              <Typography component="p">
                 With native iOS integration, Manaje allows for total team
                 integration, from mobile to desktop.
-              </p>
+              </Typography>
             </div>
           </CardContent>
         </Card>
         <Card className={classes.card}>
           <CardContent>
             <div>
-              <h2>Simplicity</h2>
+              <Typography component="h2">Simplicity</Typography>
             </div>
             <div>
-              <p>
+              <Typography component="p">
                 Manaje distills out the noise and keeps the information load
                 light.
-              </p>
-              <p>
+              </Typography>
+              <Typography component="p">
                 Concentrate on what really matters: getting your team ready to
                 ship world class product.
-              </p>
+              </Typography>
             </div>
           </CardContent>
         </Card>
         <Card className={classes.card}>
           <CardContent>
             <div>
-              <h2>Adaptability</h2>
+              <Typography component="h2">Adaptability</Typography>
             </div>
             <div>
-              <p>
+              <Typography component="p">
                 Manaje can incorporate a wide range workplace environments.{' '}
-              </p>
-              <p>
+              </Typography>
+              <Typography component="p">
                 Collegues half-way across the world? Not to worry, our help
                 staff are here for you, 24/7.
-              </p>
+              </Typography>
             </div>
           </CardContent>
         </Card>
