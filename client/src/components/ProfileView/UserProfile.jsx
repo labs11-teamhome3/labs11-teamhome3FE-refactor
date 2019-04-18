@@ -1,28 +1,28 @@
-import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
-import { USERS_QUERY } from "../../graphQL/Queries.js";
-import { useQuery } from "react-apollo-hooks";
-import styled from "styled-components";
-import gql from "graphql-tag";
-import { useMutation } from "../../graphQL/useMutation";
-import Button from "@material-ui/core/Button";
-import Paper from "@material-ui/core/Paper";
-import { withStyles } from "@material-ui/core/styles";
-import List from "@material-ui/core/List";
-import ListItem from "@material-ui/core/ListItem";
-import ListItemSecondaryAction from "@material-ui/core/ListItemSecondaryAction";
-import ListItemText from "@material-ui/core/ListItemText";
-import ListSubheader from "@material-ui/core/ListSubheader";
-import Divider from "@material-ui/core/Divider";
-import Typography from "@material-ui/core/Typography";
-import AppBar from "@material-ui/core/AppBar";
-import Tabs from "@material-ui/core/Tabs";
-import Tab from "@material-ui/core/Tab";
-import TextField from "@material-ui/core/TextField";
-import Phone from "@material-ui/icons/Smartphone";
-import Email from "@material-ui/icons/Email";
-import Pencil from "@material-ui/icons/Edit";
-import Toolbar from "@material-ui/core/Toolbar";
+import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
+import { USERS_QUERY } from '../../graphQL/Queries.js';
+import { useQuery } from 'react-apollo-hooks';
+import styled from 'styled-components';
+import gql from 'graphql-tag';
+import { useMutation } from '../../graphQL/useMutation';
+import Button from '@material-ui/core/Button';
+import Paper from '@material-ui/core/Paper';
+import { withStyles } from '@material-ui/core/styles';
+import List from '@material-ui/core/List';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
+import ListItemText from '@material-ui/core/ListItemText';
+import ListSubheader from '@material-ui/core/ListSubheader';
+import Divider from '@material-ui/core/Divider';
+import Typography from '@material-ui/core/Typography';
+import AppBar from '@material-ui/core/AppBar';
+import Tabs from '@material-ui/core/Tabs';
+import Tab from '@material-ui/core/Tab';
+import TextField from '@material-ui/core/TextField';
+import Phone from '@material-ui/icons/Smartphone';
+import Email from '@material-ui/icons/Email';
+import Pencil from '@material-ui/icons/Edit';
+import Toolbar from '@material-ui/core/Toolbar';
 import Loader from 'react-loader-spinner';
 
 const StyledAvatar = styled.img`
@@ -38,15 +38,11 @@ const StyledAvatar = styled.img`
 `;
 
 const StyledHeader = styled.h1`
-   {
-    font-weight: normal;
-  }
+  font-weight: normal;
 `;
 
 const StyledHeader2 = styled.h2`
-   {
-    // margin-left: 100px;
-  }
+  // margin-left: 100px;
 `;
 
 const StyledContainer = styled.div`
@@ -62,8 +58,7 @@ const StyledContainer = styled.div`
 `;
 
 const StyledTeams = styled.div`
-   {
-    /* // border: solid gray 1px;
+  /* // border: solid gray 1px;
     display: flex;
     margin-left: 25px;
     flex-direction: column; */
@@ -73,18 +68,17 @@ const StyledTeams = styled.div`
 `;
 
 const StyledForm = styled.form`
-   {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    min-width: 340px;
-    button {
-      position: absolute;
-      top: 14px;
-      right: 20px;
-    }
-    input {
-      /* border: solid gray 1px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  min-width: 340px;
+  button {
+    position: absolute;
+    top: 14px;
+    right: 20px;
+  }
+  input {
+    /* border: solid gray 1px;
       padding: 0px;
       margin-bottom: 20px;
       width: 500px;
@@ -93,18 +87,16 @@ const StyledForm = styled.form`
       ::placeholder {
         padding-left: 10px;
       } */
-    }
   }
 `;
 
 const SDiv = styled.div`
-   {
-    /* display: flex;
+  /* display: flex;
     justify-content: space-around;
     width: 65%;
     margin-left: 18%;
     margin-top: 25px; */
-    /* display: flex;
+  /* display: flex;
     justify-content: space-between; */
     paddingright: "10px";
     background-color: #DDE4E9;
@@ -149,10 +141,10 @@ const styles = theme => ({
     overflow: "auto"
   },
   tabHeaders: {
-    textAlign: "left"
+    textAlign: 'left',
   },
   userSettingInput: {
-    marginBottom: "10px"
+    marginBottom: '10px',
   },
   userCard: {
     // padding: "0px 60px 20px 60px",
@@ -174,22 +166,22 @@ const styles = theme => ({
     minWidth: "450px",
   },
   userInfoIcons: {
-    position: "relative",
-    top: "5px"
+    position: 'relative',
+    top: '5px',
   },
   userInfoTypog: {
-    cursor: "pointer",
-    "&:hover svg": {
-      opacity: "1"
-    }
+    cursor: 'pointer',
+    '&:hover svg': {
+      opacity: '1',
+    },
   },
   myTeamsList: {
-    maxHeight: "210px",
-    overflow: "auto"
+    maxHeight: '210px',
+    overflow: 'auto',
   },
   pencils: {
-    opacity: "0",
-    transition: "opacity 0.2s ease"
+    opacity: '0',
+    transition: 'opacity 0.2s ease',
   },
   cardAppBar: {},
   tabNav: {},
@@ -201,7 +193,7 @@ const styles = theme => ({
 
 const Form = props => {
   const { classes } = props;
-  const userId = localStorage.getItem("userId");
+  const userId = localStorage.getItem('userId');
   // const [name, setName] = useState(null);
   // const [email, setEmail] = useState(null);
   // const [phone, setPhone] = useState(null);
@@ -228,12 +220,9 @@ const Form = props => {
     return <div>Error! {error.message}</div>;
   }
   if (!user) {
-    return <Loader 
-            type="ThreeDots"
-            height="25px"
-            width="25px"
-            color="#0984e3"
-          />;
+    return (
+      <Loader type="ThreeDots" height="25px" width="25px" color="#0984e3" />
+    );
   }
 
   const handleTabChange = (e, val) => {
@@ -242,15 +231,15 @@ const Form = props => {
 
   const updateInfo = e => {
     e.preventDefault();
-    console.log("uop");
+    console.log('uop');
     setEditName(false);
     editUser({
       variables: {
         id: userId,
         name: user.name,
         phone: user.phone,
-        email: user.email
-      }
+        email: user.email,
+      },
     });
   };
 
@@ -329,7 +318,7 @@ const Form = props => {
                     onClick={_ => setEditEmail(true)}
                     className={classes.userInfoTypog}
                   >
-                    <Email className={classes.userInfoIcons} /> {user.email}{" "}
+                    <Email className={classes.userInfoIcons} /> {user.email}{' '}
                     <Pencil className={classes.pencils} />
                   </Typography>
                 )}
@@ -349,12 +338,12 @@ const Form = props => {
                           id: userId,
                           name: user.name,
                           phone: user.phone,
-                          email: user.email
-                        }
+                          email: user.email,
+                        },
                       });
                     }}
                   >
-                    {" "}
+                    {' '}
                     Save
                   </Button>
                 ) : null}
@@ -383,7 +372,7 @@ const Form = props => {
                 user.inTeam.length > 0 &&
                 user.inTeam.map((team, index) => (
                   <Link to={`/teams/${team.id}/home`}>
-                    {" "}
+                    {' '}
                     <Divider />
                     <ListItem button>
                       <ListItemText>{team.teamName}</ListItemText>

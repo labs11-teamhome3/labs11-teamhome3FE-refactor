@@ -1,25 +1,25 @@
-import React, { useState, useEffect } from "react";
-import Button from "@material-ui/core/Button";
+import React, { useState, useEffect } from 'react';
+import Button from '@material-ui/core/Button';
 // import { withStyles } from "@material-ui/core/styles";
-import DeleteIcon from "@material-ui/icons/Delete";
-import { useMutation } from "../../../../graphQL/useMutation";
-import gql from "graphql-tag";
+import DeleteIcon from '@material-ui/icons/Delete';
+import { useMutation } from '../../../../graphQL/useMutation';
+import gql from 'graphql-tag';
 
 ///Components///
-import TeamInfo from "./TeamInfo";
-import StripePaymentPopup from "../../../Stripe/StripePaymentPopup";
+import TeamInfo from './TeamInfo';
+import StripePaymentPopup from '../../../Stripe/StripePaymentPopup';
 import Loader from 'react-loader-spinner';
 import AddNewMember from './AddNewMember';
 import TextField from '@material-ui/core/TextField';
-import { withStyles } from '@material-ui/core/styles'
-
+import { withStyles } from '@material-ui/core/styles';
 
 ////Queries////
-import { TEAMS_QUERY, USERS_QUERY } from "../../../../graphQL/Queries";
-import { useQuery } from "react-apollo-hooks";
+import { TEAMS_QUERY, USERS_QUERY } from '../../../../graphQL/Queries';
+import { useQuery } from 'react-apollo-hooks';
 
 /// css ///
-import "./css/TeamSettings.css";
+import './css/TeamSettings.css';
+import { Typography } from '@material-ui/core';
 
 const DELETE_TEAM = gql`
   mutation deleteTeam($id: ID!) {
@@ -75,16 +75,16 @@ const ADD_MEMBER = gql`
 
 const styles = theme => ({
   findMember: {
-    width: '100%'
-  }
-})
+    width: '100%',
+  },
+});
 
 const TeamSettingsTab = props => {
-  const [deleteInput, setDeleteInput] = useState("");
-  const [searchInput, setSearchInput] = useState("");
-  const [newMember, setNewMember] = useState("");
-  const [newMemberId, setNewMemberId] = useState("");
-  const [errorMsg, setErrorMsg] = useState("");
+  const [deleteInput, setDeleteInput] = useState('');
+  const [searchInput, setSearchInput] = useState('');
+  const [newMember, setNewMember] = useState('');
+  const [newMemberId, setNewMemberId] = useState('');
+  const [errorMsg, setErrorMsg] = useState('');
   // const [currentUser, setCurrentUser] = useState(null)
 
   // useEffect(() => {
@@ -107,10 +107,10 @@ const TeamSettingsTab = props => {
   // get the current user for conditional rendering of removal buttons based on ADMIN status
   const userQuery = useQuery(CURRENT_USER_QUERY, {
     variables: {
-      id: localStorage.getItem("userId")
-    }
+      id: localStorage.getItem('userId'),
+    },
   });
-  let userRole = "";
+  let userRole = '';
   let currentUser;
   if (userQuery.data.user) {
     //console.log('user', userQuery.data.user)
@@ -119,7 +119,7 @@ const TeamSettingsTab = props => {
   }
 
   const { data, error, loading } = useQuery(TEAM_QUERY, {
-    variables: { id: props.teamId }
+    variables: { id: props.teamId },
   });
   //   console.log("team settings data", data);
   const [deleteTeam] = useMutation(DELETE_TEAM, {
@@ -127,12 +127,12 @@ const TeamSettingsTab = props => {
       const { teams } = cache.readQuery({ query: TEAMS_QUERY });
       cache.writeQuery({
         query: TEAMS_QUERY,
-        data: { teams: teams.filter(team => team.id !== data.deleteTeam.id) }
+        data: { teams: teams.filter(team => team.id !== data.deleteTeam.id) },
       });
     },
     variables: { id: props.teamId },
     onCompleted: e => {
-      console.log("currentUser", currentUser);
+      console.log('currentUser', currentUser);
       if (currentUser.inTeam.length > 1) {
         props.history.push(`/teams/${currentUser.inTeam[0].id}/home`);
       } else {
@@ -141,44 +141,44 @@ const TeamSettingsTab = props => {
       // reload the window to remove the team.  NEEDS TO BE FIXED
       window.location.reload();
     },
-    onError: err => console.log(err)
+    onError: err => console.log(err),
   });
 
   // mutation for adding user
   const [addUserToTeam] = useMutation(ADD_MEMBER, {
-      update: (cache, { data }) => {
-          // console.log('data', data);
-          const { team } = cache.readQuery({
-              query: TEAM_QUERY,
-              variables: { id: props.match.params.id }
-            });
-            // console.log('team', team)
-            cache.writeQuery({
-                query: TEAM_QUERY,
-                variables: { id: props.match.params.id },
-                data: {
-                    team: {
-                        ...team,
-                        members: [...team.members]
-                    }
-                }
-            })
-        },
-        variables: {
-          userId: newMemberId,
-          teamId: props.match.params.id
-        },
-        onCompleted: e => {
-          props.setMsg(`added ${newMember} to the team`);
-          setSearchInput("");
-          setNewMember("");
-          setNewMemberId("");
-        },
-        onError: err => {
-          // console.log(err.message);
-          setErrorMsg(err.message);
-        }
+    update: (cache, { data }) => {
+      // console.log('data', data);
+      const { team } = cache.readQuery({
+        query: TEAM_QUERY,
+        variables: { id: props.match.params.id },
       });
+      // console.log('team', team)
+      cache.writeQuery({
+        query: TEAM_QUERY,
+        variables: { id: props.match.params.id },
+        data: {
+          team: {
+            ...team,
+            members: [...team.members],
+          },
+        },
+      });
+    },
+    variables: {
+      userId: newMemberId,
+      teamId: props.match.params.id,
+    },
+    onCompleted: e => {
+      props.setMsg(`added ${newMember} to the team`);
+      setSearchInput('');
+      setNewMember('');
+      setNewMemberId('');
+    },
+    onError: err => {
+      // console.log(err.message);
+      setErrorMsg(err.message);
+    },
+  });
 
   // query all users to populate dropdown for adding member to team
   const allUsersQuery = useQuery(USERS_QUERY);
@@ -192,16 +192,13 @@ const TeamSettingsTab = props => {
     ));
   }
 
-if(loading) {
-    return <div>
-      <Loader
-        type="ThreeDots"
-        height="25px"
-        width="25px"
-        color="#0984e3"
-      />
-    </div>;
-}
+  if (loading) {
+    return (
+      <div>
+        <Loader type="ThreeDots" height="25px" width="25px" color="#0984e3" />
+      </div>
+    );
+  }
 
   if (error) {
     return <div>Error! {error.message}</div>;
@@ -213,17 +210,17 @@ if(loading) {
     <div className="team-settings-page">
         <div className="add-user">
           <form onSubmit={handleAddMemberSubmit}>
-            <h2>Find a new team member</h2>
-            {allUsersQuery.loading &&
+            <Typography component="h2">Find a new team member!</Typography>
+            {allUsersQuery.loading && (
               <Loader
-              type="ThreeDots"
-              height="25px"
-              width="25px"
-              color="#0984e3"
-            />
-            }
+                type="ThreeDots"
+                height="25px"
+                width="25px"
+                color="#0984e3"
+              />
+            )}
             {optionsItems && (
-                <>
+              <>
                 <TextField
                   className={classes.findMember}
                   label="Search all users"
@@ -233,31 +230,39 @@ if(loading) {
                   value={searchInput}
                   onChange={handleSearchChange}
                 />
-              <div className="all-members">
-                {errorMsg && (
-                  <div className="error-flash">
-                    <h3>{errorMsg.split(":")[1]}</h3>
-                    <div className="premium-or-cancel">
-                      <StripePaymentPopup teamId={props.teamId} />
-                      <Button onClick={() => setErrorMsg("")}>Cancel</Button>
+                <div className="all-members">
+                  {errorMsg && (
+                    <div className="error-flash">
+                      <Typography component="h3">
+                        {errorMsg.split(':')[1]}
+                      </Typography>
+                      <div className="premium-or-cancel">
+                        <StripePaymentPopup teamId={props.teamId} />
+                        <Button onClick={() => setErrorMsg('')}>Cancel</Button>
+                      </div>
                     </div>
-                  </div>
-                )}
-                {allUsersQuery.data.users && searchInput &&
-                  allUsersQuery.data.users.map(user => {
-                    if (user.name.toLowerCase().includes(searchInput.toLowerCase())) {
-                      return <AddNewMember 
-                                user={user}
-                                key={user.id} 
-                                newMemberId={newMemberId}
-                                setNewMemberId={setNewMemberId} 
-                                setNewMember={setNewMember}
-                                addUserToTeam={addUserToTeam} 
-                              />
-                    }
-                  })
-                }
-              </div>
+                  )}
+                  {allUsersQuery.data.users &&
+                    searchInput &&
+                    allUsersQuery.data.users.map(user => {
+                      if (
+                        user.name
+                          .toLowerCase()
+                          .includes(searchInput.toLowerCase())
+                      ) {
+                        return (
+                          <AddNewMember
+                            user={user}
+                            key={user.id}
+                            newMemberId={newMemberId}
+                            setNewMemberId={setNewMemberId}
+                            setNewMember={setNewMember}
+                            addUserToTeam={addUserToTeam}
+                          />
+                        );
+                      }
+                    })}
+                </div>
               </>
             )}
           </form>
