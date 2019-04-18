@@ -64,7 +64,7 @@ const TodoListPanel = props => {
     <ClickAwayListener onClickAway={closePanel}>
       <ExpansionPanel
         expanded={panelOpen}
-        style={{ opacity: panelOpen ? 1 : 0, transition: "opacity .3s ease" }}
+        style={{ opacity: panelOpen ? 1 : 0, transition: "opacity .3s ease", marginRight: '10px' }}
         className={classes.expansionPanel}
       >
         {todoList.data.todoList && (
