@@ -36,12 +36,12 @@ const styles = theme => ({
     'margin': '50px 0 30px 0',
   },
   deleteInput: {
-    width: '50%'
+    width: '100%'
   },
   teamMembers: {
     display: 'flex',
     'justify-content': 'flex-start',
-    'margin-top': '50px',
+    'margin-top': '29px',
     'padding-left': '1%',
     'font-size': '1.5rem'
     

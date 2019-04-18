@@ -13,7 +13,6 @@ import AddNewMember from './AddNewMember';
 import TextField from '@material-ui/core/TextField';
 import { withStyles } from '@material-ui/core/styles'
 
-
 ////Queries////
 import { TEAMS_QUERY, USERS_QUERY } from "../../../../graphQL/Queries";
 import { useQuery } from "react-apollo-hooks";
@@ -239,22 +238,23 @@ if(loading) {
                     <h3>{errorMsg.split(":")[1]}</h3>
                     <div className="premium-or-cancel">
                       <StripePaymentPopup teamId={props.teamId} />
-                      <Button onClick={() => setErrorMsg("")}>Cancel</Button>
+                      <Button variant="outlined" onClick={() => setErrorMsg("")}>Cancel</Button>
                     </div>
                   </div>
                 )}
                 {allUsersQuery.data.users && searchInput &&
                   allUsersQuery.data.users.map(user => {
                     if (user.name.toLowerCase().includes(searchInput.toLowerCase())) {
-                      return <AddNewMember 
-                                user={user}
-                                key={user.id} 
-                                newMemberId={newMemberId}
-                                setNewMemberId={setNewMemberId} 
-                                setNewMember={setNewMember}
-                                addUserToTeam={addUserToTeam} 
-                              />
-                    }
+                      return (
+                            <AddNewMember 
+                              user={user}
+                              key={user.id} 
+                              newMemberId={newMemberId}
+                              setNewMemberId={setNewMemberId} 
+                              setNewMember={setNewMember}
+                              addUserToTeam={addUserToTeam} 
+                            />
+                      )}
                   })
                 }
               </div>

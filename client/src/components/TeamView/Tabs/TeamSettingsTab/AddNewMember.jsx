@@ -3,6 +3,7 @@ import React, { useEffect } from 'react';
 import AddIcon from "@material-ui/icons/Add";
 import Fab from "@material-ui/core/Fab";
 import Paper from '@material-ui/core/Paper';
+import Typography from '@material-ui/core/Typography';
 
 const AddNewMember = props => {
     
@@ -25,7 +26,7 @@ const AddNewMember = props => {
               <img className="add-member-pic" src={props.user.profilePic} alt="profile" /> :
               <img className="add-member-pic" src='https://cdn.pixabay.com/photo/2016/08/08/09/17/avatar-1577909_960_720.png' alt='profile' />
           }
-          <h3>{props.user.name}</h3> 
+          <Typography component='h3'>{props.user.name}</Typography> 
         </div>
         <Fab
           size="small"
