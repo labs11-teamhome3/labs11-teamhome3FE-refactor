@@ -4,3 +4,9 @@
     border-radius: 50px;
     margin-right: 20px;
 }
+
+/* In the inspector this gets rid of the overlay */
+.MuiToolbar-regular-49 .MuiToolbar-gutters-48 .MuiToolbar-root-47{
+    padding-left: 0px;
+    padding-right: 0px;
+}
