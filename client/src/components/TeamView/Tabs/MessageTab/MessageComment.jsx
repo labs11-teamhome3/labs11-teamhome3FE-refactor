@@ -122,6 +122,7 @@ const MessageComment = props => {
     },
     onCompleted: e => {
       props.setMsg("liked a comment");
+      props.trigger()
     },
     onError: err => console.log(err)
   });
