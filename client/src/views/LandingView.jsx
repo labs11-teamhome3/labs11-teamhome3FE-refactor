@@ -42,36 +42,38 @@ const StyledDiv2 = styled.div`{
   display: flex;
   justify-content: space-around;
   margin: 0 auto
-  width: 90%
+  width: 85%
+  height: 400px;
   margin-top: 35px;
-  // box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-  // box-shadow: 0 1px 1px 0 gray, 0 1px 10px 0 #507F43;
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 50px 0 rgba(0, 0, 0, 0.19);
     img {
-      width: 500px;
-      height: 500px;
+      width: 350px;
+      height: 350px;
+      margin-top: 15px;
     }
     h1 {
-      font-size: 5rem;
+      font-size: 3.5rem;
       margin-bottom: 20px
-      margin-left: 0;
-      padding-left: 0;
-      // border: solid blue 2px;
+      margin-left: 25px;
+      margin-top: 50px;
+      // border: solid red 2px;
         span {
-          // border: solid red 2px;
-          // margin-left: 12%;
+          padding-bottom: 80px;
         }
     }
     p {
-      font-size: 2rem;
+      // border: solid green 2px;
+      font-size: 1.6rem;
+      margin-left: 25px;
     }
 }`;
 
-const StyledHeader = styled.h4`{
-  font-size: 3rem;
-  border: solid yellow 2px;
-  margin-top: 5%;
-}`
+// const StyledHeader = styled.h4`{
+//   font-size: 3rem;
+//   border: solid yellow 2px;
+//   margin-top: 5%;
+
+// }`
 
 // components //
 

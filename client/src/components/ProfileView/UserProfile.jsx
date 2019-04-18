@@ -117,6 +117,9 @@ const Umbrella = styled.div`
    {
     background-color: #DDE4E9;
     height: 1000px;
+    // border: solid red 2px;
+    margin-top: 3px;
+    box-shadow: inset 0 0 10px gray;
   }
 `;
 
