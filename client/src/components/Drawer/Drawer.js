@@ -67,6 +67,7 @@ const styles = theme => ({
     // misty blue slot
     backgroundColor: '#DDE4E9',
     width: drawerWidth,
+    height: '100vh',
     flexShrink: 0,
   },
   drawerPaper: {

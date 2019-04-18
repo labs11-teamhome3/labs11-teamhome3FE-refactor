@@ -26,7 +26,7 @@ const UPDATE_TEAMNAME = gql`
 
 const styles = theme => ({
   deleteBtn: {
-    'margin-left': '5%',
+    // 'margin-left': '5%',
   },
   deleteTeamMsg: {
     color: '#f50057',
@@ -125,7 +125,6 @@ const TeamInfo = props => {
                       onClick={() => props.setAreYouSure(true)}
                     >
                         Delete Team
-                        <DeleteIcon />
                     </Button>
                   }     
                 </div>
