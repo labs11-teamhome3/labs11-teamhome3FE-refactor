@@ -45,6 +45,7 @@ const styles = theme => ({
     },
     trash: {
       cursor: 'pointer',
+      color: theme.palette.error.main
     }
 })
 
@@ -102,7 +103,6 @@ const MemberCard = props => {
                         <DeleteIcon 
                           className={classes.trash}
                           size="small" 
-                          color="secondary"
                           onClick={removeMember}
                         />
                     // </Fab>

@@ -50,7 +50,9 @@ const MessageTab = props => {
     variables: { teamId: props.teamId },
   });
 
-  //console.log('mt messages data', messages.data);
+  const trigger = () => {
+    messages.refetch()
+  };
 
   const [messageContent, setMessageContent] = useState('');
 
@@ -140,6 +142,7 @@ const MessageTab = props => {
             .sort(compare)
             .map(message => (
               <Message
+                trigger={trigger}
                 compare={compare}
                 setMsg={props.setMsg}
                 teamId={props.teamId}

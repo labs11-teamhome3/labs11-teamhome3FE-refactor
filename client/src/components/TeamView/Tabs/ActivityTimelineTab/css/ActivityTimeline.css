@@ -1,7 +1,7 @@
 .activity-timeline {
     height: 60vh;
     overflow-y: auto;
-    background: #dfe6e9;
+    background: #ffffff;
 }
 
 .event-createdAt {
