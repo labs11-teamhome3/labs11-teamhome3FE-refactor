@@ -1,5 +1,8 @@
 import React, { useState } from 'react';
 import TextField from '@material-ui/core/TextField';
+import Select from '@material-ui/core/Select';
+import { FormControl, MenuItem } from '@material-ui/core';
+import InputLabel from '@material-ui/core/InputLabel';
 // import Button from '@material-ui/core/Button';
 // import Menu from '@material-ui/core/Menu';
 // import MenuItem from '@material-ui/core/MenuItem';
@@ -10,11 +13,7 @@ const ObjectDropdown = props => {
   //console.log(props);
 
   const handleSelect = e => {
-    console.log('e', e);
-    const choices = Array.from(e.target);
-    console.log('c', choices);
-    const selectedChoice = choices.find(choice => choice.selected).innerText;
-    //console.log('s', selectedChoice);
+    const selectedChoice = e.target.value
     setChoice(selectedChoice);
     switch(selectedChoice) {
       case 'all':
@@ -55,15 +54,30 @@ const ObjectDropdown = props => {
   ]
 
   const activityOptions = activities.map(activity => 
-      <option className="activity-option" key={activity.name} value={activity.name}>{activity.name}</option>
+      <MenuItem 
+        className="activity-option" 
+        key={activity.name} 
+        value={activity.name}
+      >
+        {activity.name}
+      </MenuItem>
     )
 
   return (
     <div className="label-select">
-      <label htmlFor="activity-filter">Filter By Activity</label>
-      <select id="activity-filter" value={choice} onChange={handleSelect}>
-        {activityOptions}
-      </select>
+      <FormControl>
+        <InputLabel htmlFor='activty-filter'>Filter by activity</InputLabel>
+          <Select 
+            value={choice} 
+            onChange={handleSelect}
+            inputProps={{
+              name: 'filter by activity',
+              id: "activity-filter"
+            }}
+          >
+            {activityOptions}
+          </Select>
+      </FormControl>
     </div>
   )
 }

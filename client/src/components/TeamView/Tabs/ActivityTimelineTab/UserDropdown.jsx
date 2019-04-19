@@ -5,6 +5,9 @@ import React, { useState } from 'react';
 // import Arrow from '@material-ui/icons/ArrowDropDown';
 import gql from 'graphql-tag';
 import Loader from 'react-loader-spinner';
+import Select from '@material-ui/core/Select';
+import { FormControl, MenuItem } from '@material-ui/core';
+import InputLabel from '@material-ui/core/InputLabel';
 
 // queries //
 // import { USERS_QUERY } from '../../../../graphQL/Queries'
@@ -27,10 +30,8 @@ const UserDropdown = props => {
   //console.log('userdd props', props);
 
   const handleSelect = e => {
-    const choices = Array.from(e.target);
-    //console.log('c', choices);
-    const selectedChoice = choices.find(choice => choice.selected).innerText;
-    //console.log('s', selectedChoice);
+    console.log(e.target.value);
+    const selectedChoice = e.target.value
     setChoice(selectedChoice);
     if (selectedChoice === 'all') {
       props.setFilteredEvents(props.allEvents);
@@ -48,15 +49,21 @@ const UserDropdown = props => {
   
   let members; 
   let membersOptions = [
-    <option className="member-option" key={Math.random()}></option>,
-    <option className="member-option" key={Math.random()}>all</option>
+    <MenuItem className="member-option" value='' key={Math.random()}></MenuItem>,
+    <MenuItem className="member-option" value='all' key={Math.random()}>all</MenuItem>
   ];
 
   if (data.team) {
     members = data.team.members
     //console.log('members', members)
     membersOptions = [...membersOptions, members.map(member => 
-        <option className="member-option" key={Math.random()}>{member.name}</option>
+        <MenuItem 
+          className="member-option" 
+          value={member.name} 
+          key={member.id}
+        >
+        {member.name}
+        </MenuItem>
       )]
   }
 
@@ -80,10 +87,20 @@ const UserDropdown = props => {
 
   return (
     <div className="filter-by-user label-select">
-      <label htmlFor="user-filter">Filter By User</label>
-      <select id="user-filter" value={choice} onChange={handleSelect}>
-        {membersOptions}
-      </select>
+      <FormControl>
+        <InputLabel htmlFor='user-filter'>Filter by user</InputLabel>
+          <Select 
+            value={choice} 
+            onChange={handleSelect}
+            inputProps={{
+              name: 'filter by user',
+              id: "user-filter"
+            }}
+          >
+            {membersOptions}
+          
+          </Select>
+      </FormControl>
     </div>
   )
 }

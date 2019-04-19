@@ -192,6 +192,7 @@ const styles = theme => ({
 });
 
 const Form = props => {
+  
   const { classes } = props;
   const userId = localStorage.getItem('userId');
   // const [name, setName] = useState(null);
@@ -204,15 +205,18 @@ const Form = props => {
   const [editEmail, setEditEmail] = useState(false);
   const [editUser] = useMutation(EDIT_USER);
   const [currentTab, setCurrentTab] = useState(0);
-  const { data, error, loading } = useQuery(USERS_QUERY);
   const [user, setUser] = useState(null);
-
+  
+  const { data, error, loading } = useQuery(USERS_QUERY);
+  
   useEffect(() => {
     if (data.users) {
       setUser(data.users.filter(userData => userData.id === userId)[0]);
     }
   }, [data && data.users]);
-
+  
+  console.log('form user', user);
+  
   if (loading) {
     return <div>Loading...</div>;
   }
@@ -371,7 +375,7 @@ const Form = props => {
               {user.inTeam &&
                 user.inTeam.length > 0 &&
                 user.inTeam.map((team, index) => (
-                  <Link to={`/teams/${team.id}/home`}>
+                  <Link key={team.id} to={`/teams/${team.id}/home`}>
                     {' '}
                     <Divider />
                     <ListItem button>
