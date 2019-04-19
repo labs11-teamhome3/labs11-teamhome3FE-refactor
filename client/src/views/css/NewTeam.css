@@ -3,13 +3,14 @@
     background-color: #D3D4E4;
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    justify-content: flex-start;
 }
 
 .nt-content {
     display: flex;
     justify-content: space-evenly;
     align-items: center;
+    margin-top: 20%;
 }
 
 /* .nt-image {
@@ -20,7 +21,7 @@
 .new-team h2 {
     font-size: 3rem;
     line-height: 1.3;
-    width: 40%;
+    width: 60%;
     color: #2d3436;
 }
 
@@ -69,12 +70,12 @@
         font-size: 1.5rem;
     }
 
-    .nt-content {
+    /* .nt-content {
         margin-top: -80px
-    }
+    } */
 
     .nt-form {
-        margin-top: 10px;
+        margin-top: 50px;
     }
 
     .new-team input {

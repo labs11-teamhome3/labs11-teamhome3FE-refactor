@@ -8,6 +8,7 @@ import AddIcon from "@material-ui/icons/Add";
 import TextField from '@material-ui/core/TextField';
 import styled from 'styled-components';
 import Paper from '@material-ui/core/Paper';
+import Typography from '@material-ui/core/Typography';
 
 // components //
 import NavigationView from '../views/NavigationView'
@@ -95,12 +96,12 @@ const NewTeam = props => {
             <NavigationView auth={props.auth}/>
             <div className="new-team">
               <div className="nt-content">
-              <StyledDiv>
+              {/* <StyledDiv>
                 <img className="nt-image" src='https://www.netcenter.net/sites/default/files/collaboration_inforgraphic.png' alt="collaboration" />
-              </StyledDiv>
-                <Paper style={styles} zDepth={8}>
-                    Manaje is all about helping you collaborate with your teams.  Create your first team below and begin manaje-ing.
-                </Paper>
+              </StyledDiv> */}
+                <Typography component='h2'>
+                  Manaje is all about helping you collaborate with your teams.  Create your first team below and begin manaje-ing.
+                </Typography>
               </div>
                 <div className="nt-form">
                   <form onSubmit={createFirstTeam}>

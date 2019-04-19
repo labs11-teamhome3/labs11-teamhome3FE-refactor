@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useQuery } from 'react-apollo-hooks';
-import { withStyles } from '@material-ui/core/styles';
+import { withStyles, withTheme } from '@material-ui/core/styles';
 
 ////Components////
 import ObjectDropdown from './ObjectDropdown';
@@ -30,6 +30,11 @@ const styles = theme => ({
   button: {
     width: '100%',
   },
+  MenuItem: {
+    '&hover': {
+      background: 'white'
+    }
+  }
 });
 
 const ActivityTimeline = props => {
@@ -92,6 +97,7 @@ const ActivityTimeline = props => {
           </IconButton>
           <Menu
             id="long-menu"
+            className={classes.menuItem}
             anchorEl={anchorEl}
             open={open}
             onClose={handleClose}

@@ -6,6 +6,7 @@ import Button from '@material-ui/core/Button';
 import AddIcon from '@material-ui/icons/Add';
 import Divider from '@material-ui/core/Divider';
 import DeleteIcon from '@material-ui/icons/Delete';
+import CancelIcon from '@material-ui/icons/Cancel';
 import TextField from '@material-ui/core/TextField';
 import { useMutation } from '../../graphQL/useMutation';
 import Loader from 'react-loader-spinner';
@@ -166,11 +167,11 @@ const TeamList = props => {
             </Fab>
             <Fab
               onClick={cancelAddTeam}
-              color="secondary"
+              color="default"
               size="small"
               aria-label="Cancel"
             >
-              <DeleteIcon onClick={cancelAddTeam} />
+              <CancelIcon />
             </Fab>
           </form>
         )}

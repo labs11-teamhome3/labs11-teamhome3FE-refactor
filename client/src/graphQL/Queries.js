@@ -102,12 +102,16 @@ export const USERS_QUERY = gql`
       }
       events {
         id
-        createdAt
-        user {
+        team {
           id
-          name
-          profilePic
+          teamName
         }
+        createdAt
+        # user {
+        #   id
+        #   name
+        #   profilePic
+        # }
         action_string
         object_string
       }
@@ -405,15 +409,16 @@ export const CURRENT_USER_QUERY = gql`
       events {
         id
         createdAt
-        user {
-          id
-          name
-          profilePic
-        }
+        # user {
+        #   id
+        #   name
+        #   profilePic
+        # }
         action_string
         object_string
         team {
           id
+          teamName
         }
       }
       id
