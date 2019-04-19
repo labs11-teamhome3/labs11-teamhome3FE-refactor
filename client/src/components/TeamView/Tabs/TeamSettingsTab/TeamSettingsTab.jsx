@@ -93,7 +93,7 @@ const TeamSettingsTab = props => {
     },
   });
 
-  console.log('uq', userQuery);
+  // console.log('uq', userQuery);
 
   let userRole = '';
   let currentUser;
@@ -101,7 +101,7 @@ const TeamSettingsTab = props => {
     //console.log('user', userQuery.data.user)
     currentUser = userQuery.data.user;
     userRole = userQuery.data.user.role;
-    console.log(userRole);
+    // console.log(userRole);
   }
 
   const { data, error, loading } = useQuery(TEAM_QUERY, {
@@ -174,17 +174,14 @@ const TeamSettingsTab = props => {
     },
   });
 
-  // query all users to populate dropdown for adding member to team
+  // query all users to populate list for adding member to team
   const allUsersQuery = useQuery(USERS_QUERY);
-  console.log('auq', allUsersQuery);
-  // set up options for the add a member <select> element
-  let optionsItems;
-  if (allUsersQuery.data.users) {
-    optionsItems = allUsersQuery.data.users.map(user => (
-      <option className="selected-member" data-id={user.id} key={user.id}>
-        {user.name}
-      </option>
-    ));
+  // console.log('auq', allUsersQuery);
+
+  // setup array of current member id's so we can filter them out of add new member .map
+  let memberIds = [];
+  if (data.team) {
+    data.team.members.forEach(member => memberIds.push(member.id))
   }
 
   if (loading) {
@@ -213,7 +210,7 @@ const TeamSettingsTab = props => {
                 color="#0984e3"
               />
             )}
-            {optionsItems && (
+            {allUsersQuery.data.users && (
               <>
                 <Button 
                   className="add-team-member-or-cancel"
@@ -248,24 +245,26 @@ const TeamSettingsTab = props => {
                     )}
                     {allUsersQuery.data.users &&
                       searchInput &&
-                      allUsersQuery.data.users.map(user => {
-                        if (
-                          user.name
-                            .toLowerCase()
-                            .includes(searchInput.toLowerCase())
-                        ) {
-                          return (
-                            <AddNewMember
-                              user={user}
-                              key={user.id}
-                              newMemberId={newMemberId}
-                              setNewMemberId={setNewMemberId}
-                              setNewMember={setNewMember}
-                              addUserToTeam={addUserToTeam}
-                            />
-                          );
-                        }
-                      })}
+                      allUsersQuery.data.users
+                          .filter(user => !memberIds.includes(user.id))
+                          .map(user => {
+                            if (
+                              user.name
+                                .toLowerCase()
+                                .includes(searchInput.toLowerCase())
+                            ) {
+                              return (
+                                <AddNewMember
+                                  user={user}
+                                  key={user.id}
+                                  newMemberId={newMemberId}
+                                  setNewMemberId={setNewMemberId}
+                                  setNewMember={setNewMember}
+                                  addUserToTeam={addUserToTeam}
+                                />
+                              );
+                            }
+                        })}
                   </div>
                   </>
                 }
