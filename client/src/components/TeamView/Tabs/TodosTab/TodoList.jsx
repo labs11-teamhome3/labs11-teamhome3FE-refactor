@@ -25,7 +25,7 @@ const styles = theme => ({
     display: "flex",
     alignItems: "center",
     justifyContent: "space-between",
-    maxHeight: "72px"
+    maxHeight: "72px",
   },
   expansionPanelSummary: {
     display: "flex",
@@ -40,7 +40,11 @@ const styles = theme => ({
   },
   completedHeading: {
     color: "#00b894",
-    transition: "color 0.2s ease"
+    transition: "color 0.2s ease",
+    fontSize: '1rem'
+  },
+  heading: {
+    fontSize: '1rem'
   },
   completeIcon: {
     color: "#00b894",
@@ -57,7 +61,7 @@ const styles = theme => ({
   },
   textCont: {
     minWidth: "90px",
-    overflow: "auto"
+    overflow: "auto",
   }
 });
 
@@ -130,7 +134,7 @@ const TodoList = props => {
         <div className={classes.textCont}>
           <Typography
             variant="h6"
-            className={props.todoList.completed ? classes.completedHeading : ""}
+            className={props.todoList.completed ? classes.completedHeading : classes.heading}
           >
             {props.todoList.description}
           </Typography>
