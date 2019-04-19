@@ -28,10 +28,15 @@ const UPDATE_TEAMNAME = gql`
 
 const styles = theme => ({
   deleteBtn: {
-    // 'margin-left': '5%',
+    color: theme.palette.error.main,
+    borderColor: theme.palette.error.main,
+    '&:hover': {
+      color: '#ffffff',
+      backgroundColor: theme.palette.error.main
+    }
   },
   deleteTeamMsg: {
-    color: '#f50057',
+    color: theme.palette.error.main,
     'text-align': 'left',
     'font-size': '1.3rem',
     'font-weight': 'bold',
@@ -126,7 +131,6 @@ const TeamInfo = props => {
                     <Button 
                       className={classes.deleteBtn}
                       variant="outlined"
-                      color="secondary"
                       onClick={() => props.setAreYouSure(true)}
                     >
                         Delete Team
@@ -167,8 +171,8 @@ const TeamInfo = props => {
                         </Button>
                         {props.deleteInput === props.team.teamName &&
                           <Button
-                            variant="contained"
-                            color="secondary"
+                            variant="outlined"
+                            className={classes.deleteBtn}
                             onClick={props.deleteTeam}
                           >
                           Delete

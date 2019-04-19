@@ -249,6 +249,7 @@ const Message = props => {
           {viewReplies ? ( 
             props.message.comments.sort(props.compare).map(comment => (
               <MessageComment
+                trigger={props.trigger}
                 key={comment.createdAt}
                 comment={comment}
                 message={props.message}

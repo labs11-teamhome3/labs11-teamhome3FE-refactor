@@ -8,12 +8,14 @@ import ApolloClient from 'apollo-boost';
 import { InMemoryCache } from 'apollo-cache-inmemory';
 import { BrowserRouter as Router } from 'react-router-dom';
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
+
 const theme = createMuiTheme({
   palette: {
-    primary: {main: '#0C77C0'},
-    secondary: {main: '#61BD4F'},
-    error: {main: '#d63031'},
-    test: {main: '#5E35B1'}
+    primary: {main: '#263238', light: '#4f5b62', dark: '#000a12' },
+    secondary: {main: '#4fc3f7', light: '#8bf6ff', dark: '#0093c4'},
+    error: {main: '#e57373'},
+
+    //test: {main: '#5E35B1'}
   }
 });
 

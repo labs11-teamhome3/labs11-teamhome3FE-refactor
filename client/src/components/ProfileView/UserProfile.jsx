@@ -183,7 +183,9 @@ const styles = theme => ({
     opacity: '0',
     transition: 'opacity 0.2s ease',
   },
-  cardAppBar: {},
+  cardAppBar: {
+    backgroundColor: theme.palette.secondary.dark
+  },
   tabNav: {},
   tabNavCont: {
     margin: "0px 12px 0px 12px",
