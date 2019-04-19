@@ -24,18 +24,18 @@ const styles = theme => ({
     margin: "10px",
   },
   userPicSmall: {
-    height: '40px',
-    width: '40px',
+    height: '50px',
+    width: '50px',
     borderRadius: '50%',
     margin: '10px 10px 10px 0'
   },
   content: {
     marginTop: '7px',
-    fontSize: '21px',
+    fontSize: '17px',
     
   },
   contentTitle: {
-    fontSize: '17px',
+    fontSize: '15px',
     display: 'flex', 
     marginBottom: '6px'
   },
@@ -73,7 +73,7 @@ const styles = theme => ({
   },
   likes: {
     display: 'inline',
-    fontSize: '18px'
+    fontSize: '16px'
   },
   replyToMessage: {
     width: '600px'
