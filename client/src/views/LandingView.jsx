@@ -6,69 +6,50 @@ import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
 import styled from 'styled-components';
 import NavigationView from './NavigationView';
-import Paper from '@material-ui/core/Paper';
 
+const StyledContainer = styled.div`
+  background-color: white;
+  // border: solid green 2px;
+  height: 1100px;
+`;
+
+// Card Styles
 const StyledDiv = styled.div`
   display: flex;
   justify-content: space-around;
-  // border: solid blue 2px;
-  background-color: #d3d4e4;
+  border: solid yellow 2px;
+  background-color:  #005b9f;
   margin-top: 50px;
-  p {
-    font-size: 1.5rem;
-  }
+  width: 100%;
   h3 {
     border: solid red 2px;
   }
 `;
 
-const StyledDiv3 = styled.div`
-  // border: solid yellow 2px;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  margin: 0;
-  padding: 0;
-`;
+// Top Text
+const TopContentText = styled.div`{
+  margin-top: 5%;
+    h1 {
+      display: flex;
+      flex-direction: row;
+      font-size: 2.5rem;
+      color: #005b9f;
+      font-weight: 900px;
+    }
+    p {
+      font-size: 1.5rem;
+    }
 
-const StyledContainer = styled.div`
-  background-color: #d3d4e4;
-  // border: solid green 2px;
-  height: 1100px;
-`;
+}`;
 
+// Image and Text
 const StyledDiv2 = styled.div`
-  // border: solid green 2px;
   display: flex;
   justify-content: space-around;
-  margin: 0 auto;
-  width: 90%;
-  margin-top: 35px;
-  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 50px 0 rgba(0, 0, 0, 0.19);
-  img {
-    width: 500px;
-    height: 500px;
-  }
-  h1 {
-    font-size: 5rem;
-    margin-bottom: 20px;
-    margin-left: 0;
-    padding-left: 0;
-    // border: solid blue 2px;
-    span {
-      // border: solid red 2px;
-      // margin-left: 12%;
+   img {
+      width: 500px;
+      height: 500px;
     }
-  }
-  p {
-    font-size: 2rem;
-  }
-`;
-
-const StyledHeader = styled.h4`
-  font-size: 3rem;
-  border: solid yellow 2px;
-  margin-top: 5%;
 `;
 
 // components //
@@ -80,7 +61,9 @@ const styles = {
     margin: '0 auto',
     // backgroundColor: 'gold',
     // border: 'solid yellow 2px',
-    background: 'linear-gradient(45deg, #5862DF, gray);',
+    // background: 'linear-gradient(45deg, #005b9f, gray);',
+    background: '#005b9f',
+    background: 'white',
     boxShadow:
       '0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);',
   },
@@ -98,30 +81,25 @@ const LandingView = props => {
   return (
     <StyledContainer>
       <NavigationView auth={props.auth} />
+
       <StyledDiv2>
-        <div>
-          <StyledDiv3>
-            <Typography component="h1">
-              <span>
-                {' '}
-                Connect. <br />
-                Conduct.
-                <br /> Collaborate.{' '}
-              </span>
-            </Typography>
-          </StyledDiv3>
-          <br />
-          <Typography component="p">
-            No more missed conversations. No more missed opportunities.
-          </Typography>
-        </div>
+
+        <TopContentText>
+          <Typography component="h1"> Connect. </Typography>
+          <Typography component="h1"> Conduct. </Typography>
+          <Typography component="h1"> Collaborate. </Typography>
+          <Typography component="p">No more missed conversations. </Typography>
+          <Typography component="p">No more missed opportunities. </Typography>
+        </TopContentText>
+
         <img
           className="nt-image"
           src="https://www.netcenter.net/sites/default/files/collaboration_inforgraphic.png"
           alt="collaboration"
         />
+
       </StyledDiv2>
-      {/* <StyledHeader>Benefits</StyledHeader> */}
+
       <StyledDiv>
         <Card className={classes.card}>
           <CardContent>
