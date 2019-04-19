@@ -102,6 +102,10 @@ export const USERS_QUERY = gql`
       }
       events {
         id
+        team {
+          id
+          teamName
+        }
         createdAt
         user {
           id
@@ -413,6 +417,7 @@ export const CURRENT_USER_QUERY = gql`
         object_string
         team {
           id
+          teamName
         }
       }
       id

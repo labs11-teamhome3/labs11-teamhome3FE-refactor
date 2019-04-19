@@ -255,7 +255,7 @@ const TeamSettingsTab = props => {
                           </Typography>
                           <div className="premium-or-cancel">
                             <StripePaymentPopup teamId={props.teamId} />
-                            <Button onClick={() => setErrorMsg('')}>Cancel</Button>
+                            <Button variant="outlined" onClick={() => setErrorMsg('')}>Cancel</Button>
                           </div>
                         </div>
                     )}
