@@ -20,7 +20,7 @@ const TopContent = styled.div`
   height: 520px;
   width: 80%;
   margin: 0 auto;
-  margin-top: 5%;
+  margin-top: 3%;
    img {
       width: 400px;
       height: 400px;
@@ -30,17 +30,18 @@ const TopContent = styled.div`
 
 // Top Text Wrapper
 const TopContentText = styled.div`{
-  margin-top: 6%;
+  margin-top: 9%;
   height: 100%;
     h1 {
       display: flex;
       flex-direction: row;
       font-size: 2.5rem;
       font-weight: 900px;
+      color: #0093c4
     }
     p {
+      text-align: left;
       font-size: 1.5rem;
-      margin-top: 5%;
       span {
         font-size: 3rem;
         color: #263238;
@@ -52,16 +53,21 @@ const TopContentText = styled.div`{
 // Cards Wrapper
 const CardsDiv = styled.div`
   display: flex;
+  flex-wrap: wrap;
   justify-content: space-around;
-  align-items: center;
   background-color: #263238;
   margin-top: 50px;
   width: 100%;
-  height: 500px;
   margin: 0 auto;
     h2 {
-      font-size: 1.5rem;
-      margin-bottom: 30px;
+      font-size: 2rem;
+      margin-bottom: 20px;
+      color: #0093c4;
+    },
+    p {
+      text-align: left;
+      font-size: 1.1rem;
+      padding-bottom: 30px;
     }
 `;
 
@@ -70,8 +76,8 @@ const CardsDiv = styled.div`
 const styles = {
   card: {
     width: '300px',
-    height: '350px',
-    margin: '0 auto',
+    height: '300px',
+    margin: '50px 1%',
     background: 'white',
     boxShadow: '0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);',
   },
@@ -98,7 +104,6 @@ const LandingView = props => {
           <Typography component="h1"> Collaborate. </Typography>
           <Typography component="p">No more missed conversations. </Typography>
           <Typography component="p">No more missed opportunities. </Typography>
-          <Typography component="p"> <span>Manaje is Here.</span> </Typography>
         </TopContentText>
 
         <img
@@ -154,7 +159,7 @@ const LandingView = props => {
                 Manaje can incorporate a wide range workplace environments.{' '}
               </Typography>
               <Typography component="p">
-                Collegues half-way across the world? Not to worry, our help
+                Colleagues half-way across the world? Not to worry, our help
                 staff are here for you, 24/7.
               </Typography>
             </div>

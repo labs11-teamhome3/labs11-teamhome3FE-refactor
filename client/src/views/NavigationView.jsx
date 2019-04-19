@@ -62,9 +62,11 @@ const NavigationView = props => {
     <div>
       <AppBar className="header" position="static" >
         <div className="header">
-          {/* <div className="logo">
-              <img className="logo-img" src={logo} alt="Manaje" />
-          </div> */}
+          {!localStorage.getItem('userId') &&         
+            <div 
+              className='name'> <Button id='name' variant="text" color="secondary" onClick={signup}>Manaje</Button> 
+            </div>
+          }
           {!localStorage.getItem('userId') ? (
             <div className="nav-btns">
               <Button onClick={login}>Log in</Button>
