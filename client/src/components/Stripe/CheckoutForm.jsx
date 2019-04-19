@@ -38,6 +38,9 @@ const CheckoutForm = props => {
     onCompleted: data => {
       // alert("Payment Successfully Processed")
       showSB();
+      window.setTimeout(_ => {
+        window.location.reload();
+      }, 6000)
     },
     onError: err => alert(err)
   });
