@@ -37,19 +37,10 @@ const StyledAvatar = styled.img`
   }
 `;
 
-const StyledHeader = styled.h1`
-  font-weight: normal;
-`;
-
-const StyledHeader2 = styled.h2`
-  // margin-left: 100px;
-`;
-
 const StyledContainer = styled.div`
    {
     display: flex;
     justify-content: space-between;
-    background-color: #DDE4E9;
     @media (max-width: 850px) {
       flex-direction: column; 
     }
@@ -63,7 +54,6 @@ const StyledTeams = styled.div`
     margin-left: 25px;
     flex-direction: column; */
     padding: 12px 12px 0 12px;
-    background-color: #DDE4E9;
   }
 `;
 
@@ -87,31 +77,6 @@ const StyledForm = styled.form`
       ::placeholder {
         padding-left: 10px;
       } */
-  }
-`;
-
-const SDiv = styled.div`
-  /* display: flex;
-    justify-content: space-around;
-    width: 65%;
-    margin-left: 18%;
-    margin-top: 25px; */
-  /* display: flex;
-    justify-content: space-between; */
-    paddingright: "10px";
-    background-color: #DDE4E9;
-    background-color: white;
-    border: solid white 1px;
-  }
-`;
-
-const Umbrella = styled.div`
-   {
-    background-color: #DDE4E9;
-    height: 1000px;
-    // border: solid red 2px;
-    margin-top: 3px;
-    box-shadow: inset 0 0 10px gray;
   }
 `;
 
@@ -250,7 +215,6 @@ const Form = props => {
   };
 
   return (
-    <Umbrella>
     <div className={classes.root}>
       <div>
         {/* <StyledHeader>User Settings</StyledHeader> */}
@@ -392,7 +356,6 @@ const Form = props => {
           </Paper>
         </StyledContainer>
       </div>
-      <SDiv>
         <Paper className={classes.tabNavCont}>
           <Tabs
             value={currentTab}
@@ -518,9 +481,7 @@ const Form = props => {
             </StyledTeams>
           </>
         )}
-      </SDiv>
     </div>
-  </Umbrella>
   );
 };
 

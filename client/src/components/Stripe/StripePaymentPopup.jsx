@@ -44,7 +44,7 @@ const StripePaymentPopup = props => {
           {'Upgrade to premium'}
         </DialogTitle>
         <DialogContent>
-          <StripeProvider apiKey={process.env.REACT_APP_STRIPE_KEY}>
+          <StripeProvider apiKey='pk_test_pA47YPMiJBpyo8BNJdeTw4Ym00tuSVM3hp'>
             <div className="example">
               <Typography component="h3">Credit Card Information</Typography>
               <Elements>
@@ -59,3 +59,5 @@ const StripePaymentPopup = props => {
 };
 
 export default StripePaymentPopup;
+
+// THIS VERSION WORKS
