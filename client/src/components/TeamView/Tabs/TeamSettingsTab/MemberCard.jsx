@@ -8,7 +8,7 @@ import { withStyles } from '@material-ui/core/styles'
 
 // components //
 import Paper from '@material-ui/core/Paper';
-import DeleteIcon from '@material-ui/icons/Delete'
+import DeleteIcon from '@material-ui/icons/DeleteOutlined'
 import Fab from '@material-ui/core/Fab'
 
 
@@ -39,9 +39,12 @@ const TEAM_QUERY = gql`
 
 const styles = theme => ({
     root: {
-        width: '300px',
-        'margin-top': '10px',
-        'margin-left': '10px;'
+      width: '300px',
+      'margin-top': '10px',
+      'margin-left': '10px;'
+    },
+    trash: {
+      cursor: 'pointer',
     }
 })
 
@@ -91,13 +94,18 @@ const MemberCard = props => {
                     </Typography>
                 </div>
                 {props.member.id !== localStorage.getItem('userId') && props.userRole === "ADMIN" &&
-                    <Fab 
-                        size="small" 
-                        color="secondary"
-                        onClick={removeMember}
-                    >
-                        <DeleteIcon />
-                    </Fab>
+                    // <Fab 
+                    //     size="small" 
+                    //     color="secondary"
+                    //     onClick={removeMember}
+                    // >
+                        <DeleteIcon 
+                          className={classes.trash}
+                          size="small" 
+                          color="secondary"
+                          onClick={removeMember}
+                        />
+                    // </Fab>
                     // <Button 
                     //     variant="contained" 
                     //     color="secondary" 

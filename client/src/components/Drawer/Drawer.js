@@ -15,6 +15,7 @@ import Divider from '@material-ui/core/Divider';
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
+import CloseIcon from '@material-ui/icons/Close';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 
 // components //
@@ -211,7 +212,7 @@ const PersistentDrawerLeft = props => {
         >
           <div className={classes.drawerHeader}>
             <IconButton onClick={handleDrawerClose}>
-              {theme.direction === 'ltr' ? <ChevronLeftIcon /> : <ChevronRightIcon />}
+              {theme.direction === 'ltr' ? <CloseIcon /> : <ChevronRightIcon />}
             </IconButton>
           </div>
           <Divider />

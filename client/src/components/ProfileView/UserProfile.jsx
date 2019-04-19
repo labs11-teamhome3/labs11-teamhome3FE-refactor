@@ -371,7 +371,7 @@ const Form = props => {
               {user.inTeam &&
                 user.inTeam.length > 0 &&
                 user.inTeam.map((team, index) => (
-                  <Link to={`/teams/${team.id}/home`}>
+                  <Link key={team.id} to={`/teams/${team.id}/home`}>
                     {' '}
                     <Divider />
                     <ListItem button>

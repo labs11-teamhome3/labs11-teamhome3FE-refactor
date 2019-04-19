@@ -93,7 +93,7 @@ const TeamInfo = props => {
                       <Typography component='h2' className="team-name">{props.team.teamName}</Typography>
                   }
                   {!showInput && props.userRole === "ADMIN" &&
-                      <Fab onClick={() => setInput(true)} size="small" variant="outlined" color="default" aria-label="Edit">
+                      <Fab onClick={() => setInput(true)} size="small" variant="round" color="default" aria-label="Edit">
                           <EditIcon />
                       </Fab>
                   }
@@ -109,7 +109,7 @@ const TeamInfo = props => {
                           value={newTeamName}
                           onChange={handleNameChange}
                           />
-                        <Fab type="submit" color="default" variant="contained" size="small" aria-label="Add">
+                        <Fab type="submit" color="default" variant="round" size="small" aria-label="Add">
                           <EditIcon />
                         </Fab>
                         <Fab onClick={handleCancel} color="default" size="small" aria-label="Cancel">

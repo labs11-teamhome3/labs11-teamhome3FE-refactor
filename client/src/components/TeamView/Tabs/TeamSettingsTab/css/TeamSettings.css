@@ -5,6 +5,8 @@
 
 .team-settings {
     width: 50%;
+    border-left: 1px solid gray;
+    padding-left: 20px;
 }
 
 @media (min-width: 1200px) {

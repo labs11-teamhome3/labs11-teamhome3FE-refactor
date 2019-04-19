@@ -234,7 +234,7 @@ const TeamSettingsTab = props => {
                   variant={showSearchMember ? "outlined" : "contained"}
                   onClick={showSelectMember}
                 >
-                  {showSearchMember ? "Cancel" : "Add Team Member"}
+                  {showSearchMember ? "Close" : "Add Team Member"}
                 </Button>
                 {showSearchMember &&
                   <>
