@@ -24,6 +24,8 @@ import Email from '@material-ui/icons/Email';
 import Pencil from '@material-ui/icons/Edit';
 import Toolbar from '@material-ui/core/Toolbar';
 import Loader from 'react-loader-spinner';
+import Tooltip from '@material-ui/core/Tooltip';
+import Zoom from '@material-ui/core/Zoom';
 
 const StyledAvatar = styled.img`
    {
@@ -328,7 +330,7 @@ const Form = props => {
             >
               <Toolbar>
                 <Typography variant="h6" color="inherit">
-                  My Teams
+                  Manage Teams
                 </Typography>
               </Toolbar>
             </AppBar>
@@ -344,7 +346,9 @@ const Form = props => {
                     {' '}
                     <Divider />
                     <ListItem button>
-                      <ListItemText>{team.teamName}</ListItemText>
+                      <Tooltip title="View team" TransitionComponent={Zoom} placement="bottom-start">
+                        <ListItemText>{team.teamName}</ListItemText>
+                      </Tooltip>
                     </ListItem>
                     {index === user.inTeam.length - 1 && <Divider />}
                   </Link>
