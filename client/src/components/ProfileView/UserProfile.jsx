@@ -145,7 +145,7 @@ const styles = theme => ({
     overflow: 'auto',
   },
   pencils: {
-    opacity: '0',
+    opacity: '1',
     transition: 'opacity 0.2s ease',
   },
   cardAppBar: {
