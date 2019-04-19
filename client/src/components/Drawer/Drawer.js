@@ -89,7 +89,8 @@ const styles = theme => ({
     padding: '0 8px',
     ...theme.mixins.toolbar,
     justifyContent: 'flex-end',
-    height: '75px',
+    height: '74px',
+    minHeight: '74px'
   },
   content: {
     width: '30%',
@@ -231,7 +232,7 @@ const PersistentDrawerLeft = props => {
             paper: classes.drawerPaper,
           }}
         >
-          <div className={classes.drawerHeader}>
+          <div className={classes.drawerHeader} style={{minHeight: '74px'}}>
             <Typography component='h3' className={classes.menu}>Menu</Typography>
             <IconButton className={classes.icon} onClick={handleDrawerClose}>
               {theme.direction === 'ltr' ? <CloseIcon className={classes.closeIcon} /> : <ChevronRightIcon />}
