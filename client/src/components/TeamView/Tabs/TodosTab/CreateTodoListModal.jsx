@@ -1,16 +1,16 @@
-import React, { useState } from "react";
+import React, { useState } from 'react';
 // import { useQuery } from "react-apollo-hooks";
-import gql from "graphql-tag";
+import gql from 'graphql-tag';
 // import Fab from "@material-ui/core/Fab";
 // import AddIcon from "@material-ui/icons/Add";
-import { useMutation } from "../../../../graphQL/useMutation";
-import Button from "@material-ui/core/Button";
-import Modal from "@material-ui/core/Modal";
-import Paper from "@material-ui/core/Paper";
-import Close from "@material-ui/icons/Close";
-import List from "@material-ui/icons/List";
-import { withStyles } from "@material-ui/core/styles";
-import TextField from "@material-ui/core/TextField";
+import { useMutation } from '../../../../graphQL/useMutation';
+import Button from '@material-ui/core/Button';
+import Modal from '@material-ui/core/Modal';
+import Paper from '@material-ui/core/Paper';
+import Close from '@material-ui/icons/Close';
+import List from '@material-ui/icons/List';
+import { withStyles } from '@material-ui/core/styles';
+import TextField from '@material-ui/core/TextField';
 
 /////Components/////
 
@@ -21,30 +21,30 @@ import {
   // USERS_QUERY,
   // MESSAGE_QUERY,
   // EVENTS_QUERY,
-  TODOS_QUERY
-} from "../../../../graphQL/Queries";
+  TODOS_QUERY,
+} from '../../../../graphQL/Queries';
 
 const styles = theme => ({
   paper: {
-    position: "relative",
-    top: "24%",
-    "max-width": "600px",
-    margin: "0 auto",
-    "text-align": "left",
-    padding: "30px"
+    position: 'relative',
+    top: '24%',
+    'max-width': '600px',
+    margin: '0 auto',
+    'text-align': 'left',
+    padding: '30px',
   },
   todoListInput: {
-    width: "100%",
-    marginBottom: "10px"
+    width: '100%',
+    marginBottom: '10px',
   },
   modalHeader: {
-    display: "flex",
-    justifyContent: "space-between",
-    alignItems: "center"
+    display: 'flex',
+    justifyContent: 'space-between',
+    alignItems: 'center',
   },
   closeBtn: {
-    cursor: "pointer"
-  }
+    cursor: 'pointer',
+  },
 });
 
 const CREATE_TODOLIST = gql`
@@ -71,33 +71,33 @@ const CREATE_TODOLIST = gql`
 `;
 
 const CreateTodoListModal = props => {
-  const userId = localStorage.getItem("userId");
+  const userId = localStorage.getItem('userId');
   const { classes } = props;
-  const [todoListTitle, setTodoListTitle] = useState("");
+  const [todoListTitle, setTodoListTitle] = useState('');
   const [createTodoList] = useMutation(CREATE_TODOLIST, {
     update: (cache, { data }) => {
       const { todoLists } = cache.readQuery({
         query: TODOS_QUERY,
-        variables: { teamId: props.teamId }
+        variables: { teamId: props.teamId },
       });
       cache.writeQuery({
         query: TODOS_QUERY,
         variables: { teamId: props.teamId },
-        data: { todoLists: [...todoLists, data.createTodoList] }
+        data: { todoLists: [...todoLists, data.createTodoList] },
       });
     },
     variables: {
       description: todoListTitle,
       ownedBy: userId,
-      inTeam: props.teamId
+      inTeam: props.teamId,
     },
     onCompleted: e => {
-      setTodoListTitle("");
-      props.setMsg("created a todo list");
-      props.toggleModal("edit", e.createTodoList.id);
-      props.toggleModal("create");
+      setTodoListTitle('');
+      props.setMsg('created a todo list');
+      props.toggleModal('edit', e.createTodoList.id);
+      props.toggleModal('create');
     },
-    onError: err => console.log(err)
+    onError: err => console.log(err),
   });
 
   const handleChange = e => {
@@ -120,7 +120,7 @@ const CreateTodoListModal = props => {
           <div className={classes.modalHeader}>
             <List />
             <Close
-              onClick={_ => props.toggleModal("create")}
+              onClick={_ => props.toggleModal('create')}
               className={classes.closeBtn}
             />
           </div>
@@ -129,7 +129,7 @@ const CreateTodoListModal = props => {
             <TextField
               required
               inputProps={{
-                maxLength: 20
+                maxLength: 20,
               }}
               value={todoListTitle}
               onChange={handleChange}
@@ -138,7 +138,7 @@ const CreateTodoListModal = props => {
               className={classes.todoListInput}
             />
             <br />
-            <Button onClick={createTodoPD}>Save</Button>
+            <Button onClick={createTodoPD}>Create</Button>
           </form>
         </Paper>
       </Modal>
