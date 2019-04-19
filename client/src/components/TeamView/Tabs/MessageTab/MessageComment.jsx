@@ -48,10 +48,10 @@ const styles = theme => ({
   },
   messageReactionWrap: {
     display: 'flex',
-    justifyContent: 'space-between'
+    // justifyContent: 'space-between'
   },
   delete: {
-    margin: '10px 0'
+    margin: '6px 10px'
   },
   viewReplies: {
     display: 'flex',
