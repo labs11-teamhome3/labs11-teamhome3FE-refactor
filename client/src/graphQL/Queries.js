@@ -325,6 +325,7 @@ query FOLDERS_QUERY($teamId: ID!) {
       id 
       doc_url
       title 
+      createdAt
       user {
         id
         name

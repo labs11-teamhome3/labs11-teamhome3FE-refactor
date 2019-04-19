@@ -10,6 +10,10 @@ import moment from 'moment';
 import MoreMenu from './MoreMenu';
 import { withStyles } from '@material-ui/core/styles';
 
+import { useMutation } from "../../../../graphQL/useMutation";
+import {ADD_DOCUMENT_FOLDER, UPDATE_FOLDER} from '../../../../graphQL/Mutations';
+import { DOCUMENTS_QUERY } from '../../../../graphQL/Queries';
+
 const styles = theme => ({
   root: {
     margin: '0 7px -5px 0'
@@ -24,7 +28,38 @@ const styles = theme => ({
 
 const Document = props => {
 
-  const { connectDragSource, classes } = props;
+  const [addDocumentToFolder] = useMutation(ADD_DOCUMENT_FOLDER, {
+  update: (cache, { data }) => {
+    const {findDocumentsByTeam} = cache.readQuery({
+      query: DOCUMENTS_QUERY,
+      variables: { teamId: props.teamId },
+    });
+    cache.writeQuery({
+      query: DOCUMENTS_QUERY,
+      variables: { teamId: props.teamId },
+      data: { 
+        findDocumentsByTeam: findDocumentsByTeam.map(document => {
+          if(document.id === props.document.id) {
+            return data.addDocumentToFolder
+          } else {
+            return document
+          }
+        })
+        },
+    });
+  },
+  variables: {
+    folderId: props.folderId,
+    documentId: props.document.id
+  },
+  onCompleted: e => {
+    props.setMsg('added document to folder')
+    //props.setDroppedItem('')
+  },
+  onError: err => console.log(err)
+  });
+
+  const { connectDragSource, isDragging, classes } = props;
   return (
     <TableRow 
       className={props.folderDoc ? classes.folderDoc : null}
@@ -59,14 +94,22 @@ const Document = props => {
 
 function collect(connect, monitor) {
   return {
-    connectDragSource: connect.dragSource()
+    connectDragSource: connect.dragSource(),
+    connectDragPreview: connect.dragPreview(),
+    isDragging: monitor.isDragging()
   }
 }
 
 const cardSource = {
   beginDrag(props, monitor, component) {
-    const document = { id: props.document };
-    return document;
+    return props.document;
+  },
+  endDrag(props, monitor, component) {
+    if(!monitor.didDrop()) {
+      return null; 
+    }
+
+    return props.handleDoc('d', props.document.id)
   }
 }
 

@@ -36,36 +36,36 @@ const Folder = props => {
   const [titleHandler, setTitleHandler] = useState(''); 
   const [expandedStatus, setExpandedStatus] = useState(false);
 
-  const [addDocumentToFolder] = useMutation(ADD_DOCUMENT_FOLDER, {
-    update: (cache, { data }) => {
-      const {findDocumentsByTeam} = cache.readQuery({
-        query: DOCUMENTS_QUERY,
-        variables: { teamId: props.teamId },
-      });
-      cache.writeQuery({
-        query: DOCUMENTS_QUERY,
-        variables: { teamId: props.teamId },
-        data: { 
-          findDocumentsByTeam: findDocumentsByTeam.map(document => {
-            if(document.id === props.droppedItem.id) {
-              return data.addDocumentToFolder
-            } else {
-              return document
-            }
-          })
-         },
-      });
-    },
-    variables: {
-      folderId: props.folder.id,
-      documentId: props.droppedItem.id
-    },
-    onCompleted: e => {
-      props.setMsg('added document to folder')
-      props.setDroppedItem('')
-    },
-    onError: err => console.log(err)
-  });
+  // const [addDocumentToFolder] = useMutation(ADD_DOCUMENT_FOLDER, {
+  //   update: (cache, { data }) => {
+  //     const {findDocumentsByTeam} = cache.readQuery({
+  //       query: DOCUMENTS_QUERY,
+  //       variables: { teamId: props.teamId },
+  //     });
+  //     cache.writeQuery({
+  //       query: DOCUMENTS_QUERY,
+  //       variables: { teamId: props.teamId },
+  //       data: { 
+  //         findDocumentsByTeam: findDocumentsByTeam.map(document => {
+  //           if(document.id === props.droppedItem.id) {
+  //             return data.addDocumentToFolder
+  //           } else {
+  //             return document
+  //           }
+  //         })
+  //        },
+  //     });
+  //   },
+  //   variables: {
+  //     folderId: props.folder.id,
+  //     documentId: props.droppedItem.id
+  //   },
+  //   onCompleted: e => {
+  //     props.setMsg('added document to folder')
+  //     props.setDroppedItem('')
+  //   },
+  //   onError: err => console.log(err)
+  // });
 
   const [updateFolderTitle] = useMutation(UPDATE_FOLDER, {
     variables: {
@@ -80,7 +80,7 @@ const Folder = props => {
   });
 
   useEffect(() => {
-    addDocumentToFolder()
+    //addDocumentToFolder()
   }, [props.droppedItem]);
 
   useEffect(() => {
@@ -93,7 +93,7 @@ const Folder = props => {
     setTitleHandler(e.target.value)
   };
 
-  const { classes, isOver, canDrop, connectDropTarget, droppedItem } = props;
+  const { classes, isOver, canDrop, connectDropTarget, document } = props;
   return (
     <>
       <TableRow 
@@ -105,7 +105,7 @@ const Folder = props => {
           onClick={() => setExpandedStatus(!expandedStatus)}
         >
           {expandedStatus ? <ArrowDown className={classes.arrow} /> : <ArrowRight className={classes.arrow} />}
-          <FolderIcon style={isOver && canDrop ? {fontSize: '50px'} : null} className={classes.root}/> 
+          <FolderIcon style={isOver && canDrop ? {fontSize: '40px'} : null} className={classes.root}/> 
           {titleEditStatus ? 
             <TextField 
               value={titleHandler}
@@ -162,8 +162,8 @@ const Folder = props => {
 
 const spec = {
   drop(props, monitor, component) {
-    const document = monitor.getItem()
-    props.onDrop(document.id)
+    console.log('drop')
+    props.handleDoc('f', props.folder.id)
   }
 }
 
@@ -171,6 +171,7 @@ function collect(connect, monitor) {
   return {
     connectDropTarget: connect.dropTarget(),
     isOver: monitor.isOver(),
+    document: monitor.getItem(),
     isOverCurrent: monitor.isOver({ shallow: true }),
     canDrop: monitor.canDrop()
   }
