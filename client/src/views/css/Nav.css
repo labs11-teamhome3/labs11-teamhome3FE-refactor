@@ -28,10 +28,9 @@ a {
 }
 
 .name {
-    width: 79%;
+    width: 75%;
     display: flex;
     justify-content: flex-start;
-    padding-right: 50px;
 }
 
 .nav-btns button {

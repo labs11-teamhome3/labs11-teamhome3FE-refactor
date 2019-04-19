@@ -20,7 +20,7 @@ const TopContent = styled.div`
   height: 520px;
   width: 80%;
   margin: 0 auto;
-  margin-top: 5%;
+  margin-top: 3%;
    img {
       width: 400px;
       height: 400px;
@@ -30,7 +30,7 @@ const TopContent = styled.div`
 
 // Top Text Wrapper
 const TopContentText = styled.div`{
-  margin-top: 12%;
+  margin-top: 9%;
   height: 100%;
     h1 {
       display: flex;
