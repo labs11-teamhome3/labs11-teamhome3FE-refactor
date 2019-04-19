@@ -28,6 +28,7 @@ const styles = theme => ({
     margin: '0 auto',
     'text-align': 'left',
     padding: '30px',
+    'max-height': '80vh'
   },
   textField: {
     width: '70%',
