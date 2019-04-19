@@ -72,6 +72,7 @@ const MoreMenu = props => {
       },
       onCompleted: e => {
         props.setMsg('removed a document from a folder');
+        props.setExpandedStatus(!props.expandedStatus)
       },
       onError: err => console.log(err)
     })
@@ -93,12 +94,33 @@ const MoreMenu = props => {
           })
         }
       });
+      const { findFoldersByTeam } = cache.readQuery({
+        query: FOLDERS_QUERY,
+        variables: { teamId: props.teamId }
+        });
+        let newFolder = findFoldersByTeam.find(folder => folder.id === props.folderId);
+        let newDocuments = newFolder.documents.filter(document => document.id !== props.document.id);
+        newFolder.documents = newDocuments; 
+        cache.writeQuery({
+        query: FOLDERS_QUERY,
+        variables: { teamId: props.teamId },
+        data: {
+            findFoldersByTeam: findFoldersByTeam.map(folder => {
+              if(folder.id === props.folderId) {
+                return newFolder
+              } else {
+                return folder
+              }
+            })
+        }
+      });
     },
     variables: {
       documentId: props.document.id
     },
     onCompleted: e => {
       props.setMsg('deleted a document')
+      props.setExpandedStatus(!props.expandedStatus)
     },
     onError: err => console.log(err)
   });
@@ -117,7 +139,7 @@ const MoreMenu = props => {
               <Paper className={classes.paper}>
                 <Button className={classes.button} onClick={() => props.toggleModal('view', props.document.id)}>View</Button>
                 <Button className={classes.button} onClick={editMessage}>Edit</Button>
-                {props.folderDoc ? <Button className={classes.button} onClick={removeDocumentFromFolder}>Remove</Button> : null}
+                {props.folderDoc ? <Button className={classes.button} onClick={(e) => {e.stopPropagation(); removeDocumentFromFolder()}}>Remove</Button> : null}
                 <Button className={classes.button} onClick={deleteDocument}>Delete</Button>
               </Paper>
             ) : null}

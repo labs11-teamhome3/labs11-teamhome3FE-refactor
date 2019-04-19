@@ -60,7 +60,7 @@ const MoreMenuFolder = props => {
                 }
                 })
             }
-            });
+          });
         },
         variables: {
             folderId: props.folder.id

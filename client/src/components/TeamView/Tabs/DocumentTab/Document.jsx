@@ -42,7 +42,9 @@ const Document = props => {
       {props.matches ? <TableCell>{props.document.user.name}</TableCell> : null}
       {props.matches ? <TableCell>{props.document.comments.length}</TableCell> : null}
       <TableCell>
-        <MoreMenu 
+        <MoreMenu
+          setExpandedStatus={props.setExpandedStatus}
+          expandedStatus={props.expandedStatus} 
           folderId={props.folderId}
           folderDoc={props.folderDoc}
           teamId={props.teamId}

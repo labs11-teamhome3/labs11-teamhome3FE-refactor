@@ -45,7 +45,15 @@ const Folder = props => {
       cache.writeQuery({
         query: DOCUMENTS_QUERY,
         variables: { teamId: props.teamId },
-        data: { findDocumentsByTeam: [...findDocumentsByTeam, data.addDocumentToFolder] },
+        data: { 
+          findDocumentsByTeam: findDocumentsByTeam.map(document => {
+            if(document.id === props.droppedItem.id) {
+              return data.addDocumentToFolder
+            } else {
+              return document
+            }
+          })
+         },
       });
     },
     variables: {
@@ -133,6 +141,8 @@ const Folder = props => {
       {props.folder.documents && expandedStatus ? (
         props.folder.documents.map(document => (
             <Document
+              setExpandedStatus={setExpandedStatus}
+              expandedStatus={expandedStatus}
               matches={props.matches}
               folderId={props.folder.id}
               folderDoc={true}
