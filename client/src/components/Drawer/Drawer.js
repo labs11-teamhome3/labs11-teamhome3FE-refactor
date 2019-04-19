@@ -36,7 +36,6 @@ const drawerWidth = 375;
 const styles = theme => ({
   root: {
     display: 'flex',
-    // misty blue
     backgroundColor: '#ffffff',
   },
   appBar: {
@@ -44,7 +43,8 @@ const styles = theme => ({
       easing: theme.transitions.easing.sharp,
       duration: theme.transitions.duration.leavingScreen,
     }),
-    // golden slivers
+    // slivers 
+    // backgroundColor: '#005b9f',
   },
   appBarShift: {
     width: `calc(100% - ${drawerWidth}px)`,
@@ -62,10 +62,7 @@ const styles = theme => ({
     display: 'none',
   },
   drawer: {
-    // purple slot
-    // backgroundColor: '#D3D4E4',
-    // misty blue slot
-    backgroundColor: '#ffffff',
+    // slot
     width: drawerWidth,
     height: '100vh',
     flexShrink: 0,
@@ -77,10 +74,8 @@ const styles = theme => ({
       maxWidth: '675px',
       minWidth: '375px'
     },
-    // purple top
+    // top
     backgroundColor: theme.palette.primary.dark,
-    // misty blue top
-    // backgroundColor: '#DDE4E9',
     borderBottom: ' solid #5862DF 1px',
   },
   drawerHeader: {

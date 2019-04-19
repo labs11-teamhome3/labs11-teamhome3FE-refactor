@@ -7,89 +7,98 @@ import Typography from '@material-ui/core/Typography';
 import styled from 'styled-components';
 import NavigationView from './NavigationView';
 
+// Page Wrapper
 const StyledContainer = styled.div`
   background-color: white;
-  // border: solid green 2px;
   height: 1100px;
 `;
 
-// Card Styles
-const StyledDiv = styled.div`
+// Image and Text Wrapper
+const TopContent = styled.div`
   display: flex;
   justify-content: space-around;
-  border: solid yellow 2px;
-  background-color:  #005b9f;
-  margin-top: 50px;
-  width: 100%;
-  h3 {
-    border: solid red 2px;
-  }
+  height: 520px;
+  width: 80%;
+  margin: 0 auto;
+  margin-top: 5%;
+   img {
+      width: 400px;
+      height: 400px;
+      margin-top: 3%;
+    }
 `;
 
-// Top Text
+// Top Text Wrapper
 const TopContentText = styled.div`{
-  margin-top: 5%;
+  margin-top: 6%;
+  height: 100%;
     h1 {
       display: flex;
       flex-direction: row;
       font-size: 2.5rem;
-      color: #005b9f;
       font-weight: 900px;
     }
     p {
       font-size: 1.5rem;
+      margin-top: 5%;
+      span {
+        font-size: 3rem;
+        color: #263238;
+      }
     }
 
 }`;
 
-// Image and Text
-const StyledDiv2 = styled.div`
+// Cards Wrapper
+const CardsDiv = styled.div`
   display: flex;
   justify-content: space-around;
-   img {
-      width: 500px;
-      height: 500px;
+  align-items: center;
+  background-color: #263238;
+  margin-top: 50px;
+  width: 100%;
+  height: 500px;
+  margin: 0 auto;
+    h2 {
+      font-size: 1.5rem;
+      margin-bottom: 30px;
     }
 `;
 
-// components //
 
+// components 
 const styles = {
   card: {
-    width: '500px',
+    width: '300px',
     height: '350px',
     margin: '0 auto',
-    // backgroundColor: 'gold',
-    // border: 'solid yellow 2px',
-    // background: 'linear-gradient(45deg, #005b9f, gray);',
-    background: '#005b9f',
     background: 'white',
-    boxShadow:
-      '0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);',
+    boxShadow: '0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);',
   },
 };
 
 const LandingView = props => {
+
+  const { classes } = props;
+
   useEffect(() => {
     if (localStorage.getItem('userId')) {
       props.history.push();
     }
   });
 
-  const { classes } = props;
-
   return (
     <StyledContainer>
       <NavigationView auth={props.auth} />
 
-      <StyledDiv2>
-
+      <TopContent>
         <TopContentText>
           <Typography component="h1"> Connect. </Typography>
           <Typography component="h1"> Conduct. </Typography>
           <Typography component="h1"> Collaborate. </Typography>
           <Typography component="p">No more missed conversations. </Typography>
           <Typography component="p">No more missed opportunities. </Typography>
+          <Typography component="p"> <span>Manaje is Here.</span> </Typography>
         </TopContentText>
 
         <img
@@ -97,10 +106,9 @@ const LandingView = props => {
           src="https://www.netcenter.net/sites/default/files/collaboration_inforgraphic.png"
           alt="collaboration"
         />
+      </TopContent>
 
-      </StyledDiv2>
-
-      <StyledDiv>
+      <CardsDiv>
         <Card className={classes.card}>
           <CardContent>
             <div>
@@ -108,15 +116,16 @@ const LandingView = props => {
             </div>
             <div>
               <Typography component="p">
-                Manaje is out of the box and ready to use. Right now.{' '}
+                Manaje is out of the box and ready to use. Right now.
               </Typography>
               <Typography component="p">
-                With native iOS integration, Manaje allows for total team
-                integration, from mobile to desktop.
+                  With native iOS integration, Manaje allows for total team
+                  integration, from mobile to desktop.
               </Typography>
             </div>
           </CardContent>
         </Card>
+
         <Card className={classes.card}>
           <CardContent>
             <div>
@@ -134,6 +143,7 @@ const LandingView = props => {
             </div>
           </CardContent>
         </Card>
+
         <Card className={classes.card}>
           <CardContent>
             <div>
@@ -150,10 +160,11 @@ const LandingView = props => {
             </div>
           </CardContent>
         </Card>
-      </StyledDiv>
+
+      </CardsDiv>
     </StyledContainer>
-  );
-};
+    );
+  };
 
 export default withStyles(styles)(LandingView);
 
