@@ -4,6 +4,7 @@ import logo from '../assets/Manaje.png';
 import gql from 'graphql-tag';
 import { useQuery } from "react-apollo-hooks";
 import { TEAMS_QUERY } from "../graphQL/Queries";
+import Loader from 'react-loader-spinner';
 
 import './css/Nav.css';
 
@@ -11,16 +12,6 @@ import './css/Nav.css';
 import { Button, AppBar } from '../../node_modules/@material-ui/core';
 import { isNull } from 'util';
 
-
-// const PIC_QUERY = gql`
-//   query PIC_QUERY($id: ID!) {
-  //     user(id: $id) {
-    //       id
-    //       profilePic
-    //     }
-    //   }
-    // `
-    
 const NavigationView = props => {
   const userId = localStorage.getItem('userId');
 
@@ -41,7 +32,12 @@ const NavigationView = props => {
 
 
   if (loading) {
-    return <div>Loading...</div>;
+    return <Loader 
+            type="ThreeDots"
+            height="25px"
+            width="25px"
+            color="#0984e3"
+          />;
   }
   if (error) {
     return <div>Error! {error.message}</div>;
@@ -62,13 +58,6 @@ const NavigationView = props => {
     props.auth.logout();
   };
 
-  // This makes sure that the home/profile link always works
-  const checkTeams = async () => {   
-    const team = await data.teamsByUser
-    console.log('ct team', team);
-    console.log('ct team0 id', team[0].id);
-  }
-
   return (
     <div>
       <AppBar className="header" position="static">
@@ -79,7 +68,7 @@ const NavigationView = props => {
           {!localStorage.getItem('userId') ? (
             <div className="nav-btns">
               <Button onClick={login}>Log in</Button>
-              <Button onClick={signup}>Sign Up</Button>
+              <Button variant="contained" color="secondary" onClick={signup}>Sign Up</Button>
             </div>
           ) : (
             <div className="nav-btns">

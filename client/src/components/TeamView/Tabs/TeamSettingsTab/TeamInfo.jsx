@@ -11,6 +11,7 @@ import AddIcon from "@material-ui/icons/Add";
 import Typography from "@material-ui/core/Typography"
 import StripePaymentPopup from "../../../Stripe/StripePaymentPopup";
 import { withStyles } from '@material-ui/core/styles'
+import ClickAwayListener from '@material-ui/core/ClickAwayListener';
 
 /// css ///
 import './css/TeamSettings.css'
@@ -26,7 +27,7 @@ const UPDATE_TEAMNAME = gql`
 
 const styles = theme => ({
   deleteBtn: {
-    'margin-left': '5%',
+    // 'margin-left': '5%',
   },
   deleteTeamMsg: {
     color: '#f50057',
@@ -36,12 +37,12 @@ const styles = theme => ({
     'margin': '50px 0 30px 0',
   },
   deleteInput: {
-    width: '50%'
+    width: '100%'
   },
   teamMembers: {
     display: 'flex',
     'justify-content': 'flex-start',
-    'margin-top': '50px',
+    'margin-top': '29px',
     'padding-left': '1%',
     'font-size': '1.5rem'
     
@@ -49,6 +50,8 @@ const styles = theme => ({
 })
 
 const TeamInfo = props => {
+    // console.log('team members', props.team.members)
+
     const [showInput, setInput] = useState(false);
     const [newTeamName, setNewTeamName] = useState("");
 
@@ -123,7 +126,6 @@ const TeamInfo = props => {
                       onClick={() => props.setAreYouSure(true)}
                     >
                         Delete Team
-                        <DeleteIcon />
                     </Button>
                   }     
                 </div>

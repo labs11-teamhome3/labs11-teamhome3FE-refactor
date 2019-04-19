@@ -1,82 +1,84 @@
-import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
-import { USERS_QUERY } from "../../graphQL/Queries.js";
-import { useQuery } from "react-apollo-hooks";
-import styled from "styled-components";
-import gql from "graphql-tag";
-import { useMutation } from "../../graphQL/useMutation";
-import Button from "@material-ui/core/Button";
-import Paper from "@material-ui/core/Paper";
-import { withStyles } from "@material-ui/core/styles";
-import List from "@material-ui/core/List";
-import ListItem from "@material-ui/core/ListItem";
-import ListItemSecondaryAction from "@material-ui/core/ListItemSecondaryAction";
-import ListItemText from "@material-ui/core/ListItemText";
-import ListSubheader from "@material-ui/core/ListSubheader";
-import Divider from "@material-ui/core/Divider";
-import Typography from "@material-ui/core/Typography";
-import AppBar from "@material-ui/core/AppBar";
-import Tabs from "@material-ui/core/Tabs";
-import Tab from "@material-ui/core/Tab";
-import TextField from "@material-ui/core/TextField";
-import Phone from "@material-ui/icons/Smartphone";
-import Email from "@material-ui/icons/Email";
-import Pencil from "@material-ui/icons/Edit";
-import Toolbar from "@material-ui/core/Toolbar";
+import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
+import { USERS_QUERY } from '../../graphQL/Queries.js';
+import { useQuery } from 'react-apollo-hooks';
+import styled from 'styled-components';
+import gql from 'graphql-tag';
+import { useMutation } from '../../graphQL/useMutation';
+import Button from '@material-ui/core/Button';
+import Paper from '@material-ui/core/Paper';
+import { withStyles } from '@material-ui/core/styles';
+import List from '@material-ui/core/List';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
+import ListItemText from '@material-ui/core/ListItemText';
+import ListSubheader from '@material-ui/core/ListSubheader';
+import Divider from '@material-ui/core/Divider';
+import Typography from '@material-ui/core/Typography';
+import AppBar from '@material-ui/core/AppBar';
+import Tabs from '@material-ui/core/Tabs';
+import Tab from '@material-ui/core/Tab';
+import TextField from '@material-ui/core/TextField';
+import Phone from '@material-ui/icons/Smartphone';
+import Email from '@material-ui/icons/Email';
+import Pencil from '@material-ui/icons/Edit';
+import Toolbar from '@material-ui/core/Toolbar';
+import Loader from 'react-loader-spinner';
 
 const StyledAvatar = styled.img`
    {
     border-radius: 100px;
-    height: 175px;
+    height: 150px;
+    @media (max-width: 850px) {
+      height: 130px;
+    }
     width: auto;
     margin-right: 20px;
   }
 `;
 
 const StyledHeader = styled.h1`
-   {
-    font-weight: normal;
-  }
+  font-weight: normal;
 `;
 
 const StyledHeader2 = styled.h2`
-   {
-    // margin-left: 100px;
-  }
+  // margin-left: 100px;
 `;
 
 const StyledContainer = styled.div`
    {
-    // border: solid green 2px;
     display: flex;
     justify-content: space-between;
-    padding-top: 60px;
+    background-color: #DDE4E9;
+    @media (max-width: 850px) {
+      flex-direction: column; 
+    }
+    padding-top: 30px;
   }
 `;
 
 const StyledTeams = styled.div`
-   {
-    /* // border: solid gray 1px;
+  /* // border: solid gray 1px;
     display: flex;
     margin-left: 25px;
     flex-direction: column; */
     padding: 12px 12px 0 12px;
+    background-color: #DDE4E9;
   }
 `;
 
 const StyledForm = styled.form`
-   {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    min-width: 340px;
-    button {
-      position: absolute;
-      top: 14px;
-      right: 20px;
-    }
-    input {
-      /* border: solid gray 1px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  min-width: 340px;
+  button {
+    position: absolute;
+    top: 14px;
+    right: 20px;
+  }
+  input {
+    /* border: solid gray 1px;
       padding: 0px;
       margin-bottom: 20px;
       width: 500px;
@@ -85,20 +87,31 @@ const StyledForm = styled.form`
       ::placeholder {
         padding-left: 10px;
       } */
-    }
   }
 `;
 
 const SDiv = styled.div`
-   {
-    /* display: flex;
+  /* display: flex;
     justify-content: space-around;
     width: 65%;
     margin-left: 18%;
     margin-top: 25px; */
-    /* display: flex;
+  /* display: flex;
     justify-content: space-between; */
     paddingright: "10px";
+    background-color: #DDE4E9;
+    background-color: white;
+    border: solid white 1px;
+  }
+`;
+
+const Umbrella = styled.div`
+   {
+    background-color: #DDE4E9;
+    height: 1000px;
+    // border: solid red 2px;
+    margin-top: 3px;
+    box-shadow: inset 0 0 10px gray;
   }
 `;
 
@@ -112,75 +125,75 @@ const EDIT_USER = gql`
   }
 `;
 
-const styles = theme => {
-  console.log(theme.palette.test);
-  return {
-    root: {},
-    listPaper: {
-      overflow: "hidden",
-      paddingBottom: "10px"
+const styles = theme => ({
+  root: {},
+  listPaper: {
+    overflow: "hidden",
+    paddingBottom: "10px",
+  },
+  listTeamsPaper: {
+    height: "279px",
+    width: "50%",
+    '@media (max-width: 850px)': {
+      width: 'auto'
     },
-    listTeamsPaper: {
-      height: "279px",
-      width: "50%",
-      margin: "0 12px 0px 6px",
-      overflow: "hidden"
+    margin: "0 12px 15px 12px",
+    overflow: "auto"
+  },
+  tabHeaders: {
+    textAlign: 'left',
+  },
+  userSettingInput: {
+    marginBottom: '10px',
+  },
+  userCard: {
+    // padding: "0px 60px 20px 60px",
+    '@media (max-width: 850px)': {
+      width: 'auto'
     },
-    tabHeaders: {
-      textAlign: "left"
+    position: "relative",
+    margin: "0 12px 15px 12px",
+    width: "50%",
+    overflow: "hidden",
+    maxHeight: "279px"
+  },
+  userCardFlex: {
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "flex-start",
+    padding: "10px 60px 20px 20px",
+    marginTop: "20px",
+    minWidth: "450px",
+  },
+  userInfoIcons: {
+    position: 'relative',
+    top: '5px',
+  },
+  userInfoTypog: {
+    cursor: 'pointer',
+    '&:hover svg': {
+      opacity: '1',
     },
-    userSettingInput: {
-      marginBottom: "10px"
-    },
-    userCard: {
-      // padding: "0px 60px 20px 60px",
-      position: "relative",
-      margin: "0 6px 0px 12px",
-      width: "50%",
-      overflow: "hidden",
-      maxHeight: "279px"
-    },
-    userCardFlex: {
-      display: "flex",
-      alignItems: "center",
-      justifyContent: "space-evenly",
-      padding: "0px 60px 20px 60px",
-      marginTop: "20px",
-      minWidth: "726px"
-    },
-    userInfoIcons: {
-      position: "relative",
-      top: "5px"
-    },
-    userInfoTypog: {
-      cursor: "pointer",
-      "&:hover svg": {
-        opacity: "1"
-      }
-    },
-    myTeamsList: {
-      maxHeight: "210px",
-      overflow: "auto"
-    },
-    pencils: {
-      opacity: "0",
-      transition: "opacity 0.2s ease"
-    },
-    cardAppBar: {},
-    tabNav: {},
-    tabNavCont: {
-      margin: "50px 12px 0px 12px",
-      overflow: "hidden"
-    },
-    redBar: {
-      border: "4px solid red"
-    }
-  };
-};
+  },
+  myTeamsList: {
+    maxHeight: '210px',
+    overflow: 'auto',
+  },
+  pencils: {
+    opacity: '0',
+    transition: 'opacity 0.2s ease',
+  },
+  cardAppBar: {},
+  tabNav: {},
+  tabNavCont: {
+    margin: "0px 12px 0px 12px",
+    overflow: "hidden"
+  }
+});
 
 const Form = props => {
   const { classes } = props;
-  const userId = localStorage.getItem("userId");
+  const userId = localStorage.getItem('userId');
   // const [name, setName] = useState(null);
   // const [email, setEmail] = useState(null);
   // const [phone, setPhone] = useState(null);
@@ -207,7 +220,9 @@ const Form = props => {
     return <div>Error! {error.message}</div>;
   }
   if (!user) {
-    return <div>Loading...</div>;
+    return (
+      <Loader type="ThreeDots" height="25px" width="25px" color="#0984e3" />
+    );
   }
 
   const handleTabChange = (e, val) => {
@@ -216,19 +231,20 @@ const Form = props => {
 
   const updateInfo = e => {
     e.preventDefault();
-    console.log("uop");
+    console.log('uop');
     setEditName(false);
     editUser({
       variables: {
         id: userId,
         name: user.name,
         phone: user.phone,
-        email: user.email
-      }
+        email: user.email,
+      },
     });
   };
 
   return (
+    <Umbrella>
     <div className={classes.root}>
       <div>
         {/* <StyledHeader>User Settings</StyledHeader> */}
@@ -301,7 +317,7 @@ const Form = props => {
                     onClick={_ => setEditEmail(true)}
                     className={classes.userInfoTypog}
                   >
-                    <Email className={classes.userInfoIcons} /> {user.email}{" "}
+                    <Email className={classes.userInfoIcons} /> {user.email}{' '}
                     <Pencil className={classes.pencils} />
                   </Typography>
                 )}
@@ -321,12 +337,12 @@ const Form = props => {
                           id: userId,
                           name: user.name,
                           phone: user.phone,
-                          email: user.email
-                        }
+                          email: user.email,
+                        },
                       });
                     }}
                   >
-                    {" "}
+                    {' '}
                     Save
                   </Button>
                 ) : null}
@@ -355,7 +371,7 @@ const Form = props => {
                 user.inTeam.length > 0 &&
                 user.inTeam.map((team, index) => (
                   <Link to={`/teams/${team.id}/home`}>
-                    {" "}
+                    {' '}
                     <Divider />
                     <ListItem button>
                       <ListItemText>{team.teamName}</ListItemText>
@@ -498,6 +514,7 @@ const Form = props => {
         )}
       </SDiv>
     </div>
+  </Umbrella>
   );
 };
 

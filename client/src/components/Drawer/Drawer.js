@@ -67,6 +67,7 @@ const styles = theme => ({
     // misty blue slot
     backgroundColor: '#DDE4E9',
     width: drawerWidth,
+    height: '100vh',
     flexShrink: 0,
   },
   drawerPaper: {
@@ -88,6 +89,7 @@ const styles = theme => ({
   },
   content: {
     width: '30%',
+    minWidth: '500px',
     flexGrow: 1,
     padding: theme.spacing.unit * 3,
     transition: theme.transitions.create('margin', {
@@ -105,15 +107,6 @@ const styles = theme => ({
   },
 });
 
-const PIC_QUERY = gql`
-  query PIC_QUERY($id: ID!) {
-    user(id: $id) {
-      id
-      profilePic
-    }
-  }
-`
-
 const PersistentDrawerLeft = props => {
   const userId = localStorage.getItem('userId')
 
@@ -123,10 +116,6 @@ const PersistentDrawerLeft = props => {
   useEffect( _ => {
     createEvent();
   }, [msg])
-
-  const picQuery = useQuery(PIC_QUERY, {
-    variables: { id: userId }
-  })
 
   const [createEvent] = useMutation(CREATE_EVENT, {
     update: (cache, { data }) => {

@@ -1,9 +1,28 @@
+.team-settings-page {
+    display: flex;
+    justify-content: flex-start;
+}
+
+.team-settings {
+    width: 50%;
+}
+
+@media (min-width: 1200px) {
+    .team-settings {
+        width: 75%;
+    }
+}
+
 .member-card {
     display: flex;
     align-items: center;
-    width: 100%;
-    padding: 2%;
+    width: 95%;
+    padding: 1%;
     justify-content: space-between;
+}
+
+.member-card h2 {
+    font-weight: bold;
 }
 
 .team-info {
@@ -22,6 +41,12 @@
     margin-right: 3%;
 }
 
+@media (max-width: 800px) {
+    .team-list-pic {
+        display: none;
+    }
+}
+
 .member-info {
     display: flex;
     align-items: center;
@@ -30,7 +55,8 @@
 }
 
 .member-info h2 {
-    font-size: 1.3rem;
+    font-size: 1.2rem;
+    text-align: left;
 }
 
 .delete-area {
@@ -54,7 +80,7 @@
 }
 
 .name-info {
-    display: flex;
+    display: block;
     justify-content: space-between;
     align-items: center;
     padding-left: 1.2%;
@@ -65,9 +91,9 @@
 }
 
 .name-info h2 {
-    margin-right: 20px;
     font-weight: bold;
-    font-size: 2rem;
+    font-size: 1.5rem;
+    margin-right: 7px;
 }
 
 .change-name {
@@ -99,15 +125,15 @@
 }
 
 .add-user {
-    width: 25%;
-    height: 100vh;
-    float: right;
-    padding-left: 2%;
+    width: 300px;
     overflow-y: auto;
+    margin-right: 30px;
 }
 
 .add-user h2 {
-    font-size: 1.5rem;
+    font-size: 1.2rem;
+    text-align: left;
+    margin-bottom: 0
 }
 
 .add-member-card {
@@ -122,7 +148,9 @@
 .add-member-info {
     width: 80%;
     display: flex;
+    justify-content: flex-start;
     align-items: center;
+    text-align: left;
 }
 
 .add-member-info h3 {
@@ -133,6 +161,12 @@
 .add-member-pic {
     height: 50px;
     border-radius: 50px;
+}
+
+@media (max-width: 800px) {
+    .add-member-pic {
+        display: none;
+    }
 }
 
 .add-member-button {
@@ -166,20 +200,18 @@
 }
 
 .upgrade-delete {
-    width: 25%;
+    width: 100%;
     display: flex;
     flex-wrap: wrap;
-    justify-content: center;
+    justify-content: flex-start;
+}
+
+.upgrade-delete button {
+    margin: 5px 5px 0 0;
 }
 
 .delete-team-btn {
     background-color: black;
-}
-
-.cancel-delete-team {
-    /* display: flex; */
-    /* align-items: center; */
-    /* margin-left: 2%; */
 }
 
 .cancel-delete-team button {

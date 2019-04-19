@@ -1,26 +1,27 @@
-import React, { useState, useEffect } from "react";
-import { useQuery } from "react-apollo-hooks";
-import gql from "graphql-tag";
+import React, { useState, useEffect } from 'react';
+import { useQuery } from 'react-apollo-hooks';
+import gql from 'graphql-tag';
 // import Fab from "@material-ui/core/Fab";
 // import AddIcon from "@material-ui/icons/Add";
-import { useMutation } from "../../../../graphQL/useMutation";
-import Button from "@material-ui/core/Button";
-import Modal from "@material-ui/core/Modal";
-import Paper from "@material-ui/core/Paper";
-import Close from "@material-ui/icons/Close";
-import { withStyles } from "@material-ui/core/styles";
-import Chip from "@material-ui/core/Chip";
-import Menu from "@material-ui/core/Menu";
-import MenuItem from "@material-ui/core/MenuItem";
-import DeleteIcon from "@material-ui/icons/Delete";
-import Popover from "@material-ui/core/Popover";
-import Typography from "@material-ui/core/Typography";
-import Edit from "@material-ui/icons/Edit";
-import TextField from "@material-ui/core/TextField";
-import List from "@material-ui/core/List";
+import { useMutation } from '../../../../graphQL/useMutation';
+import Button from '@material-ui/core/Button';
+import Modal from '@material-ui/core/Modal';
+import Paper from '@material-ui/core/Paper';
+import Close from '@material-ui/icons/Close';
+import { withStyles } from '@material-ui/core/styles';
+import Chip from '@material-ui/core/Chip';
+import Menu from '@material-ui/core/Menu';
+import MenuItem from '@material-ui/core/MenuItem';
+import DeleteIcon from '@material-ui/icons/Delete';
+import Popover from '@material-ui/core/Popover';
+import Typography from '@material-ui/core/Typography';
+import Edit from '@material-ui/icons/Edit';
+import TextField from '@material-ui/core/TextField';
+import List from '@material-ui/core/List';
+import Loader from 'react-loader-spinner';
 
 /////Components/////
-import EditTodo from "./EditTodo";
+import EditTodo from './EditTodo';
 
 /////Queries/////
 // import { CREATE_EVENT } from "../../../../graphQL/Mutations";
@@ -30,66 +31,66 @@ import {
   // MESSAGE_QUERY,
   // EVENTS_QUERY,
   TODOS_QUERY,
-  TODO_LIST_QUERY
-} from "../../../../graphQL/Queries";
+  TODO_LIST_QUERY,
+} from '../../../../graphQL/Queries';
 
 const styles = theme => ({
   paper: {
-    position: "relative",
-    top: "24%",
-    "max-width": "600px",
-    margin: "0 auto",
-    "text-align": "left",
-    padding: "30px",
-    maxHeight: "540px",
-    overflow: "auto"
+    position: 'relative',
+    top: '24%',
+    'max-width': '600px',
+    margin: '0 auto',
+    'text-align': 'left',
+    padding: '30px',
+    maxHeight: '540px',
+    overflow: 'auto',
   },
   todoListInput: {
-    width: "100%",
-    marginBottom: "10px"
+    width: '100%',
+    marginBottom: '10px',
   },
   deletePopover: {
-    padding: "10px"
+    padding: '10px',
   },
   popoverButton: {
-    width: "50%",
-    borderRadius: "0px"
+    width: '50%',
+    borderRadius: '0px',
   },
   usersFlex: {},
   todoInputFlex: {
-    display: "flex"
+    display: 'flex',
   },
   addTodoBtn: {
-    lineHeight: "22px",
-    marginLeft: "10px"
+    lineHeight: '22px',
+    marginLeft: '10px',
   },
   bottomBtnCont: {
-    display: "flex",
-    justifyContent: "space-between",
-    marginTop: "30px"
+    display: 'flex',
+    justifyContent: 'space-between',
+    marginTop: '30px',
   },
   editModalH4: {
-    margin: "0px"
+    margin: '0px',
   },
   userH4: {
-    margin: "0 0 5px 0"
+    margin: '0 0 5px 0',
   },
   section: {
-    marginBottom: "30px"
+    marginBottom: '30px',
   },
   userChip: {
-    marginRight: "5px"
+    marginRight: '5px',
   },
   modalTitleBar: {
-    display: "flex",
-    justifyContent: "flex-end"
+    display: 'flex',
+    justifyContent: 'flex-end',
   },
   userBtns: {
-    marginTop: "10px"
+    marginTop: '10px',
   },
   closeBtn: {
-    cursor: "pointer"
-  }
+    cursor: 'pointer',
+  },
 });
 
 const UPDATE_TODO_LIST = gql`
@@ -240,17 +241,17 @@ const REMOVE_FROM_ASSIGNEES = gql`
 const CreateTodoListModal = props => {
   // const userId = localStorage.getItem("userId");
   const [anchorEl, setAnchorEl] = useState(null);
-  const [menuControl, setMenuControl] = useState("");
+  const [menuControl, setMenuControl] = useState('');
   const [editUserId, setEditUserId] = useState({
-    id: "",
-    action: ""
+    id: '',
+    action: '',
   });
   const [openPopover, setOpenPopover] = useState(false);
   const { classes } = props;
   const todoList = useQuery(TODO_LIST_QUERY, {
     variables: {
-      id: props.todoListId
-    }
+      id: props.todoListId,
+    },
   });
   const users = useQuery(USERS_QUERY);
   // const [todoListInfo, setTodoListInfo] = useState({
@@ -259,8 +260,8 @@ const CreateTodoListModal = props => {
   //   monkey: "monkey monkey"
   // });
 
-  const [todoListTitle, setTodoListTitle] = useState("");
-  const [todoListTask, setTodoListTask] = useState("");
+  const [todoListTitle, setTodoListTitle] = useState('');
+  const [todoListTask, setTodoListTask] = useState('');
 
   // const handleChange = e => {
   //   setTodoListInfo({
@@ -280,16 +281,16 @@ const CreateTodoListModal = props => {
   useEffect(
     _ => {
       switch (editUserId.action) {
-        case "addowner":
+        case 'addowner':
           addOwner();
           break;
-        case "removeowner":
+        case 'removeowner':
           removeOwner();
           break;
-        case "addassignee":
+        case 'addassignee':
           addAssignee();
           break;
-        case "removeassignee":
+        case 'removeassignee':
           removeAssignee();
           break;
         default:
@@ -306,26 +307,26 @@ const CreateTodoListModal = props => {
         variables: { id: props.todoListId },
         data: {
           todoList: {
-            ...data.updateTodoList
-          }
-        }
+            ...data.updateTodoList,
+          },
+        },
       });
     },
     variables: {
       id: props.todoListId,
-      description: todoListTitle
+      description: todoListTitle,
     },
     onCompleted: e => {
-      props.toggleModal("edit");
+      props.toggleModal('edit');
     },
-    onError: err => console.log(err)
+    onError: err => console.log(err),
   });
 
   const [deleteTodoList] = useMutation(DELETE_TODO_LIST, {
     update: (cache, { data }) => {
       const { todoLists } = cache.readQuery({
         query: TODOS_QUERY,
-        variables: { teamId: props.teamId }
+        variables: { teamId: props.teamId },
       });
       cache.writeQuery({
         query: TODOS_QUERY,
@@ -333,25 +334,25 @@ const CreateTodoListModal = props => {
         data: {
           todoLists: todoLists.filter(
             todoList => todoList.id !== data.deleteTodoList.id
-          )
-        }
+          ),
+        },
       });
     },
     variables: {
-      id: props.todoListId
+      id: props.todoListId,
     },
     onCompleted: e => {
-      props.setMsg("deleted a todo list");
-      props.toggleModal("edit");
+      props.setMsg('deleted a todo list');
+      props.toggleModal('edit');
     },
-    onError: err => console.log(err)
+    onError: err => console.log(err),
   });
 
   const [createTodo] = useMutation(CREATE_TODO, {
     update: (cache, { data }) => {
       const { todoList } = cache.readQuery({
         query: TODO_LIST_QUERY,
-        variables: { id: props.todoListId }
+        variables: { id: props.todoListId },
       });
       cache.writeQuery({
         query: TODO_LIST_QUERY,
@@ -359,127 +360,127 @@ const CreateTodoListModal = props => {
         data: {
           todoList: {
             ...todoList,
-            todos: [...todoList.todos, data.createTodo]
-          }
-        }
+            todos: [...todoList.todos, data.createTodo],
+          },
+        },
       });
     },
     variables: {
       description: todoListTask,
-      partOf: props.todoListId
+      partOf: props.todoListId,
     },
     onCompleted: e => {
-      setTodoListTask("");
+      setTodoListTask('');
     },
-    onError: err => console.log(err)
+    onError: err => console.log(err),
   });
 
   const [addOwner] = useMutation(ADD_TO_OWNERS, {
     update: (cache, { data }) => {
       const { todoList } = cache.readQuery({
         query: TODO_LIST_QUERY,
-        variables: { id: props.todoListId }
+        variables: { id: props.todoListId },
       });
       cache.writeQuery({
         query: TODO_LIST_QUERY,
         variables: { id: props.todoListId },
         data: {
-          todoList: { ...data.addUserToOwners }
-        }
+          todoList: { ...data.addUserToOwners },
+        },
       });
     },
     variables: {
       userId: editUserId.id,
-      todoListId: props.todoListId
+      todoListId: props.todoListId,
     },
     onCompleted: e => {
       setEditUserId({
-        id: "",
-        action: ""
+        id: '',
+        action: '',
       });
     },
-    onError: err => console.log(err)
+    onError: err => console.log(err),
   });
 
   const [addAssignee] = useMutation(ADD_TO_ASSIGNEES, {
     update: (cache, { data }) => {
       const { todoList } = cache.readQuery({
         query: TODO_LIST_QUERY,
-        variables: { id: props.todoListId }
+        variables: { id: props.todoListId },
       });
       cache.writeQuery({
         query: TODO_LIST_QUERY,
         variables: { id: props.todoListId },
         data: {
-          todoList: { ...data.addUserToAssignees }
-        }
+          todoList: { ...data.addUserToAssignees },
+        },
       });
     },
     variables: {
       userId: editUserId.id,
-      todoListId: props.todoListId
+      todoListId: props.todoListId,
     },
     onCompleted: e => {
       setEditUserId({
-        id: "",
-        action: ""
+        id: '',
+        action: '',
       });
     },
-    onError: err => console.log(err)
+    onError: err => console.log(err),
   });
 
   const [removeOwner] = useMutation(REMOVE_FROM_OWNERS, {
     update: (cache, { data }) => {
       const { todoList } = cache.readQuery({
         query: TODO_LIST_QUERY,
-        variables: { id: props.todoListId }
+        variables: { id: props.todoListId },
       });
       cache.writeQuery({
         query: TODO_LIST_QUERY,
         variables: { id: props.todoListId },
         data: {
-          todoList: { ...data.addUserToOwners }
-        }
+          todoList: { ...data.addUserToOwners },
+        },
       });
     },
     variables: {
       userId: editUserId.id,
-      todoListId: props.todoListId
+      todoListId: props.todoListId,
     },
     onCompleted: e => {
       setEditUserId({
-        id: "",
-        action: ""
+        id: '',
+        action: '',
       });
     },
-    onError: err => console.log(err)
+    onError: err => console.log(err),
   });
 
   const [removeAssignee] = useMutation(REMOVE_FROM_ASSIGNEES, {
     update: (cache, { data }) => {
       const { todoList } = cache.readQuery({
         query: TODO_LIST_QUERY,
-        variables: { id: props.todoListId }
+        variables: { id: props.todoListId },
       });
       cache.writeQuery({
         query: TODO_LIST_QUERY,
         variables: { id: props.todoListId },
         data: {
-          todoList: { ...data.removeUserFromAssignees }
-        }
+          todoList: { ...data.removeUserFromAssignees },
+        },
       });
     },
     variables: {
       userId: editUserId.id,
-      todoListId: props.todoListId
+      todoListId: props.todoListId,
     },
     onCompleted: e => {
       setEditUserId({
-        id: "",
-        action: ""
+        id: '',
+        action: '',
       });
     },
-    onError: err => console.log(err)
+    onError: err => console.log(err),
   });
 
   const handleClick = (e, menu) => {
@@ -490,7 +491,7 @@ const CreateTodoListModal = props => {
   const handleClose = (id, action) => {
     setEditUserId({
       id,
-      action
+      action,
     });
     setAnchorEl(null);
   };
@@ -511,7 +512,9 @@ const CreateTodoListModal = props => {
   };
 
   if (!todoList.data.todoList) {
-    return <h1>Loading...</h1>;
+    return (
+      <Loader type="ThreeDots" height="25px" width="25px" color="#0984e3" />
+    );
   }
 
   const createTodoPD = e => {
@@ -529,14 +532,16 @@ const CreateTodoListModal = props => {
         <Paper className={classes.paper}>
           <div className={classes.modalTitleBar}>
             <Close
-              onClick={_ => props.toggleModal("edit")}
+              onClick={_ => props.toggleModal('edit')}
               className={classes.closeBtn}
             />
           </div>
           <div className={classes.usersFlex}>
             <div className={classes.section}>
               <div>
-                <h4 className={classes.userH4}>Owned by</h4>
+                <Typography className={classes.userH4} component="h4">
+                  Owned by
+                </Typography>
                 <div>
                   {todoList.data.todoList &&
                     todoList.data.todoList.ownedBy.map(owner => (
@@ -545,16 +550,16 @@ const CreateTodoListModal = props => {
                         className={classes.userChip}
                         key={owner.id}
                         onDelete={_ =>
-                          setEditUserId({ id: owner.id, action: "removeowner" })
+                          setEditUserId({ id: owner.id, action: 'removeowner' })
                         }
                       />
                     ))}
                 </div>
                 <div>
                   <Button
-                    aria-owns={anchorEl ? "owner-menu" : undefined}
+                    aria-owns={anchorEl ? 'owner-menu' : undefined}
                     aria-haspopup="true"
-                    onClick={e => handleClick(e, "owner")}
+                    onClick={e => handleClick(e, 'owner')}
                     variant="contained"
                     className={classes.userBtns}
                   >
@@ -563,7 +568,7 @@ const CreateTodoListModal = props => {
                   <Menu
                     id="owner-menu"
                     anchorEl={anchorEl}
-                    open={Boolean(anchorEl) && menuControl === "owner"}
+                    open={Boolean(anchorEl) && menuControl === 'owner'}
                     onClose={handleClose}
                   >
                     {users.data.users &&
@@ -580,7 +585,7 @@ const CreateTodoListModal = props => {
                         .map(user => (
                           <MenuItem
                             key={user.id}
-                            onClick={_ => handleClose(user.id, "addowner")}
+                            onClick={_ => handleClose(user.id, 'addowner')}
                           >
                             {user.name}
                           </MenuItem>
@@ -591,7 +596,9 @@ const CreateTodoListModal = props => {
             </div>
             <div className={classes.section}>
               <div>
-                <h4 className={classes.userH4}>Assigned to</h4>
+                <Typography className={classes.userH4} component="h4">
+                  Assigned to
+                </Typography>
                 <div>
                   {todoList.data.todoList &&
                     todoList.data.todoList.assignedTo.map(assignee => (
@@ -602,7 +609,7 @@ const CreateTodoListModal = props => {
                         onDelete={_ =>
                           setEditUserId({
                             id: assignee.id,
-                            action: "removeassignee"
+                            action: 'removeassignee',
                           })
                         }
                       />
@@ -610,9 +617,9 @@ const CreateTodoListModal = props => {
                 </div>
                 <div>
                   <Button
-                    aria-owns={anchorEl ? "simple-menu" : undefined}
+                    aria-owns={anchorEl ? 'simple-menu' : undefined}
                     aria-haspopup="true"
-                    onClick={e => handleClick(e, "assignee")}
+                    onClick={e => handleClick(e, 'assignee')}
                     variant="contained"
                     className={classes.userBtns}
                   >
@@ -621,7 +628,7 @@ const CreateTodoListModal = props => {
                   <Menu
                     id="simple-menu"
                     anchorEl={anchorEl}
-                    open={Boolean(anchorEl) && menuControl === "assignee"}
+                    open={Boolean(anchorEl) && menuControl === 'assignee'}
                     onClose={handleClose}
                   >
                     {users.data.users &&
@@ -638,7 +645,7 @@ const CreateTodoListModal = props => {
                         .map(user => (
                           <MenuItem
                             key={user.id}
-                            onClick={_ => handleClose(user.id, "addassignee")}
+                            onClick={_ => handleClose(user.id, 'addassignee')}
                           >
                             {user.name}
                           </MenuItem>
@@ -656,7 +663,9 @@ const CreateTodoListModal = props => {
             className={classes.todoListInput}
             onChange={e => setTodoListTitle(e.target.value)}
           />
-          <h4 className={classes.editModalH4}>Todos</h4>
+          <Typography className={classes.editModalH4} component="h4">
+            Todos
+          </Typography>
           <div>
             <List>
               {todoList.data.todoList ? (
@@ -675,7 +684,12 @@ const CreateTodoListModal = props => {
                   ))}
                 </>
               ) : (
-                <h2>Loading</h2>
+                <Loader
+                  type="ThreeDots"
+                  height="25px"
+                  width="25px"
+                  color="#0984e3"
+                />
               )}
             </List>
           </div>
@@ -720,12 +734,12 @@ const CreateTodoListModal = props => {
             anchorEl={anchorEl}
             onClose={popoverClose}
             anchorOrigin={{
-              vertical: "bottom",
-              horizontal: "center"
+              vertical: 'bottom',
+              horizontal: 'center',
             }}
             transformOrigin={{
-              vertical: "top",
-              horizontal: "center"
+              vertical: 'top',
+              horizontal: 'center',
             }}
           >
             <Typography className={classes.deletePopover}>
