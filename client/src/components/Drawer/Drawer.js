@@ -36,8 +36,7 @@ const styles = theme => ({
   root: {
     display: 'flex',
     // misty blue
-    backgroundColor: '#DDE4E9',
-    
+    backgroundColor: '#ffffff',
   },
   appBar: {
     transition: theme.transitions.create(['margin', 'width'], {
@@ -45,7 +44,6 @@ const styles = theme => ({
       duration: theme.transitions.duration.leavingScreen,
     }),
     // golden slivers
-    backgroundColor: '#5862DF'
   },
   appBarShift: {
     width: `calc(100% - ${drawerWidth}px)`,
@@ -66,7 +64,7 @@ const styles = theme => ({
     // purple slot
     // backgroundColor: '#D3D4E4',
     // misty blue slot
-    backgroundColor: '#DDE4E9',
+    backgroundColor: '#ffffff',
     width: drawerWidth,
     height: '100vh',
     flexShrink: 0,
@@ -79,8 +77,7 @@ const styles = theme => ({
       minWidth: '375px'
     },
     // purple top
-    backgroundColor: '#D3D4E4',
-    backgroundColor: '#95A5B7',
+    backgroundColor: theme.palette.primary.dark,
     // misty blue top
     // backgroundColor: '#DDE4E9',
     borderBottom: ' solid #5862DF 1px',
@@ -111,6 +108,14 @@ const styles = theme => ({
     }),
     marginLeft: 0,
   },
+  closeIcon: {
+    color: '#ffffff'
+  },
+  icon: {
+    '&:hover': {
+      backgroundColor: theme.palette.primary.light
+    }
+  }
 });
 
 const PersistentDrawerLeft = props => {
@@ -216,8 +221,8 @@ const PersistentDrawerLeft = props => {
           }}
         >
           <div className={classes.drawerHeader}>
-            <IconButton onClick={handleDrawerClose}>
-              {theme.direction === 'ltr' ? <CloseIcon /> : <ChevronRightIcon />}
+            <IconButton className={classes.icon} onClick={handleDrawerClose}>
+              {theme.direction === 'ltr' ? <CloseIcon className={classes.closeIcon} /> : <ChevronRightIcon />}
             </IconButton>
           </div>
           <Divider />

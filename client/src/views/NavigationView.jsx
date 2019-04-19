@@ -60,7 +60,7 @@ const NavigationView = props => {
 
   return (
     <div>
-      <AppBar className="header" position="static">
+      <AppBar className="header" position="static" >
         <div className="header">
           {/* <div className="logo">
               <img className="logo-img" src={logo} alt="Manaje" />

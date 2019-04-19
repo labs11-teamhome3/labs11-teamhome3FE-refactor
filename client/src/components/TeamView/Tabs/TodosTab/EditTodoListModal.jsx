@@ -55,6 +55,10 @@ const styles = theme => ({
   popoverButton: {
     width: '50%',
     borderRadius: '0px',
+    backgroundColor: theme.palette.error.main,
+    '&:nth-of-type(2)': {
+      backgroundColor: '#ffffff'
+    }
   },
   usersFlex: {},
   todoInputFlex: {
@@ -91,6 +95,10 @@ const styles = theme => ({
   closeBtn: {
     cursor: 'pointer',
   },
+  errorButton: {
+    color: theme.palette.error.main,
+    borderColor: theme.palette.error.main
+  }
 });
 
 const UPDATE_TODO_LIST = gql`
@@ -721,8 +729,7 @@ const CreateTodoListModal = props => {
 
             <Button
               variant="outlined"
-              color="secondary"
-              className={classes.button}
+              className={classes.errorButton}
               onClick={handlePopover}
             >
               Delete Todo List

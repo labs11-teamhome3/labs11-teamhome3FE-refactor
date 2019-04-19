@@ -140,7 +140,7 @@ const TeamList = props => {
             <div className="show-add-input">
               <Fab
                 onClick={() => setShowInput(true)}
-                color="primary"
+                color="secondary"
                 size="small"
                 aria-label="Add"
               >
@@ -162,7 +162,7 @@ const TeamList = props => {
               value={teamInput}
               onChange={e => setTeamInput(e.target.value)}
             />
-            <Fab type="submit" color="primary" size="small" aria-label="Add">
+            <Fab type="submit" color="secondary" size="small" aria-label="Add">
               <AddIcon />
             </Fab>
             <Fab
