@@ -6,11 +6,16 @@ import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
 import styled from 'styled-components';
 import NavigationView from './NavigationView';
+import Paper from '@material-ui/core/Paper';
 
 // Page Wrapper
 const StyledContainer = styled.div`
   background-color: white;
   height: 1100px;
+
+  @media(max-width: 920px) {
+    height: 800px;
+ }
 `;
 
 // Image and Text Wrapper
@@ -25,7 +30,21 @@ const TopContent = styled.div`
       width: 400px;
       height: 400px;
       margin-top: 3%;
+
+        @media(max-width: 920px) {
+          width: 300px;
+          height: 250px;
+      }
+
     }
+
+  }
+  @media(max-width: 800px) {
+    height: 300px;
+  }
+  @media(max-width: 920px) {
+     height: 290px;
+  }
 `;
 
 // Top Text Wrapper
@@ -45,7 +64,13 @@ const TopContentText = styled.div`{
         color: #263238;
       }
     }
-
+      @media(max-width: 800px) {
+        height: 250px;
+      }
+      @media(max-width: 920px) {
+        height: 290px;
+        margin-top: 12%;
+      }  
 }`;
 
 // Cards Wrapper
@@ -62,6 +87,15 @@ const CardsDiv = styled.div`
       font-size: 1.5rem;
       margin-bottom: 30px;
     }
+    @media(max-width: 800px) {
+      flex-direction: column;
+      margin-top: 10%;
+      height: 800px;
+    }
+
+    @media(max-width: 920px) {
+      margin-top: 10%;
+   }
 `;
 
 
@@ -87,80 +121,80 @@ const LandingView = props => {
   });
 
   return (
-    <StyledContainer>
-      <NavigationView auth={props.auth} />
+    <Paper>
+      <StyledContainer>
+        <NavigationView auth={props.auth} />
+        <TopContent>
+          <TopContentText>
+            <Typography component="h1"> Connect. </Typography>
+            <Typography component="h1"> Conduct. </Typography>
+            <Typography component="h1"> Collaborate. </Typography>
+            {/* <Typography component="p">Remain up to date. </Typography> */}
+            <Typography component="p">No more missed opportunities. </Typography>
+          </TopContentText>
+          <img
+            className="nt-image"
+            src="https://www.netcenter.net/sites/default/files/collaboration_inforgraphic.png"
+            alt="collaboration"
+          />
+        </TopContent>
 
-      <TopContent>
-        <TopContentText>
-          <Typography component="h1"> Connect. </Typography>
-          <Typography component="h1"> Conduct. </Typography>
-          <Typography component="h1"> Collaborate. </Typography>
-          <Typography component="p">No more missed conversations. </Typography>
-          <Typography component="p">No more missed opportunities. </Typography>
-        </TopContentText>
+        <CardsDiv>
+          <Card className={classes.card}>
+            <CardContent>
+              <div>
+                <Typography component="h2">Ease of use</Typography>
+              </div>
+              <div>
+                <Typography component="p">
+                  Manaje is out of the box and ready to use. Right now.
+                </Typography>
+                <Typography component="p">
+                    With native iOS integration, Manaje allows for total team
+                    integration, from mobile to desktop.
+                </Typography>
+              </div>
+            </CardContent>
+          </Card>
 
-        <img
-          className="nt-image"
-          src="https://www.netcenter.net/sites/default/files/collaboration_inforgraphic.png"
-          alt="collaboration"
-        />
-      </TopContent>
+          <Card className={classes.card}>
+            <CardContent>
+              <div>
+                <Typography component="h2">Simplicity</Typography>
+              </div>
+              <div>
+                <Typography component="p">
+                  Manaje distills out the noise and keeps the information load
+                  light.
+                </Typography>
+                <Typography component="p">
+                  Concentrate on what really matters: getting your team ready to
+                  ship world class product.
+                </Typography>
+              </div>
+            </CardContent>
+          </Card>
 
-      <CardsDiv>
-        <Card className={classes.card}>
-          <CardContent>
-            <div>
-              <Typography component="h2">Ease of use</Typography>
-            </div>
-            <div>
-              <Typography component="p">
-                Manaje is out of the box and ready to use. Right now.
-              </Typography>
-              <Typography component="p">
-                  With native iOS integration, Manaje allows for total team
-                  integration, from mobile to desktop.
-              </Typography>
-            </div>
-          </CardContent>
-        </Card>
+          <Card className={classes.card}>
+            <CardContent>
+              <div>
+                <Typography component="h2">Adaptability</Typography>
+              </div>
+              <div>
+                <Typography component="p">
+                  Manaje can incorporate a wide range workplace environments.{' '}
+                </Typography>
+                <Typography component="p">
+                  Colleagues half-way across the world? Not to worry, our help
+                  staff are here for you, 24/7.
+                </Typography>
+              </div>
+            </CardContent>
+          </Card>
 
-        <Card className={classes.card}>
-          <CardContent>
-            <div>
-              <Typography component="h2">Simplicity</Typography>
-            </div>
-            <div>
-              <Typography component="p">
-                Manaje distills out the noise and keeps the information load
-                light.
-              </Typography>
-              <Typography component="p">
-                Concentrate on what really matters: getting your team ready to
-                ship world class product.
-              </Typography>
-            </div>
-          </CardContent>
-        </Card>
-
-        <Card className={classes.card}>
-          <CardContent>
-            <div>
-              <Typography component="h2">Adaptability</Typography>
-            </div>
-            <div>
-              <Typography component="p">
-                Manaje can incorporate a wide range workplace environments.{' '}
-              </Typography>
-              <Typography component="p">
-                Colleagues half-way across the world? Not to worry, our help
-                staff are here for you, 24/7.
-              </Typography>
-            </div>
-          </CardContent>
-        </Card>
-
-      </CardsDiv>
-    </StyledContainer>
+        </CardsDiv>
+      </StyledContainer>
+    </Paper>
     );
   };
 
