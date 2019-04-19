@@ -21,12 +21,14 @@ import { Typography } from '@material-ui/core';
 
 const styles = theme => ({
   paper: {
+    overflow: 'auto',
     position: 'relative',
-    top: '24%',
-    'max-width': '600px',
+    top: '15%',
+    'max-width': '500px',
     margin: '0 auto',
     'text-align': 'left',
     padding: '30px',
+    'max-height': '80vh'
   },
   textField: {
     width: '70%',

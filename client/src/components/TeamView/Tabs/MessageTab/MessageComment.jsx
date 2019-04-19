@@ -25,11 +25,10 @@ const styles = theme => ({
   },
   content: {
     marginTop: '7px',
-    fontSize: '21px',
-    
+    fontSize: '19px',
   },
   contentTitle: {
-    fontSize: '17px',
+    fontSize: '15px',
     display: 'flex', 
     marginBottom: '6px'
   },
@@ -49,10 +48,10 @@ const styles = theme => ({
   },
   messageReactionWrap: {
     display: 'flex',
-    justifyContent: 'space-between'
+    // justifyContent: 'space-between'
   },
   delete: {
-    margin: '10px 0'
+    margin: '6px 10px'
   },
   viewReplies: {
     display: 'flex',
