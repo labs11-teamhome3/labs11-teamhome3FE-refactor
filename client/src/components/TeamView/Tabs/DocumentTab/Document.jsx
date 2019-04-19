@@ -19,10 +19,12 @@ const styles = theme => ({
     margin: '0 7px -5px 0'
   },
   folderDoc: {
-    backgroundColor: '#f0f0f0',
+    // backgroundColor: '#f0f0f0',
   },
   folderDocCell: {
-    margin: '0 7px -5px 0'
+    margin: '0 17px -5px 0',
+    position: 'relative',
+    left: '10px'
   }
 });
 
