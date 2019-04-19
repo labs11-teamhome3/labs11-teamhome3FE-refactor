@@ -117,6 +117,7 @@ const CreateDocumentModal = props => {
           />
           <br />
           <TextField
+            required
             label="Write about this file"
             multiline
             rowsMax="5"
