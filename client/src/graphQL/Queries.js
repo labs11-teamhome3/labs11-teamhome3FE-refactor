@@ -35,9 +35,17 @@ export const FULL_DOCUMENT = gql`
 `;
 
 export const TEAM_QUERY = gql`
-  query TEAM_QUERY($id: ID!) {
+  query team($id: ID!) {
     team(id: $id) {
+      id
       teamName
+      premium
+      members {
+        id
+        name
+        role
+        profilePic
+      }
     }
   }
 `;

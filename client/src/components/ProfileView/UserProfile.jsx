@@ -256,8 +256,7 @@ const Form = props => {
           <Paper className={classes.userCard}>
             <AppBar
               position="static"
-              color="primary"
-              className={classes.cardAppBar}
+              className={[classes.cardAppBar, classes.redBar]}
               elevation="1"
             >
               <Toolbar>
