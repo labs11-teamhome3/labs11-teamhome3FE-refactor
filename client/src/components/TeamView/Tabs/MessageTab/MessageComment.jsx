@@ -86,6 +86,7 @@ const DELETE_COMMENT = gql`
 `
 
 const MessageComment = props => {
+  console.log('msg comment', props);
   const userId = localStorage.getItem('userId');
 
   const [deleteMessageComment] = useMutation(DELETE_COMMENT, {
@@ -158,7 +159,9 @@ const MessageComment = props => {
             <div className={classes.likes}>{props.comment.likes ? props.comment.likes.length : 0}</div>
             <ThumbDown className={classes.thumbs} onClick={unlikeMessageComment} /> 
           </div>
-          <DeleteIcon className={classes.delete} onClick={deleteMessageComment} />
+          {userId === props.comment.user.id &&
+           <DeleteIcon className={classes.delete} onClick={deleteMessageComment} />
+          }
         </div>
       </div>
     </div>
