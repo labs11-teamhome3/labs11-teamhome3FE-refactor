@@ -6,11 +6,13 @@ import Button from "@material-ui/core/Button";
 import EditIcon from "@material-ui/icons/EditOutlined"
 import Fab from "@material-ui/core/Fab"
 import DeleteIcon from "@material-ui/icons/Delete";
+import CancelIcon from "@material-ui/icons/Cancel";
 import TextField from '@material-ui/core/TextField';
 import AddIcon from "@material-ui/icons/Add";
 import Typography from "@material-ui/core/Typography"
 import StripePaymentPopup from "../../../Stripe/StripePaymentPopup";
 import { withStyles } from '@material-ui/core/styles'
+import ClickAwayListener from '@material-ui/core/ClickAwayListener';
 
 /// css ///
 import './css/TeamSettings.css'
@@ -91,7 +93,7 @@ const TeamInfo = props => {
                       <Typography component='h2' className="team-name">{props.team.teamName}</Typography>
                   }
                   {!showInput && props.userRole === "ADMIN" &&
-                      <Fab onClick={() => setInput(true)} size="small" variant="extended" color="default" aria-label="Edit">
+                      <Fab onClick={() => setInput(true)} size="small" variant="round" color="default" aria-label="Edit">
                           <EditIcon />
                       </Fab>
                   }
@@ -99,16 +101,19 @@ const TeamInfo = props => {
                     <form onSubmit={handleTeamSubmit}>
                         <TextField
                           required
+                          inputProps= {{
+                            maxlength: 20
+                          }}
                           type="text"
                           placeholder={props.team.teamName}
                           value={newTeamName}
                           onChange={handleNameChange}
                           />
-                        <Fab type="submit" color="primary" size="small" aria-label="Add">
-                          <AddIcon />
+                        <Fab type="submit" color="default" variant="round" size="small" aria-label="Add">
+                          <EditIcon />
                         </Fab>
-                        <Fab onClick={handleCancel} color="secondary" size="small" aria-label="Cancel">
-                          <DeleteIcon />
+                        <Fab onClick={handleCancel} color="default" size="small" aria-label="Cancel">
+                          <CancelIcon />
                         </Fab>
                     </form>
                   }  

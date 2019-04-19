@@ -35,9 +35,17 @@ export const FULL_DOCUMENT = gql`
 `;
 
 export const TEAM_QUERY = gql`
-  query TEAM_QUERY($id: ID!) {
+  query team($id: ID!) {
     team(id: $id) {
+      id
       teamName
+      premium
+      members {
+        id
+        name
+        role
+        profilePic
+      }
     }
   }
 `;
@@ -94,17 +102,26 @@ export const USERS_QUERY = gql`
       email
       phone
       profilePic
+      role
       inTeam {
         id
         teamName
+        premium
       }
       events {
-        action_string
         id
         team {
-          teamName
           id
+          teamName
         }
+        createdAt
+        # user {
+        #   id
+        #   name
+        #   profilePic
+        # }
+        action_string
+        object_string
       }
       todoListsOwned {
         description
@@ -387,6 +404,51 @@ query FOLDER_QUERY($id: ID!) {
             name
           }
         } 
+      }
+    }
+  }
+`;
+
+export const CURRENT_USER_QUERY = gql`
+  query CURRENT_USER_QUERY($id: ID!) {
+    user(id: $id) {
+      email
+      events {
+        id
+        createdAt
+        # user {
+        #   id
+        #   name
+        #   profilePic
+        # }
+        action_string
+        object_string
+        team {
+          id
+          teamName
+        }
+      }
+      id
+      name
+      phone
+      profilePic
+      role
+      inTeam {
+        id
+        teamName
+        premium
+      }
+      todoListsOwned {
+        description
+        inTeam {
+          teamName
+        }
+      }
+      todoListsAssigned{
+        description
+        inTeam {
+          teamName
+        }
       }
     }
   }

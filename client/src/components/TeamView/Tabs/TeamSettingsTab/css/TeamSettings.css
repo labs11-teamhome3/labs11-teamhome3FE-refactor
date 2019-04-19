@@ -5,6 +5,8 @@
 
 .team-settings {
     width: 50%;
+    border-left: 1px solid gray;
+    padding-left: 20px;
 }
 
 @media (min-width: 1200px) {
@@ -128,6 +130,11 @@
     width: 300px;
     overflow-y: auto;
     margin-right: 30px;
+    margin-top: 7px;
+}
+
+.add-team-member-or-cancel {
+    width: 100%;
 }
 
 .add-user h2 {
@@ -189,10 +196,11 @@
 }
 
 .name-edit {
-    width: 70%;
+    width: 100%;
     display: flex;
     flex-wrap: wrap;
     align-items: baseline;
+    margin-bottom: 20px;
 }
 
 .name-edit button {

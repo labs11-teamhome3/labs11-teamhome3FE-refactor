@@ -6,6 +6,7 @@ import Button from '@material-ui/core/Button';
 import AddIcon from '@material-ui/icons/Add';
 import Divider from '@material-ui/core/Divider';
 import DeleteIcon from '@material-ui/icons/Delete';
+import CancelIcon from '@material-ui/icons/Cancel';
 import TextField from '@material-ui/core/TextField';
 import { useMutation } from '../../graphQL/useMutation';
 import Loader from 'react-loader-spinner';
@@ -16,7 +17,7 @@ import TeamCard from './TeamCard';
 import StripePaymentPopup from '../Stripe/StripePaymentPopup';
 
 ////Queries////
-import { TEAMS_QUERY } from '../../graphQL/Queries';
+import { TEAMS_QUERY, CURRENT_USER_QUERY } from '../../graphQL/Queries';
 
 /////css////
 import './TeamList.css';
@@ -29,21 +30,6 @@ const CREATE_TEAM = gql`
       members {
         id
         name
-      }
-    }
-  }
-`;
-
-const CURRENT_USER_QUERY = gql`
-  query CURRENT_USER_QUERY($id: ID!) {
-    user(id: $id) {
-      id
-      name
-      role
-      inTeam {
-        id
-        teamName
-        premium
       }
     }
   }
@@ -161,6 +147,9 @@ const TeamList = props => {
             <TextField
               className="nt-textfield"
               required
+              inputProps={{
+                maxLength: 20
+              }}
               type="text"
               placeholder="new team name..."
               value={teamInput}
@@ -171,11 +160,11 @@ const TeamList = props => {
             </Fab>
             <Fab
               onClick={cancelAddTeam}
-              color="secondary"
+              color="default"
               size="small"
               aria-label="Cancel"
             >
-              <DeleteIcon onClick={cancelAddTeam} />
+              <CancelIcon />
             </Fab>
           </form>
         )}

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useQuery } from 'react-apollo-hooks';
-import { withStyles } from '@material-ui/core/styles';
+import { withStyles, withTheme } from '@material-ui/core/styles';
 
 ////Components////
 import ObjectDropdown from './ObjectDropdown';
@@ -30,6 +30,11 @@ const styles = theme => ({
   button: {
     width: '100%',
   },
+  MenuItem: {
+    '&hover': {
+      background: 'white'
+    }
+  }
 });
 
 const ActivityTimeline = props => {
@@ -78,64 +83,49 @@ const ActivityTimeline = props => {
     <div className="activity-timeline">
       <div className="at-title">
         <Typography component="h2">Activity</Typography>
-        <IconButton
-          aria-label="More"
-          aria-haspopup="true"
-          ara-owns={open ? 'long-menu' : undefined}
-          onClick={handleClick}
-        >
-          <MoreVert className="more-vert" />
-        </IconButton>
-        {/* {open && 
-            <Paper className={classes.paper}>
-              <Button className={classes.button}>
-                <div className="dropdowns">
-                  <ObjectDropdown 
-                    allEvents={allEvents} 
-                    setAllEvents={setAllEvents} 
-                    setFilteredEvents={setFilteredEvents}
-                    setOpen={setOpen}
-                  />
-                  <UserDropdown 
-                    allEvents={allEvents} 
-                    teamId={props.teamId} 
-                    setAllEvents={setAllEvents} 
-                    setFilteredEvents={setFilteredEvents}
-                    setOpen={setOpen}
-                  />
-                </div>
-              </Button>
-            </Paper>
-          } */}
-        <Menu
-          id="long-menu"
-          anchorEl={anchorEl}
-          open={open}
-          onClose={handleClose}
-          PaperProps={{
-            style: {
-              width: 300,
-            },
-          }}
-        >
-          <MenuItem key="obj-dropdown">
-            <ObjectDropdown
-              allEvents={allEvents}
-              setAllEvents={setAllEvents}
-              setFilteredEvents={setFilteredEvents}
-              setAnchorEl={setAnchorEl}
-            />
-          </MenuItem>
-          <MenuItem key="user-dropdown">
-            <UserDropdown
-              allEvents={allEvents}
-              teamId={props.teamId}
-              setAllEvents={setAllEvents}
-              setFilteredEvents={setFilteredEvents}
-              setAnchorEl={setAnchorEl}
-            />
-          </MenuItem>
-        </Menu>
+        <div className="filters">
+          {filteredEvents !== allEvents &&
+            <Button variant="outlined" onClick={() => setFilteredEvents(allEvents)} component="h3">Show All</Button>
+          }
+          <IconButton
+            aria-label="More"
+            aria-haspopup="true"
+            ara-owns={open ? 'long-menu' : undefined}
+            onClick={handleClick}
+          >
+            <MoreVert className="more-vert" />
+          </IconButton>
+          <Menu
+            id="long-menu"
+            className={classes.menuItem}
+            anchorEl={anchorEl}
+            open={open}
+            onClose={handleClose}
+            PaperProps={{
+              style: {
+                width: 300,
+              },
+            }}
+          >
+            <MenuItem key="obj-dropdown">
+              <ObjectDropdown
+                allEvents={allEvents}
+                setAllEvents={setAllEvents}
+                setFilteredEvents={setFilteredEvents}
+                setAnchorEl={setAnchorEl}
+              />
+            </MenuItem>
+            <MenuItem key="user-dropdown">
+              <UserDropdown
+                allEvents={allEvents}
+                teamId={props.teamId}
+                setAllEvents={setAllEvents}
+                setFilteredEvents={setFilteredEvents}
+                setAnchorEl={setAnchorEl}
+              />
+            </MenuItem>
+          </Menu>
+        </div>
       </div>
       {/* <ViewEventModal status={status} toggleModal={toggleModal} /> */}
       <div className="at-events">

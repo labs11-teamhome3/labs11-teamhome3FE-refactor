@@ -15,6 +15,7 @@ import Divider from '@material-ui/core/Divider';
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
+import CloseIcon from '@material-ui/icons/Close';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 
 // components //
@@ -107,15 +108,6 @@ const styles = theme => ({
   },
 });
 
-const PIC_QUERY = gql`
-  query PIC_QUERY($id: ID!) {
-    user(id: $id) {
-      id
-      profilePic
-    }
-  }
-`
-
 const PersistentDrawerLeft = props => {
   const userId = localStorage.getItem('userId')
 
@@ -125,10 +117,6 @@ const PersistentDrawerLeft = props => {
   useEffect( _ => {
     createEvent();
   }, [msg])
-
-  const picQuery = useQuery(PIC_QUERY, {
-    variables: { id: userId }
-  })
 
   const [createEvent] = useMutation(CREATE_EVENT, {
     update: (cache, { data }) => {
@@ -224,7 +212,7 @@ const PersistentDrawerLeft = props => {
         >
           <div className={classes.drawerHeader}>
             <IconButton onClick={handleDrawerClose}>
-              {theme.direction === 'ltr' ? <ChevronLeftIcon /> : <ChevronRightIcon />}
+              {theme.direction === 'ltr' ? <CloseIcon /> : <ChevronRightIcon />}
             </IconButton>
           </div>
           <Divider />
