@@ -267,7 +267,7 @@ const Form = props => {
                     />
                   
                 ) : (
-                  <Tooltip title="Add to receive text notifications" placement="right-end">
+                  <Tooltip title={user.phone ? "Edit phone number" : "Add to receive text notifications"} placement="right-end">
                     <Typography
                       variant="h6"
                       gutterBottom
@@ -287,7 +287,7 @@ const Form = props => {
                     fullWidth
                   />
                 ) : (
-                  <Tooltip title="Add to receive email notifications" placement="right-end">
+                  <Tooltip title={user.email ? "Edit email address" : "Add to receive email notifications"} placement="right-end">
                     <Typography
                       variant="h6"
                       gutterBottom
