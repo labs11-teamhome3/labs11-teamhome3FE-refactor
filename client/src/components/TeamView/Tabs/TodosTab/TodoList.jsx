@@ -50,7 +50,7 @@ const styles = theme => ({
   },
   spacers: {
     width: "25%",
-    padding: "0 5px",
+    padding: "0 10px 0 0",
     [theme.breakpoints.down("md")]: {
       width: "300px"
     }
