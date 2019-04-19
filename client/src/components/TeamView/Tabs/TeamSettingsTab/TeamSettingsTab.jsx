@@ -15,7 +15,7 @@ import { withStyles } from '@material-ui/core/styles'
 
 
 ////Queries////
-import { TEAMS_QUERY, USERS_QUERY } from "../../../../graphQL/Queries";
+import { TEAMS_QUERY, USERS_QUERY, TEAM_QUERY } from "../../../../graphQL/Queries";
 import { useQuery } from "react-apollo-hooks";
 
 /// css ///
@@ -29,21 +29,7 @@ const DELETE_TEAM = gql`
   }
 `;
 
-const TEAM_QUERY = gql`
-  query team($id: ID!) {
-    team(id: $id) {
-      id
-      teamName
-      premium
-      members {
-        id
-        name
-        role
-        profilePic
-      }
-    }
-  }
-`;
+
 
 const CURRENT_USER_QUERY = gql`
   query CURRENT_USER_QUERY($id: ID!) {

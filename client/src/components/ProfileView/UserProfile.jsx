@@ -112,65 +112,71 @@ const EDIT_USER = gql`
   }
 `;
 
-const styles = theme => ({
-  root: {},
-  listPaper: {
-    overflow: "hidden",
-    paddingBottom: "10px"
-  },
-  listTeamsPaper: {
-    height: "279px",
-    width: "50%",
-    margin: "0 12px 0px 6px",
-    overflow: "hidden"
-  },
-  tabHeaders: {
-    textAlign: "left"
-  },
-  userSettingInput: {
-    marginBottom: "10px"
-  },
-  userCard: {
-    // padding: "0px 60px 20px 60px",
-    position: "relative",
-    margin: "0 6px 0px 12px",
-    width: "50%",
-    overflow: "hidden",
-    maxHeight: "279px"
-  },
-  userCardFlex: {
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "space-evenly",
-    padding: "0px 60px 20px 60px",
-    marginTop: "20px",
-    minWidth: "726px"
-  },
-  userInfoIcons: {
-    position: "relative",
-    top: "5px"
-  },
-  userInfoTypog: {
-    cursor: "pointer",
-    "&:hover svg": {
-      opacity: "1"
+const styles = theme => {
+  console.log(theme.palette.test);
+  return {
+    root: {},
+    listPaper: {
+      overflow: "hidden",
+      paddingBottom: "10px"
+    },
+    listTeamsPaper: {
+      height: "279px",
+      width: "50%",
+      margin: "0 12px 0px 6px",
+      overflow: "hidden"
+    },
+    tabHeaders: {
+      textAlign: "left"
+    },
+    userSettingInput: {
+      marginBottom: "10px"
+    },
+    userCard: {
+      // padding: "0px 60px 20px 60px",
+      position: "relative",
+      margin: "0 6px 0px 12px",
+      width: "50%",
+      overflow: "hidden",
+      maxHeight: "279px"
+    },
+    userCardFlex: {
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "space-evenly",
+      padding: "0px 60px 20px 60px",
+      marginTop: "20px",
+      minWidth: "726px"
+    },
+    userInfoIcons: {
+      position: "relative",
+      top: "5px"
+    },
+    userInfoTypog: {
+      cursor: "pointer",
+      "&:hover svg": {
+        opacity: "1"
+      }
+    },
+    myTeamsList: {
+      maxHeight: "210px",
+      overflow: "auto"
+    },
+    pencils: {
+      opacity: "0",
+      transition: "opacity 0.2s ease"
+    },
+    cardAppBar: {},
+    tabNav: {},
+    tabNavCont: {
+      margin: "50px 12px 0px 12px",
+      overflow: "hidden"
+    },
+    redBar: {
+      border: "4px solid red"
     }
-  },
-  myTeamsList: {
-    maxHeight: "210px",
-    overflow: "auto"
-  },
-  pencils: {
-    opacity: "0",
-    transition: "opacity 0.2s ease"
-  },
-  cardAppBar: {},
-  tabNav: {},
-  tabNavCont: {
-    margin: "50px 12px 0px 12px",
-    overflow: "hidden"
-  }
-});
+  };
+};
 
 const Form = props => {
   const { classes } = props;
@@ -230,8 +236,7 @@ const Form = props => {
           <Paper className={classes.userCard}>
             <AppBar
               position="static"
-              color="primary"
-              className={classes.cardAppBar}
+              className={[classes.cardAppBar, classes.redBar]}
               elevation="1"
             >
               <Toolbar>
