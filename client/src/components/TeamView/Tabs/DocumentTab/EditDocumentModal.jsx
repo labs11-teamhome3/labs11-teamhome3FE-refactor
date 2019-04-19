@@ -16,7 +16,7 @@ import {UPDATE_DOCUMENT} from '../../../../graphQL/Mutations';
 const styles = theme => ({
   paper: {
     position: 'relative',
-    top: '24%',
+    top: '15%',
     'max-width': '600px',
     margin: '0 auto',
     'text-align': 'left',

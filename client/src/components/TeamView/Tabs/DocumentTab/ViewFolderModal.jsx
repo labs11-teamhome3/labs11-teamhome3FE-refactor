@@ -20,7 +20,7 @@ import { FOLDERS_QUERY, FOLDER_QUERY } from '../../../../graphQL/Queries';
 const styles = theme => ({
   paper: {
     position: 'relative',
-    top: '24%',
+    top: '15%',
     'max-width': '600px',
     margin: '0 auto',
     'text-align': 'left',
