@@ -33,7 +33,6 @@ import {ADD_DOCUMENT_FOLDER, UPDATE_FOLDER} from '../../../../graphQL/Mutations'
 const styles = theme => ({
   table: {
     minWidth: '400px',
-    overflow: 'auto',
     width: '100%',
   },
   input: {

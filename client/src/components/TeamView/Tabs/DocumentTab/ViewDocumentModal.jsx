@@ -143,9 +143,9 @@ const ViewDocumentModal = props => {
                     : `https://${document.doc_url}`
                 }
                 target="_blank"
-                style={{margin: '10px 5px'}}
+                style={{margin: '10px 5px', color: 'black'}}
               >
-                Link to document: {document.doc_url}
+                Link to document: <span style={{textDecoration: 'underline'}}>{document.doc_url}</span> 
               </a>
             )}
           </div>
