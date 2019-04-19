@@ -30,6 +30,7 @@ const styles = theme => ({
   },
   textField: {
     width: '70%',
+    margin: '10px 5px'
   },
   viewDocument: {
     display: 'flex',
@@ -94,6 +95,7 @@ const ViewDocumentModal = props => {
 
   const { classes } = props;
   const document = findDocument.data.findDocument;
+
   return (
     <div>
       <Modal
@@ -114,7 +116,7 @@ const ViewDocumentModal = props => {
                     color="#0984e3"
                   />
                 ) : (
-                  document.title
+                  <div style={{margin: '10px 5px'}}>Title: {document.title}</div>
                 )}
               </div>
             </div>
@@ -129,7 +131,7 @@ const ViewDocumentModal = props => {
                 color="#0984e3"
               />
             ) : (
-              document.textContent
+              <div style={{margin: '10px 5px'}}>{document.textContent}</div>
             )}
           </div>
           <div>
@@ -141,14 +143,14 @@ const ViewDocumentModal = props => {
                     : `https://${document.doc_url}`
                 }
                 target="_blank"
+                style={{margin: '10px 5px', color: 'black'}}
               >
-                {document.doc_url}
+                Link to document: <span style={{textDecoration: 'underline'}}>{document.doc_url}</span> 
               </a>
             )}
           </div>
           {document !== undefined && document.comments.length > 0 ? (
             <div>
-              <Typography component="h4">Comments</Typography>
               <List>
                 {document.comments.map((comment, index) => (
                   <Fragment key={comment.id}>

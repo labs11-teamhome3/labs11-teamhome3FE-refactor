@@ -14,7 +14,7 @@ import TextField from '@material-ui/core/TextField';
 import { withStyles } from '@material-ui/core/styles';
 
 ////Queries////
-import { TEAMS_QUERY, USERS_QUERY, CURRENT_USER_QUERY } from '../../../../graphQL/Queries';
+import { TEAMS_QUERY, USERS_QUERY, CURRENT_USER_QUERY, TEAM_QUERY } from '../../../../graphQL/Queries';
 import { useQuery } from 'react-apollo-hooks';
 
 /// css ///
@@ -29,21 +29,7 @@ const DELETE_TEAM = gql`
   }
 `;
 
-const TEAM_QUERY = gql`
-  query team($id: ID!) {
-    team(id: $id) {
-      id
-      teamName
-      premium
-      members {
-        id
-        name
-        role
-        profilePic
-      }
-    }
-  }
-`;
+
 
 const ADD_MEMBER = gql`
   mutation ADD_MEMBER($userId: ID!, $teamId: ID!) {

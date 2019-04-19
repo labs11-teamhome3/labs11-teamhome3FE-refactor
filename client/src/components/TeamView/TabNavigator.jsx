@@ -40,18 +40,18 @@ const TabNavigator = props => {
   const { classes } = props; 
   return (
     <div className={classes.root}>
-      <AppBar position="static" color="default">
+      <AppBar position="static" color='primary'>
         <Tabs
           value={tab}
           onChange={handleChange}
-          indicatorColor="primary"
-          textColor="primary"
+          indicatorColor="secondary"
+          textColor="secondary"
           variant="fullWidth"
         >
-          <Tab label="Messages" />
-          <Tab label="Documents" />
-          <Tab label="Todos" />
-          <Tab label="Settings" />
+          <Tab style={{color: '#ffffff'}} label="Messages" />
+          <Tab style={{color: '#ffffff'}} label="Documents" />
+          <Tab style={{color: '#ffffff'}} label="Todos" />
+          <Tab style={{color: '#ffffff'}} label="Settings" />
         </Tabs>
       </AppBar>
       <SwipeableViews axis="x" index={tab} onChangeIndex={handleChangeIndex}>

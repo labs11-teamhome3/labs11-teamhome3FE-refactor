@@ -60,7 +60,7 @@ const MoreMenuFolder = props => {
                 }
                 })
             }
-            });
+          });
         },
         variables: {
             folderId: props.folder.id
@@ -86,7 +86,7 @@ const MoreMenuFolder = props => {
             <MoreHoriz onClick={handleClick}/>
             {open ? (
               <Paper className={classes.paper}>
-                <Button className={classes.button} onClick={() => props.toggleModal('viewFolder', props.folder.id)}>View</Button>
+                {props.expandedStatus ? <Button className={classes.button} onClick={() => {props.setExpandedStatus(!props.expandedStatus); handleClickAway()}}>Close</Button> : <Button className={classes.button} onClick={() => props.setExpandedStatus(!props.expandedStatus)}>View</Button>}
                 <Button className={classes.button} onClick={editFolder}>Rename</Button>
                 <Button className={classes.button} onClick={deleteFolder}>Delete</Button>
               </Paper>

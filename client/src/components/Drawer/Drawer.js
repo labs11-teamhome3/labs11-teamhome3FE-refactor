@@ -17,6 +17,7 @@ import MenuIcon from '@material-ui/icons/Menu';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import CloseIcon from '@material-ui/icons/Close';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
+import Typography from '@material-ui/core/Typography';
 
 // components //
 import TabNavigator from '../../components/TeamView/TabNavigator'
@@ -35,17 +36,15 @@ const drawerWidth = 375;
 const styles = theme => ({
   root: {
     display: 'flex',
-    // misty blue
-    backgroundColor: '#DDE4E9',
-    
+    backgroundColor: '#ffffff',
   },
   appBar: {
     transition: theme.transitions.create(['margin', 'width'], {
       easing: theme.transitions.easing.sharp,
       duration: theme.transitions.duration.leavingScreen,
     }),
-    // golden slivers
-    backgroundColor: '#5862DF'
+    // slivers 
+    // backgroundColor: '#005b9f',
   },
   appBarShift: {
     width: `calc(100% - ${drawerWidth}px)`,
@@ -63,21 +62,20 @@ const styles = theme => ({
     display: 'none',
   },
   drawer: {
-    // purple slot
-    // backgroundColor: '#D3D4E4',
-    // misty blue slot
-    backgroundColor: '#DDE4E9',
+    // slot
     width: drawerWidth,
     height: '100vh',
     flexShrink: 0,
   },
   drawerPaper: {
     width: drawerWidth,
-    // purple top
-    backgroundColor: '#D3D4E4',
-    backgroundColor: '#95A5B7',
-    // misty blue top
-    // backgroundColor: '#DDE4E9',
+    '@media (max-width: 675px)': {
+      width: '100%',
+      maxWidth: '675px',
+      minWidth: '375px'
+    },
+    // top
+    backgroundColor: theme.palette.primary.dark,
     borderBottom: ' solid #5862DF 1px',
   },
   drawerHeader: {
@@ -86,7 +84,8 @@ const styles = theme => ({
     padding: '0 8px',
     ...theme.mixins.toolbar,
     justifyContent: 'flex-end',
-    height: '75px',
+    height: '74px',
+    minHeight: '74px'
   },
   content: {
     width: '30%',
@@ -106,6 +105,24 @@ const styles = theme => ({
     }),
     marginLeft: 0,
   },
+  closeIcon: {
+    color: '#ffffff'
+  },
+  icon: {
+    '&:hover': {
+      backgroundColor: theme.palette.primary.light
+    }
+  },
+  menu: {
+    '@media (max-width: 675px)': {
+      display: 'inline',
+      color: '#ffffff',
+      width: '100%',
+      textAlign: 'center',
+      fontSize: '1.9rem'
+    },
+    display: 'none'
+  }
 });
 
 const PersistentDrawerLeft = props => {
@@ -210,9 +227,10 @@ const PersistentDrawerLeft = props => {
             paper: classes.drawerPaper,
           }}
         >
-          <div className={classes.drawerHeader}>
-            <IconButton onClick={handleDrawerClose}>
-              {theme.direction === 'ltr' ? <CloseIcon /> : <ChevronRightIcon />}
+          <div className={classes.drawerHeader} style={{minHeight: '74px'}}>
+            <Typography component='h3' className={classes.menu}>Menu</Typography>
+            <IconButton className={classes.icon} onClick={handleDrawerClose}>
+              {theme.direction === 'ltr' ? <CloseIcon className={classes.closeIcon} /> : <ChevronRightIcon />}
             </IconButton>
           </div>
           <Divider />

@@ -3,23 +3,45 @@ import { CardElement, injectStripe } from "react-stripe-elements";
 import Button from "@material-ui/core/Button";
 import { useMutation } from "../../graphQL/useMutation";
 import gql from "graphql-tag";
+import Snackbar from '@material-ui/core/Snackbar';
+import IconButton from '@material-ui/core/IconButton';
+import CloseIcon from '@material-ui/icons/Close';
 
+// Queries //
+import {TEAM_QUERY, TEAMS_QUERY} from '../../graphQL/Queries';
 const UPGRADE = gql`
   mutation UPGRADE($teamId: ID!, $source: String!) {
     upgradeToPremium(teamId: $teamId, source: $source) {
       id
+      teamName
+      premium
+      members {
+        id
+        name
+        role
+        profilePic
+      }
     }
   }
 `;
 
 const CheckoutForm = props => {
+  console.log(props);
   const [payToken, setPayToken] = useState(null);
+  const [success, setSuccess] = useState(false);
+  const [snackbar, setSnackbar] = useState(false);
   let [upgrade] = useMutation(UPGRADE, {
     variables: {
       teamId: props.teamId,
       source: payToken
     },
-    onCompleted: data => alert("Payment Successfully Processed"),
+    onCompleted: data => {
+      // alert("Payment Successfully Processed")
+      showSB();
+      window.setTimeout(_ => {
+        window.location.reload();
+      }, 6000)
+    },
     onError: err => alert(err)
   });
   const submit = async e => {
@@ -36,6 +58,28 @@ const CheckoutForm = props => {
     },
     [payToken]
   );
+
+  useEffect(
+    _ => {
+      if(success) {
+
+      }
+    },
+    [success]
+  )
+
+  const showSB = () => {
+    setSnackbar(true);
+  }
+
+  const handleClose = (e, reason) => {
+    if(reason === 'clickaway') {
+      return;
+    }
+    
+    setSnackbar(false)
+  }
+
   return (
     <div className="checkout">
       <CardElement />
@@ -43,6 +87,31 @@ const CheckoutForm = props => {
       <Button variant="contained" color="primary" onClick={submit}>
         Submit Payment
       </Button>
+      <Snackbar
+          anchorOrigin={{
+            vertical: 'bottom',
+            horizontal: 'left',
+          }}
+          open={snackbar}
+          autoHideDuration={6000}
+          onClose={handleClose}
+          ContentProps={{
+            'aria-describedby': 'message-id',
+            'variant': 'success'
+          }}
+          variant="success"
+          message={<span id="message-id">Payment Successfully Processed</span>}
+          action={[
+            <IconButton
+              key="close"
+              aria-label="Close"
+              color="inherit"
+              onClick={handleClose}
+            >
+              <CloseIcon />
+            </IconButton>,
+          ]}
+        />
     </div>
   );
 };

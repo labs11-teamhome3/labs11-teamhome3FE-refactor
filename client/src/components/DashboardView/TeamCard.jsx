@@ -8,12 +8,12 @@ const styles = theme => ({
   root: {
     padding: '5px 0px',
     'margin-bottom': '15px',
-    background: '#55efc4',
+    background: theme.palette.secondary.main,
   },
   inactive: {
     padding: '5px 0px',
     'margin-bottom': '15px',
-    background: '#fab1a0'
+    background: theme.palette.primary.light
   }
 });
 

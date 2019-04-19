@@ -27,12 +27,12 @@ import Loader from 'react-loader-spinner';
 
 /////Queries/////
 import { DOCUMENTS_QUERY, FOLDERS_QUERY } from '../../../../graphQL/Queries';
-import { useMutation } from '../../../../graphQL/useMutation';
+import { useMutation } from "../../../../graphQL/useMutation";
+import {ADD_DOCUMENT_FOLDER, UPDATE_FOLDER} from '../../../../graphQL/Mutations';
 
 const styles = theme => ({
   table: {
     minWidth: '400px',
-    overflow: 'auto',
     width: '100%',
   },
   input: {
@@ -44,10 +44,10 @@ const DocumentTab = props => {
   const [droppedItem, setDroppedItem] = useState('');
   const [sortStatus, setSortStatus] = useState(false);
 
-  function onDrop(item) {
-    setDroppedItem(item);
-    folders.refetch();
-  }
+  // function onDrop(item) {
+  //   setDroppedItem(item);
+  //   folders.refetch();
+  // }
 
   function newSort() {
     //new to old sort
@@ -136,15 +136,94 @@ const DocumentTab = props => {
     }
   };
 
-    const matches = useMediaQuery('(min-width:700px)');
+  const [documentId, setDocumentId] = useState('');
+  const [folderId, setFolderId] = useState('')
 
-    const {classes} = props; 
-    return (
+  const [addDocumentToFolder] = useMutation(ADD_DOCUMENT_FOLDER, {
+  update: (cache, { data }) => {
+    const {findDocumentsByTeam} = cache.readQuery({
+      query: DOCUMENTS_QUERY,
+      variables: { teamId: props.teamId },
+    });
+    cache.writeQuery({
+      query: DOCUMENTS_QUERY,
+      variables: { teamId: props.teamId },
+      data: { 
+        findDocumentsByTeam: findDocumentsByTeam.map(document => {
+          if(document.id === documentId) {
+            return data.addDocumentToFolder
+          } else {
+            return document
+          }
+        })
+        },
+    });
+    const { findFoldersByTeam } = cache.readQuery({
+      query: FOLDERS_QUERY,
+      variables: { teamId: props.teamId }
+      });
+      cache.writeQuery({
+      query: FOLDERS_QUERY,
+      variables: { teamId: props.teamId },
+      data: {
+        findFoldersByTeam: findFoldersByTeam.map(folder => {
+          if(folder.id === folderId) {
+            return {...folder, documents: [...folder.documents, data.addDocumentToFolder]}
+          } else {
+            return folder
+          }
+        })
+      }
+    });
+  },
+  variables: {
+    folderId,
+    documentId
+  },
+  onCompleted: e => {
+    props.setMsg('added document to folder')
+    setDocumentId('')
+    setFolderId('')
+  },
+  onError: err => console.log(err)
+});
+
+
+
+  const handleDoc = async (file, id) => {
+    if(file === 'f') {
+      await setFolderId(id)
+    } 
+    if(file === 'd') {
+      await setDocumentId(id)
+    }
+    //dropTheDoc()
+
+  }
+
+  const dropTheDoc = () => {
+    if(folderId && documentId) {
+      addDocumentToFolder()
+    } else {
+      console.log('not ready')
+    }
+  }
+
+  useEffect(() => {
+    if(folderId && documentId) {
+      addDocumentToFolder()
+    }
+  }, [folderId && documentId])
+
+  const matches = useMediaQuery('(min-width:700px)');
+
+  const {classes} = props; 
+  return (
       <div>
         <div>
           <div style={{display:'flex', justifyContent:'start'}}>
-            <Button variant="outlined" color='primary' style={{marginRight: '17px'}} onClick={() => toggleModal('createFolder')}>Create Folder</Button>
-            <Button variant="contained" color='primary'  onClick={() => toggleModal('create')}>Create File</Button>
+            <Button variant="contained" color='primary' style={{marginRight: '17px'}}  onClick={() => toggleModal('create')}>Create File</Button>
+            <Button variant="outlined" color='primary'  onClick={() => toggleModal('createFolder')}>Create Folder</Button>
           </div>
           <Table className={classes.table}>
             <TableHead>
@@ -167,13 +246,14 @@ const DocumentTab = props => {
             ) : (
               folders.data.findFoldersByTeam.map(folder => (
                 <Folder
+                  handleDoc={handleDoc}
                   matches={matches}
                   refetch={folders.refetch}
                   refetchDocs={documents.refetch}
                   setDroppedItem={setDroppedItem}
                   droppedItem={droppedItem}
                   setMsg={props.setMsg}
-                  onDrop={onDrop}
+                  //onDrop={onDrop}
                   folder={folder}
                   key={folder.id}
                   toggleModal={toggleModal}
@@ -187,6 +267,7 @@ const DocumentTab = props => {
               documents.data.findDocumentsByTeam.filter(document => !document.folder)
               .map(document => (
                 <Document
+                  handleDoc={handleDoc}
                   matches={matches}
                   teamId={props.teamId}
                   document={document}

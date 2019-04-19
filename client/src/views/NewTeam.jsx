@@ -1,13 +1,9 @@
 import React, {useState } from 'react'
-// import TeamList from '../components/DashboardView/TeamList'
 import gql from "graphql-tag";
 import { useMutation } from '../graphQL/useMutation';
 import Fab from "@material-ui/core/Fab";
-// import Button from "@material-ui/core/Button"
 import AddIcon from "@material-ui/icons/Add";
 import TextField from '@material-ui/core/TextField';
-import styled from 'styled-components';
-import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 
 // components //
@@ -19,22 +15,6 @@ import { TEAMS_QUERY } from "../graphQL/Queries";
 /// css ///
 import './css/NewTeam.css'
 
-const StyledDiv = styled.div`{
-  // border: solid red 2px;
-  // box-shadow: 0 1px 1px 0 gray, 0 1px 10px 0 #507F43;
-  border-radius: 50%;
-  width: 650px;
-  height: 650px;
-  display: flex;
-  justify-content: center;
-  img {
-    width: 500px;
-    height: 500px;
-    margin-top: 12.5%
-
-
-  }
-}`
 const styles = {
   height: 100,
   width: 800,
@@ -95,14 +75,11 @@ const NewTeam = props => {
         <div>
             <NavigationView auth={props.auth}/>
             <div className="new-team">
-              <div className="nt-content">
-              {/* <StyledDiv>
-                <img className="nt-image" src='https://www.netcenter.net/sites/default/files/collaboration_inforgraphic.png' alt="collaboration" />
-              </StyledDiv> */}
-                <Typography component='h2'>
-                  Manaje is all about helping you collaborate with your teams.  Create your first team below and begin manaje-ing.
-                </Typography>
-              </div>
+                <div className="nt-content">
+                  <Typography component='h2'>
+                    Manaje is all about helping you collaborate with your teams.  Create your first team below and begin manaje-ing.
+                  </Typography>
+                </div>
                 <div className="nt-form">
                   <form onSubmit={createFirstTeam}>
                       <TextField
