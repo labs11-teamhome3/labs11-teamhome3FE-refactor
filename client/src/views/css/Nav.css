@@ -23,14 +23,26 @@ a {
     justify-content: flex-end;
     /* margin-right: 20px; */
     padding-right: 20px;
-    min-width: 201px;
+    min-width: 201px; 
+    /* width: 95%; */
+}
+
+.name {
+    width: 79%;
+    display: flex;
+    justify-content: flex-start;
+    padding-right: 50px;
 }
 
 .nav-btns button {
     color: white;
     font-size: 1.2rem;
     margin-left: 15px; 
-    
+}
+
+#name {
+    display: flex;
+    font-size: 1.5rem;
 }
 
 .nav-btns button:hover {

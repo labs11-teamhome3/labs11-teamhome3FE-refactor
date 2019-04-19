@@ -30,7 +30,7 @@ const TopContent = styled.div`
 
 // Top Text Wrapper
 const TopContentText = styled.div`{
-  margin-top: 6%;
+  margin-top: 12%;
   height: 100%;
     h1 {
       display: flex;
@@ -40,7 +40,6 @@ const TopContentText = styled.div`{
     }
     p {
       font-size: 1.5rem;
-      margin-top: 5%;
       span {
         font-size: 3rem;
         color: #263238;
@@ -70,7 +69,7 @@ const CardsDiv = styled.div`
 const styles = {
   card: {
     width: '300px',
-    height: '350px',
+    height: '250px',
     margin: '0 auto',
     background: 'white',
     boxShadow: '0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);',
@@ -98,7 +97,6 @@ const LandingView = props => {
           <Typography component="h1"> Collaborate. </Typography>
           <Typography component="p">No more missed conversations. </Typography>
           <Typography component="p">No more missed opportunities. </Typography>
-          <Typography component="p"> <span>Manaje is Here.</span> </Typography>
         </TopContentText>
 
         <img
@@ -154,7 +152,7 @@ const LandingView = props => {
                 Manaje can incorporate a wide range workplace environments.{' '}
               </Typography>
               <Typography component="p">
-                Collegues half-way across the world? Not to worry, our help
+                Colleagues half-way across the world? Not to worry, our help
                 staff are here for you, 24/7.
               </Typography>
             </div>
