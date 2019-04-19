@@ -56,8 +56,10 @@ const TopContentText = styled.div`{
       flex-direction: row;
       font-size: 2.5rem;
       font-weight: 900px;
+      color: #0093c4
     }
     p {
+      text-align: left;
       font-size: 1.5rem;
       span {
         font-size: 3rem;
@@ -76,16 +78,21 @@ const TopContentText = styled.div`{
 // Cards Wrapper
 const CardsDiv = styled.div`
   display: flex;
+  flex-wrap: wrap;
   justify-content: space-around;
-  align-items: center;
   background-color: #263238;
   margin-top: 50px;
   width: 100%;
-  height: 500px;
   margin: 0 auto;
     h2 {
-      font-size: 1.5rem;
-      margin-bottom: 30px;
+      font-size: 2rem;
+      margin-bottom: 20px;
+      color: #0093c4;
+    },
+    p {
+      text-align: left;
+      font-size: 1.1rem;
+      padding-bottom: 30px;
     }
     @media(max-width: 800px) {
       flex-direction: column;
@@ -103,8 +110,8 @@ const CardsDiv = styled.div`
 const styles = {
   card: {
     width: '300px',
-    height: '250px',
-    margin: '0 auto',
+    height: '300px',
+    margin: '50px 1%',
     background: 'white',
     boxShadow: '0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);',
   },
