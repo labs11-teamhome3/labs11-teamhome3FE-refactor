@@ -103,6 +103,10 @@ export const USERS_QUERY = gql`
       events {
         id
         createdAt
+        team {
+          teamName
+          id
+        }
         user {
           id
           name
