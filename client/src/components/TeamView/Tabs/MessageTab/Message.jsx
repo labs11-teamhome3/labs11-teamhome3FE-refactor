@@ -185,7 +185,7 @@ const Message = props => {
           <div className={classes.contentTitle}>
               <div className={classes.name}>{user.name}</div>
               <div className={classes.time}>{moment(props.message.createdAt).startOf('minute').fromNow()}</div>
-              {menuStatus ? (
+              {menuStatus && userId === props.message.creator.id ? (
                 <MoreMenu
                   teamId={props.teamId}
                   message={props.message}
