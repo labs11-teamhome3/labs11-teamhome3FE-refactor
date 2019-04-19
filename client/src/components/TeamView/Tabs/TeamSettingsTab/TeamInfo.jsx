@@ -11,6 +11,7 @@ import AddIcon from "@material-ui/icons/Add";
 import Typography from "@material-ui/core/Typography"
 import StripePaymentPopup from "../../../Stripe/StripePaymentPopup";
 import { withStyles } from '@material-ui/core/styles'
+import ClickAwayListener from '@material-ui/core/ClickAwayListener';
 
 /// css ///
 import './css/TeamSettings.css'

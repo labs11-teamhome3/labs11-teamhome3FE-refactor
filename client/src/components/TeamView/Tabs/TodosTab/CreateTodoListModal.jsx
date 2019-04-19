@@ -128,6 +128,9 @@ const CreateTodoListModal = props => {
           <form onSubmit={createTodoPD}>
             <TextField
               required
+              inputProps={{
+                maxLength: 20
+              }}
               value={todoListTitle}
               onChange={handleChange}
               name="title"
