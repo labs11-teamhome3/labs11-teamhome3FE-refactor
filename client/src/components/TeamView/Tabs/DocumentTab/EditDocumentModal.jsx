@@ -111,19 +111,19 @@ const EditDocumentModal = props => {
             <Close onClick={closeModal} />
           </div>
           <br />
-          <TextField 
-            value={messageInfo.doc_url}
-            onChange={handleChange}
-            name="doc_url"
-            placeholder="Document URL"
-            className={classes.textField}
-          />
-          <br />
           <TextField
             value={messageInfo.title}
             onChange={handleChange}
             name="title"
             placeholder="Message Title"
+            className={classes.textField}
+          />
+          <br />
+          <TextField 
+            value={messageInfo.doc_url}
+            onChange={handleChange}
+            name="doc_url"
+            placeholder="Document URL"
             className={classes.textField}
           />
           <br />
