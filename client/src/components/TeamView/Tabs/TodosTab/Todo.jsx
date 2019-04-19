@@ -28,7 +28,7 @@ const styles = theme => ({
     width: "100%"
   },
   listItem: {
-    width: "100%"
+    width: "100%",
   }
 });
 
