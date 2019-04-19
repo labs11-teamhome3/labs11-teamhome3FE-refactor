@@ -17,6 +17,7 @@ import MenuIcon from '@material-ui/icons/Menu';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import CloseIcon from '@material-ui/icons/Close';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
+import Typography from '@material-ui/core/Typography';
 
 // components //
 import TabNavigator from '../../components/TeamView/TabNavigator'
@@ -115,6 +116,16 @@ const styles = theme => ({
     '&:hover': {
       backgroundColor: theme.palette.primary.light
     }
+  },
+  menu: {
+    '@media (max-width: 675px)': {
+      display: 'inline',
+      color: '#ffffff',
+      width: '100%',
+      textAlign: 'center',
+      fontSize: '1.9rem'
+    },
+    display: 'none'
   }
 });
 
@@ -221,6 +232,7 @@ const PersistentDrawerLeft = props => {
           }}
         >
           <div className={classes.drawerHeader}>
+            <Typography component='h3' className={classes.menu}>Menu</Typography>
             <IconButton className={classes.icon} onClick={handleDrawerClose}>
               {theme.direction === 'ltr' ? <CloseIcon className={classes.closeIcon} /> : <ChevronRightIcon />}
             </IconButton>
