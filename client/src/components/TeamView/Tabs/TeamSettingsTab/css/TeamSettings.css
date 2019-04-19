@@ -128,6 +128,11 @@
     width: 300px;
     overflow-y: auto;
     margin-right: 30px;
+    margin-top: 66px;
+}
+
+.add-team-member-or-cancel {
+    width: 100%;
 }
 
 .add-user h2 {
@@ -189,10 +194,11 @@
 }
 
 .name-edit {
-    width: 70%;
+    width: 100%;
     display: flex;
     flex-wrap: wrap;
     align-items: baseline;
+    margin-bottom: 20px;
 }
 
 .name-edit button {
