@@ -81,8 +81,10 @@ const CardsDiv = styled.div`
   flex-wrap: wrap;
   justify-content: space-around;
   background-color: #263238;
+  align-items: center;
   margin-top: 50px;
   width: 100%;
+  height: 480px;
   margin: 0 auto;
     h2 {
       font-size: 2rem;
@@ -95,13 +97,16 @@ const CardsDiv = styled.div`
       padding-bottom: 30px;
     }
     @media(max-width: 800px) {
-      flex-direction: column;
+      flex-direction: row;
       margin-top: 10%;
-      height: 800px;
+      height: 1200px;
+      border: solid red 2px
     }
 
     @media(max-width: 920px) {
       margin-top: 10%;
+      flex-direction: row;
+      border: solid red 2px
    }
 `;
 
