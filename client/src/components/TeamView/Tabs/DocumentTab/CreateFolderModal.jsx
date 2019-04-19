@@ -15,13 +15,13 @@ const styles = theme => ({
   paper: {
     position: 'relative',
     top: '15%',
-    'max-width': '600px',
+    'max-width': '450px',
     margin: '0 auto',
     'text-align': 'left',
     padding: '30px',
   },
   textField: {
-    width: '30%'
+    width: '40%'
   },
   createFolder: {
     display: 'flex',
