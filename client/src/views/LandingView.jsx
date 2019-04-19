@@ -100,13 +100,12 @@ const CardsDiv = styled.div`
       flex-direction: row;
       margin-top: 10%;
       height: 1200px;
-      border: solid red 2px
     }
 
     @media(max-width: 920px) {
       margin-top: 10%;
       flex-direction: row;
-      border: solid red 2px
+      height: 1200px;
    }
 `;
 
