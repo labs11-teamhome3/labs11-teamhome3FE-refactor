@@ -59,3 +59,5 @@ const StripePaymentPopup = props => {
 };
 
 export default StripePaymentPopup;
+
+// THIS VERSION WORKS
