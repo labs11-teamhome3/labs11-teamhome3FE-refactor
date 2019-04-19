@@ -257,23 +257,27 @@ const Form = props => {
                   </Typography>
                 )}
                 {editPhone ? (
-                  <TextField
-                    onChange={e => setUser({ ...user, phone: e.target.value })}
-                    value={user.phone}
-                    // label="Phone"
-                    className={classes.userSettingInput}
-                    fullWidth
-                  />
+                  
+                    <TextField
+                      onChange={e => setUser({ ...user, phone: e.target.value })}
+                      value={user.phone}
+                      // label="Phone"
+                      className={classes.userSettingInput}
+                      fullWidth
+                    />
+                  
                 ) : (
-                  <Typography
-                    variant="h6"
-                    gutterBottom
-                    onClick={_ => setEditPhone(true)}
-                    className={classes.userInfoTypog}
-                  >
-                    <Phone className={classes.userInfoIcons} />
-                    {user.phone} <Pencil className={classes.pencils} />
-                  </Typography>
+                  <Tooltip title="Add to receive text notifications" placement="right-end">
+                    <Typography
+                      variant="h6"
+                      gutterBottom
+                      onClick={_ => setEditPhone(true)}
+                      className={classes.userInfoTypog}
+                    >
+                      <Phone className={classes.userInfoIcons} />
+                      {user.phone} <Pencil className={classes.pencils} />
+                    </Typography>
+                  </Tooltip>
                 )}
                 {editEmail ? (
                   <TextField
@@ -283,15 +287,17 @@ const Form = props => {
                     fullWidth
                   />
                 ) : (
-                  <Typography
-                    variant="h6"
-                    gutterBottom
-                    onClick={_ => setEditEmail(true)}
-                    className={classes.userInfoTypog}
-                  >
-                    <Email className={classes.userInfoIcons} /> {user.email}{' '}
-                    <Pencil className={classes.pencils} />
-                  </Typography>
+                  <Tooltip title="Add to receive email notifications" placement="right-end">
+                    <Typography
+                      variant="h6"
+                      gutterBottom
+                      onClick={_ => setEditEmail(true)}
+                      className={classes.userInfoTypog}
+                    >
+                      <Email className={classes.userInfoIcons} /> {user.email}{' '}
+                      <Pencil className={classes.pencils} />
+                    </Typography>
+                  </Tooltip>
                 )}
 
                 {editName || editPhone || editEmail ? (
