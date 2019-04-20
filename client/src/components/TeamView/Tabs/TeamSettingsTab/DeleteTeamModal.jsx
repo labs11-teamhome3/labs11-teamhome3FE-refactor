@@ -12,6 +12,8 @@ import List from "@material-ui/icons/List";
 import { withStyles } from "@material-ui/core/styles";
 import TextField from "@material-ui/core/TextField";
 import Typography from '@material-ui/core/Typography';
+import ClickAwayListener from '@material-ui/core/ClickAwayListener';
+
 
 const styles = theme => ({
   deleteTeamHeader: {
@@ -64,76 +66,78 @@ const DeleteTeamModal = props => {
 
   return (
     <div>
-      <Modal
-        aria-labelledby="simple-modal-title"
-        aria-describedby="simple-modal-description"
-        open={props.areYouSure}
-      >
-        <Paper className={classes.paper}>
-          <div className={classes.modalHeader}>
-            <Close
-              className={classes.closeBtn}
-              onClick={() => {
-                props.setAreYouSure(false);
-                props.setDeleteInput('');
-              } 
-            }
-            />
-          </div>
-          <Typography 
-            component="h2"
-            className={classes.deleteTeamHeader}  
-          >
-            {`Do you really want to delete the team `}<code className={classes.code}>{`${props.team.teamName}`}</code>?
-          </Typography>
-          <Typography
-            component="p"
-            className={classes.deleteTeamMsg}
-          >
-            All messages, activities, documents, and todo lists which belong to this team will also be
-            deleted. This cannot be undone!
-          </Typography>
-          <Typography
-            component="p"
-            className={classes.deleteTeamMsg}
-          >
-            If you are sure, type the name of the team below.
-          </Typography>
-          <div className='delete-input-and-btns'>
-            <TextField
-              className={classes.deleteInput}
-              label="Enter team name..."
-              margin="normal"
-              variant="outlined"
-              value={props.deleteInput}
-              onChange={props.handleDeleteChange}
-            />
-            <div className="cancel-delete-team">
-              <Button 
-                  variant="outlined"
+        <Modal
+          aria-labelledby="simple-modal-title"
+          aria-describedby="simple-modal-description"
+          open={props.areYouSure}
+        >
+          <ClickAwayListener onClickAway={() => props.setAreYouSure(false)}>
+            <Paper className={classes.paper}>
+              <div className={classes.modalHeader}>
+                <Close
+                  className={classes.closeBtn}
                   onClick={() => {
                     props.setAreYouSure(false);
                     props.setDeleteInput('');
                   } 
                 }
-              > 
-              Cancel
-              </Button>
-              {props.deleteInput === props.team.teamName &&
-                <Button
+                />
+              </div>
+              <Typography 
+                component="h2"
+                className={classes.deleteTeamHeader}  
+              >
+                {`Do you really want to delete the team `}<code className={classes.code}>{`${props.team.teamName}`}</code>?
+              </Typography>
+              <Typography
+                component="p"
+                className={classes.deleteTeamMsg}
+              >
+                All messages, activities, documents, and todo lists which belong to this team will also be
+                deleted. This cannot be undone!
+              </Typography>
+              <Typography
+                component="p"
+                className={classes.deleteTeamMsg}
+              >
+                If you are sure, type the name of the team below.
+              </Typography>
+              <div className='delete-input-and-btns'>
+                <TextField
+                  className={classes.deleteInput}
+                  label="Enter team name..."
+                  margin="normal"
                   variant="outlined"
-                  className={classes.deleteBtn}
-                  onClick={props.deleteTeam}
-                >
-                Delete
-                </Button>
-              }
-            </div>
-          </div>
-          </Paper>
-      </Modal>
-    </div>
-  )
+                  value={props.deleteInput}
+                  onChange={props.handleDeleteChange}
+                />
+                <div className="cancel-delete-team">
+                  <Button 
+                      variant="outlined"
+                      onClick={() => {
+                        props.setAreYouSure(false);
+                        props.setDeleteInput('');
+                      } 
+                    }
+                  > 
+                  Cancel
+                  </Button>
+                  {props.deleteInput === props.team.teamName &&
+                    <Button
+                      variant="outlined"
+                      className={classes.deleteBtn}
+                      onClick={props.deleteTeam}
+                    >
+                    Delete
+                    </Button>
+                  }
+                </div>
+              </div>
+            </Paper>
+          </ClickAwayListener>
+        </Modal>
+      </div>
+    )
 }
 
 export default withStyles(styles)(DeleteTeamModal);
