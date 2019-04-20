@@ -12,7 +12,6 @@ import AddIcon from "@material-ui/icons/Add";
 import Typography from "@material-ui/core/Typography"
 import StripePaymentPopup from "../../../Stripe/StripePaymentPopup";
 import { withStyles } from '@material-ui/core/styles'
-import ClickAwayListener from '@material-ui/core/ClickAwayListener';
 
 // components //
 import DeleteTeamModal from './DeleteTeamModal';
@@ -103,9 +102,6 @@ const TeamInfo = props => {
                   {!showInput && props.userRole === "ADMIN" &&
                     <EditIcon 
                       onClick={() => setInput(true)} 
-                      size="small" 
-                      variant="round" 
-                      color="default" 
                       aria-label="Edit"
                     />
                   }
@@ -114,7 +110,7 @@ const TeamInfo = props => {
                         <TextField
                           required
                           inputProps= {{
-                            maxlength: 20
+                            maxLength: 20
                           }}
                           type="text"
                           placeholder={props.team.teamName}
