@@ -10,11 +10,24 @@ import { Elements, StripeProvider } from 'react-stripe-elements';
 
 import CheckoutForm from './CheckoutForm';
 import { Typography } from '@material-ui/core';
+import { withStyles } from '@material-ui/core/styles';
 
 const Transition = props => {
   //console.log('env', process.env)
   return <Slide direction="up" {...props} />;
 };
+
+const styles = theme => ({
+  upgradeBtn: {
+    color: theme.palette.primary.main,
+    borderColor: theme.palette.primary.main,
+    '&:hover': {
+      color: '#ffffff',
+      backgroundColor: theme.palette.primary.main
+    }
+  }
+})
+
 
 const StripePaymentPopup = props => {
   const [paymentPopupOpen, setPaymentPopupOpen] = useState(false);
@@ -27,9 +40,11 @@ const StripePaymentPopup = props => {
     setPaymentPopupOpen(false);
   };
 
+  const { classes } = props;
+
   return (
     <div>
-      <Button variant="outlined" color="primary" onClick={handleClickOpen}>
+      <Button variant="outlined" className={classes.upgradeBtn} onClick={handleClickOpen}>
         Upgrade
       </Button>
       <Dialog
@@ -58,6 +73,6 @@ const StripePaymentPopup = props => {
   );
 };
 
-export default StripePaymentPopup;
+export default withStyles(styles)(StripePaymentPopup);
 
 // THIS VERSION WORKS
