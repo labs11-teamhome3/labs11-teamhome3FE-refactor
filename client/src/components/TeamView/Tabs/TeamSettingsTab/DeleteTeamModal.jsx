@@ -62,6 +62,11 @@ const styles = theme => ({
 
 const DeleteTeamModal = props => {
 
+  const resetModal = () => {
+    props.setAreYouSure(false)
+    props.setDeleteInput('')
+  }
+
   const { classes } = props;
 
   return (
@@ -71,16 +76,12 @@ const DeleteTeamModal = props => {
           aria-describedby="simple-modal-description"
           open={props.areYouSure}
         >
-          <ClickAwayListener onClickAway={() => props.setAreYouSure(false)}>
+          <ClickAwayListener onClickAway={resetModal}>
             <Paper className={classes.paper}>
               <div className={classes.modalHeader}>
                 <Close
                   className={classes.closeBtn}
-                  onClick={() => {
-                    props.setAreYouSure(false);
-                    props.setDeleteInput('');
-                  } 
-                }
+                  onClick={resetModal}
                 />
               </div>
               <Typography 
