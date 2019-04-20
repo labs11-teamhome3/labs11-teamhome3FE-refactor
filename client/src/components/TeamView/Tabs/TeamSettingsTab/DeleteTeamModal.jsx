@@ -51,6 +51,9 @@ const styles = theme => ({
   modalHeader: {
     display: 'flex',
     'justify-content': 'flex-end',
+  },
+  code: {
+    'font-style': 'italic',
   }
 })
 
@@ -81,7 +84,7 @@ const DeleteTeamModal = props => {
             component="h2"
             className={classes.deleteTeamHeader}  
           >
-            {`Do you really want to delete ${props.team.teamName}?`}
+            {`Do you really want to delete the team `}<code className={classes.code}>{`${props.team.teamName}`}</code>?
           </Typography>
           <Typography
             component="p"
