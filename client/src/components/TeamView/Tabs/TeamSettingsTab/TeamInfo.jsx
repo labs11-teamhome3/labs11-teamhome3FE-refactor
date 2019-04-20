@@ -6,7 +6,7 @@ import Button from "@material-ui/core/Button";
 import EditIcon from "@material-ui/icons/EditOutlined"
 import Fab from "@material-ui/core/Fab"
 import DeleteIcon from "@material-ui/icons/Delete";
-import CancelIcon from "@material-ui/icons/Cancel";
+import CloseIcon from "@material-ui/icons/Close";
 import TextField from '@material-ui/core/TextField';
 import AddIcon from "@material-ui/icons/Add";
 import Typography from "@material-ui/core/Typography"
@@ -101,9 +101,13 @@ const TeamInfo = props => {
                       <Typography component='h2' className="team-name">{props.team.teamName}</Typography>
                   }
                   {!showInput && props.userRole === "ADMIN" &&
-                      <Fab onClick={() => setInput(true)} size="small" variant="round" color="default" aria-label="Edit">
-                          <EditIcon />
-                      </Fab>
+                    <EditIcon 
+                      onClick={() => setInput(true)} 
+                      size="small" 
+                      variant="round" 
+                      color="default" 
+                      aria-label="Edit"
+                    />
                   }
                   {showInput &&
                     <form onSubmit={handleTeamSubmit}>
@@ -116,13 +120,10 @@ const TeamInfo = props => {
                           placeholder={props.team.teamName}
                           value={newTeamName}
                           onChange={handleNameChange}
-                          />
-                        <Fab type="submit" color="default" variant="round" size="small" aria-label="Add">
-                          <EditIcon />
-                        </Fab>
-                        <Fab onClick={handleCancel} color="default" size="small" aria-label="Cancel">
-                          <CancelIcon />
-                        </Fab>
+                        />
+                        <CloseIcon 
+                          onClick={handleCancel}
+                        />
                     </form>
                   }  
                 </div>
