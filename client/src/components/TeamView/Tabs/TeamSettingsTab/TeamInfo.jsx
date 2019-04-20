@@ -14,6 +14,9 @@ import StripePaymentPopup from "../../../Stripe/StripePaymentPopup";
 import { withStyles } from '@material-ui/core/styles'
 import ClickAwayListener from '@material-ui/core/ClickAwayListener';
 
+// components //
+import DeleteTeamModal from './DeleteTeamModal';
+
 /// css ///
 import './css/TeamSettings.css'
 
@@ -139,48 +142,15 @@ const TeamInfo = props => {
                 </div>
             </div>
             {props.areYouSure && 
-                <>
-                    <Typography 
-                      component="p"
-                      className={classes.deleteTeamMsg}  
-                    >
-                        Do you really want to delete this team? All messages, activities,
-                        documents, and todo lists which belong to this team will also be
-                        deleted! There is no coming back from this. If you are sure,
-                        please type the name of the team below.
-                    </Typography>
-                    <div className='delete-input-and-btns'>
-                      <TextField
-                        className={classes.deleteInput}
-                        label="Team Name"
-                        margin="normal"
-                        variant="outlined"
-                        value={props.deleteInput}
-                        onChange={props.handleDeleteChange}
-                      />
-                      <div className="cancel-delete-team">
-                        <Button 
-                            variant="outlined"
-                            onClick={() => {
-                                props.setAreYouSure(false);
-                                props.setDeleteInput('');
-                              } 
-                            }
-                        >
-                        Cancel
-                        </Button>
-                        {props.deleteInput === props.team.teamName &&
-                          <Button
-                            variant="outlined"
-                            className={classes.deleteBtn}
-                            onClick={props.deleteTeam}
-                          >
-                          Delete
-                          </Button>
-                        }
-                      </div>
-                    </div>
-                </>
+              <DeleteTeamModal 
+                deleteInput={props.deleteInput}
+                handleDeleteChange={props.handleDeleteChange}
+                areYouSure={props.areYouSure}
+                setAreYouSure={props.setAreYouSure}
+                setDeleteInput={props.setDeleteInput}
+                deleteTeam={props.deleteTeam}
+                team={props.team}
+              />
             }
             <Typography className={classes.teamMembers} component="h2">Team Members</Typography>
             <div className="members">
