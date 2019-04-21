@@ -19,6 +19,7 @@ import Edit from '@material-ui/icons/Edit';
 import TextField from '@material-ui/core/TextField';
 import List from '@material-ui/core/List';
 import Loader from 'react-loader-spinner';
+import ClickAwayListener from "@material-ui/core/ClickAwayListener";
 
 /////Components/////
 import EditTodo from './EditTodo';
@@ -537,6 +538,7 @@ const CreateTodoListModal = props => {
         aria-describedby="simple-modal-description"
         open={props.modalStatus}
       >
+      <ClickAwayListener onClickAway={_ => props.toggleModal('edit')}>
         <Paper className={classes.paper}>
           <div className={classes.modalTitleBar}>
             <Close
@@ -766,6 +768,7 @@ const CreateTodoListModal = props => {
             </Button>
           </Popover>
         </Paper>
+        </ClickAwayListener>
       </Modal>
     </div>
   );

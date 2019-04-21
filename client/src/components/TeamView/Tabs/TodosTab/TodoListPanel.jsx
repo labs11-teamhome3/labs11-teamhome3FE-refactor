@@ -69,7 +69,7 @@ const TodoListPanel = props => {
         className={classes.expansionPanel}
       >
         {todoList.data.todoList && (
-          <>
+          <div>
             {console.log(
               "todoListtodos",
               todoList.data.todoList.todos.filter(todo => todo.completed).length
@@ -103,11 +103,11 @@ const TodoListPanel = props => {
               </div>
               <List className={classes.todoList}>
                 {todoList.data.todoList.todos.map(todo => (
-                  <Todo todo={todo} />
+                  <Todo key={todo.id} todo={todo} />
                 ))}
               </List>
             </div>
-          </>
+          </div>
         )}
       </ExpansionPanel>
     </ClickAwayListener>
