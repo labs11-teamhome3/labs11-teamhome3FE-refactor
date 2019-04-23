@@ -24,7 +24,7 @@ const styles = theme => ({
     padding: '30px',
   },
   textField: {
-    width: '70%'
+    width: '90%'
   },
   editDocument: {
     display: 'flex',
