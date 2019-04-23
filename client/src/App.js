@@ -22,38 +22,38 @@ const auth = new Auth();
 
 const App = (props) => {
 
-    useEffect(() => {
-      if(localStorage.getItem('userId')) {
-        // props.history.push('/dashboard')
-      } else {
-        handleAuthentication()
-      }
-    }
-    , [])
+    // useEffect(() => {
+    //   if(localStorage.getItem('userId')) {
+    //     // props.history.push('/dashboard')
+    //   } else {
+    //     handleAuthentication()
+    //   }
+    // }
+    // , [])
 
-    const [authenticateUser] = useMutation(AUTHENTICATE_USER, {
-        onCompleted: e => {
-          localStorage.setItem('userId', e.authenticateUser.id)
-          if (e.authenticateUser.inTeam.length > 0) {
-            props.history.push(`/teams/${e.authenticateUser.inTeam[0].id}/home`)
-          } else {
-            props.history.push(`/teams/first-team`)
-          }
-      },
-      onError: err => console.log(err)
-    });
+    // const [authenticateUser] = useMutation(AUTHENTICATE_USER, {
+    //     onCompleted: e => {
+    //       localStorage.setItem('userId', e.authenticateUser.id)
+    //       if (e.authenticateUser.inTeam.length > 0) {
+    //         props.history.push(`/teams/${e.authenticateUser.inTeam[0].id}/home`)
+    //       } else {
+    //         props.history.push(`/teams/first-team`)
+    //       }
+    //   },
+    //   onError: err => console.log(err)
+    // });
 
-    function handleAuthentication() { 
-        auth.auth0.parseHash((err, authResult) => {
-          if (authResult && authResult.accessToken && authResult.idToken) {
-            authenticateUser({
-              variables: { idToken: authResult.idToken }
-            })
-          } else if (err) {
-            console.log(err);
-          }
-        });
-    }
+    // function handleAuthentication() { 
+    //     auth.auth0.parseHash((err, authResult) => {
+    //       if (authResult && authResult.accessToken && authResult.idToken) {
+    //         authenticateUser({
+    //           variables: { idToken: authResult.idToken }
+    //         })
+    //       } else if (err) {
+    //         console.log(err);
+    //       }
+    //     });
+    // }
 
     return (
       <div className="App">
@@ -70,6 +70,10 @@ const App = (props) => {
         <Route
           path="/profile/"
           render={props => <ProfileView auth={auth} {...props} />}
+        />
+        <Route
+          path="/loading"
+          render={props => <LoadingView {...props} />}
         />
       </div>
     );
