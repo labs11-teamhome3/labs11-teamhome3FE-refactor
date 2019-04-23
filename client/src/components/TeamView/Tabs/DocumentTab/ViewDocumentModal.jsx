@@ -157,16 +157,26 @@ const ViewDocumentModal = props => {
                   target="_blank"
                   style={{margin: '10px 5px', color: '#4fc3f7'}}
                 >
-                  Link to document
+                  Link to file
                 </a>
                 { document.doc_url.slice(-3) === 'pdf' ? (
-                  <iframe src={
-                    document.doc_url.slice(0, 4) === 'http'
-                      ? `http://docs.google.com/gview?url=${document.doc_url}&embedded=true`
-                      : `http://docs.google.com/gview?url=https://${document.doc_url}&embedded=true`
-                    } style={{width:'150px', height:'auto'}}>
-                  </iframe>
-                ) : null
+                  <div>
+                    <iframe src={
+                      document.doc_url.slice(0, 4) === 'http'
+                        ? `http://docs.google.com/gview?url=${document.doc_url}&embedded=true`
+                        : `http://docs.google.com/gview?url=https://${document.doc_url}&embedded=true`
+                      } style={{width:'auto', height:'300px', margin: '10px 5px'}}>
+                    </iframe>
+                  </div>
+                ) : (
+                  <div>
+                    <img src={
+                      document.doc_url.slice(0, 4) === 'http'
+                        ? document.doc_url
+                        : `http://${document.doc_url}`
+                      } alt={document.title} style={{width:'350px', height:'auto', margin: '10px 5px'}}/>
+                  </div>
+                )
                 }
               </>
             )}
