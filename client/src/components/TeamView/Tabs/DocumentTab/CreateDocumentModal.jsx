@@ -79,6 +79,7 @@ const CreateDocumentModal = props => {
       setMessageInfo({
         title: '',
         content: '',
+        doc_url: ''
       });
     },
     onError: err => console.log(err),
@@ -98,7 +99,14 @@ const CreateDocumentModal = props => {
               <File />
               <div>Create new file</div>
             </div>
-            <Close onClick={_ => props.toggleModal('create')} />
+            <Close onClick={_ => {
+              props.toggleModal('create');
+              setMessageInfo({
+                title: '',
+                doc_url: '',
+                textContent: ''
+              }) 
+            }} />
           </div>
           <br />
           <TextField
@@ -133,6 +141,7 @@ const CreateDocumentModal = props => {
           />
           <br />
           <Upload 
+            messageInfo={messageInfo}
             setMessageInfo={setMessageInfo}
           />
             { messageInfo.doc_url && messageInfo.doc_url.slice(-3) === 'pdf' ? (

@@ -159,7 +159,7 @@ const ViewDocumentModal = props => {
                 >
                   Link to file
                 </a>
-                { document.doc_url.slice(-3) === 'pdf' ? (
+                { document.doc_url && document.doc_url.slice(-3) === 'pdf' ? (
                   <div>
                     <iframe src={
                       document.doc_url.slice(0, 4) === 'http'
