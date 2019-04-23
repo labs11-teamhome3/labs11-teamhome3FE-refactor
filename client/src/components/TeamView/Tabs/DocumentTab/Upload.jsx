@@ -56,6 +56,7 @@ export default class Upload extends React.Component {
                 images
             })
             this.props.setMessageInfo({
+                ...this.props.messageInfo,
                 doc_url: images[0].secure_url
             })
         })

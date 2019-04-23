@@ -141,6 +141,7 @@ const CreateDocumentModal = props => {
           />
           <br />
           <Upload 
+            messageInfo={messageInfo}
             setMessageInfo={setMessageInfo}
           />
             { messageInfo.doc_url && messageInfo.doc_url.slice(-3) === 'pdf' ? (
