@@ -45,6 +45,15 @@ const styles = theme => ({
   commentInput: {
     width: '100%',
   },
+  box: {
+    display: 'none',
+    width: '100%'
+  },
+  'a:hover + .box,.box:hover':{
+    display: 'block',
+    position: 'relative',
+    zIndex: '100'
+  }
 });
 
 const ViewDocumentModal = props => {
@@ -138,17 +147,38 @@ const ViewDocumentModal = props => {
           </div>
           <div>
             {document === undefined ? null : (
-              <a
-                href={
-                  document.doc_url.slice(0, 4) === 'http'
-                    ? document.doc_url
-                    : `https://${document.doc_url}`
+              <>
+                <a
+                  href={
+                    document.doc_url.slice(0, 4) === 'http'
+                      ? document.doc_url
+                      : `https://${document.doc_url}`
+                  }
+                  target="_blank"
+                  style={{margin: '10px 5px', color: '#4fc3f7'}}
+                >
+                  Link to file
+                </a>
+                { document.doc_url.slice(-3) === 'pdf' ? (
+                  <div>
+                    <iframe src={
+                      document.doc_url.slice(0, 4) === 'http'
+                        ? `http://docs.google.com/gview?url=${document.doc_url}&embedded=true`
+                        : `http://docs.google.com/gview?url=https://${document.doc_url}&embedded=true`
+                      } style={{width:'auto', height:'300px', margin: '10px 5px'}}>
+                    </iframe>
+                  </div>
+                ) : (
+                  <div>
+                    <img src={
+                      document.doc_url.slice(0, 4) === 'http'
+                        ? document.doc_url
+                        : `http://${document.doc_url}`
+                      } alt={document.title} style={{width:'350px', height:'auto', margin: '10px 5px'}}/>
+                  </div>
+                )
                 }
-                target="_blank"
-                style={{margin: '10px 5px', color: '#4fc3f7'}}
-              >
-                Link to document
-              </a>
+              </>
             )}
           </div>
           {document !== undefined && document.comments.length > 0 ? (
