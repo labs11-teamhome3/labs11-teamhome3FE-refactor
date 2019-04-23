@@ -151,7 +151,7 @@ const TeamSettingsTab = props => {
   // mutation for adding user
   const [addUserToTeam] = useMutation(ADD_MEMBER, {
     update: (cache, { data }) => {
-      console.log('data', data);
+      // console.log('data', data);
       const { team } = cache.readQuery({
         query: TEAM_QUERY,
         variables: { id: props.match.params.id },
@@ -185,7 +185,7 @@ const TeamSettingsTab = props => {
 
   // query all users to populate list for adding member to team
   const allUsersQuery = useQuery(USERS_QUERY);
-  console.log('auq', allUsersQuery);
+  // console.log('auq', allUsersQuery);
 
   // setup array of current member id's so we can filter them out of add new member .map
   let memberIds = [];
