@@ -100,6 +100,12 @@ const styles = theme => ({
   errorButton: {
     color: theme.palette.error.main,
     borderColor: theme.palette.error.main
+  },
+  menuPic: {
+    width: '30px',
+    height: '30px',
+    'border-radius': '50px',
+    'margin-right': '10px',
   }
 });
 
@@ -600,6 +606,7 @@ const CreateTodoListModal = props => {
                             key={user.id}
                             onClick={_ => handleClose(user.id, 'addowner')}
                           >
+                            <img className={classes.menuPic} src={user.profilePic} />
                             {user.name}
                           </MenuItem>
                         ))}
@@ -657,6 +664,7 @@ const CreateTodoListModal = props => {
                             key={user.id}
                             onClick={_ => handleClose(user.id, 'addassignee')}
                           >
+                            <img className={classes.menuPic} src={user.profilePic} />
                             {user.name}
                           </MenuItem>
                         ))}
