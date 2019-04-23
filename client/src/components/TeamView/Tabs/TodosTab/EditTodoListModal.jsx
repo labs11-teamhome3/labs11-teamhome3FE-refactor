@@ -33,6 +33,7 @@ import {
   // EVENTS_QUERY,
   TODOS_QUERY,
   TODO_LIST_QUERY,
+  TEAM_QUERY
 } from '../../../../graphQL/Queries';
 
 const styles = theme => ({
@@ -263,6 +264,11 @@ const CreateTodoListModal = props => {
     },
   });
   const users = useQuery(USERS_QUERY);
+  const team = useQuery(TEAM_QUERY, {
+    variables: {
+      id: props.teamId
+    }
+  });
   // const [todoListInfo, setTodoListInfo] = useState({
   //   title: "",
   //   newTask: "tesetsetet",
@@ -538,7 +544,7 @@ const CreateTodoListModal = props => {
         aria-describedby="simple-modal-description"
         open={props.modalStatus}
       >
-        <ClickAwayListener onClickAway={_ => !openPopover && props.toggleModal('edit')}>
+        <ClickAwayListener onClickAway={_ => !openPopover && !anchorEl && props.toggleModal('edit')}>
         <Paper className={classes.paper}>
           <div className={classes.modalTitleBar}>
             <Close
@@ -581,11 +587,8 @@ const CreateTodoListModal = props => {
                     open={Boolean(anchorEl) && menuControl === 'owner'}
                     onClose={handleClose}
                   >
-                    {users.data.users &&
-                      users.data.users
-                        .filter(user =>
-                          user.inTeam.find(team => team.id === props.teamId)
-                        )
+                    {team.data.team &&
+                      team.data.team.members
                         .filter(
                           user =>
                             !todoList.data.todoList.ownedBy.find(
@@ -641,11 +644,8 @@ const CreateTodoListModal = props => {
                     open={Boolean(anchorEl) && menuControl === 'assignee'}
                     onClose={handleClose}
                   >
-                    {users.data.users &&
-                      users.data.users
-                        .filter(user =>
-                          user.inTeam.find(team => team.id === props.teamId)
-                        )
+                    {team.data.team &&
+                      team.data.team.members
                         .filter(
                           user =>
                             !todoList.data.todoList.assignedTo.find(
