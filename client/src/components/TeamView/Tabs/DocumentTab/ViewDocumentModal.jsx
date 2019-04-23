@@ -159,12 +159,15 @@ const ViewDocumentModal = props => {
                 >
                   Link to document
                 </a>
-                <iframe src={
+                { document.doc_url.slice(-3) === 'pdf' ? (
+                  <iframe src={
                     document.doc_url.slice(0, 4) === 'http'
                       ? `http://docs.google.com/gview?url=${document.doc_url}&embedded=true`
                       : `http://docs.google.com/gview?url=https://${document.doc_url}&embedded=true`
-                  } style={{width:'300px', height:'auto'}}>
-                </iframe>
+                    } style={{width:'150px', height:'auto'}}>
+                  </iframe>
+                ) : null
+                }
               </>
             )}
           </div>
