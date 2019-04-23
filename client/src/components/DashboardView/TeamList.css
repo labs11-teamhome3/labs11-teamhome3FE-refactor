@@ -83,6 +83,10 @@
     padding: 15px 0;
 }
 
+.nt-textfield {
+    width: 70%;
+}
+
 .nt-textfield input::placeholder {
     color: white;
     opacity: 1;

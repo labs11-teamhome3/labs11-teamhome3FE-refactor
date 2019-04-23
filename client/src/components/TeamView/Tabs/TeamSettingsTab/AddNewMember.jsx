@@ -49,9 +49,6 @@ const AddNewMember = props => {
           onClick={setMember}
         >
           <AddIcon
-          // data-id={props.user.id}
-          // data-name={props.user.name}
-          // onClick={setMember}
           />
         </Fab>
       </div>
