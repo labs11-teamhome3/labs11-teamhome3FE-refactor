@@ -34,6 +34,7 @@ const styles = theme => ({
   table: {
     minWidth: '400px',
     width: '100%',
+    marginBottom: '100px'
   },
   input: {
     display: 'none',
