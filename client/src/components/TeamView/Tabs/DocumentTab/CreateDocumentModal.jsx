@@ -79,6 +79,7 @@ const CreateDocumentModal = props => {
       setMessageInfo({
         title: '',
         content: '',
+        doc_url: ''
       });
     },
     onError: err => console.log(err),
