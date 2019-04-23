@@ -6,8 +6,10 @@ import Close from '@material-ui/icons/Close';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import File from '@material-ui/icons/InsertDriveFileOutlined';
-import { useMutation } from '../../../../graphQL/useMutation';
 
+import Upload from './Upload';
+
+import { useMutation } from '../../../../graphQL/useMutation';
 import { DOCUMENTS_QUERY } from '../../../../graphQL/Queries';
 import { CREATE_DOCUMENT } from '../../../../graphQL/Mutations';
 
@@ -15,7 +17,7 @@ const styles = theme => ({
   paper: {
     position: 'relative',
     top: '15%',
-    'max-width': '400px',
+    'max-width': '450px',
     margin: '0 auto',
     'text-align': 'left',
     padding: '30px',
@@ -109,7 +111,7 @@ const CreateDocumentModal = props => {
           <TextField
             type="url"
             required
-            label="Enter the url of this file"
+            label="Enter a url or choose a file below"
             value={messageInfo.doc_url}
             onChange={handleChange}
             name="doc_url"
@@ -128,6 +130,9 @@ const CreateDocumentModal = props => {
             margin="normal"
           />
           <br />
+          <Upload 
+            setMessageInfo={setMessageInfo}
+          />
           <Button
             variant="contained"
             disabled={!messageInfo.title && !messageInfo.doc_url}
