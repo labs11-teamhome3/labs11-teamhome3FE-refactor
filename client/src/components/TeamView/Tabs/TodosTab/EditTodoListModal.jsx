@@ -538,7 +538,7 @@ const CreateTodoListModal = props => {
         aria-describedby="simple-modal-description"
         open={props.modalStatus}
       >
-      <ClickAwayListener onClickAway={_ => props.toggleModal('edit')}>
+        <ClickAwayListener onClickAway={_ => !openPopover && props.toggleModal('edit')}>
         <Paper className={classes.paper}>
           <div className={classes.modalTitleBar}>
             <Close
