@@ -38,9 +38,9 @@ export default class Upload extends React.Component {
 
         this.setState({ uploading: true })
 
-        const uri = process.env.REACT_APP_APOLLO_URI || 'http://localhost:4000'
+        const uri = process.env.REACT_APP_APOLLO_URI || 'http://localhost:4000/'
 
-        fetch(`${uri}/upload`, {
+        fetch(`${uri}upload`, {
             method: 'POST',
             body: formData
         })

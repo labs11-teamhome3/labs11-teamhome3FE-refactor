@@ -20,7 +20,7 @@ const theme = createMuiTheme({
 });
 
 const client = new ApolloClient({
-  uri: process.env.REACT_APP_APOLLO_URI || 'http://localhost:4000',
+  uri: process.env.REACT_APP_APOLLO_URI || 'http://localhost:4000/',
   cache: new InMemoryCache(),
 });
 

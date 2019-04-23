@@ -163,8 +163,8 @@ const ViewDocumentModal = props => {
                   <div>
                     <iframe src={
                       document.doc_url.slice(0, 4) === 'http'
-                        ? `http://docs.google.com/gview?url=${document.doc_url}&embedded=true`
-                        : `http://docs.google.com/gview?url=https://${document.doc_url}&embedded=true`
+                        ? `https://docs.google.com/gview?url=${document.doc_url}&embedded=true`
+                        : `https://docs.google.com/gview?url=https://${document.doc_url}&embedded=true`
                       } style={{width:'auto', height:'300px', margin: '10px 5px'}}>
                     </iframe>
                   </div>
@@ -173,7 +173,7 @@ const ViewDocumentModal = props => {
                     <img src={
                       document.doc_url.slice(0, 4) === 'http'
                         ? document.doc_url
-                        : `http://${document.doc_url}`
+                        : `https://${document.doc_url}`
                       } alt={document.title} style={{width:'350px', height:'auto', margin: '10px 5px'}}/>
                   </div>
                 )

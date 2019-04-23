@@ -139,8 +139,8 @@ const CreateDocumentModal = props => {
               <div>
                 <iframe src={
                   messageInfo.doc_url.slice(0, 4) === 'http'
-                    ? `http://docs.google.com/gview?url=${messageInfo.doc_url}&embedded=true`
-                    : `http://docs.google.com/gview?url=https://${messageInfo.doc_url}&embedded=true`
+                    ? `https://docs.google.com/gview?url=${messageInfo.doc_url}&embedded=true`
+                    : `https://docs.google.com/gview?url=https://${messageInfo.doc_url}&embedded=true`
                   } style={{width:'auto', height:'300px', margin: '10px 5px'}}>
                 </iframe>
               </div>
@@ -150,7 +150,7 @@ const CreateDocumentModal = props => {
                 <img src={
                   messageInfo.doc_url.slice(0, 4) === 'http'
                     ? messageInfo.doc_url
-                    : `http://${messageInfo.doc_url}`
+                    : `https://${messageInfo.doc_url}`
                   } alt={messageInfo.title} style={{width:'350px', height:'auto', margin: '10px 5px'}}/>
               </div>
               ) : null
