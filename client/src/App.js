@@ -13,6 +13,7 @@ import TeamView from './views/TeamView';
 import LandingView from './views/LandingView';
 // import NavigationView from './views/NavigationView';
 import ProfileView from './views/ProfileView';
+import LoadingView from './views/LoadingView';
 import NewTeam from './views/NewTeam';
 
 import { AUTHENTICATE_USER } from './graphQL/Mutations';
