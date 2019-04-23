@@ -98,7 +98,14 @@ const CreateDocumentModal = props => {
               <File />
               <div>Create new file</div>
             </div>
-            <Close onClick={_ => props.toggleModal('create')} />
+            <Close onClick={_ => {
+              props.toggleModal('create');
+              setMessageInfo({
+                title: '',
+                doc_url: '',
+                textContent: ''
+              }) 
+            }} />
           </div>
           <br />
           <TextField
