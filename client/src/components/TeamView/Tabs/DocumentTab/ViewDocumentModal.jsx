@@ -45,6 +45,15 @@ const styles = theme => ({
   commentInput: {
     width: '100%',
   },
+  box: {
+    display: 'none',
+    width: '100%'
+  },
+  'a:hover + .box,.box:hover':{
+    display: 'block',
+    position: 'relative',
+    zIndex: '100'
+  }
 });
 
 const ViewDocumentModal = props => {
@@ -138,17 +147,25 @@ const ViewDocumentModal = props => {
           </div>
           <div>
             {document === undefined ? null : (
-              <a
-                href={
-                  document.doc_url.slice(0, 4) === 'http'
-                    ? document.doc_url
-                    : `https://${document.doc_url}`
-                }
-                target="_blank"
-                style={{margin: '10px 5px', color: '#4fc3f7'}}
-              >
-                Link to document
-              </a>
+              <>
+                <a
+                  href={
+                    document.doc_url.slice(0, 4) === 'http'
+                      ? document.doc_url
+                      : `https://${document.doc_url}`
+                  }
+                  target="_blank"
+                  style={{margin: '10px 5px', color: '#4fc3f7'}}
+                >
+                  Link to document
+                </a>
+                <iframe src={
+                    document.doc_url.slice(0, 4) === 'http'
+                      ? `http://docs.google.com/gview?url=${document.doc_url}&embedded=true`
+                      : `http://docs.google.com/gview?url=https://${document.doc_url}&embedded=true`
+                  } style={{width:'300px', height:'auto'}}>
+                </iframe>
+              </>
             )}
           </div>
           {document !== undefined && document.comments.length > 0 ? (
