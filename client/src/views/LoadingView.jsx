@@ -17,6 +17,7 @@ const LoadingView = props => {
 
   const [authenticateUser] = useMutation(AUTHENTICATE_USER, {
     onCompleted: e => {
+      console.log('e', e)
       localStorage.setItem('userId', e.authenticateUser.id)
       if (e.authenticateUser.inTeam.length > 0) {
         props.history.push(`/teams/${e.authenticateUser.inTeam[0].id}/home`)

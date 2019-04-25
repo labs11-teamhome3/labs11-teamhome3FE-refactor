@@ -38,7 +38,9 @@ export default class Upload extends React.Component {
 
         this.setState({ uploading: true })
 
-        fetch(`http://localhost:4000/upload`, {
+        const uri = process.env.REACT_APP_APOLLO_URI || 'http://localhost:4000/'
+
+        fetch(`${uri}upload`, {
             method: 'POST',
             body: formData
         })
@@ -54,6 +56,7 @@ export default class Upload extends React.Component {
                 images
             })
             this.props.setMessageInfo({
+                ...this.props.messageInfo,
                 doc_url: images[0].secure_url
             })
         })

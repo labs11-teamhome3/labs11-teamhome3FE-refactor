@@ -21,9 +21,11 @@ const styles = theme => ({
     margin: '0 auto',
     'text-align': 'left',
     padding: '30px',
+    maxHeight: '80vh',
+    overflow: 'auto'
   },
   textField: {
-    width: '70%',
+    width: '90%',
   },
   createDocument: {
     display: 'flex',
@@ -77,6 +79,7 @@ const CreateDocumentModal = props => {
       setMessageInfo({
         title: '',
         content: '',
+        doc_url: ''
       });
     },
     onError: err => console.log(err),
@@ -96,7 +99,14 @@ const CreateDocumentModal = props => {
               <File />
               <div>Create new file</div>
             </div>
-            <Close onClick={_ => props.toggleModal('create')} />
+            <Close onClick={_ => {
+              props.toggleModal('create');
+              setMessageInfo({
+                title: '',
+                doc_url: '',
+                textContent: ''
+              }) 
+            }} />
           </div>
           <br />
           <TextField
@@ -131,8 +141,30 @@ const CreateDocumentModal = props => {
           />
           <br />
           <Upload 
+            messageInfo={messageInfo}
             setMessageInfo={setMessageInfo}
           />
+            { messageInfo.doc_url && messageInfo.doc_url.slice(-3) === 'pdf' ? (
+              <div>
+                <iframe src={
+                  messageInfo.doc_url.slice(0, 4) === 'http'
+                    ? `https://docs.google.com/gview?url=${messageInfo.doc_url}&embedded=true`
+                    : `https://docs.google.com/gview?url=https://${messageInfo.doc_url}&embedded=true`
+                  } style={{width:'auto', height:'300px', margin: '10px 5px'}}>
+                </iframe>
+              </div>
+            ) : (
+              messageInfo.doc_url.slice(-3) === 'jpeg' || messageInfo.doc_url.slice(-3) === 'png' || messageInfo.doc_url.slice(-3) === 'jpg' ? (
+              <div>
+                <img src={
+                  messageInfo.doc_url.slice(0, 4) === 'http'
+                    ? messageInfo.doc_url
+                    : `https://${messageInfo.doc_url}`
+                  } alt={messageInfo.title} style={{width:'350px', height:'auto', margin: '10px 5px'}}/>
+              </div>
+              ) : null
+            )
+            }
           <Button
             variant="contained"
             disabled={!messageInfo.title && !messageInfo.doc_url}
