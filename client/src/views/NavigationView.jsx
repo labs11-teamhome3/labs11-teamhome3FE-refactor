@@ -62,15 +62,19 @@ const NavigationView = props => {
     <div>
       <AppBar className="header" position="static" >
         <div className="header">
-          {!localStorage.getItem('userId') &&         
+          {/* {!localStorage.getItem('userId') &&         
             <div 
               className='name'> <Button id='name' variant="text" color="secondary" onClick={signup}>Manaje</Button> 
             </div>
-          }
+          } */}
           {!localStorage.getItem('userId') ? (
             <div className="nav-btns">
-              <Button onClick={login}>Log in</Button>
-              <Button variant="contained" color="secondary" onClick={signup}>Sign Up</Button>
+              <Loader 
+                type="ThreeDots"
+                height="25px"
+                width="25px"
+                color="#0984e3"
+              />
             </div>
           ) : (
             <div className="nav-btns">
