@@ -69,12 +69,6 @@ const NavigationView = props => {
           } */}
           {!localStorage.getItem('userId') ? (
             <div className="nav-btns">
-              <Loader 
-                type="ThreeDots"
-                height="25px"
-                width="25px"
-                color="#0984e3"
-              />
             </div>
           ) : (
             <div className="nav-btns">
