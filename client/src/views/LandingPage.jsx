@@ -1,4 +1,6 @@
 import React from 'react'
+import CheckCircle from '@material-ui/icons/CheckCircleOutline'
+import CloudQueue from '@material-ui/icons/CloudQueue'
 
 import './css/Landing.css'
 
@@ -43,9 +45,9 @@ class LandingPage extends React.Component {
                     <div className="display">
                         <img src="https://res.cloudinary.com/color-shift-studio/image/upload/v1556171858/manaje/undraw_checking_boxes_2ibd.svg" alt="todolist" className="img" />
                         <div className="text">
+                            <CheckCircle style={{fontSize: 40}}/>
                             <h5>Work with others</h5>
                             <h6>Write out lists, assign members, and check off boxes.</h6>
-                            <div className="start-button" onClick={this.signup}>Get started</div>
                         </div>
                     </div>
                     
@@ -54,16 +56,16 @@ class LandingPage extends React.Component {
                         <div className="text">
                             <h5>Communicate more often</h5>
                             <h6>Talk openly, reply, keep all team members in the loop.</h6>
-                            <div className="start-button" onClick={this.signup}>Try it</div>
+                            <div className="start-button" onClick={this.signup}>Get started</div>
                         </div>
                     </div>
                     
                     <div className="display third-display">
                         <img src="https://res.cloudinary.com/color-shift-studio/image/upload/v1556171847/manaje/undraw_filing_system_b5d2.svg" alt="documents" className="img" />
                         <div className="text">
+                            <CloudQueue style={{fontSize: 40}}/>
                             <h5>Keep all files centralized</h5>
                             <h6>Upload files, comment on those files, organize them in folders.</h6>
-                            <div className="start-button" onClick={this.signup}>Begin now</div>
                         </div>
                     </div>
                 </section> 
