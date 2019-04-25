@@ -12,7 +12,7 @@ const auth = new Auth();
 const LoadingView = props => {
 
   useEffect(() => {
-      handleAuthentication()
+    handleAuthentication()
   }, [])
 
   const [authenticateUser] = useMutation(AUTHENTICATE_USER, {

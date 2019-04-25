@@ -10,6 +10,10 @@ import TodosTab from './Tabs/TodosTab/TodosTab';
 import MessageTab from './Tabs/MessageTab/MessageTab';
 import DocumentTab from './Tabs/DocumentTab/DocumentTab'
 import TeamSettingsTab from './Tabs/TeamSettingsTab/TeamSettingsTab';
+import Tutorial from './Tutorial';
+
+import { useQuery } from 'react-apollo-hooks';
+import { TEAM_QUERY } from '../../graphQL/Queries';
 
 const styles = theme => ({
   root: {
@@ -37,6 +41,14 @@ const TabNavigator = props => {
     setTab(index);
   };
 
+  const teamQuery = useQuery(TEAM_QUERY, {
+    variables: {
+      id: props.match.params.id
+    }
+  })
+
+  console.log('tq data', teamQuery.data)
+
   const { classes } = props; 
   return (
     <div className={classes.root}>
@@ -54,6 +66,9 @@ const TabNavigator = props => {
           <Tab style={{color: '#ffffff'}} label="Settings" />
         </Tabs>
       </AppBar>
+      {teamQuery.data.team && teamQuery.data.team.members.length < 2 &&
+        <Tutorial team={teamQuery.data.team} />
+      }
       <SwipeableViews axis="x" index={tab} onChangeIndex={handleChangeIndex}>
         <TabContainer>
           <MessageTab teamId={props.match.params.id} setMsg={props.setMsg} />
