@@ -125,12 +125,6 @@ const LandingView = props => {
 
   const { classes } = props;
 
-  useEffect(() => {
-    if (localStorage.getItem('userId')) {
-      props.history.push();
-    }
-  });
-
   return (
     <Paper>
       <StyledContainer>

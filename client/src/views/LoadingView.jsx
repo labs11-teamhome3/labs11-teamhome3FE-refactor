@@ -12,11 +12,7 @@ const auth = new Auth();
 const LoadingView = props => {
 
   useEffect(() => {
-    if(localStorage.getItem('userId')) {
-      props.history.push('/loading')
-    } else {
-      handleAuthentication()
-    }
+    handleAuthentication()
   }, [])
 
   const [authenticateUser] = useMutation(AUTHENTICATE_USER, {
