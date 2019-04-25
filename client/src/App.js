@@ -10,10 +10,10 @@ import {useMutation} from "./graphQL/useMutation";
 import './App.css';
 // import DashboardView from './views/DashboardView';
 import TeamView from './views/TeamView';
-import LandingView from './views/LandingView';
+import LoadingView from './views/LoadingView';
 // import NavigationView from './views/NavigationView';
 import ProfileView from './views/ProfileView';
-import LoadingView from './views/LoadingView';
+import LandingPage from './views/LandingPage';
 import NewTeam from './views/NewTeam';
 
 import { AUTHENTICATE_USER } from './graphQL/Mutations';
@@ -59,7 +59,7 @@ const App = (props) => {
       <div className="App">
         {/* <NavigationView auth={auth} /> */}
         <Route exact path='/'
-        render={props => <LandingView auth={auth} {...props} />} />
+        render={props => <LandingPage auth={auth} {...props} />} />
         <Route
           path="/teams/first-team"
           render={ (props) => <NewTeam auth={auth} {...props} /> }/>
