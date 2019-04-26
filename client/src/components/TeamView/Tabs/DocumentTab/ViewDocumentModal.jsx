@@ -21,12 +21,14 @@ import { Typography } from '@material-ui/core';
 
 const styles = theme => ({
   paper: {
+    overflow: 'auto',
     position: 'relative',
-    top: '24%',
-    'max-width': '600px',
+    top: '15%',
+    'max-width': '500px',
     margin: '0 auto',
     'text-align': 'left',
     padding: '30px',
+    'max-height': '80vh'
   },
   textField: {
     width: '70%',
@@ -43,6 +45,15 @@ const styles = theme => ({
   commentInput: {
     width: '100%',
   },
+  box: {
+    display: 'none',
+    width: '100%'
+  },
+  'a:hover + .box,.box:hover':{
+    display: 'block',
+    position: 'relative',
+    zIndex: '100'
+  }
 });
 
 const ViewDocumentModal = props => {
@@ -136,17 +147,38 @@ const ViewDocumentModal = props => {
           </div>
           <div>
             {document === undefined ? null : (
-              <a
-                href={
-                  document.doc_url.slice(0, 4) === 'http'
-                    ? document.doc_url
-                    : `https://${document.doc_url}`
+              <>
+                <a
+                  href={
+                    document.doc_url.slice(0, 4) === 'http'
+                      ? document.doc_url
+                      : `https://${document.doc_url}`
+                  }
+                  target="_blank"
+                  style={{margin: '10px 5px', color: '#4fc3f7'}}
+                >
+                  Link to file
+                </a>
+                { document.doc_url && document.doc_url.slice(-3) === 'pdf' ? (
+                  <div>
+                    <iframe src={
+                      document.doc_url.slice(0, 4) === 'http'
+                        ? `https://docs.google.com/gview?url=${document.doc_url}&embedded=true`
+                        : `https://docs.google.com/gview?url=https://${document.doc_url}&embedded=true`
+                      } style={{width:'auto', height:'300px', margin: '10px 5px'}}>
+                    </iframe>
+                  </div>
+                ) : (
+                  <div>
+                    <img src={
+                      document.doc_url.slice(0, 4) === 'http'
+                        ? document.doc_url
+                        : `https://${document.doc_url}`
+                      } alt={document.title} style={{width:'350px', height:'auto', margin: '10px 5px'}}/>
+                  </div>
+                )
                 }
-                target="_blank"
-                style={{margin: '10px 5px', color: 'black'}}
-              >
-                Link to document: <span style={{textDecoration: 'underline'}}>{document.doc_url}</span> 
-              </a>
+              </>
             )}
           </div>
           {document !== undefined && document.comments.length > 0 ? (

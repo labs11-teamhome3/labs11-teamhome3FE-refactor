@@ -6,13 +6,15 @@ import Button from "@material-ui/core/Button";
 import EditIcon from "@material-ui/icons/EditOutlined"
 import Fab from "@material-ui/core/Fab"
 import DeleteIcon from "@material-ui/icons/Delete";
-import CancelIcon from "@material-ui/icons/Cancel";
+import CloseIcon from "@material-ui/icons/Close";
 import TextField from '@material-ui/core/TextField';
 import AddIcon from "@material-ui/icons/Add";
 import Typography from "@material-ui/core/Typography"
 import StripePaymentPopup from "../../../Stripe/StripePaymentPopup";
 import { withStyles } from '@material-ui/core/styles'
-import ClickAwayListener from '@material-ui/core/ClickAwayListener';
+
+// components //
+import DeleteTeamModal from './DeleteTeamModal';
 
 /// css ///
 import './css/TeamSettings.css'
@@ -98,28 +100,26 @@ const TeamInfo = props => {
                       <Typography component='h2' className="team-name">{props.team.teamName}</Typography>
                   }
                   {!showInput && props.userRole === "ADMIN" &&
-                      <Fab onClick={() => setInput(true)} size="small" variant="round" color="default" aria-label="Edit">
-                          <EditIcon />
-                      </Fab>
+                    <EditIcon 
+                      onClick={() => setInput(true)} 
+                      aria-label="Edit"
+                    />
                   }
                   {showInput &&
                     <form onSubmit={handleTeamSubmit}>
                         <TextField
                           required
                           inputProps= {{
-                            maxlength: 20
+                            maxLength: 20
                           }}
                           type="text"
                           placeholder={props.team.teamName}
                           value={newTeamName}
                           onChange={handleNameChange}
-                          />
-                        <Fab type="submit" color="default" variant="round" size="small" aria-label="Add">
-                          <EditIcon />
-                        </Fab>
-                        <Fab onClick={handleCancel} color="default" size="small" aria-label="Cancel">
-                          <CancelIcon />
-                        </Fab>
+                        />
+                        <CloseIcon 
+                          onClick={handleCancel}
+                        />
                     </form>
                   }  
                 </div>
@@ -139,48 +139,15 @@ const TeamInfo = props => {
                 </div>
             </div>
             {props.areYouSure && 
-                <>
-                    <Typography 
-                      component="p"
-                      className={classes.deleteTeamMsg}  
-                    >
-                        Do you really want to delete this team? All messages, activities,
-                        documents, and todo lists which belong to this team will also be
-                        deleted! There is no coming back from this. If you are sure,
-                        please type the name of the team below.
-                    </Typography>
-                    <div className='delete-input-and-btns'>
-                      <TextField
-                        className={classes.deleteInput}
-                        label="Team Name"
-                        margin="normal"
-                        variant="outlined"
-                        value={props.deleteInput}
-                        onChange={props.handleDeleteChange}
-                      />
-                      <div className="cancel-delete-team">
-                        <Button 
-                            variant="outlined"
-                            onClick={() => {
-                                props.setAreYouSure(false);
-                                props.setDeleteInput('');
-                              } 
-                            }
-                        >
-                        Cancel
-                        </Button>
-                        {props.deleteInput === props.team.teamName &&
-                          <Button
-                            variant="outlined"
-                            className={classes.deleteBtn}
-                            onClick={props.deleteTeam}
-                          >
-                          Delete
-                          </Button>
-                        }
-                      </div>
-                    </div>
-                </>
+              <DeleteTeamModal 
+                deleteInput={props.deleteInput}
+                handleDeleteChange={props.handleDeleteChange}
+                areYouSure={props.areYouSure}
+                setAreYouSure={props.setAreYouSure}
+                setDeleteInput={props.setDeleteInput}
+                deleteTeam={props.deleteTeam}
+                team={props.team}
+              />
             }
             <Typography className={classes.teamMembers} component="h2">Team Members</Typography>
             <div className="members">

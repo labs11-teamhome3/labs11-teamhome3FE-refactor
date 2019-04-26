@@ -11,6 +11,7 @@ import StripePaymentPopup from '../../../Stripe/StripePaymentPopup';
 import Loader from 'react-loader-spinner';
 import AddNewMember from './AddNewMember';
 import TextField from '@material-ui/core/TextField';
+import CloseIcon from "@material-ui/icons/Close";
 import { withStyles } from '@material-ui/core/styles';
 
 ////Queries////
@@ -19,7 +20,7 @@ import { useQuery } from 'react-apollo-hooks';
 
 /// css ///
 import './css/TeamSettings.css';
-import { Typography } from '@material-ui/core';
+import { Typography, FormHelperText } from '@material-ui/core';
 
 const DELETE_TEAM = gql`
   mutation deleteTeam($id: ID!) {
@@ -36,6 +37,7 @@ const ADD_MEMBER = gql`
     addUserToTeam(userId: $userId, teamId: $teamId) {
       id
       teamName
+      premium
       members {
         id
         name
@@ -50,6 +52,13 @@ const styles = theme => ({
   findMember: {
     width: '100%',
   },
+  closeDiv: {
+    display: 'flex',
+    'justify-content': 'flex-end',
+  },
+  close: {
+    cursor: 'pointer',
+  }
 });
 
 const TeamSettingsTab = props => {
@@ -212,14 +221,23 @@ const TeamSettingsTab = props => {
             )}
             {allUsersQuery.data.users && (
               <>
+                {showSearchMember ?
+                  <div className={classes.closeDiv}>
+                    <CloseIcon 
+                      className={classes.close} 
+                      onClick={showSelectMember}
+                    />
+                  </div>
+                  :
                 <Button 
                   className="add-team-member-or-cancel"
-                  color={showSearchMember ? "secondary" : "primary"} 
-                  variant={showSearchMember ? "outlined" : "contained"}
+                  color="primary"
+                  variant="contained"
                   onClick={showSelectMember}
                 >
-                  {showSearchMember ? "Close" : "Add Team Member"}
+                  {showSearchMember ? <CloseIcon /> : "Add Team Member"}
                 </Button>
+                }
                 {showSearchMember &&
                   <>
                   <TextField

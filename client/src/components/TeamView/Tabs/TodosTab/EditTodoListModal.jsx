@@ -19,6 +19,7 @@ import Edit from '@material-ui/icons/Edit';
 import TextField from '@material-ui/core/TextField';
 import List from '@material-ui/core/List';
 import Loader from 'react-loader-spinner';
+import ClickAwayListener from "@material-ui/core/ClickAwayListener";
 
 /////Components/////
 import EditTodo from './EditTodo';
@@ -32,12 +33,13 @@ import {
   // EVENTS_QUERY,
   TODOS_QUERY,
   TODO_LIST_QUERY,
+  TEAM_QUERY
 } from '../../../../graphQL/Queries';
 
 const styles = theme => ({
   paper: {
     position: 'relative',
-    top: '24%',
+    top: '15%',
     'max-width': '600px',
     margin: '0 auto',
     'text-align': 'left',
@@ -98,6 +100,12 @@ const styles = theme => ({
   errorButton: {
     color: theme.palette.error.main,
     borderColor: theme.palette.error.main
+  },
+  menuPic: {
+    width: '30px',
+    height: '30px',
+    'border-radius': '50px',
+    'margin-right': '10px',
   }
 });
 
@@ -262,6 +270,11 @@ const CreateTodoListModal = props => {
     },
   });
   const users = useQuery(USERS_QUERY);
+  const team = useQuery(TEAM_QUERY, {
+    variables: {
+      id: props.teamId
+    }
+  });
   // const [todoListInfo, setTodoListInfo] = useState({
   //   title: "",
   //   newTask: "tesetsetet",
@@ -537,6 +550,7 @@ const CreateTodoListModal = props => {
         aria-describedby="simple-modal-description"
         open={props.modalStatus}
       >
+        <ClickAwayListener onClickAway={_ => !openPopover && !anchorEl && props.toggleModal('edit')}>
         <Paper className={classes.paper}>
           <div className={classes.modalTitleBar}>
             <Close
@@ -579,11 +593,8 @@ const CreateTodoListModal = props => {
                     open={Boolean(anchorEl) && menuControl === 'owner'}
                     onClose={handleClose}
                   >
-                    {users.data.users &&
-                      users.data.users
-                        .filter(user =>
-                          user.inTeam.find(team => team.id === props.teamId)
-                        )
+                    {team.data.team &&
+                      team.data.team.members
                         .filter(
                           user =>
                             !todoList.data.todoList.ownedBy.find(
@@ -595,6 +606,7 @@ const CreateTodoListModal = props => {
                             key={user.id}
                             onClick={_ => handleClose(user.id, 'addowner')}
                           >
+                            <img className={classes.menuPic} src={user.profilePic} />
                             {user.name}
                           </MenuItem>
                         ))}
@@ -639,11 +651,8 @@ const CreateTodoListModal = props => {
                     open={Boolean(anchorEl) && menuControl === 'assignee'}
                     onClose={handleClose}
                   >
-                    {users.data.users &&
-                      users.data.users
-                        .filter(user =>
-                          user.inTeam.find(team => team.id === props.teamId)
-                        )
+                    {team.data.team &&
+                      team.data.team.members
                         .filter(
                           user =>
                             !todoList.data.todoList.assignedTo.find(
@@ -655,6 +664,7 @@ const CreateTodoListModal = props => {
                             key={user.id}
                             onClick={_ => handleClose(user.id, 'addassignee')}
                           >
+                            <img className={classes.menuPic} src={user.profilePic} />
                             {user.name}
                           </MenuItem>
                         ))}
@@ -766,6 +776,7 @@ const CreateTodoListModal = props => {
             </Button>
           </Popover>
         </Paper>
+        </ClickAwayListener>
       </Modal>
     </div>
   );

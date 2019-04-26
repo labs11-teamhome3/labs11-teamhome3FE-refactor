@@ -226,6 +226,11 @@
     margin: 1%;
 }
 
+.close-add-team {
+    display: flex;
+    justify-content: flex-end;
+}
+
 /* .delete-input-and-btns {
     display: flex;
 } */

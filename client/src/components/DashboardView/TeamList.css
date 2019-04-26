@@ -12,7 +12,7 @@
 
 .error-flash h3 {
     margin: 0 auto;
-    text-align: center;
+    text-align: left;
     color: #e57373;
     font-weight: bold;
 }
@@ -81,6 +81,10 @@
 
 .new-team-form {
     padding: 15px 0;
+}
+
+.nt-textfield {
+    width: 70%;
 }
 
 .nt-textfield input::placeholder {

@@ -32,7 +32,9 @@ const styles = theme => ({
     flexDirection: "column"
   },
   completeBtn: {
-    marginTop: {}
+    fontSize: '12px',
+    height: '100%',
+    lineHeight: '16px'
   },
   completedTaskText: {
     color: "#00b894",
@@ -150,7 +152,7 @@ const TodoList = props => {
             }
           >
             {props.todoList.todos.filter(todo => todo.completed).length} /{" "}
-            {props.todoList.todos.length} Tasks Completed
+            {props.todoList.todos.length} Tasks
           </Typography>
         </div>
         {/* <h3 onClick={_ => console.log(props.todoList)}>Todos</h3> */}
@@ -171,11 +173,12 @@ const TodoList = props => {
           props.todoList.completed === false &&
           props.todoList.todos.length > 0 ? (
             <Button
-              variant="contained"
+              variant="outlined"
               color="primary"
               onClick={completeaTodoList}
+              className={classes.completeBtn}
             >
-              Complete
+              Mark as Done
             </Button>
           ) : null}
           {props.todoList.completed && (
