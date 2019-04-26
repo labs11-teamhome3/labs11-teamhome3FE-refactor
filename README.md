@@ -132,33 +132,6 @@ Cloudinary is cloud-based image and video management solution.
 
 [Cloudinary Info](https://cloudinary.com/documentation)
 
-
-## Back-End Development Dependencies
-
-### Husky
-
-Git commit hooks
-
-[Husky](https://www.npmjs.com/package/husky)
-
-### Prettier
-
-Code formatter
-
-[Prettier](https://www.npmjs.com/package/prettier)
-
-### Pretty-Quick
-
-Runs Prettier on changed files
-
-[Prettier](https://www.npmjs.com/package/pretty-quick)
-
-### Nodemon
-
-Nodemon is a utility that will monitor for any changes in your source and automatically restart your server.
-
-[Nodemon info](https://nodemon.io/)
-
 ## Note on .env files
 
 For security purposes, we will not post the keys on this repo, but if you need the keys to test the repo out on your
