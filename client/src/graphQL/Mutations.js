@@ -300,14 +300,6 @@ export const REMOVE_DOC_FOLDER = gql`
   }
 `;
 
-export const DELETE_COMMENT = gql`
-  mutation DELETE_COMMENT($documentCommentId: ID!){
-    deleteDocumentComment(documentCommentId: $documentCommentId) {
-      id
-    }
-  }
-`;
-
 export const ADD_COMMENT = gql`
   mutation ADD_COMMENT(
     $documentId: ID!
@@ -608,6 +600,48 @@ export const UNLIKE_MESSAGE_COMMENT = gql`
         profilePic
       }
       image
+    }
+  }
+`;
+
+export const UPGRADE = gql`
+  mutation UPGRADE($teamId: ID!, $source: String!) {
+    upgradeToPremium(teamId: $teamId, source: $source) {
+      id
+      teamName
+      premium
+      members {
+        id
+        name
+        role
+        profilePic
+      }
+    }
+  }
+`;
+
+export const EDIT_USER = gql`
+  mutation EditUser($id: ID!, $name: String, $email: String, $phone: String) {
+    updateUserContactInfo(id: $id, name: $name, email: $email, phone: $phone) {
+      name
+      email
+      phone
+    }
+  }
+`;
+
+export const DELETE_MESSAGE_COMMENT = gql`
+  mutation DELETE_COMMENT($commentId: ID!){
+    deleteMessageComment(commentId: $commentId) {
+      id
+    }
+  }
+`
+
+export const DELETE_COMMENT = gql`
+  mutation DELETE_COMMENT($documentCommentId: ID!){
+    deleteDocumentComment(documentCommentId: $documentCommentId) {
+      id
     }
   }
 `;

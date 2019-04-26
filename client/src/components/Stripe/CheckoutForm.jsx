@@ -6,24 +6,7 @@ import gql from "graphql-tag";
 import Snackbar from '@material-ui/core/Snackbar';
 import IconButton from '@material-ui/core/IconButton';
 import CloseIcon from '@material-ui/icons/Close';
-
-// Queries //
-import {TEAM_QUERY, TEAMS_QUERY} from '../../graphQL/Queries';
-const UPGRADE = gql`
-  mutation UPGRADE($teamId: ID!, $source: String!) {
-    upgradeToPremium(teamId: $teamId, source: $source) {
-      id
-      teamName
-      premium
-      members {
-        id
-        name
-        role
-        profilePic
-      }
-    }
-  }
-`;
+import {UPGRADE} from '../../graphQL/Mutations'
 
 const CheckoutForm = props => {
   console.log(props);

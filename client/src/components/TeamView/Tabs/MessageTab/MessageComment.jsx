@@ -7,89 +7,15 @@ import { withStyles } from "@material-ui/core/styles";
 import ThumbUp from "@material-ui/icons/ThumbUp";
 import ThumbDown from "@material-ui/icons/ThumbDown";
 import AccountCircle from "@material-ui/icons/AccountCircle";
-
-
 import {MESSAGES_QUERY} from '../../../../graphQL/Queries';
 import {LIKE_MESSAGE_COMMENT, UNLIKE_MESSAGE_COMMENT} from '../../../../graphQL/Mutations';
-
-const styles = theme => ({
-  root: {
-    display: 'flex',
-    marginTop: "10px",
-  },
-  userPicSmall: {
-    height: '40px',
-    width: '40px',
-    borderRadius: '50%',
-    margin: '10px 10px 10px 0'
-  },
-  content: {
-    marginTop: '7px',
-    fontSize: '21px',
-    
-  },
-  contentTitle: {
-    fontSize: '17px',
-    display: 'flex', 
-    marginBottom: '6px'
-  },
-  name: {
-    fontWeight: 'bold',
-    marginRight: '10px'
-  },
-  time: {
-    color: 'grey'
-  },
-  messageReaction: {
-    display: 'flex',
-    alignItems: 'center',
-    margin: '10px 0',
-    color: 'grey',
-    fontSize: '13px'
-  },
-  messageReactionWrap: {
-    display: 'flex',
-    justifyContent: 'space-between'
-  },
-  delete: {
-    margin: '10px 0'
-  },
-  viewReplies: {
-    display: 'flex',
-    alignItems: 'center',
-    fontWeight: 'bold',
-    fontSize: '13px'
-  },
-  thumbs: {
-    width: '18px',
-    height: 'auto',
-    margin: '0 5px'
-  },
-  likes: {
-    display: 'inline',
-    fontSize: '18px'
-  },
-  replyToMessage: {
-    width: '600px'
-  },
-  textField: {
-    width: '80%'
-  }
-});
-
-const DELETE_COMMENT = gql`
-  mutation DELETE_COMMENT($commentId: ID!){
-    deleteMessageComment(commentId: $commentId) {
-      id
-    }
-  }
-`
+import {DELETE_MESSAGE_COMMENT} from '../../../../graphQL/Mutations.js';
+import {styles} from './styles/styled.js'
 
 const MessageComment = props => {
-  console.log('msg comment', props);
   const userId = localStorage.getItem('userId');
 
-  const [deleteMessageComment] = useMutation(DELETE_COMMENT, {
+  const [deleteMessageComment] = useMutation(DELETE_MESSAGE_COMMENT, {
     update: (cache, { data }) => {
       const {messages} = cache.readQuery({
         query: MESSAGES_QUERY,

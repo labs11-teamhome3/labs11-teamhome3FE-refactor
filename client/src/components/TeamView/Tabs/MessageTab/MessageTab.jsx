@@ -106,7 +106,7 @@ const MessageTab = props => {
           <img
             className={classes.userPic}
             src={user.data.user.profilePic}
-            alt="profile picture"
+            alt="user avatar"
           />
         ) : (
           <AccountCircle />
